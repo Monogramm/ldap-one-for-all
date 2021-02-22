@@ -1,0 +1,249 @@
+{
+  "app": {
+    "core": {
+      "name": "LDAP All-For-One Manager",
+      "alias": "LDAP All-For-One Manager",
+      "slogan": "A web based LDAP Manager for everyone.",
+      "keywords": "cloud hosting services, open source application, open source software, progressive web app, pwa",
+      "start-here": "Start here",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "copyright": "Copyright %n Monogramm."
+    }
+  },
+  "common": {
+    "home": "Home",
+    "languages": "Languages",
+    "by": "by",
+    "more": "More",
+    "less": "Less",
+    "open": "Open",
+    "close": "Close",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "validate": "Validate",
+    "continue": "Continue",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "Ok",
+    "next": "Next",
+    "back": "Back",
+    "previous": "Previous",
+    "accept": "Accept",
+    "deny": "Deny",
+    "buy": "Buy",
+    "declare": "Declare",
+    "create": "Create",
+    "edit": "Edit",
+    "update": "Update",
+    "delete": "Delete",
+    "manage": "Manage",
+    "view": "View",
+    "details": "Details",
+    "username": {
+      "label": "Username",
+      "placeholder": "Enter a username"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter an email address"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter a password",
+      "empty": "Password cannot be empty",
+      "confirm": "Confirm password"
+    },
+    "confirmation": {
+      "create": "Confirm creation?",
+      "edit": "Confirm update?",
+      "update": "Confirm update?",
+      "update-message": "Are you sure you want to <b>update</b>?",
+      "delete": "Confirm deletion?",
+      "delete-message": "Are you sure you want to <b>delete</b>? This action cannot be undone.",
+      "deleted": "Deleted"
+    },
+    "error": {
+      "required-field-emmpty": "Please fill out this field",
+      "field-not-valid": "Please match the requested format"
+    },
+    "send": "Send",
+    "user": "User",
+    "info": "Info"
+  },
+  "component": {
+    "password-change": {
+      "title": "Change Password",
+      "old": {
+        "label": "Current Password",
+        "placeholder": "Enter your current password"
+      },
+      "new": {
+        "label": "New Password",
+        "placeholder": "Enter a new password"
+      },
+      "confirm": {
+        "label": "Confirm Password",
+        "placeholder": "Confirm the new password"
+      }
+    },
+    "verification": {
+      "code": "Verification code",
+      "confirm": "Confirm",
+      "resend": "Resend"
+    }
+  },
+  "not-found": {
+    "title": "Are you lost?",
+    "subtitle": "The page you were looking was not found or does not exist anymore."
+  },
+  "error": {
+    "title": "Oops!",
+    "subtitle": "It seems like something went wrong or you are unauthorized to do this. Try again later or contact us."
+  },
+  "install": {
+    "link": "Install",
+    "title": "How to install",
+    "subtitle": "Learn how to install this application on your device",
+    "description": "This application is actually a Progressive Web App (PWA) that can be directly installed to your device. Learn more about how to install this application on your device:",
+    "ios": {
+      "title": "Install on iOS",
+      "description": "To install a PWA on your Home Screen, follow these steps:",
+      "steps": {
+        "share": "Tap the 'Share' button of 'Safari'",
+        "home_screen": "Tap the icon labeled 'Add to Home Screen'",
+        "add": "Tap 'Add' in the upper-right corner",
+        "name": "Confirm the name of the PWA then tap 'Add' in the upper-right corner",
+        "launch": "You can now launch the application from your Home Screen"
+      }
+    },
+    "android": {
+      "title": "Install on Android",
+      "description": "Using Chrome for Android, you will automatically be prompted to install the app on your system. Click 'Install' to install the application on your device."
+    },
+    "chrome": {
+      "title": "Install on Chrome (desktop)",
+      "description": "When using Chrome for Desktop, you can click on the menu (the 3 dots in the upper-right corner), then 'Install ...' to add the application to Chrome Applications."
+    }
+  },
+  "login": {
+    "title": "Login",
+    "subtitle": "Fill in the form below to login to your account.",
+    "id": {
+      "label": "Login",
+      "placeholder": "Email address or username"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password"
+    },
+    "auth": {
+      "label": "Login",
+      "failure": "Incorrect username or password."
+    },
+    "no_account": "No account?",
+    "signup": "Sign up Now",
+    "forgot-pass": "Forgot password?"
+  },
+  "password-reset": {
+    "title": "Reset password",
+    "email": "Please enter your email address",
+    "reset": "Reset my password",
+    "sent": "Further instructions for resetting your password have been sent to your email address",
+    "success": "Password was successfully reset"
+  },
+  "logout.title": "Logout",
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome to LDAP All-For-One Manager",
+    "profile": {
+      "manage": "Manage your profile",
+      "description": "Access you profile page and information"
+    },
+    "account": "User account",
+    "contact": "Contact"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis."
+  },
+  "tos": {
+    "title": "Terms of Services",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis."
+  },
+  "profile": {
+    "title": "Profile",
+    "welcome": "Your user profile",
+    "password-change": "Change password",
+    "account-delete": {
+      "label": "Delete account",
+      "confirm": "Are you sure you want to definitely delete your account?"
+    },
+    "verification": {
+      "title": "Account verification",
+      "subtitle": "Verify your account with the code sent to your email"
+    }
+  },
+  "signup": {
+    "title": "Sign up",
+    "subtitle": "Fill in the form below to get instant access.",
+    "tos": {
+      "label": "By registering, I agree to the Terms of Services: ",
+      "link": "ToS"
+    },
+    "register": "Register",
+    "success": "Registration successful! You can now login."
+  },
+  "payment": {
+    "title": "Payment verification",
+    "success": "Payment successful! You will be redirected to home page in a few seconds.",
+    "failure": "Payment failed! Please verify your payment method and try again."
+  },
+  "table": {
+    "next-page": "Next page",
+    "previous-page": "Previous page",
+    "page": "Page",
+    "current-page": "Current page",
+    "run": "Run",
+    "job-name": "Job Name",
+    "inputs": "Inputs",
+    "status": "Status",
+    "message": "Message",
+    "error": {
+      "required-fields-is-empty": "This field can't be empty"
+    }
+  },
+  "admin": {
+    "dashboard": "Administration",
+    "users": "Users",
+    "parameters": "Parameters",
+    "background-jobs": "Background jobs"
+  },
+  "users": {
+    "title": "Users List",
+    "username": "Username",
+    "email": "Email",
+    "language": "Language",
+    "verified": "Verified"
+  },
+  "parameters": {
+    "list": "Parameters List",
+    "edit": "Edit Parameter",
+    "create": "Create Parameter",
+    "name": "Name",
+    "value": "Value",
+    "description": "Description",
+    "type": "Type",
+    "types": "Types"
+  },
+  "background-jobs": {
+    "title": "Background jobs"
+  },
+  "support": {
+    "contact": {
+      "subject": "Subject",
+      "message": "Message",
+      "title": "Send An Email To The Support",
+      "email-sent-success": "The email was sent successfully to support. You will be redirected in {seconds} seconds"
+    }
+  }
+}

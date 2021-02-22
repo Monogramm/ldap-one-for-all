@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="email_base_title">
+                <source>email.base.title</source>
+                <target>LDAP All-For-One Manager</target>
+            </trans-unit>
+            <trans-unit id="email_base_slogan">
+                <source>email.base.slogan</source>
+                <target>Le prochain niveau de solutions cloud</target>
+            </trans-unit>
+            <trans-unit id="email_base_header">
+                <source>email.base.header</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="email_base_discover">
+                <source>email.base.discover</source>
+                <target>Découvrez LDAP All-For-One Manager</target>
+            </trans-unit>
+            <trans-unit id="email_base_manage">
+                <source>email.base.manage</source>
+                <target>Gérez LDAP All-For-One Manager</target>
+            </trans-unit>
+            <trans-unit id="email_base_footer">
+                <source>email.base.footer</source>
+                <target>LDAP All-For-One Manager © est un service Monogramm. Tous droits réservés.</target>
+            </trans-unit>
+            <trans-unit id="email_verification_code_subject">
+                <source>email.verification.code.subject</source>
+                <target>Code de vérification</target>
+            </trans-unit>
+            <trans-unit id="email_verification_code_explanation">
+                <source>email.verification.code.explanation</source>
+                <target>Connectez-vous à votre compte et utilisez le code suivant pour vérifier votre addresse email</target>
+            </trans-unit>
+            <trans-unit id="email_password_reset_subject">
+                <source>email.password.reset.subject</source>
+                <target>Réinitialisation du mot de passe</target>
+            </trans-unit>
+            <trans-unit id="email_password_reset_explanation">
+                <source>email.password.reset.explanation</source>
+                <target>Utilisez le lien suivant pour réinitialiser votre mot de passe</target>
+            </trans-unit>
+            <trans-unit id="email_password_reset_link">
+                <source>email.password.reset.link</source>
+                <target>cliquez ici</target>
+            </trans-unit>
+            <trans-unit id="email_password_new_subject">
+                <source>email.password.new.subject</source>
+                <target>Nouveau mot de passe</target>
+            </trans-unit>
+            <trans-unit id="email_password_new_explanation">
+                <source>email.password.new.explanation</source>
+                <target>Votre nouveau mot de passe</target>
+            </trans-unit>
+            <trans-unit id="error_user_password_invalid">
+                <source>error.user.password.invalid</source>
+                <target>Mot de passe incorrect</target>
+            </trans-unit>
+            <trans-unit id="error_user_email_already_taken">
+                <source>error.user.email.already.taken</source>
+                <target>L'utilisateur avec cet e-mail existe déjà</target>
+            </trans-unit>
+            <trans-unit id="error_user_invalid_verification_code">
+                <source>error.user.invalid.verification.code</source>
+                <target>Code de vérification invalide</target>
+            </trans-unit>
+            <trans-unit id="error_user_username_already_taken">
+                <source>error.user.username.already.taken</source>
+                <target>Nom d'utilisateur non disponible</target>
+            </trans-unit>
+            <trans-unit id="error_common_invalid_json">
+                <source>error.common.invalid.json</source>
+                <target>JSON invalide</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

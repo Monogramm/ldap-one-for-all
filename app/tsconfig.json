@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "lib": ["es2015", "es2016", "dom"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "es5",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["assets/*"],
+      "@fonts/*": ["assets/fonts/*"],
+      "@images/*": ["assets/images/*"],
+      "@styles/*": ["assets/styles/*"],
+      "@vue/*": ["assets/vue/*"],
+      "@plugins/*": ["assets/vue/plugins/*"],
+      "@components/*": ["assets/vue/components/*"],
+      "@modules/*": ["assets/vue/modules/*"]
+    },
+    "rootDirs": ["assets"]
+  },
+  "include": ["./assets/vue/**/*", "./assets/vue/**/*.vue"],
+  "exclude": ["./node_modules", "./bin", "./src", "./var", "./vendor", "./public"]
+}

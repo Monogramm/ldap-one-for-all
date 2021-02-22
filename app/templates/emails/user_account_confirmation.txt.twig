@@ -1,0 +1,8 @@
+{% extends "base_email.txt.twig" %}
+
+{% block content %}
+## {{ subject }}
+
+{{ verifyAccount }}:
+{{ code }}
+{% endblock %}

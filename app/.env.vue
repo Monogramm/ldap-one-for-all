@@ -1,0 +1,2 @@
+APP_PUBLIC_URL=http://localhost:8000
+WEBSITE_PUBLIC_URL=http://localhost:8000

@@ -1,0 +1,7 @@
+{
+  "project": {
+    "name": "ldap-all-for-one-manager",
+    "description": "A web based LDAP Manager for everyone.",
+    "version": "0.1.0"
+  }
+}

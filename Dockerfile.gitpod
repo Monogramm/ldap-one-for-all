@@ -1,0 +1,38 @@
+FROM gitpod/workspace-full:latest
+
+# Install custom tools, runtimes, etc.
+# For example "bastet", a command-line tetris clone:
+# RUN brew install bastet
+#
+# More information: https://www.gitpod.io/docs/config-docker/
+
+RUN set -ex; \
+    brew install \
+        mailhog \
+        openldap \
+        postgresql \
+        rabbitmq \
+    ;
+
+ARG XDEBUG_VERSION=2.9.8
+
+RUN set -ex; \
+    sudo apt-get install -y --no-install-recommends \
+        php-ldap \
+    ; \
+    wget "http://xdebug.org/files/xdebug-${XDEBUG_VERSION}.tgz"; \
+    tar -xvzf "xdebug-${XDEBUG_VERSION}.tgz"; \
+    cd "xdebug-${XDEBUG_VERSION}"; \
+    phpize; \
+    ./configure; \
+    make; \
+    sudo mkdir -p /usr/lib/php/20190902; \
+    sudo cp modules/xdebug.so /usr/lib/php/20190902; \
+    sudo bash -c "echo -e '\nzend_extension = /usr/lib/php/20190902/xdebug.so\n[XDebug]\nxdebug.remote_enable = 1\nxdebug.remote_autostart = 1\n' >> /etc/php/7.4/cli/php.ini"
+
+RUN set -ex; \
+    wget 'https://get.symfony.com/cli/installer' -O - | bash; \
+    export PATH="$HOME/.symfony/bin:$PATH"; \
+    symfony -V; \
+    sudo mv "$HOME/.symfony/bin/symfony" /usr/local/bin/symfony; \
+    symfony server:ca:install

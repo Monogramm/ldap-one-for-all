@@ -1,0 +1,266 @@
+@import 'icons';
+
+@font-face {
+  font-display: block;
+  font-family: '#{$icomoon-font-family}';
+  font-style: normal;
+  font-weight: normal;
+  src: url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?ubmw8u');
+  src:
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?ubmw8u#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?ubmw8u') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?ubmw8u') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?ubmw8u##{$icomoon-font-family}') format('svg');
+}
+
+[class^='icon-'],
+[class*=' icon-'] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '#{$icomoon-font-family}' !important;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  line-height: 1;
+  speak: none;
+  text-transform: none;
+}
+
+.icon-rotate {
+  animation: Rotate 1000ms infinite linear;
+  display: inline-block;
+  height: 1em;
+
+  transform-origin: 50% 50%;
+  width: 1em;
+}
+
+@keyframes Rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.icon-stop {
+  &::before {
+    content: $icon-stop;
+  }
+}
+
+.icon-quill {
+  &::before {
+    content: $icon-quill;
+  }
+}
+
+.icon-keyboard {
+  &::before {
+    content: $icon-keyboard;
+  }
+}
+
+.icon-key {
+  &::before {
+    content: $icon-key;
+  }
+}
+
+.icon-envelop {
+  &::before {
+    content: $icon-envelop;
+  }
+}
+
+.icon-location2 {
+  &::before {
+    content: $icon-location2;
+  }
+}
+
+.icon-spinner5 {
+  &::before {
+    content: $icon-spinner5;
+  }
+}
+
+.icon-spinner9 {
+  &::before {
+    content: $icon-spinner9;
+  }
+}
+
+.icon-spinner10 {
+  &::before {
+    content: $icon-spinner10;
+  }
+}
+
+.icon-cogs {
+  &::before {
+    content: $icon-cogs;
+  }
+}
+
+.icon-magic-wand {
+  &::before {
+    content: $icon-magic-wand;
+  }
+}
+
+.icon-gift {
+  &::before {
+    content: $icon-gift;
+  }
+}
+
+.icon-bin {
+  &::before {
+    content: $icon-bin;
+  }
+}
+
+.icon-earth {
+  &::before {
+    content: $icon-earth;
+  }
+}
+
+.icon-user {
+  &::before {
+    content: $icon-user;
+  }
+}
+
+.icon-user-check {
+  &::before {
+    content: $icon-user-check;
+  }
+}
+
+.icon-equalizer {
+  &::before {
+    content: $icon-equalizer;
+  }
+}
+
+.icon-rocket {
+  &::before {
+    content: $icon-rocket;
+  }
+}
+
+.icon-briefcase {
+  &::before {
+    content: $icon-briefcase;
+  }
+}
+
+.icon-star-empty {
+  &::before {
+    content: $icon-star-empty;
+  }
+}
+
+.icon-star-full {
+  &::before {
+    content: $icon-star-full;
+  }
+}
+
+.icon-clipboard {
+  &::before {
+    content: $icon-clipboard;
+  }
+}
+
+.icon-download3 {
+  &::before {
+    content: $icon-download3;
+  }
+}
+
+.icon-cloud {
+  &::before {
+    content: $icon-cloud;
+  }
+}
+
+.icon-home {
+  &::before {
+    content: $icon-home;
+  }
+}
+
+.icon-calendar {
+  &::before {
+    content: $icon-calendar;
+  }
+}
+
+.icon-soundcloud {
+  &::before {
+    content: $icon-soundcloud;
+  }
+}
+
+.icon-map-pin {
+  &::before {
+    content: $icon-map-pin;
+  }
+}
+
+.icon-grav {
+  &::before {
+    content: $icon-grav;
+  }
+}
+
+.icon-home1 {
+  &::before {
+    content: $icon-home1;
+  }
+}
+
+.icon-calendar1 {
+  &::before {
+    content: $icon-calendar1;
+  }
+}
+
+.icon-toggle-on {
+  &::before {
+    content: $icon-toggle-on;
+  }
+}
+
+.icon-calendar2 {
+  &::before {
+    content: $icon-calendar2;
+  }
+}
+
+.icon-envelope-open-o {
+  &::before {
+    content: $icon-envelope-open-o;
+  }
+}
+
+.icon-edit {
+  &::before {
+    content: $icon-edit;
+  }
+}
+
+.icon-pencil-square-o {
+  &::before {
+    content: $icon-pencil-square-o;
+  }
+}
+

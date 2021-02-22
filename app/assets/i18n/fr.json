@@ -1,0 +1,250 @@
+{
+  "app": {
+    "core": {
+      "name": "LDAP All-For-One Manager",
+      "alias": "LDAP All-For-One Manager",
+      "slogan": "A web based LDAP Manager for everyone.",
+      "keywords": "logiciel libre, application open source, logiciel open source, progressive web app, pwa",
+      "start-here": "Commencer ici",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "copyright": "Tous droits réservés %n Monogramm."
+    }
+  },
+  "common": {
+    "home": "Accueil",
+    "languages": "Langues",
+    "by": "par",
+    "more": "Plus",
+    "less": "Moins",
+    "open": "Ouvrir",
+    "close": "Fermer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "validate": "Valider",
+    "continue": "Continuer",
+    "yes": "Oui",
+    "no": "Non",
+    "ok": "Ok",
+    "next": "Suivant",
+    "back": "Retour",
+    "previous": "Précédent",
+    "accept": "Accepter",
+    "deny": "Refuser",
+    "buy": "Commander",
+    "declare": "Déclarer",
+    "create": "Créer",
+    "edit": "Editer",
+    "update": "Mettre à jour",
+    "delete": "Supprimer",
+    "manage": "Gérer",
+    "view": "Voir",
+    "details": "Détails",
+    "username": {
+      "label": "Nom d'utilisateur",
+      "placeholder": "Entrer un nom d'utilisateur"
+    },
+    "email": {
+      "label": "Adresse email",
+      "placeholder": "Entrer une adresse email"
+    },
+    "password": {
+      "label": "Mot de passe",
+      "placeholder": "Entrer un mot de passe",
+      "empty": "Le mot de passe ne peut pas être vide",
+      "confirm": "Confirmer mot de passe"
+    },
+    "confirmation": {
+      "create": "Confirmer création ?",
+      "edit": "Confirmer édition ?",
+      "update": "Confirmer mise à jour ?",
+      "update-message": "Voulez-vous vraiment <b>mettre à jour</b>&nbsp;?",
+      "delete": "Confirmer suppression ?",
+      "delete-message": "Voulez-vous vraiment <b>supprimer</b>&nbsp;? Cette action ne peut pas être annulée.",
+      "deleted": "Supprimé",
+      "info": "Info"
+    },
+    "error": {
+      "required-field-emmpty": "Veuillez renseigner ce champ",
+      "field-not-valid": "Veuillez respecter le format demandé"
+    },
+    "send": "Envoyer",
+    "user": "Utilisateur",
+    "info": "Info"
+  },
+  "component": {
+    "password-change": {
+      "title": "Changer le mot de passe",
+      "old": {
+        "label": "Mot de passe actuel",
+        "placeholder": "Votre mot de passe actuel"
+      },
+      "new": {
+        "label": "Nouveau mot de passe",
+        "placeholder": "Un nouveau mot de passe"
+      },
+      "confirm": {
+        "label": "Confirmer mot de passe",
+        "placeholder": "Confirmer le nouveau mot de passe"
+      }
+    },
+    "verification": {
+      "code": "Сode de vérification",
+      "confirm": "Confirmer",
+      "resend": "Renvoyer"
+    }
+  },
+  "not-found": {
+    "title": "Êtes vous perdu?",
+    "subtitle": "La page que vous recherchiez n'a pas été trouvée ou n'existe plus."
+  },
+  "error": {
+    "title": "Oups!",
+    "subtitle": "Il semble que quelque chose ce soit mal passé ou que vous ne soyez pas autorisé à effectuer cette opération. Réessayez plus tard ou contactez-nous."
+  },
+  "install": {
+    "link": "Installer",
+    "title": "Comment installer",
+    "subtitle": "Découvrez comment installer cette application sur votre appareil",
+    "description": "Ce site est en fait une Application Web Progressive (PWA) pouvant être installée directement sur votre appareil. Découvrez comment installer cette application sur votre appareil :",
+    "ios": {
+      "title": "Installer sur iOS",
+      "description": "Pour installer une PWA sur votre écran d'accueil, procédez comme suit :",
+      "steps": {
+        "share": "appuyez sur le bouton 'Partager' du navigateur 'Safari'",
+        "home_screen": "appuyez sur l'icône 'Sur l'écran d'accueil'",
+        "add": "appuyez sur 'Ajouter' dans le coin supérieur droit",
+        "name": "confirmez le nom du PWA, puis appuyez sur 'Ajouter' dans le coin supérieur droit",
+        "launch": "vous pouvez maintenant lancer l'application à partir de votre écran d'accueil"
+      }
+    },
+    "android": {
+      "title": "Installer sur Android",
+      "description": "À l'aide de Chrome pour Android, vous serez automatiquement invité à installer l'application sur votre système. Cliquez sur 'Installer' pour installer l'application sur votre appareil."
+    },
+    "chrome": {
+      "title": "Installer sur Chrome (bureau)",
+      "description": "Si vous utilisez Chrome pour bureau, vous pouvez cliquer sur le menu (les 3 points situés dans le coin supérieur droit), puis sur 'Installer...' pour ajouter l'application aux applications Chrome."
+    }
+  },
+  "login": {
+    "title": "Connexion",
+    "subtitle": "Remplissez le formulaire ci-dessous pour vous connecter à votre compte.",
+    "id": {
+      "label": "Identifiant",
+      "placeholder": "Adresse email ou nom d'utilisateur"
+    },
+    "password": {
+      "label": "Mot de passe",
+      "placeholder": "Entrer votre mot de passe"
+    },
+    "auth": {
+      "label": "Connexion",
+      "failure": "Identifiant ou mot de passe incorrect."
+    },
+    "no_account": "Pas de compte?",
+    "signup": "S'inscrire maintenant",
+    "forgot-pass": "Mot de passe oublié?"
+  },
+  "password-reset": {
+    "title": "Réinitialisation de mot de passe",
+    "email": "Veuillez saisir votre adresse e-mail",
+    "reset": "Réinitialiser mon mot de passe",
+    "sent": "Des instructions supplémentaires pour réinitialiser votre mot de passe ont été envoyées à votre adresse e-mail",
+    "success": "Le mot de passe a été réinitialisé avec succès"
+  },
+  "logout.title": "Déconnexion",
+  "home": {
+    "title": "Accueil",
+    "welcome": "Bienvenue chez LDAP All-For-One Manager",
+    "profile": {
+      "manage": "Gérer votre profil",
+      "description": "Accéder à votre page de profil et vos informations"
+    },
+    "account": "Compte utilisateur",
+    "contact": "Contact"
+  },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis."
+  },
+  "tos": {
+    "title": "Conditions Générales d'Utilisation",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis."
+  },
+  "profile": {
+    "title": "Profil",
+    "welcome": "Votre profil utilisateur",
+    "password-change": "Changer votre mot de passe",
+    "account-delete": {
+      "label": "Supprimer le compte",
+      "confirm": "Voulez-vous vraiment supprimer définitivement votre compte?"
+    },
+    "verification": {
+      "title": "Сode de vérification",
+      "subtitle": "Vérifier votre compte avec le code envoyé à votre adresse email"
+    }
+  },
+  "signup": {
+    "title": "Inscription",
+    "subtitle": "Remplissez le formulaire ci-dessous pour obtenir un accès instantané.",
+    "tos": {
+      "label": "En m'inscrivant, j'accepte les Conditions Générales d'Utilisation: ",
+      "link": "CGU"
+    },
+    "register": "S'inscrire",
+    "success": "Inscription réussie! Vous pouvez maintenant vous connecter."
+  },
+  "payment": {
+    "title": "Vérification du paiement",
+    "success": "Paiement réussi! Vous allez être redirigé vers l'acceuil dans quelques secondes.",
+    "failure": "Paiement échoué! Veuillez vérifier votre moyen de paiment et réessayer."
+  },
+  "table": {
+    "next-page": "Page suivante",
+    "previous-page": "Page précédente",
+    "page": "Page",
+    "current-page": "Page actuelle",
+    "run": "Lancer",
+    "job-name": "Nom du job",
+    "inputs": "Valeurs",
+    "status": "Statut",
+    "message": "Message",
+    "error": {
+      "required-field-is-empty": "Ce champ ne peut pas être vide"
+    }
+  },
+  "admin": {
+    "dashboard": "Administration",
+    "users": "Utilisateurs",
+    "parameters": "Paramètres",
+    "background-jobs": "Tâches de fond"
+  },
+  "users": {
+    "title": "Liste des utilisateurs",
+    "username": "Nom d'utilisateur",
+    "email": "Email",
+    "language": "Langue",
+    "verified": "Vérification"
+  },
+  "parameters": {
+    "list": "Liste des paramètres",
+    "edit": "Modification d'un paramètre",
+    "create": "Création d'un paramètre",
+    "name": "Nom",
+    "value": "Valeur",
+    "description": "Description",
+    "type": "Type",
+    "types": "Types"
+  },
+  "background-jobs": {
+    "title": "Tâches de fonds"
+  },
+  "support": {
+    "contact": {
+      "subject": "Sujet",
+      "message": "Message",
+      "title": "Envoyez un e-mail au support",
+      "email-sent-success": "L'e-mail a été envoyé avec succès au support. Vous serez redirigé dans {seconds} secondes"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    exception_controller: null
+    globals:
+        public_url: '%env(default::SF_SERVER_PUBLIC_URL)%'
+        facebook_url: '%env(default::SF_FACEBOOK_URL)%'
+        twitter_url: '%env(default::SF_TWITTER_URL)%'
+        linkedin_url: '%env(default::SF_LINKEDIN_URL)%'
+        youtube_url: '%env(default::SF_YOUTUBE_URL)%'
+        google_analytics_id: '%env(default::SF_GOOGLE_ANALYTICS_ID)%'
+        matomo_url: '%env(default::SF_MATOMO_URL)%'
+        matomo_site_id: '%env(default::SF_MATOMO_SITE_ID)%'
+        matomo_script_url: '%env(default::SF_MATOMO_SCRIPT_URL)%'

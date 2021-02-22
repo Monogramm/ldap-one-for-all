@@ -1,0 +1,7 @@
+User-agent: *
+
+Sitemap: http://localhost/sitemap.xml
+
+Disallow: /*?*
+Disallow: /docs/
+Disallow: /storybook/

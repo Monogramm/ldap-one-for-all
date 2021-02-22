@@ -1,0 +1,318 @@
+FROM php:7.4-cli AS builder
+
+ARG COMPOSER_VERSION=2.0.4
+
+# install the packages we need
+# Install npm
+# Install composer
+# Install yarn
+RUN set -ex; \
+    apt-get update -q; \
+    apt-get install -y --no-install-recommends \
+        netcat \
+        openssl \
+        rsync \
+        unzip \
+        wget \
+        zip \
+    ; \
+    apt-get install -y --no-install-recommends \
+        apt-transport-https \
+        curl \
+        git \
+        gnupg \
+        libcurl4-openssl-dev \
+        libfreetype6-dev \
+        libgpgme11 \
+        libgpgme11-dev \
+        libicu-dev \
+        libjpeg-dev \
+        libldap2-dev \
+        libonig-dev \
+        libpng-dev \
+        libpq-dev \
+        librabbitmq-dev \
+        libsodium-dev \
+        libxml2-dev \
+        libzip-dev \
+        unzip \
+        wget \
+        zip \
+        zlib1g-dev \
+    ; \
+    curl -sL 'https://deb.nodesource.com/setup_12.x' -o nodesource_setup.sh ; \
+    bash nodesource_setup.sh; \
+    apt-get install -y \
+        nodejs \
+    ; \
+    npm --version; \
+    curl --silent --show-error "https://getcomposer.org/installer" -o composer-setup.php; \
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer "--version=${COMPOSER_VERSION}"; \
+    composer --version; \
+    pecl install gnupg; \
+    docker-php-ext-enable gnupg; \
+    echo "\n" | pecl install apcu; \
+    docker-php-ext-enable apcu; \
+    docker-php-ext-configure zip; \
+    pecl install amqp; \
+    docker-php-ext-enable amqp; \
+    pecl install libsodium; \
+    docker-php-ext-enable sodium; \
+    yes | pecl install xdebug; \
+    echo "xdebug.remote_enable=1\n" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+         "xdebug.coverage_enable=1\n" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+         "xdebug.mode=coverage\n" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+         "xdebug.idekey=\"DOCKER\"\n" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+         "xdebug.remote_port=9001\n" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+    docker-php-ext-enable xdebug; \
+    docker-php-ext-install -j "$(nproc)" \
+        bcmath \
+        gd \
+        intl \
+        ldap \
+        mbstring \
+        opcache \
+        pdo \
+        soap \
+        sockets \
+        zip \
+    ; \
+    curl -sS "https://dl.yarnpkg.com/debian/pubkey.gpg" | apt-key add - ; \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list; \
+    wget 'https://get.symfony.com/cli/installer' -O - | bash; \
+    mv /root/.symfony/bin/symfony /usr/local/bin/symfony; \
+    symfony -V; \
+    apt-get update -q; \
+    apt-get install -y \
+        yarn \
+    ; \
+    yarn --version
+
+ARG APP_PATH=./app
+
+COPY ${APP_PATH} /usr/src/symfony
+
+# Arguments to label built container
+ARG VCS_REF=unknown
+ARG BUILD_DATE=unknown
+ARG VERSION=0.1.0
+
+ARG APP_PUBLIC_URL=http://localhost:80
+ARG WEBSITE_PUBLIC_URL=http://localhost:80
+RUN set -ex; \
+    sed -i \
+        -e "s|APP_PUBLIC_URL=.*|APP_PUBLIC_URL=${APP_PUBLIC_URL}/|g" \
+        -e "s|WEBSITE_PUBLIC_URL=.*|WEBSITE_PUBLIC_URL=${WEBSITE_PUBLIC_URL}/|g" \
+        /usr/src/symfony/.env.vue
+
+WORKDIR /usr/src/symfony
+
+ARG APP_ENV=prod
+ARG YARN_ENV=production
+
+ARG STORIES=false
+ARG EXPORT_TESTS_RESULTS=false
+
+# Install the project
+# Clear any cache that might still be remaining
+# Compile assets for production
+RUN set -ex; \
+    composer \
+        --prefer-dist \
+        --no-interaction \
+        --no-ansi --no-progress \
+        --optimize-autoloader --apcu-autoloader \
+        install \
+    ; \
+    \
+    yarn install \
+        --no-progress \
+        --non-interactive \
+    ; \
+    npm install \
+        --non-interactive \
+    ; \
+    \
+    php bin/console cache:clear --env=${APP_ENV}; \
+    php bin/console cache:warmup --env=${APP_ENV}; \
+    \
+    yarn run encore ${YARN_ENV}; \
+    test "${STORIES}" = "false" || npm run build-storybook; \
+    \
+    php bin/console lint:twig --no-ansi --no-interaction ./templates; \
+    php bin/phpunit --do-not-cache-result --no-interaction \
+        --coverage-clover /tmp/coverage-phpunit-clover.xml \
+        --coverage-cobertura /tmp/coverage-phpunit-cobertura.xml \
+        --coverage-html /tmp/coverage-phpunit-html \
+        --coverage-text --colors=never \
+    ; \
+    ./vendor/bin/phpcs --no-colors --warning-severity=0; \
+    ./vendor/bin/psalm -m --no-file-cache --no-progress; \
+    npx eslint --no-color ./assets/; \
+    \
+    rm -rf ./node_modules; \
+    mkdir -p /usr/src/symfony/.docker; \
+    [ "${EXPORT_TESTS_RESULTS}" = "false" ] || cp -r /tmp/coverage-* /usr/src/symfony/.docker/; \
+    echo "${BUILD_DATE}" > '/usr/src/symfony/.docker/build-date'; \
+    echo "${VERSION} ${VCS_REF} ${BUILD_DATE}" > '/usr/src/symfony/.docker/build'
+
+# Once application has been built, prepare production image
+FROM php:7.4-fpm-alpine
+
+# install the packages we need
+# install the PHP extensions we need
+# configure the PHP extensions
+# give acces to apache on the site files
+RUN set -ex; \
+    apk add --no-cache \
+        gpgme \
+        icu \
+        libldap \
+        libpng \
+        libpq \
+        libsodium \
+        libzip \
+        openssl \
+        rabbitmq-c \
+        rsync \
+        shadow \
+        unzip \
+        wget \
+        zlib \
+    ; \
+    apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+        g++ \
+        curl-dev \
+        freetype-dev \
+        icu-dev \
+        libjpeg-turbo-dev \
+        libsodium-dev \
+        libxml2-dev \
+        libzip-dev \
+        make \
+        oniguruma-dev \
+        openldap-dev \
+        postgresql-dev \
+        rabbitmq-c-dev \
+        zlib-dev \
+    ; \
+    docker-php-ext-configure ldap; \
+    docker-php-ext-configure gd; \
+    docker-php-ext-configure intl; \
+    docker-php-ext-configure zip; \
+    pecl install amqp; \
+    docker-php-ext-enable amqp; \
+    pecl install libsodium; \
+    docker-php-ext-enable sodium; \
+    docker-php-ext-install -j "$(nproc)" \
+        bcmath \
+        gd \
+        intl \
+        ldap \
+        mbstring \
+        mysqli \
+        opcache \
+        pdo \
+        pdo_mysql \
+        pdo_pgsql \
+        pgsql \
+        soap \
+        sockets \
+        zip \
+    ; \
+    \
+    apk --purge del .build-deps; \
+    rm -rf /var/cache/apk/*; \
+    \
+    chown -R www-data:root /var/www/html; \
+    chmod -R g=u /var/www/html
+
+ENV SF_DB_TYPE=postgresql \
+    SF_DB_VERSION=10 \
+    SF_DB_OPTIONS= \
+    SF_DB_HOST= \
+    SF_DB_PORT= \
+    SF_DB_NAME=app_db \
+    SF_DB_USER=root \
+    SF_DB_PASSWORD= \
+    SF_MAIL_TRANSPORT=smtp \
+    SF_MAIL_HOST= \
+    SF_MAIL_USER= \
+    SF_MAIL_PASSWORD= \
+    SF_ADMIN_LOGIN= \
+    SF_ADMIN_EMAIL= \
+    SF_ADMIN_PASSWD= \
+    SF_SERVER_PUBLIC_URL=http://localhost:80 \
+    SF_WEBSITE_PUBLIC_URL=http://localhost:80 \
+    SF_FACEBOOK_URL=# \
+    SF_TWITTER_URL=# \
+    SF_LINKEDIN_URL=# \
+    SF_YOUTUBE_URL=# \
+    SF_PROD=true \
+    SF_CLEAR_CACHE= \
+    APP_ENV=prod \
+    WWW_USER_ID=82 \
+    WWW_GROUP_ID=82 \
+    PHP_INI_DATE_TIMEZONE='UTC' \
+    PHP_MEMORY_LIMIT=256M \
+    PHP_MAX_UPLOAD=20M \
+    PHP_MAX_EXECUTION_TIME=300
+
+COPY --from=builder /usr/src/symfony /usr/src/symfony
+COPY ./cron/15min /etc/periodic/15min
+COPY ./cron/hourly /etc/periodic/hourly
+COPY ./cron/daily /etc/periodic/daily
+COPY ./cron/weekly /etc/periodic/weekly
+COPY ./cron/monthly /etc/periodic/monthly
+
+VOLUME /var/www/html
+
+COPY entrypoint.sh /
+RUN set -ex; \
+    chmod 755 /entrypoint.sh;
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["php-fpm"]
+
+WORKDIR /var/www/html/
+
+# Arguments to label built container
+ARG VCS_REF=unknown
+ARG BUILD_DATE=unknown
+ARG VERSION=0.1.0
+
+ARG APP_PUBLIC_URL=http://localhost:8080
+
+# Keep track of image version
+RUN set -ex; \
+    sed -i \
+        -e "s|http://localhost/|${APP_PUBLIC_URL}/|g" \
+        -e "s|lastmod>.*</lastmod|lastmod>${BUILD_DATE}</lastmod|g" \
+        /usr/src/symfony/public/robots.txt \
+        /usr/src/symfony/public/sitemap.xml \
+    ;
+
+# Container labels (http://label-schema.org/)
+# Container annotations (https://github.com/opencontainers/image-spec)
+LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
+      product="LDAP All-For-One Manager" \
+      version=$VERSION \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/Monogramm/ldap-all-for-one-manager/" \
+      org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name="LDAP All-For-One Manager" \
+      org.label-schema.description="A web based LDAP Manager for everyone." \
+      org.label-schema.url="${APP_PUBLIC_URL}/" \
+      org.label-schema.vendor="Monogramm" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.schema-version="1.0" \
+      org.opencontainers.image.revision=$VCS_REF \
+      org.opencontainers.image.source="https://github.com/Monogramm/ldap-all-for-one-manager/" \
+      org.opencontainers.image.created=$BUILD_DATE \
+      org.opencontainers.image.title="LDAP All-For-One Manager" \
+      org.opencontainers.image.description="A web based LDAP Manager for everyone." \
+      org.opencontainers.image.url="${APP_PUBLIC_URL}/" \
+      org.opencontainers.image.vendor="Monogramm" \
+      org.opencontainers.image.version=$VERSION \
+      org.opencontainers.image.authors="Monogramm Maintainers <opensource at monogramm dot io>"

@@ -1,0 +1,107 @@
+{
+    "name": "monogramm/ldap-all-for-one-manager",
+    "version": "0.1.0",
+    "description": "A web based LDAP Manager for everyone.",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": "^7.1.3",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "firebase/php-jwt": "^5.0",
+        "guzzlehttp/guzzle": "~6.0",
+        "laminas/laminas-mail": "^2.10",
+        "lexik/jwt-authentication-bundle": "^2.6",
+        "nesbot/carbon": "^2.29",
+        "paypal/paypal-checkout-sdk": "^1.0",
+        "phpseclib/phpseclib": "^2.0",
+        "ramsey/uuid-doctrine": "^1.6",
+        "sensio/framework-extra-bundle": "^5.1",
+        "symfony/asset": "4.4.*",
+        "symfony/console": "4.4.*",
+        "symfony/dotenv": "4.4.*",
+        "symfony/expression-language": "4.4.*",
+        "symfony/flex": "^1.3.1",
+        "symfony/form": "4.4.*",
+        "symfony/framework-bundle": "4.4.*",
+        "symfony/http-client": "4.4.*",
+        "symfony/intl": "4.4.*",
+        "symfony/ldap": "4.4.*",
+        "symfony/mailer": "4.4.*",
+        "symfony/maker-bundle": "^1.14",
+        "symfony/messenger": "4.4.*",
+        "symfony/monolog-bundle": "^3.1",
+        "symfony/orm-pack": "*",
+        "symfony/process": "4.4.*",
+        "symfony/property-info": "4.4.*",
+        "symfony/security-bundle": "4.4.*",
+        "symfony/serializer-pack": "*",
+        "symfony/translation": "4.4.*",
+        "symfony/twig-pack": "*",
+        "symfony/validator": "4.4.*",
+        "symfony/web-link": "4.4.*",
+        "symfony/webpack-encore-bundle": "^1.7",
+        "symfony/yaml": "4.4.*"
+    },
+    "require-dev": {
+        "phpmd/phpmd": "@stable",
+        "phpstan/phpstan": "^0.12.14",
+        "phpstan/phpstan-doctrine": "^0.12.10",
+        "phpstan/phpstan-phpunit": "^0.12.6",
+        "phpstan/phpstan-symfony": "^0.12.4",
+        "sebastian/phpcpd": "^6.0",
+        "squizlabs/php_codesniffer": "*",
+        "symfony/debug-pack": "*",
+        "symfony/phpunit-bridge": "4.4.*",
+        "symfony/profiler-pack": "*",
+        "symfony/test-pack": "^1.0",
+        "thecodingmachine/phpstan-strict-rules": "^0.12.0",
+        "vimeo/psalm": "^4.4"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "paragonie/random_compat": "2.*",
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php71": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php56": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "psalm": "./vendor/bin/psalm"
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "4.4.*"
+        }
+    }
+}

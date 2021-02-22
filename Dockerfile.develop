@@ -1,0 +1,144 @@
+FROM php:7.4-fpm
+
+ARG COMPOSER_VERSION=2.0.4
+
+# install the packages we need
+# install the PHP extensions we need
+# configure the PHP extensions
+# give acces to apache on the site files
+RUN set -ex; \
+    apt-get update -q; \
+    apt-get install -y --no-install-recommends \
+        cron \
+        netcat \
+        openssl \
+        rsync \
+        unzip \
+        wget \
+        zip \
+    ; \
+    apt-get install -y --no-install-recommends \
+        g++ \
+        libcurl4-openssl-dev \
+        libfreetype6-dev \
+        libicu-dev \
+        libjpeg-dev \
+        libldap2-dev \
+        libonig-dev \
+        libpng-dev \
+        libpq-dev \
+        librabbitmq-dev \
+        libsodium-dev \
+        libxml2-dev \
+        libzip-dev \
+        make \
+        zlib1g-dev \
+    ; \
+    curl -sL 'https://deb.nodesource.com/setup_12.x' -o nodesource_setup.sh ; \
+    bash nodesource_setup.sh; \
+    apt-get install -y \
+        nodejs \
+    ; \
+    npm --version; \
+    apt-get update -q; \
+    apt-get install -y \
+        yarn \
+    ; \
+    yarn --version; \
+    rm -rf /var/lib/apt/lists/*; \
+    debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
+    docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch"; \
+    docker-php-ext-configure gd; \
+    docker-php-ext-configure intl; \
+    docker-php-ext-configure zip; \
+    pecl install amqp; \
+    docker-php-ext-enable amqp; \
+    pecl install libsodium; \
+    docker-php-ext-enable sodium; \
+    yes | pecl install xdebug; \
+    docker-php-ext-enable xdebug; \
+    docker-php-ext-install -j "$(nproc)" \
+        bcmath \
+        gd \
+        intl \
+        ldap \
+        mbstring \
+        mysqli \
+        opcache \
+        pdo \
+        pdo_mysql \
+        pdo_pgsql \
+        pgsql \
+        soap \
+        sockets \
+        zip \
+    ; \
+    \
+    curl --silent --show-error "https://getcomposer.org/installer" -o composer-setup.php; \
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}; \
+    composer --version; \
+    wget 'https://get.symfony.com/cli/installer' -O - | bash; \
+    mv /root/.symfony/bin/symfony /usr/local/bin/symfony; \
+    symfony -V
+
+ENV SF_DB_TYPE=sqlite \
+    SF_DB_VERSION= \
+    SF_DB_OPTIONS= \
+    SF_DB_HOST= \
+    SF_DB_PORT= \
+    SF_DB_NAME=app_db_dev \
+    SF_DB_USER= \
+    SF_DB_PASSWORD= \
+    SF_MAIL_TRANSPORT=smtp \
+    SF_MAIL_HOST=127.0.0.1 \
+    SF_MAIL_USER= \
+    SF_MAIL_PASSWORD= \
+    SF_ADMIN_LOGIN= \
+    SF_ADMIN_EMAIL= \
+    SF_ADMIN_PASSWD= \
+    SF_SERVER_PUBLIC_URL=http://localhost:80 \
+    SF_WEBSITE_PUBLIC_URL=http://localhost:80 \
+    SF_FACEBOOK_URL=# \
+    SF_TWITTER_URL=# \
+    SF_LINKEDIN_URL=# \
+    SF_YOUTUBE_URL=# \
+    SF_PROD='false'
+
+COPY ./cron/15min /etc/periodic/15min
+COPY ./cron/hourly /etc/periodic/hourly
+COPY ./cron/daily /etc/periodic/daily
+COPY ./cron/weekly /etc/periodic/weekly
+COPY ./cron/monthly /etc/periodic/monthly
+
+VOLUME /var/www/html
+
+ARG WWW_GROUP_ID=1000
+ARG WWW_USER_ID=1000
+
+COPY entrypoint.sh /
+RUN set -ex; \
+    chmod 755 /entrypoint.sh; \
+    groupadd -f --gid ${WWW_GROUP_ID} symfony; \
+    adduser --disabled-password --gecos '' --uid ${WWW_USER_ID} --gid ${WWW_GROUP_ID} symfony; \
+    chown -R symfony:symfony /var/www
+
+WORKDIR /var/www/html/
+USER symfony
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+ARG APP_PATH=./app
+COPY ${APP_PATH} /var/www/html/
+
+# Install of the project (can also be done at runtime if mounted as volume)
+RUN set -ex; \
+    composer \
+        --prefer-dist \
+        --no-interaction \
+        --optimize-autoloader --apcu-autoloader \
+        install \
+    ; \
+    \
+    npm install \
+        --non-interactive \
+    ;

@@ -1,0 +1,9 @@
+{% extends "base_email.html.twig" %}
+
+{% block content %}
+    <h3>{{ subject }}</h3>
+    <p>{{ verifyAccount }}:
+        <br>
+        <code>{{ code }}</code>
+    </p>
+{% endblock %}

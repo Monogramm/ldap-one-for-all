@@ -1,0 +1,6 @@
+{% extends "base_email.html.twig" %}
+
+{% block content %}
+    <h3>{{ subject }}</h3>
+    <p>{{ message|e('html') }}</p>
+{% endblock %}

@@ -1,0 +1,376 @@
+<html>
+  <head>
+    <title>{% trans %}email.base.title{% endtrans %} {{ subject }}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style type="text/css">
+      body,
+      td {
+        font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+        font-size: 14px;
+      }
+      body {
+        background-color: #dadada;
+        margin: 0;
+        padding: 0;
+        -webkit-text-size-adjust: none;
+        -ms-text-size-adjust: none;
+      }
+      h2 {
+        padding-top: 12px;
+        color: #0e7693;
+        font-size: 22px;
+      }
+    </style>
+  </head>
+  <body style="margin:0px; padding:0px; -webkit-text-size-adjust:none;">
+    <table
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      border="0"
+      style="background-color:#ffffff"
+    >
+      <tbody>
+        <tr>
+          <td align="center" bgcolor="#ffffff">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+
+                <tr>
+                  <td class="w640" width="640" height="10"></td>
+                </tr>
+
+                <tr class="pagetoplogo">
+                  <td class="w640" width="640">
+                    <table
+                      class="w640"
+                      width="640"
+                      cellpadding="0"
+                      cellspacing="0"
+                      border="0"
+                      bgcolor="#efefef"
+                    >
+                      <tbody>
+                        <tr>
+                          <td class="w640" height="30" bgcolor="#efefef"></td>
+                        </tr>
+                        <tr>
+                          <td
+                            class="w213"
+                            width="213"
+                            valign="middle"
+                            align="left"
+                          >
+                            <div class="pagetoplogo-content">
+                              <a href="{{ public_url ? public_url : '#' }}">
+                                <img
+                                  class="w194"
+                                  style="text-decoration: none; display: block; color:#476688; font-size:30px;float: right;"
+                                  src="{{ public_url ? public_url : '' }}{{ asset('/svg/app.svg') }}"
+                                  alt="{% trans %}email.base.title{% endtrans %} Logo"
+                                  width="180"
+                                  height="108"
+                                />
+                              </a>
+                            </div>
+                          </td>
+                          <td
+                            class="w194"
+                            width="214"
+                            valign="middle"
+                            align="left"
+                          >
+                            <div class="pagetoplogo-content">
+                              <h1 style="font-size:42px; text-align:center;">{% trans %}email.base.title{% endtrans %}</h1>
+                            </div>
+                            <div
+                              class="pagetoplogodesc"
+                              style="font-size:11PX;width: 96%;text-align:center;"
+                            >{% block header %}
+                              {% trans %}email.base.header{% endtrans %}
+                            {% endblock %}</div>
+                          </td>
+                          <td
+                            class="w213"
+                            width="213"
+                            valign="middle"
+                            align="left"
+                            style="font-size:19PX; font-weight:500;line-height: 1EM;"
+                          >
+                            <div class="pagetoplogoslogan" style="width: 66%;">
+                              <p>{% trans %}email.base.slogan{% endtrans %}</p>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td
+                    class="w640"
+                    width="640"
+                    height="1"
+                    bgcolor="#efefef"
+                  ></td>
+                </tr>
+
+                <tr class="content">
+                  <td class="w640" width="640" bgcolor="#efefef">
+                    <table
+                      class="w640"
+                      width="640"
+                      cellpadding="0"
+                      cellspacing="0"
+                      border="0"
+                    >
+                      <tbody>
+                        <tr>
+                          <td class="w30" width="30"></td>
+                          <td class="w580" width="580">
+                            <table
+                              class="w580"
+                              width="580"
+                              cellpadding="0"
+                              cellspacing="0"
+                              border="0"
+                              bgcolor="#ffffff"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td
+                                    class="w640"
+                                    width="640"
+                                    height="20"
+                                    bgcolor="#efefef"
+                                  ></td>
+                                </tr>
+                                <tr>
+                                  <td
+                                    valign="middle"
+                                    height="280"
+                                    align="center"
+                                  >
+                                    <div
+                                      class="pagecontent"
+                                      style="color: black;"
+                                    >
+                                      <p>{% block content %}
+                                      {% endblock %}</p>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td
+                                    class="w580"
+                                    width="580"
+                                    height="1"
+                                    bgcolor="#dadada"
+                                  ></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            {#
+                            <table
+                              class="w580"
+                              width="580"
+                              cellpadding="0"
+                              cellspacing="0"
+                              border="0"
+                              style="margin-top: 20px;"
+                            >
+                              <tbody>
+                                {% if discover_url %}
+                                <tr>
+                                  <td colspan="5">
+                                    <h2
+                                      style="color:#ffffff; font-size:22px; padding:12px; text-align:center; background-color:#e52829;"
+                                    >
+                                      <a href="{{ discover_url }}">{% trans %}email.base.discover{% endtrans %}</a>
+                                    </h2>
+                                  </td>
+                                </tr>
+                                {% endif %}
+                                {% if manage_url %}
+                                <tr>
+                                  <td colspan="5">
+                                    <h2
+                                      style="color:#ffffff; font-size:22px; padding:12px;text-align:center;background-color:#e8422e;"
+                                    >
+                                      <a href="{{ manage_url }}"></a>{% trans %}email.base.manage{% endtrans %}</a>
+                                    </h2>
+                                  </td>
+                                </tr>
+                                {% endif %}
+
+                                <tr>
+                                  <td
+                                    colspan="5"
+                                    class="w580"
+                                    width="580"
+                                    height="1"
+                                    bgcolor="#c7c5c5"
+                                  ></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            #}
+                          </td>
+                          <td class="w30" width="30"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td
+                    class="w640"
+                    width="640"
+                    height="20"
+                    bgcolor="#efefef"
+                  ></td>
+                </tr>
+
+                <tr class="pagebottom">
+                  <td class="w640" width="640">
+                    <table
+                      class="w640"
+                      width="640"
+                      cellpadding="0"
+                      cellspacing="0"
+                      border="0"
+                      bgcolor="#efefef"
+                    >
+                      <tbody>
+                        <tr>
+                          <td width="210" height="30"><div></div></td>
+                          {% if facebook_url and facebook_url != '#' %}
+                          <td width="50" height="30">
+                            <div>
+                              <a href="{{ facebook_url }}">
+                                <img
+                                  src="{{ public_url }}{{ asset('svg/facebook.svg') }}"
+                                  width="55%"
+                                  alt="Facebook"
+                                />
+                              </a>
+                            </div>
+                          </td>
+                          {% endif %}
+                          {% if twitter_url and twitter_url != '#' %}
+                          <td width="50" height="30">
+                            <div>
+                              <a href="{{ twitter_url }}">
+                                <img
+                                  src="{{ public_url }}{{ asset('svg/twitter.svg') }}"
+                                  width="55%"
+                                  alt="Twitter"
+                                />
+                              </a>
+                            </div>
+                          </td>
+                          {% endif %}
+                          {% if linkedin_url and linkedin_url != '#' %}
+                          <td width="50" height="30">
+                            <div>
+                              <a href="{{ linkedin_url }}">
+                                <img
+                                  src="{{ public_url }}{{ asset('svg/linkedin.svg') }}"
+                                  width="55%"
+                                  alt="LinkedIn"
+                                />
+                              </a>
+                            </div>
+                          </td>
+                          {% endif %}
+                          {% if youtube_url and youtube_url != '#' %}
+                          <td width="50" height="30">
+                            <div>
+                              <a href="{{ youtube_url }}">
+                                <img
+                                  src="{{ public_url }}{{ asset('svg/youtube.svg') }}"
+                                  width="55%"
+                                  alt="Youtube"
+                                />
+                              </a>
+                            </div>
+                          </td>
+                          {% endif %}
+                          <td width="190" height="30"><div></div></td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <table
+                      class="w640"
+                      width="640"
+                      cellpadding="0"
+                      cellspacing="0"
+                      border="0"
+                      bgcolor="#efefef"
+                    >
+                      <tbody>
+                        <tr>
+                          <td width="205" height="30"><div></div></td>
+                          <td width="240" height="30">
+                            <p
+                              style="margin-top: 20px;text-align: center; color: grey;"
+                            >{% block footer %}
+                              {% trans %}email.base.footer{% endtrans %}
+                            {% endblock %}</p>
+                          </td>
+                          <td width="195" height="30"><div></div></td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <table
+                      class="w640"
+                      width="640"
+                      cellpadding="0"
+                      cellspacing="0"
+                      border="0"
+                      bgcolor="#efefef"
+                    >
+                      <tbody>
+                        <tr>
+                          <td class="w640" height="20" bgcolor="#efefef"></td>
+                        </tr>
+
+                        <tr>
+                          <td width="240" height="30"><div></div></td>
+                          <td width="160" height="30">
+                            <div>
+                              <a href="https://www.monogramm.io">
+                                <img
+                                  src="{{ public_url }}{{ asset('svg/monogramm.svg') }}"
+                                  width="100%"
+                                  alt="Monogramm"
+                                />
+                              </a>
+                            </div>
+                          </td>
+                          <td width="240" height="30"><div></div></td>
+                        </tr>
+
+                        <tr>
+                          <td class="w640" height="30" bgcolor="#efefef"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="w640" width="640" height="60"></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

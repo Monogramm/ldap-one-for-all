@@ -1,0 +1,39 @@
+os: linux
+dist: trusty
+
+services: docker
+
+language: shell
+
+branches:
+  only:
+    - master
+    - develop
+
+before_install:
+  - env | sort
+
+install:
+  # Build project
+  - ./hooks/run build "${VARIANT}" 'fpm'
+
+before_script:
+  - docker images
+
+script:
+  # Execute project CI Tests
+  - ./hooks/run test "${VARIANT}" 'fpm'
+
+notifications:
+  email: false
+
+matrix:
+  allow_failures:
+    - env: VARIANT=debian BASE=fpm
+
+env: # Environments
+    - VARIANT=alpine BASE=fpm
+    - VARIANT=debian BASE=fpm
+    #- VARIANT=fpm-alpine BASE=fpm
+    #- VARIANT=fpm BASE=fpm
+    #- VARIANT=apache BASE=apache
