@@ -5,8 +5,8 @@
 [![GitHub stars](https://img.shields.io/github/stars/Monogramm/ldap-all-for-one-manager?style=social)](https://github.com/Monogramm/ldap-all-for-one-manager)
 
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Monogramm/ldap-all-for-one-manager)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c05dda5cb328428aad5f3b8224a8f55b)](https://www.codacy.com/gh/Monogramm/ldap-all-for-one-manager/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Monogramm/ldap-all-for-one-manager&utm_campaign=Badge_Grade)
-[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/c05dda5cb328428aad5f3b8224a8f55b)](https://www.codacy.com/gh/Monogramm/ldap-all-for-one-manager/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Monogramm/ldap-all-for-one-manager&amp;utm_campaign=Badge_Coverage)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c0736494f8314577b7164bfcbd752780)](https://www.codacy.com/gh/Monogramm/ldap-all-for-one-manager/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Monogramm/ldap-all-for-one-manager&utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/c0736494f8314577b7164bfcbd752780)](https://www.codacy.com/gh/Monogramm/ldap-all-for-one-manager/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Monogramm/ldap-all-for-one-manager&amp;utm_campaign=Badge_Coverage)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Monogramm/ldap-all-for-one-manager/Docker%20Image%20CI)](https://github.com/Monogramm/ldap-all-for-one-manager/actions)
 
 [![Docker Automated buid](https://img.shields.io/docker/cloud/build/monogramm/ldap-all-for-one-manager.svg)](https://hub.docker.com/r/monogramm/ldap-all-for-one-manager/)
