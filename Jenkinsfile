@@ -20,7 +20,7 @@ pipeline {
      *        
      *        The repository will be pulled from refs/${sourceBranch}. You can use the following formats:
      *        .  heads/<branchName>
-     *            * Tracks/checks out the specified branch. E.g. heads/master, heads/feature1/something
+     *            * Tracks/checks out the specified branch. E.g. heads/main, heads/feature1/something
      *        
      *        .  tags/<tagName>
      *            * Tracks/checks out the specified tag. E.g. tags/git-2.3.0

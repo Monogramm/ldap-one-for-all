@@ -238,11 +238,11 @@ lc-release() {
     git commit -m":bookmark: Release ${VERSION}"
     echo "Version ${VERSION} is now HEAD of develop."
     git push
-    git checkout master && git pull || exit 2
+    git checkout main && git pull || exit 2
     git merge develop && git tag "${VERSION}"
-    echo "Version ${VERSION} is now HEAD of master and tagged if all went well."
+    echo "Version ${VERSION} is now HEAD of main and tagged if all went well."
     echo "Please double check and amend last commit if needed."
-    echo "Finally, push the release to remote master branch:"
+    echo "Finally, push the release to remote main branch:"
     echo "  $ git push"
     echo "  $ git push origin ${VERSION}"
 }

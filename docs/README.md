@@ -64,4 +64,4 @@ Check repository on GitHub for details: <https://github.com/Monogramm/ldap-all-f
 
 ## Contributing
 
-For information about contributing, see the [Contributing page](https://github.com/Monogramm/ldap-all-for-one-manager/blob/master/CONTRIBUTING.md).
+For information about contributing, see the [Contributing page](https://github.com/Monogramm/ldap-all-for-one-manager/blob/main/CONTRIBUTING.md).
