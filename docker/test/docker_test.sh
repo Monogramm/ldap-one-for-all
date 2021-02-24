@@ -43,7 +43,7 @@ if [ -n "${DOCKER_WEB_CONTAINER}" ]; then
     fi
 
     log 'Checking Health API is responding...'
-    curl --fail "http://${DOCKER_WEB_CONTAINER}:80/health" | grep -q -e 'UP' || exit 1
+    curl --fail "http://${DOCKER_WEB_CONTAINER}:${DOCKER_WEB_PORT-:80}/${DOCKER_WEB_HEALTH_API:-health}" | grep -q -e 'UP' || exit 1
 fi
 
 ################################################################################
