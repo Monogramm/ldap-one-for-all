@@ -94,7 +94,7 @@ Now go to <http://localhost:8080> to access development environment using docker
 
 You can run the development environment locally.
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gitpod-io/symfony-demo)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Monogramm/ldap-all-for-one-manager)
 
 ### :construction: Local Development Install
 
