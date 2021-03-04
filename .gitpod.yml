@@ -7,9 +7,12 @@ ports:
 
 tasks:
   - init: ./manage.sh local:build
-    command: ./manage.sh local:start-back
-  - command: ./manage.sh local:start-front
-  - command: ./manage.sh local:start-story
+    name: backend
+    command: ./manage.sh local:start-back --no-interaction
+  - name: frontend
+    command: ./manage.sh local:start-front
+  - name: storybook
+    command: ./manage.sh local:start-story
 
 vscode:
   extensions:
