@@ -25,9 +25,7 @@ vscode:
     - dbaeumer.vscode-eslint@2.1.8:02aHhbJ0Q4aGdjHXlTdVKg==
 
     # Requires VSCode ^1.52
-    #- octref.vetur@0.32.0:03mwRhlVpWDul4qBChcVUA==
-
-    - hollowtree.vue-snippets@0.1.12:R8kIKADMUL4rp+KMfYtsHg==
+    - octref.vetur@0.32.0:03mwRhlVpWDul4qBChcVUA==
 
 github:
   prebuilds:
