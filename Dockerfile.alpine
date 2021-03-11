@@ -140,6 +140,8 @@ RUN set -ex; \
     test "${STORIES}" = "false" || npm run build-storybook; \
     \
     php bin/console lint:twig --no-ansi --no-interaction ./templates; \
+    php bin/console doctrine:migrations:migrate --no-interaction --env=test; \
+    php bin/console doctrine:fixtures:load --no-interaction --env=test; \
     php bin/phpunit --do-not-cache-result --no-interaction \
         --coverage-clover /tmp/coverage-phpunit-clover.xml \
         --coverage-cobertura /tmp/coverage-phpunit-cobertura.xml \
@@ -150,7 +152,7 @@ RUN set -ex; \
     ./vendor/bin/psalm -m --no-file-cache --no-progress; \
     npx eslint --no-color ./assets/; \
     \
-    rm -rf ./node_modules; \
+    rm -rf ./node_modules ./var/*; \
     mkdir -p /usr/src/symfony/.docker; \
     [ "${EXPORT_TESTS_RESULTS}" = "false" ] || cp -r /tmp/coverage-* /usr/src/symfony/.docker/; \
     echo "${BUILD_DATE}" > '/usr/src/symfony/.docker/build-date'; \

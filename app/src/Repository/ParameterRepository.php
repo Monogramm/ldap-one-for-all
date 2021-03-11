@@ -42,17 +42,9 @@ class ParameterRepository extends ServiceEntityRepository
         return new Paginator($query, true);
     }
 
-    public function findByName(string $name)
+    public function findByName(string $name): ?Parameter
     {
-        try {
-            return $this->createQueryBuilder('p')
-                ->where('p.name = :name')
-                ->setParameter('name', $name)
-                ->getQuery()
-                ->getSingleResult();
-        } catch (NoResultException $e) {
-            return null;
-        }
+        return $this->findOneBy(['name' => $name]);
     }
 
     /**
@@ -62,7 +54,7 @@ class ParameterRepository extends ServiceEntityRepository
      *
      * @psalm-return array<array-key, Parameter>
      */
-    public function findParametersByNames(array $names): array
+    public function findAllByNames(array $names): array
     {
         return $this->findBy(['name' => $names]);
     }

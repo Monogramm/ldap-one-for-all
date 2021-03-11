@@ -21,6 +21,12 @@
       </b-button>
       <b-button
         tag="router-link"
+        to="/admin/medias"
+      >
+        {{ $t("admin.medias") }}
+      </b-button>
+      <b-button
+        tag="router-link"
         to="/admin/background-jobs"
       >
         {{ $t("admin.background-jobs") }}

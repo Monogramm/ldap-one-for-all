@@ -10,6 +10,7 @@ import { SupportModule } from "../modules/support/module";
 import { ParameterModule } from "../modules/parameter/module";
 import { BackgroundJobModule } from "../modules/backgroundJob/module";
 import { CurrencyModule } from "../modules/currency/module";
+import { MediaModule } from "../modules/media/module";
 
 Vue.use(Vuex);
 
@@ -23,6 +24,7 @@ export const store: Store<IRootState> = new Vuex.Store({
     parameter: ParameterModule,
     backgroundJob: BackgroundJobModule,
     currency: CurrencyModule,
+    media: MediaModule,
   },
 });
 

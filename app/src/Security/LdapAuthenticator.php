@@ -119,6 +119,9 @@ class LdapAuthenticator extends AbstractGuardAuthenticator
         if (!$this->ldapConfig['enabled']) {
             return null;
         }
+        if (!isset($credentials['username']) && !isset($credentials['password'])) {
+            return null;
+        }
 
         $username = $credentials['username'];
         $password = $credentials['password'];

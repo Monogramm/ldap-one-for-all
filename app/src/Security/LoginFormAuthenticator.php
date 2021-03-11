@@ -54,10 +54,15 @@ class LoginFormAuthenticator extends AbstractGuardAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $user = $this->userRepository->findOneBy(['username' => $credentials['username']]);
+        if (!isset($credentials['username'])) {
+            return null;
+        }
+        $username = $credentials['username'];
+
+        $user = $this->userRepository->findOneBy(['username' => $username]);
 
         if (!$user) {
-            $user = $this->userRepository->findOneBy(['email' => $credentials['username']]);
+            $user = $this->userRepository->findOneBy(['email' => $username]);
         }
 
         return $user;
@@ -66,6 +71,10 @@ class LoginFormAuthenticator extends AbstractGuardAuthenticator
     public function checkCredentials($credentials, UserInterface $user)
     {
         if (!$user->isEnabled()) {
+            return false;
+        }
+
+        if (!isset($credentials['password'])) {
             return false;
         }
 

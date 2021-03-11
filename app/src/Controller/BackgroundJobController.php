@@ -23,7 +23,7 @@ class BackgroundJobController extends AbstractController
         SerializerInterface $serializer
     ): JsonResponse {
         $page = (int)$request->get('page', 1);
-        $items = (int)$request->get('size', 50);
+        $items = (int)$request->get('size', 20);
 
         $jobs = $repository->findAllByPage($page, $items);
 

@@ -68,7 +68,8 @@
     },
     "send": "Send",
     "user": "User",
-    "info": "Info"
+    "info": "Info",
+    "upload-file": "Téléverser fichier"
   },
   "component": {
     "password-change": {
@@ -216,6 +217,7 @@
     "dashboard": "Administration",
     "users": "Users",
     "parameters": "Parameters",
+    "medias": "Médias",
     "background-jobs": "Background jobs"
   },
   "users": {
@@ -234,6 +236,14 @@
     "description": "Description",
     "type": "Type",
     "types": "Types"
+  },
+  "medias": {
+    "list": "Liste des médias",
+    "edit": "Modification d'un média",
+    "create": "Création d'un média",
+    "name": "Nom",
+    "filename": "Nom du fichier",
+    "description": "Description"
   },
   "background-jobs": {
     "title": "Background jobs"

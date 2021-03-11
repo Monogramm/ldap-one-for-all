@@ -18,8 +18,17 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerI
 
 class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
+    /**
+     * @var JWTTokenManagerInterface
+     */
     protected $jwtManager;
+    /**
+     * @var EventDispatcherInterface
+     */
     protected $dispatcher;
+    /**
+     * @var EntityManagerInterface
+     */
     protected $em;
 
     public function __construct(

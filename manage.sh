@@ -26,6 +26,28 @@ lc-check() {
     symfony server:ca:install
 }
 
+lc-jwt-keys() {
+    JWT_PATH=${1:-app/config/jwt}
+
+    if [ ! -e "${JWT_PATH}/public.pem" ]; then
+        log "Generating keys for JWT authentication at ${JWT_PATH}..."
+        export JWT_PASSPHRASE
+        JWT_PASSPHRASE=${2:-P@ssw0rd}
+
+        mkdir -p "${JWT_PATH}"
+        rm -f "${JWT_PATH}"/*.pem
+
+        openssl genpkey -out "${JWT_PATH}/private.pem" -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096 -pass "pass:${JWT_PASSPHRASE}"
+        openssl pkey -in "${JWT_PATH}/private.pem" -passin "pass:${JWT_PASSPHRASE}" -out "${JWT_PATH}/public.pem" -pubout
+
+        chmod 644 \
+            "${JWT_PATH}/private.pem" \
+            "${JWT_PATH}/public.pem"
+
+        log "Keys for JWT authentication generated at ${JWT_PATH}"
+    fi
+}
+
 lc-build() {
     # Backend install
     log "Backend install..."
@@ -75,25 +97,12 @@ PAYPAL_CLIENT_SECRET=client_secret
 EOF
     fi
 
-    if [ ! -e "app/config/jwt/public.pem" ]; then
-        log "Generating keys for JWT authentication..."
+    lc-jwt-keys 'app/config/jwt' 'P@ssw0rd'
 
-        mkdir -p app/config/jwt
-        rm -f app/config/jwt/*.pem
+    export JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+    export JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
 
-        export JWT_PASSPHRASE=P@ssw0rd
-        openssl genpkey -out app/config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096 -pass "pass:${JWT_PASSPHRASE}"
-        openssl pkey -in app/config/jwt/private.pem -passin "pass:${JWT_PASSPHRASE}" -out app/config/jwt/public.pem -pubout
-
-        export JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
-        export JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
-
-        chmod 644 \
-            app/config/jwt/private.pem \
-            app/config/jwt/public.pem
-
-        log "Keys for JWT authentication generated"
-    fi
+    lc-jwt-keys 'app/config/jwt/test' 'P@ssw0rd'
 
     log "Checking application's database status..."
     php app/bin/console doctrine:migrations:status
@@ -155,12 +164,15 @@ lc-test-front() {
 
 lc-test-back() {
     cd app
+    log "Init test database..."
+    php ./bin/console doctrine:migrations:migrate --no-interaction --env=test
+    php ./bin/console doctrine:fixtures:load --no-interaction --env=test
     log "PHPUnit bug fixer..."
     php ./bin/phpunit --coverage-text "$@"
     #log "PHPStan..."
     #vendor/bin/phpstan analyse src tests
     log "PHP_CodeSniffer bug fixer..."
-    vendor/bin/phpcbf src
+    vendor/bin/phpcbf src tests
     log "Psalm..."
     vendor/bin/psalm --alter --issues=MissingReturnType,InvalidReturnType,InvalidNullableReturnType
     log "PHP Copy/Paste detector..."

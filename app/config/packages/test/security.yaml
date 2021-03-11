@@ -1,0 +1,10 @@
+security:
+    # Using a Faster Authentication Mechanism Only for Tests
+    firewalls:
+        main:
+            http_basic: ~
+    # Hashing Passwords Faster Only for Tests
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+            cost: 4 # Lowest possible value for bcrypt

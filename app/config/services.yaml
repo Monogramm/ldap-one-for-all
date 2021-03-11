@@ -14,8 +14,8 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $mailerFrom: '%env(MAILER_FROM)%'
-            $imagesDirectory: '%kernel.project_dir%/public/uploads/images'
-            $publicImagesPath: 'uploads/images'
+            $publicUploadsDir: '%kernel.project_dir%/public/uploads/images'
+            $publicUploadsPath: 'uploads/images'
             $publicUrl: '%env(SF_SERVER_PUBLIC_URL)%'
             $ldapConfig:
                 uid_key:

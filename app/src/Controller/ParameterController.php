@@ -37,7 +37,7 @@ class ParameterController extends AbstractController
         SerializerInterface $serializer
     ): JsonResponse {
         $page = (int) $request->get('page', 1);
-        $itemsPerPage = (int) $request->get('size', 50);
+        $itemsPerPage = (int) $request->get('size', 20);
 
         $parameters = $repository->findAllByPage($page, $itemsPerPage);
 
