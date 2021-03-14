@@ -6,7 +6,13 @@ ports:
   - port: 6006
 
 tasks:
-  - init: ./manage.sh local:build
+  # https://github.com/gitpod-io/gitpod/issues/666#issuecomment-534347856
+  - before: >
+      [[ ! -z ${GNUGPG}  ]] &&
+      cd ~ &&
+      rm -rf .gnupg &&
+      echo ${GNUGPG} | base64 -d | tar --no-same-owner -xzvf -
+    init: ./manage.sh local:build
     name: backend
     command: ./manage.sh local:start-back --no-interaction
   - name: frontend

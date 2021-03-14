@@ -95,6 +95,7 @@ Now go to <http://localhost:8080> to access development environment using docker
 You can run the development environment locally.
 
 You can also [![open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Monogramm/ldap-all-for-one-manager) the local development environment.
+If you wish to sign your commits using GitPod, follow the instructions from [gitpod-io/gitpod#666](https://github.com/gitpod-io/gitpod/issues/666#issuecomment-534347856).
 
 ### :construction: Local Development Install
 
@@ -120,7 +121,10 @@ To start frontend and backend:
 ```
 
 Now go to <http://localhost:8000> to access development environment using your local host.
-Make sure the create an admin using the command line for full access to the application.
+Make sure the create an admin using the command line for full access to the application:
+```bash
+./manage.sh local:console app:users:create --role=ADMIN --verified admin admin@example.com password
+```
 
 To start local storybook:
 
