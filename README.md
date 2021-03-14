@@ -94,7 +94,8 @@ Now go to <http://localhost:8080> to access development environment using docker
 
 You can run the development environment locally.
 
-You can also [![open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Monogramm/ldap-all-for-one-manager) the local development environment.
+You can also use [GitPod](https://gitpod.io/) to run the local development environment: [![open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Monogramm/ldap-all-for-one-manager)
+
 If you wish to sign your commits using GitPod, follow the instructions from [gitpod-io/gitpod#666](https://github.com/gitpod-io/gitpod/issues/666#issuecomment-534347856):
 
 -   Convert your source `.gnugpg` directory contents to base64 data: `tar -czvf - ./.gnupg | base64 -w 0`
@@ -150,6 +151,22 @@ Code coverage results will be stored in `./coverage` directory at the end of CI 
 ```bash
 ./manage.sh local:test-back
 ```
+
+### Frontend tests and code quality analysis
+
+```bash
+./manage.sh local:test-front
+```
+
+## :construction_worker: Continuous Integration
+
+This project support Continuous Integration with the following platforms:
+
+-   DockerHub [Advanced Automated Build](https://docs.docker.com/docker-hub/builds/advanced/) hooks
+-   [GitHub Actions](https://docs.github.com/en/actions) using DockerHub Advanced Automated Build hooks
+-   [Travis-CI](https://travis-ci.com/) using DockerHub Advanced Automated Build hooks
+-   [Codacy](https://www.codacy.com/) code quality and code coverage review
+-   [Snyk](https://snyk.io/) security review
 
 ## :bust_in_silhouette: Authors
 
