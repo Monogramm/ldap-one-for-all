@@ -1,72 +1,84 @@
 <template>
   <section class="section">
     <div class="content">
-      <h1 class="title is-1">
+      <h1 class="title is-1 center">
         {{ titleLabel }}
       </h1>
+      <h2 class="subtitle center">
+        {{ $t("login.subtitle") }}
+      </h2>
     </div>
 
-    <b-loading
-      :is-full-page="isFullPage"
-      :active.sync="isLoading"
+    <b-message
+      type="is-danger"
+      :active="hasError"
+      auto-close
+      :duration="duration"
+    >
+      {{ $t("login.auth.failure") }}
+    </b-message>
+
+    <b-message
+      type="is-success"
+      :active="passwordResetSuccess"
+      auto-close
+      :duration="duration"
+    >
+      {{ $t("password-reset.success") }}
+    </b-message>
+
+    <app-login
+      class=""
+      @login="doLogin"
+      @registration="goToRegistration"
+      @passswordReset="goToPasswordReset"
     />
-    <div class="box">
-      <b-message
-        type="is-success"
-        :active="isSent"
-      >
-        {{ $t("password-reset.sent") }}
-      </b-message>
-      <b-field :label="$t('password-reset.email')">
-        <b-input
-          v-model="email"
-          type="email"
-          required
-        />
-      </b-field>
-      <b-button
-        type="is-primary"
-        :disabled="isSent === true"
-        expanded
-        @click="sendEmailToResetPassword"
-      >
-        {{ $t("password-reset.reset") }}
-      </b-button>
-    </div>
   </section>
 </template>
 
 <script lang="ts">
-import axios from "axios";
+import { mapGetters } from "vuex";
+
+import { ILogin, Login } from "../../../modules/auth/interfaces";
+
+import AppLogin from "../components/AppLogin/AppLogin.vue";
 
 export default {
-  name: "ResetPassword",
+  name: "Login",
+  components: {
+    AppLogin
+  },
   data() {
     return {
-      email: "",
-      isSent: false,
-      isLoading: false,
-      isFullPage: true
+      passwordResetSuccess: false,
+      duration: 4000
     };
   },
   computed: {
+    ...mapGetters("auth", [
+      "error",
+      "hasError"
+    ]),
     titleLabel() {
-      return this.$t("password-reset.title");
+      return this.$t("login.title");
     }
   },
   metaInfo() {
     return { title: this.titleLabel };
   },
   methods: {
-    sendEmailToResetPassword() {
-      this.isLoading = true;
-      axios.post("/api/password/reset", { email: this.email }).then(() => {
-        this.isSent = true;
-        this.isLoading = false;
-        new Promise(r => setTimeout(r, 3000)).then(() => {
-          this.$router.push("/login");
-        });
-      });
+    async doLogin(username: string, password: string) {
+      const credentials: ILogin = new Login(username, password);
+      await this.$store.dispatch("auth/login", credentials);
+      if (!this.hasError) {
+        this.$router.go(-1);
+      }
+    },
+    goToRegistration() {
+      this.$router.replace("/registration");
+    },
+    goToPasswordReset() {
+      this.$router.push("/password/reset");
     }
   }
 };

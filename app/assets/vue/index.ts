@@ -119,6 +119,7 @@ import {
   faCalendarAlt,
   faTimesCircle,
   faEnvelope,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -158,7 +159,8 @@ library.add(
   faDownload,
   faCalendarAlt,
   faTimesCircle,
-  faEnvelope
+  faEnvelope,
+  faSearch
 );
 Vue.component("vue-fontawesome", FontAwesomeIcon);
 

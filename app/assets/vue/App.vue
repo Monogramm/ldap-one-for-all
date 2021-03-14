@@ -1,15 +1,16 @@
 <template>
   <div class="app-main">
     <app-top-bar
-      :authenticated="isLoggedIn"
-      :signing-out="isLoading"
-      @loggedOut="logout"
+      :languages="locales"
+      @languageChanged="localeSwitch"
     />
     <app-nav-bar
       :authenticated="isLoggedIn"
+      :signing-out="isLoading"
       :admin="isAdmin"
       :languages="locales"
       @languageChanged="localeSwitch"
+      @loggedOut="logout"
     />
     <div class="container app-content">
       <app-go-back-button @clicked="goBack" />

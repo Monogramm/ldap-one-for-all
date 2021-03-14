@@ -38,10 +38,11 @@ export default {
 @import '../../../styles/design-system';
 
 p {
-  color: $grey-dark;
+  color: $white;
 }
 
 strong {
-  color: $grey-darker;
+  color: $white;
 }
+
 </style>

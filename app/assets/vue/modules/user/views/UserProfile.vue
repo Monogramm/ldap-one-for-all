@@ -1,49 +1,83 @@
 <template>
   <section class="section">
-    <div class="content">
-      <h1 class="title is-1">
-        {{ titleLabel }}
-      </h1>
-    </div>
-
-    <div class="card">
-      <div class="card-content">
-        <strong>{{ $t("common.username.label") }}:</strong>
-        <span>{{ authUser.username }}</span>
-        <hr>
-        <strong>{{ $t("common.email.label") }}:</strong>
-        <span>
-          {{ authUser.email }}
-          <b-icon
-            v-if="authUser.isVerified"
-            icon="check"
-            size="is-small"
-            type="is-success"
-          />
-          <b-button
-            v-else
-            tag="router-link"
-            size="is-small"
-            to="/verify"
-            type="is-primary"
-          >{{ $t("profile.verification.title") }}</b-button>
-        </span>
+    <div class="conteneur_0">
+      <!-- CONTENEUR USER INFORMATION -->
+      <div
+        class="conteneur_1"
+        shadow
+      > 
+        <div class="div_titre">
+          <div class="content">
+            <h1 class="title is-1 center">
+              {{ titleLabel }}
+            </h1>
+          </div>
+        </div>
+        <div class="conteneur_1_0">
+          <!-- BOUCLE DE LISTING DES INFO UTILISATEUR-->
+          <div class="block_user_info">
+            <div>
+              <strong>{{ $t("common.username.label") }}:</strong>
+              <span>{{ authUser.username }}</span>
+            </div>
+            <div>
+              <strong>{{ $t("common.email.label") }}:</strong>
+              <span>
+                {{ authUser.email }}
+                <b-icon
+                  v-if="authUser.isVerified"
+                  icon="check"
+                  size="is-small"
+                  type="is-success"
+                />
+                <b-button
+                  v-else
+                  tag="router-link"
+                  size="is-small"
+                  to="/verify"
+                  type="is-primary"
+                >{{ $t("profile.verification.title") }}</b-button>
+              </span>
+            </div>
+            <div
+              v-for="(information, index) in authUser"
+              :key="index"
+            >
+              <div style="display: flex;">
+                <strong>Key : </strong>
+                <p :data-userElem="index">
+                  {{ information }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="card-footer box profile-buttons buttons">
-        <b-button
-          type="is-link"
-          @click="showPasswordChangeModal = true"
-        >
-          {{ $t("profile.password-change") }}
-        </b-button>
-
-        <b-button
-          type="is-danger"
-          @click="showAccountDeleteModal = true"
-        >
-          {{ $t("profile.account-delete.label") }}
-        </b-button>
+      <!-- CONTENEUR USER COMMAND --> 
+      <div class="conteneur_2 center">
+        <div class="conteneur_2_0">
+          <div class="div_titre"> 
+            Gestion du profile
+          </div>
+          <b-button
+            type="is-link"
+            @click="showPasswordChangeModal = true"
+          >
+            {{ $t("profile.password-change") }}
+          </b-button>
+          <b-button
+            type="is-link"
+            @click="modifyAccount"
+          >
+            Modifier le compte
+          </b-button>
+          <b-button
+            type="is-danger"
+            @click="showAccountDeleteModal = true"
+          >
+            {{ $t("profile.account-delete.label") }}
+          </b-button>
+        </div>
       </div>
     </div>
 
@@ -109,7 +143,16 @@ export default {
   data() {
     return {
       showPasswordChangeModal: false,
-      showAccountDeleteModal: false
+      showAccountDeleteModal: false,
+      //TABLEAUX DE TEST POUR AFFICHAGE : UNE IDEE
+      user: [
+        {key:"nom",
+          value:"Jean"},
+        {key:"age",
+          value:"48"},
+        {key:"role",
+          value:"lambda"}
+      ]
     };
   },
   computed: {
@@ -129,12 +172,61 @@ export default {
           this.$router.push({ name: "Login" });
         }
       });
+    },
+    modifyAccount(): boolean
+    {
+      return true;
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.conteneur_0
+{
+  display: flex;
+  width: 100%;
+  min-height: 50vh;
+}
+.conteneur_1
+{
+  height: auto;
+  width: 85vh;
+}
+
+.conteneur_1_0
+{
+  flex-direction: column;
+}
+
+.block_user_info
+{
+  overflow-y: scroll;
+}
+
+.conteneur_2
+{
+  height: auto;
+  align-items: flex-start;
+}
+
+.conteneur_2_0
+{
+  display: flex;
+  flex-direction: column;
+}
+
+.conteneur_2_0 button
+{
+  border-radius: 0;
+}
+
+.div_titre
+{
+  width: 100%;
+  border: 1px solid grey;
+  color: black;
+}
 .profile-buttons {
   justify-content: space-evenly;
 }
