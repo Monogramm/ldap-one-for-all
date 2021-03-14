@@ -12,6 +12,8 @@ tasks:
       cd ~ &&
       rm -rf .gnupg &&
       echo ${GNUGPG} | base64 -d | tar --no-same-owner -xzvf -
+    name: terminal
+    command: cd -
   - init: ./manage.sh local:build
     name: backend
     command: ./manage.sh local:start-back --no-interaction
