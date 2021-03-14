@@ -95,7 +95,12 @@ Now go to <http://localhost:8080> to access development environment using docker
 You can run the development environment locally.
 
 You can also [![open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Monogramm/ldap-all-for-one-manager) the local development environment.
-If you wish to sign your commits using GitPod, follow the instructions from [gitpod-io/gitpod#666](https://github.com/gitpod-io/gitpod/issues/666#issuecomment-534347856).
+If you wish to sign your commits using GitPod, follow the instructions from [gitpod-io/gitpod#666](https://github.com/gitpod-io/gitpod/issues/666#issuecomment-534347856):
+
+-   Convert your source `.gnugpg` directory contents to base64 data: `tar -czvf - ./.gnupg | base64 -w 0`
+-   Place this data into a gitpod environment variable called `GNUGPG`
+-   Get your source signing key: `gpg --list-secret-keys --keyid-format LONG`
+-   Place this data into a gitpod environment variable called `GNUGPG_KEY`
 
 ### :construction: Local Development Install
 

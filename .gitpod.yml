@@ -12,7 +12,11 @@ tasks:
       cd ~ &&
       rm -rf .gnupg &&
       echo ${GNUGPG} | base64 -d | tar --no-same-owner -xzvf -
-    name: terminal
+    name: signed terminal
+    init: >
+      [[ ! -z ${GNUGPG_KEY}  ]] &&
+      git config --global commit.gpgsign true &&
+      git config --global user.signingkey ${GNUGPG_KEY}
     command: cd -
   - init: ./manage.sh local:build
     name: backend
