@@ -13,17 +13,25 @@ branches:
 
 before_install:
   - env | sort
+  - export EXPORT_TESTS_RESULTS=true
 
 install:
-  # Build project
-  - ./hooks/run build "${VARIANT}" 'fpm'
+  # Execute CI build hooks
+  - ./hooks/run build "${VARIANT}" "${BASE}"
 
 before_script:
+  # Display docker images
   - docker images
+  # Codacy Coverage Reporter
+  - bash <(curl -Ls https://coverage.codacy.com/get.sh) download
 
 script:
-  # Execute project CI Tests
-  - ./hooks/run test "${VARIANT}" 'fpm'
+  # Execute CI test hooks
+  - ./hooks/run test "${VARIANT}" "${BASE}"
+
+after_success:
+  # Codacy Coverage Reporter
+  - test -z "${CODACY_PROJECT_TOKEN}" && bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/coverage-phpunit-cobertura.xml
 
 notifications:
   email: false
