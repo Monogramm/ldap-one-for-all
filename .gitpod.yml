@@ -12,7 +12,7 @@ tasks:
       cd ~ &&
       rm -rf .gnupg &&
       echo ${GNUGPG} | base64 -d | tar --no-same-owner -xzvf -
-    init: ./manage.sh local:build
+  - init: ./manage.sh local:build
     name: backend
     command: ./manage.sh local:start-back --no-interaction
   - name: frontend
