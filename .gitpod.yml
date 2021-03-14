@@ -6,6 +6,18 @@ ports:
   - port: 6006
 
 tasks:
+  # https://github.com/gitpod-io/gitpod/issues/666#issuecomment-534347856
+  - before: >
+      [[ ! -z ${GNUGPG}  ]] &&
+      cd ~ &&
+      rm -rf .gnupg &&
+      echo ${GNUGPG} | base64 -d | tar --no-same-owner -xzvf -
+    name: signed terminal
+    init: >
+      [[ ! -z ${GNUGPG_KEY}  ]] &&
+      git config --global commit.gpgsign true &&
+      git config --global user.signingkey ${GNUGPG_KEY}
+    command: cd -
   - init: ./manage.sh local:build
     name: backend
     command: ./manage.sh local:start-back --no-interaction

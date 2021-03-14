@@ -39,9 +39,10 @@ This project uses the following technologies:
     -   LDAP Authentication with [rroemhild/docker-test-openldap](https://github.com/rroemhild/docker-test-openldap) for simple LDAP test server
 
 -   CI tools:
-    -   DockerHub [Advanced Automated Build](https://docs.docker.com/docker-hub/builds/advanced/)
+    -   DockerHub [Advanced Automated Build](https://docs.docker.com/docker-hub/builds/advanced/) hooks
     -   [GitHub Actions](https://docs.github.com/en/actions) using DockerHub Advanced Automated Build hooks
-    -   [Jenkins](https://www.jenkins.io/) support with sample [Jenkinsfile](https://www.jenkins.io/doc/book/pipeline/jenkinsfile/)
+    -   [Travis-CI](https://travis-ci.com/) using DockerHub Advanced Automated Build hooks
+    -   [Jenkins](https://www.jenkins.io/) (experimental) support with sample [Jenkinsfile](https://www.jenkins.io/doc/book/pipeline/jenkinsfile/)
     -   [Codacy](https://www.codacy.com/) code quality and code coverage review
     -   [Snyk](https://snyk.io/) security review
 
