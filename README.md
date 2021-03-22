@@ -183,6 +183,10 @@ This project support Continuous Integration with the following platforms:
 
 -   Github: [@Arky9782](https://github.com/orgs/Monogramm/people/Arky9782)
 
+**Prudentos Allan**
+
+-   Github: [@Nathan-Al](https://github.com/Nathan-Al)
+
 ## :handshake: Contributing
 
 Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Monogramm/ldap-all-for-one-manager/issues).
