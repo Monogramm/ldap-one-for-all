@@ -17,14 +17,23 @@ tasks:
       [[ ! -z ${GNUGPG_KEY}  ]] &&
       git config --global commit.gpgsign true &&
       git config --global user.signingkey ${GNUGPG_KEY}
-    command: cd -
-  - init: ./manage.sh local:build
+    command: >
+      cd $GITPOD_REPO_ROOT &&
+      ./manage.sh
+  - init: >
+      ./manage.sh local:build &&
+      gp sync-done 'backend-init'
     name: backend
     command: ./manage.sh local:start-back --no-interaction
   - name: frontend
-    command: ./manage.sh local:start-front
+    command: >
+      gp sync-await 'backend-init' &&
+      ./manage.sh local:start-front
   - name: storybook
-    command: ./manage.sh local:start-story
+    command: >
+      gp sync-await 'backend-init' &&
+      gp await-port 8000 &&
+      ./manage.sh local:start-story
 
 vscode:
   extensions:
@@ -36,7 +45,6 @@ vscode:
 
     - dbaeumer.vscode-eslint@2.1.8:02aHhbJ0Q4aGdjHXlTdVKg==
 
-    # Requires VSCode ^1.52
     - octref.vetur@0.32.0:03mwRhlVpWDul4qBChcVUA==
 
 github:
