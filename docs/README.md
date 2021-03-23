@@ -59,6 +59,32 @@ This project was initialized from [Monogramm/vue-symfony-starter](https://github
 
 ![Architecture Production Diagram](architecture.svg)
 
+Directory structure:
+-   `app`: The main application directory
+    -   `assets`: everything regarding the Frontend VUE app
+        -   `i18n`: Frontend app translations
+        -   `styles`: Frontend app global SCSS
+        -   `vue`: Frontend Vue.js
+    -   `src`: everything regarding the Symfony Backend
+        -   `Command`: Symfony [Console Commands](https://symfony.com/doc/current/console.html). Mostly used for CRON and automation.
+        -   `Controller`: Symfony REST API [Controllers](https://symfony.com/doc/current/controller.html) for APP.
+        -   `DataFixtures`: [Dummy Data fixtures](https://symfony.com/doc/current/testing/database.html#dummy-data-fixtures). Currently only used for tests purposes.
+        -   `DTO`: Data Transfer Object. Define _custom_ objects to interact with the API when it's not appropriate to use the Entities.
+        -   `Entity`: Symfony (Doctrine) [Entities](https://symfony.com/doc/current/doctrine.html) that are saved in the persistence storage.
+        -   `Event`: Symfony [Events and Event Subscribers](https://symfony.com/doc/current/event_dispatcher.html). Mostly used to trigger asynchronous tasks on the Messenger.
+        -   `EventListner`: Symfony [Event Listeners](https://symfony.com/doc/current/event_dispatcher.html).
+        -   `Message`: Long tasks messages for the backend Symfony [Messenger](https://symfony.com/doc/current/messenger.html).
+            -   `Handler`: Long tasks handlers for the backend MESSENGER.
+        -   `Migrations`: Persistence storage [Migrations](https://symfony.com/doc/current/doctrine.html#migrations-creating-the-database-tables-schema). Used by backend to check database status and by APP to install/update database.
+        -   `Repository`: Symfony (Doctrine) [Entity Repositories](https://symfony.com/doc/current/doctrine.html) that manage the persistence storage.
+        -   `Service`: Symfony [services](https://symfony.com/doc/current/service_container.html).
+    -   `templates`: [Twig](https://symfony.com/doc/current/templates.html) templates. Used to generate HTML index page and emails.
+    -   `tests`: Backend Symofny [testing](https://symfony.com/doc/current/testing.html). Used to test APP controllers, CRON commands, ... Provides Unit and Integration tests.
+    -   `translations`: Backend Symfony [translations](https://symfony.com/doc/current/translation.html). Mostly used for emails and error messages.
+-   `cron`: The main CRON jobs directory. Each subdirectory contains bash scripts to will be executed periodically.
+-   `docker`: Test/Dev/Prod docker related configuration
+-   `hooks`: CI build/test/publish hooks for DockerHub (shared with GitHub Actions and Travis-CI)
+
 ## How to use
 
 Check repository on GitHub for details: <https://github.com/Monogramm/ldap-all-for-one-manager>
