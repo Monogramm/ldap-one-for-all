@@ -27,6 +27,7 @@ This project uses the following technologies:
 
 -   [Vue.js](https://vuejs.org/) frontend with:
     -   full [TypeScript](https://www.typescriptlang.org/) support
+    -   [Vuex](https://vuex.vuejs.org/) state management and [axios](https://github.com/axios/axios) HTTP client
     -   full [Sass](https://sass-lang.com/) support
     -   [Bulma](https://bulma.io/) with [Buefy](https://buefy.org/) integration
     -   [WebPack](https://webpack.js.org/) to build efficiently assets
@@ -60,6 +61,7 @@ This project was initialized from [Monogramm/vue-symfony-starter](https://github
 ![Architecture Production Diagram](architecture.svg)
 
 Directory structure:
+
 -   `app`: The main application directory
     -   `assets`: everything regarding the Frontend VUE app
         -   `i18n`: Frontend app translations
