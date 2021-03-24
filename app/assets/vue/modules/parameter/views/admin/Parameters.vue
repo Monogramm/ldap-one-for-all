@@ -4,17 +4,21 @@
     :parameters="items"
     :per-page="pagination.size"
     :total="total"
-    @pageChanged="onPageChange"
     @create="onCreate"
     @edit="onEdit"
     @delete="onDelete"
+    @pageChanged="onPageChange"
+    @filtersChanged="onFiltersChange"
+    @sortingChanged="onSortingChange"
   />
 </template>
 
 <script lang="ts">
 import { mapGetters } from "vuex";
 
-import { IPagination, Pagination } from "../../../../interfaces/pagination";
+import { Pagination } from "../../../../interfaces/pagination";
+import { Criteria } from "../../../../interfaces/criteria";
+import { Sort } from "../../../../interfaces/sort";
 
 import AppParameters from "../../components/admin/AppParameters/AppParameters.vue";
 
@@ -30,12 +34,23 @@ export default {
     ...mapGetters("parameter", ["items", "isLoading", "total"])
   },
   created() {
-    this.$store.dispatch("parameter/getAll", this.pagination);
+    this.load();
   },
   methods: {
+    load() {
+      this.$store.dispatch("parameter/getAll", this.pagination);
+    },
     onPageChange(page: string) {
       this.pagination.page = page;
-      this.$store.dispatch("parameter/getAll", this.pagination);
+      this.load();
+    },
+    onFiltersChange(filters: any) {
+      this.pagination.criteria = new Criteria(filters);
+      this.load();
+    },
+    onSortingChange(field: string, order: string) {
+      this.pagination.orderBy = new Sort(field, order);
+      this.load();
     },
     onEdit(paramId: string) {
       this.$router.push({ name: "ParameterEdit", params: { id: paramId } });

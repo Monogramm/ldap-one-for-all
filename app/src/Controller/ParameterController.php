@@ -39,7 +39,10 @@ class ParameterController extends AbstractController
         $page = (int) $request->get('page', 1);
         $itemsPerPage = (int) $request->get('size', 20);
 
-        $parameters = $repository->findAllByPage($page, $itemsPerPage);
+        $filters = json_decode($request->get('filters', '[]'), true);
+        $orders  = json_decode($request->get('orders', null), true);
+
+        $parameters = $repository->findAllByPage($page, $itemsPerPage, $filters, $orders);
 
         $total = count($parameters);
         $parameters = $serializer->normalize(

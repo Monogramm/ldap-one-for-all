@@ -3,6 +3,7 @@
 namespace App\Tests\Repository;
 
 use App\Entity\Parameter;
+use App\Repository\ParameterRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -25,12 +26,15 @@ class ParameterRepositoryTest extends KernelTestCase
     public function testFindByName()
     {
         /**
+         * @var ParameterRepository
+         */
+        $repository = $this->entityManager
+            ->getRepository(Parameter::class)
+        ;
+        /**
          * @var Parameter
          */
-        $parameter = $this->entityManager
-            ->getRepository(Parameter::class)
-            ->findByName('APP_PUBLIC_URL')
-        ;
+        $parameter = $repository->findByName('APP_PUBLIC_URL');
 
         $this->assertNotNull($parameter);
         $this->assertSame('http://localhost:8000', $parameter->getValue());
@@ -39,12 +43,15 @@ class ParameterRepositoryTest extends KernelTestCase
     public function testFindAllByNames()
     {
         /**
+         * @var ParameterRepository
+         */
+        $repository = $this->entityManager
+            ->getRepository(Parameter::class)
+        ;
+        /**
          * @var array
          */
-        $parameters = $this->entityManager
-            ->getRepository(Parameter::class)
-            ->findAllByNames(['APP_PUBLIC_URL'])
-        ;
+        $parameters = $repository->findAllByNames(['APP_PUBLIC_URL']);
 
         $this->assertSame(1, count($parameters));
     }
@@ -52,12 +59,15 @@ class ParameterRepositoryTest extends KernelTestCase
     public function testFindAllByPage()
     {
         /**
-         * @var Paginator
+         * @var ParameterRepository
          */
-        $parameters = $this->entityManager
+        $repository = $this->entityManager
             ->getRepository(Parameter::class)
-            ->findAllByPage(1, 10)
         ;
+        /**
+         * @var Paginator<Parameter>
+         */
+        $parameters = $repository->findAllByPage(1, 10, ['name' => 'APP_PUBLIC_URL'], ['name' => 'DESC']);
 
         $this->assertSame(1, $parameters->count());
     }
