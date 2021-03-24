@@ -20,11 +20,11 @@ tasks:
     command: >
       cd $GITPOD_REPO_ROOT &&
       ./manage.sh
-  - init: >
-      ./manage.sh local:build &&
-      gp sync-done 'backend-init'
+  - init: ./manage.sh local:build
     name: backend
-    command: ./manage.sh local:start-back --no-interaction
+    command: >
+      gp sync-done 'backend-init' &&
+      ./manage.sh local:start-back --no-interaction
   - name: frontend
     command: >
       gp sync-await 'backend-init' &&
