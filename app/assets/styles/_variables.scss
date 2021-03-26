@@ -14,10 +14,6 @@ $secondary-invert: findColorInvert($secondary);
 */
 $primary: #4005AE;
 $primary-invert: findColorInvert($primary);
-$primary_2: #053AAD;
-$primary-2-invert: findColorInvert($primary_2);
-$primary_3: #AD05AA;
-$primary-3-invert: findColorInvert($primary_3);
 
 /* Alternative color for the primary one */
 $gradient_1: #4800D9;
@@ -35,12 +31,6 @@ $danger: #fc2140;
 
 $link: #00C2ED;
 $link-invert: findColorInvert($link);
-
-/* Black alternative */
-$black_shade_1: #121212;
-$black_shade_2: #242424;
-$black_shade_3: #373737;
-$black_shade_4: #494949;
 
 $button_danger: #fc2140;
 $button_validation: #72AD05;
@@ -72,26 +62,6 @@ $colors: (
     $primary,
     $primary-invert,
   ),
-  'primary_2': (
-    $primary_2,
-    $primary_2-invert,
-  ),
-  'primary_3': (
-    $primary_3,
-    $primary_3-invert,
-  ),
-  'gradient_1':(
-    $gradient_1,
-    $gradient_1-invert,
-  ),
-  'gradient_2':(
-    $gradient_2,
-    $gradient_2-invert,
-  ),
-  'gradient_3':(
-    $gradient_3,
-    $gradient_3-invert,
-  ),
   'secondary': (
     $secondary,
     $secondary-invert,
@@ -119,22 +89,6 @@ $colors: (
   'twitter': (
     $twitter,
     $twitter-invert,
-  ),
-  'black_shade1':(
-    $black_shade_1,
-    $white,
-  ),
-  'black_shade2':(
-    $black_shade_2,
-    $white,
-  ),
-  'black_shade3':(
-    $black_shade_3,
-    $white,
-  ),
-  'black_shade4':(
-    $black_shade_4,
-    $white,
   ),
   'btn_validation':(
     $button_validation,

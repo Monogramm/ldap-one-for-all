@@ -45,4 +45,17 @@ strong {
   color: $white;
 }
 
+a:hover
+{
+  color: $white;
+}
+
+.footer
+{
+  background-color: $gradient_2;
+  color: $white;
+  min-height: 20vh;
+  padding: 4rem 1rem 4rem;
+}
+
 </style>

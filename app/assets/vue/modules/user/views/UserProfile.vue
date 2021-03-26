@@ -1,21 +1,21 @@
 <template>
   <section class="section">
-    <div class="conteneur_0">
+    <div class="columns is-desktop">
       <!-- CONTENEUR USER INFORMATION -->
       <div
-        class="conteneur_1"
+        class="column is-three-quarters"
         shadow
       > 
-        <div class="div_titre">
+        <div class="">
           <div class="content">
-            <h1 class="title is-1 center">
+            <h1 class="title is-1">
               {{ titleLabel }}
             </h1>
           </div>
         </div>
-        <div class="conteneur_1_0">
+        <div class="">
           <!-- BOUCLE DE LISTING DES INFO UTILISATEUR-->
-          <div class="block_user_info">
+          <div class="">
             <div>
               <strong>{{ $t("common.username.label") }}:</strong>
               <span>{{ authUser.username }}</span>
@@ -40,23 +40,28 @@
               </span>
             </div>
             <div
-              v-for="(information, index) in authUser"
-              :key="index"
+              id="data_user"
+              class="container"
             >
-              <div style="display: flex;">
-                <strong>Key : </strong>
-                <p :data-userElem="index">
-                  {{ information }}
-                </p>
+              <div
+                v-for="(information, index) in authUser"
+                :key="index"
+              >
+                <div>
+                  <strong>Key : </strong>
+                  <p :data-userElem="index">
+                    {{ information }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
       <!-- CONTENEUR USER COMMAND --> 
-      <div class="conteneur_2 center">
-        <div class="conteneur_2_0">
-          <div class="div_titre"> 
+      <div class="column">
+        <div class="column">
+          <div class=""> 
             Gestion du profile
           </div>
           <b-button
@@ -175,6 +180,7 @@ export default {
     },
     modifyAccount(): boolean
     {
+      let element_p = document.getElementById("data_user").querySelectorAll("div > p");
       return true;
     }
   }
@@ -182,51 +188,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.conteneur_0
-{
-  display: flex;
-  width: 100%;
-  min-height: 50vh;
-}
-.conteneur_1
-{
-  height: auto;
-  width: 85vh;
-}
-
-.conteneur_1_0
-{
-  flex-direction: column;
-}
-
-.block_user_info
-{
-  overflow-y: scroll;
-}
-
-.conteneur_2
-{
-  height: auto;
-  align-items: flex-start;
-}
-
-.conteneur_2_0
-{
-  display: flex;
-  flex-direction: column;
-}
-
-.conteneur_2_0 button
-{
-  border-radius: 0;
-}
-
-.div_titre
-{
-  width: 100%;
-  border: 1px solid grey;
-  color: black;
-}
 .profile-buttons {
   justify-content: space-evenly;
 }
