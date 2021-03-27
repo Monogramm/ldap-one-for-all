@@ -1,6 +1,6 @@
 FROM php:7.4-cli AS builder
 
-ARG COMPOSER_VERSION=2.0.4
+ARG COMPOSER_VERSION=2.0.11
 
 # install the packages we need
 # Install npm
@@ -113,10 +113,15 @@ ARG YARN_ENV=production
 ARG STORIES=false
 ARG EXPORT_TESTS_RESULTS=false
 
+ARG PHP_MEMORY_LIMIT=256M
+
 # Install the project
 # Clear any cache that might still be remaining
 # Compile assets for production
 RUN set -ex; \
+    mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"; \
+    sed -i -e 's|memory_limit = .*|memory_limit = ${PHP_MEMORY_LIMIT}|g' "$PHP_INI_DIR/php.ini"; \
+    \
     composer \
         --prefer-dist \
         --no-interaction \
@@ -164,7 +169,8 @@ FROM php:7.4-fpm-alpine
 # install the packages we need
 # install the PHP extensions we need
 # configure the PHP extensions
-# give acces to apache on the site files
+# use PHP production config
+# give access to www-data on the site files
 RUN set -ex; \
     apk add --no-cache \
         gpgme \
@@ -228,7 +234,8 @@ RUN set -ex; \
     rm -rf /var/cache/apk/*; \
     \
     chown -R www-data:root /var/www/html; \
-    chmod -R g=u /var/www/html
+    chmod -R g=u /var/www/html; \
+    mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 ENV SF_DB_TYPE=postgresql \
     SF_DB_VERSION=10 \

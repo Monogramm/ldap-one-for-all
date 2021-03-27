@@ -1,6 +1,6 @@
 FROM php:7.4-fpm
 
-ARG COMPOSER_VERSION=2.0.4
+ARG COMPOSER_VERSION=2.0.11
 
 # install the packages we need
 # install the PHP extensions we need
@@ -130,8 +130,13 @@ ENTRYPOINT ["/entrypoint.sh"]
 ARG APP_PATH=./app
 COPY ${APP_PATH} /var/www/html/
 
+ARG PHP_MEMORY_LIMIT=256M
+
 # Install of the project (can also be done at runtime if mounted as volume)
 RUN set -ex; \
+    mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"; \
+    sed -i -e 's|memory_limit = .*|memory_limit = ${PHP_MEMORY_LIMIT}|g' "$PHP_INI_DIR/php.ini"; \
+    \
     composer \
         --prefer-dist \
         --no-interaction \
