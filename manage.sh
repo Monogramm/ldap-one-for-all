@@ -174,7 +174,7 @@ lc-test-back() {
     log "PHP_CodeSniffer bug fixer..."
     vendor/bin/phpcbf src tests
     log "Psalm..."
-    vendor/bin/psalm --alter --issues=MissingReturnType,InvalidReturnType,InvalidNullableReturnType
+    vendor/bin/psalm --alter --issues=MissingParamType,MissingReturnType,InvalidReturnType,InvalidNullableReturnType
     log "PHP Copy/Paste detector..."
     vendor/bin/phpcpd src
     log "PHP_CodeSniffer..."
