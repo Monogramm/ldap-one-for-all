@@ -2,8 +2,6 @@ FROM php:7.4-fpm
 
 ARG COMPOSER_VERSION=2.0.11
 
-ARG PHP_MEMORY_LIMIT=256M
-
 # install the packages we need
 # install the PHP extensions we need
 # configure the PHP extensions
@@ -81,9 +79,7 @@ RUN set -ex; \
     composer --version; \
     wget 'https://get.symfony.com/cli/installer' -O - | bash; \
     mv /root/.symfony/bin/symfony /usr/local/bin/symfony; \
-    symfony -V; \
-    mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"; \
-    sed -i -e 's|memory_limit = .*|memory_limit = ${PHP_MEMORY_LIMIT}|g' "$PHP_INI_DIR/php.ini"
+    symfony -V
 
 ENV SF_DB_TYPE=sqlite \
     SF_DB_VERSION= \
