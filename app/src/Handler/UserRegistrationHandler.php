@@ -39,13 +39,13 @@ class UserRegistrationHandler
 
     public function handle(User $user): void
     {
-        $users = $this->userRepository->findUsersByEmail($user->getEmail());
+        $users = $this->userRepository->findAllByEmail($user->getEmail());
 
         if (count($users) > 0) {
             throw new EmailAlreadyTaken();
         }
 
-        $users = $this->userRepository->findUsersByUserName($user->getUsername());
+        $users = $this->userRepository->findAllByUsername($user->getUsername());
 
         if (count($users) > 0) {
             throw new UsernameAlreadyTaken();

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Message\Handler;
 
 use App\Message\EmailNotification;
 use App\Message\Handler\EmailNotificationHandler;

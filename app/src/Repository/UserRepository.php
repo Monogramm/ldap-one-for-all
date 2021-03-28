@@ -41,7 +41,7 @@ class UserRepository extends ServiceEntityRepository
         return new Paginator($query, true);
     }
 
-    public function findUsersByEmail(string $email)
+    public function findAllByEmail(string $email)
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.email = :email')
@@ -50,7 +50,7 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findUsersByUserName(string $username)
+    public function findAllByUsername(string $username)
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.username = :username')
@@ -59,7 +59,7 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findByUsernamesWithSelectUsernameAndId(string $username): array
+    public function findAllLikeUsername(string $username): array
     {
         return $this->createQueryBuilder('u')
             ->where('u.username LIKE :username')
