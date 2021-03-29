@@ -83,6 +83,8 @@ export const AuthMutationsDefault: IAuthMutations =  {
   },
 
   CHANGE_LANGUAGE(state: IAuthState, lang: string): void {
-    state.authUser.language = lang;
+    if (state.authUser) {
+      state.authUser.language = lang;
+    }
   },
 };
