@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Command;
 
 use App\Command\LdapLoginCommand;
 use App\Service\Ldap\Client;

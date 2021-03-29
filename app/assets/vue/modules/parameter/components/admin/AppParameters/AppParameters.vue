@@ -15,19 +15,26 @@
       <b-table
         :data="parameters"
         :loading="isLoading"
-        :total="total"
-        :per-page="perPage"
-        backend-pagination
-        paginated
         :aria-next-label="nextPageLabel"
         :aria-previous-label="previousPageLabel"
         :aria-page-label="pageLabel"
         :aria-current-label="currentPageLabel"
+        paginated
+        backend-pagination
+        :total="total"
+        :per-page="perPage"
+        backend-filtering
+        :debounce-search="500"
+        backend-sorting
         @page-change="onPageChange"
+        @filters-change="onFiltersChange"
+        @sort="onSortingChange"
       >
         <b-table-column
           v-slot="props"
           field="name"
+          searchable
+          sortable
           :label="nameColumnLabel"
         >
           {{ props.row.name }}
@@ -36,6 +43,8 @@
         <b-table-column
           v-slot="props"
           field="value"
+          searchable
+          sortable
           :label="valueColumnLabel"
         >
           {{ formatValue(props.row.value, props.row.type) }}
@@ -44,6 +53,8 @@
         <b-table-column
           v-slot="props"
           field="description"
+          searchable
+          sortable
           :label="descriptionColumnLabel"
         >
           {{ props.row.description | shorten(60) }}
@@ -136,6 +147,12 @@ export default {
     },
     onPageChange(page: number) {
       this.$emit("pageChanged", page);
+    },
+    onFiltersChange(filters: any) {
+      this.$emit("filtersChanged", filters);
+    },
+    onSortingChange(field: string, order: string) {
+      this.$emit("sortingChanged", field, order);
     },
     formatValue(value: string, type: string) {
       if (type === 'secret') {

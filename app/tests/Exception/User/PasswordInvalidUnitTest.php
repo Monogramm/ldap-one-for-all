@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Exception\User;
 
 use App\Exception\User\PasswordInvalid;
 use PHPUnit\Framework\TestCase;

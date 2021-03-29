@@ -72,7 +72,7 @@ export default {
         tos: tos,
         language: this.language
       };
-      await this.$store.dispatch("user/create", user);
+      await this.$store.dispatch("user/register", user);
       if (!this.hasError) {
         this.isSuccess = true;
         await new Promise(r => setTimeout(r, this.duration));

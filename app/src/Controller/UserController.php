@@ -174,7 +174,7 @@ class UserController extends AbstractController
             return new JsonResponse();
         }
 
-        $usersArray = $userRepository->findByUsernamesWithSelectUsernameAndId(
+        $usersArray = $userRepository->findAllLikeUsername(
             $request->get('username')
         );
 

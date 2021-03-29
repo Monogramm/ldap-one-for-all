@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Command;
 
 use App\Command\UserCreateCommand;
 use App\Entity\User;

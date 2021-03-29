@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Service;
 
 use App\Service\EmailReader;
 use Carbon\Carbon;

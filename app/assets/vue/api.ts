@@ -1,5 +1,8 @@
 import axios from "axios";
 
+import { ICriteria } from "./interfaces/criteria";
+import { ISort } from "./interfaces/sort";
+
 /**
  * API service interface.
  */
@@ -52,11 +55,12 @@ export abstract class ReadApi<T> extends AbstractApi {
    *
    * @param page page number.
    * @param size page size.
+   * @param filters filters criteria array.
+   * @param orders sorting orders array.
    */
-  getAll(page: number, size: number) {
-    // TODO Make getAll work without pagination to retrieve all (with size = -1)
+  getAll(page: number, size: number, filters: ICriteria = null, orders: ISort = null) {
     return axios.get<IListResponse<T>>(`${this.base}/${this.roPrefix}`, {
-      params: { page: page, size: size },
+      params: { page: page, size: size, filters: filters, orders: orders },
     });
   }
 
