@@ -2,7 +2,7 @@
   <b-navbar
     fixed-top
     shadow
-    type="is-black_shade2"
+    type="is-black"
     class="app-nav-bar no-print"
   >
     <template slot="brand">
@@ -78,7 +78,7 @@
             v-if="authenticated"
             class="buttons is-centered"
           >
-            <div class="user_info center">
+            <div class="user_info">
               <h1>{{ authUser.username }}</h1>
             </div>
           </div>

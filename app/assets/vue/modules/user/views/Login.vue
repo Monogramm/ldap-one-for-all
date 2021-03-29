@@ -1,10 +1,10 @@
 <template>
   <section class="section">
     <div class="content">
-      <h1 class="title is-1 center">
+      <h1 class="title is-1">
         {{ titleLabel }}
       </h1>
-      <h2 class="subtitle center">
+      <h2 class="subtitle">
         {{ $t("login.subtitle") }}
       </h2>
     </div>
