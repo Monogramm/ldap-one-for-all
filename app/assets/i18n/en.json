@@ -7,7 +7,7 @@
       "keywords": "cloud hosting services, open source application, open source software, progressive web app, pwa",
       "start-here": "Start here",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "copyright": "Copyright %n Monogramm."
+      "copyright": "Copyright {year} Monogramm."
     }
   },
   "common": {

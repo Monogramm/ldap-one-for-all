@@ -17,7 +17,14 @@
         {{ $t("common.by") }}
         <a href="https://www.monogramm.io">Monogramm</a>.
         <br>
-        &copy; {{ $t('app.core.copyright').replace('%n', year) }}
+        &copy;
+        {{ $t(
+          "app.core.copyright",
+          {
+            year: year
+          }
+        )
+        }}
       </p>
     </div>
   </footer>

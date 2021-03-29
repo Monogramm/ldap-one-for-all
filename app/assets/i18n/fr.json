@@ -7,7 +7,7 @@
       "keywords": "logiciel libre, application open source, logiciel open source, progressive web app, pwa",
       "start-here": "Commencer ici",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "copyright": "Tous droits réservés %n Monogramm."
+      "copyright": "Tous droits réservés {year} Monogramm."
     }
   },
   "common": {
