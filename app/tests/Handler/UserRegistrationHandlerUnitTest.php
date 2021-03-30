@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Handler;
 
 use App\Entity\User;
 use App\Exception\User\EmailAlreadyTaken;
@@ -19,7 +19,7 @@ class UserRegistrationHandlerUnitTest extends TestCase
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['findUsersByEmail', 'findUsersByUserName'])
+            ->setMethods(['findAllByEmail', 'findAllByUsername'])
             ->getMock();
 
         $username = 'firstname.lastname';
@@ -33,11 +33,11 @@ class UserRegistrationHandlerUnitTest extends TestCase
             ->setLanguage('en');
 
         $userRepositoryMock->expects($this->once())
-            ->method('findUsersByEmail')
+            ->method('findAllByEmail')
             ->willReturn([]);
 
         $userRepositoryMock->expects($this->once())
-            ->method('findUsersByUserName')
+            ->method('findAllByUsername')
             ->willReturn([]);
 
         $emMock = $this->getMockBuilder(EntityManager::class)
@@ -74,7 +74,7 @@ class UserRegistrationHandlerUnitTest extends TestCase
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['findUsersByEmail', 'findUsersByUserName'])
+            ->setMethods(['findAllByEmail', 'findAllByUsername'])
             ->getMock();
 
         $username = 'firstname.lastname';
@@ -88,11 +88,11 @@ class UserRegistrationHandlerUnitTest extends TestCase
             ->setLanguage('en');
 
         $userRepositoryMock->expects($this->once())
-            ->method('findUsersByEmail')
+            ->method('findAllByEmail')
             ->willReturn([$user]);
 
         $userRepositoryMock->expects($this->exactly(0))
-            ->method('findUsersByUserName')
+            ->method('findAllByUsername')
             ->willReturn([]);
 
         $emMock = $this->getMockBuilder(EntityManager::class)
@@ -134,7 +134,7 @@ class UserRegistrationHandlerUnitTest extends TestCase
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['findUsersByEmail', 'findUsersByUserName'])
+            ->setMethods(['findAllByEmail', 'findAllByUsername'])
             ->getMock();
 
         $username = 'firstname.lastname';
@@ -148,11 +148,11 @@ class UserRegistrationHandlerUnitTest extends TestCase
             ->setLanguage('en');
 
         $userRepositoryMock->expects($this->once())
-            ->method('findUsersByEmail')
+            ->method('findAllByEmail')
             ->willReturn([]);
 
         $userRepositoryMock->expects($this->once())
-            ->method('findUsersByUserName')
+            ->method('findAllByUsername')
             ->willReturn([$user]);
 
         $emMock = $this->getMockBuilder(EntityManager::class)

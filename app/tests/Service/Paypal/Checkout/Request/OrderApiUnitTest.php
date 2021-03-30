@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Services\Paypal\Checkout;
+namespace App\Tests\Service\Paypal\Checkout;
 
 use App\Service\Paypal\Checkout\Request\Object\Order;
 use App\Service\Paypal\Checkout\Request\OrderApi;

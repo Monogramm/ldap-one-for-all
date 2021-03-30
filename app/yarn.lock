@@ -13632,7 +13632,11 @@
   "integrity" "sha512-mXgniaumwca8tKdp55fmvqIcW658vQQXq0zEyRHp8sgZ6t+Md+Whhu6CCPg9/erVNlvpKzsGsucGjt2N8GrFCA=="
   "resolved" "https://registry.npmjs.org/vue-i18n/-/vue-i18n-8.23.0.tgz"
   "version" "8.23.0"
+<<<<<<< HEAD
 >>>>>>> upstream/feat/ldap
+=======
+>>>>>>> upstream/develop
+>>>>>>> develop
 
 "vue-loader@^15.8.3":
   "integrity" "sha512-j0cqiLzwbeImIC6nVIby2o/ABAWhlppyL/m5oJ67R5MloP0hj/DtFgb0Zmq3J9CG7AJ+AXIvHVnJAPBvrLyuDg=="

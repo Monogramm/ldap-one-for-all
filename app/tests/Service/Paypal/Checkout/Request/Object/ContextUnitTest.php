@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Service\Paypal\Checkout\Object;
 
 use App\Service\Paypal\Checkout\Request\Object\Context;
 use PHPUnit\Framework\TestCase;

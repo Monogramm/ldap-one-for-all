@@ -27,24 +27,24 @@ class AppFixtures extends Fixture
     {
         $backgroundJobS = new BackgroundJob();
         $backgroundJobS
-            ->setCreatedAt(Carbon::now())
-            ->setUpdatedAt(Carbon::now());
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'));
         $backgroundJobS->init('Fixture success job');
         $backgroundJobS->success();
         $manager->persist($backgroundJobS);
 
         $backgroundJobE = new BackgroundJob();
         $backgroundJobE
-            ->setCreatedAt(Carbon::now())
-            ->setUpdatedAt(Carbon::now());
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'));
         $backgroundJobE->init('Fixture error job');
         $backgroundJobE->error();
         $manager->persist($backgroundJobE);
 
         $parameterAppUrl = new Parameter();
         $parameterAppUrl
-            ->setCreatedAt(Carbon::now())
-            ->setUpdatedAt(Carbon::now())
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'))
             ->setName('APP_PUBLIC_URL')
             ->setType(Parameter::STRING_TYPE)
             ->setValue('http://localhost:8000')
@@ -53,8 +53,8 @@ class AppFixtures extends Fixture
 
         $user = new User();
         $user
-            ->setCreatedAt(Carbon::now())
-            ->setUpdatedAt(Carbon::now())
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'))
             ->setUsername('username')
             ->setEmail('firstname.lastname@yopmail.com')
             ->setRoles(['ROLE_ADMIN'])
@@ -66,8 +66,8 @@ class AppFixtures extends Fixture
 
         $media = new Media();
         $media
-            ->setCreatedAt(Carbon::now())
-            ->setUpdatedAt(Carbon::now())
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'))
             ->setName('DummyMedia.png')
             ->setFilename('DummyMedia123456789.png')
             ->setType('image/png')

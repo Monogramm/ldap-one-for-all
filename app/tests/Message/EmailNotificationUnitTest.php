@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Message;
 
 use App\Message\EmailNotification;
 use Carbon\Carbon;

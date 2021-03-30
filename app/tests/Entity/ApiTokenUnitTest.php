@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Entity;
 
 use App\Entity\ApiToken;
-use App\Entity\User;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 

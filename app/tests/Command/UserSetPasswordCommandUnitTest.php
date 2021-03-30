@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Command;
 
 use App\Command\UserSetPasswordCommand;
 use App\Entity\User;
