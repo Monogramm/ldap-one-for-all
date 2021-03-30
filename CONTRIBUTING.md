@@ -6,7 +6,7 @@ You can report bugs or request new features by creating an [issue](https://githu
 
 Here are a few rules to follow in order to ease code reviews and discussions before maintainers accept and merge your work.
 
-You MUST follow the [PSR-1](http://www.php-fig.org/psr/1/) and [PSR-2](http://www.php-fig.org/psr/2/). If you don't know about any of them, you should really read the recommendations. Can't wait? Use the [PHP-CS-Fixertool](http://cs.sensiolabs.org/).
+You MUST follow the [PSR-1](https://www.php-fig.org/psr/psr-1/) and [PSR-12](https://www.php-fig.org/psr/psr-12/). If you don't know about any of them, you should really read the recommendations. Can't wait? Use the [PHP-CS-Fixertool](http://cs.sensiolabs.org/).
 
 You MUST follow the [Symfony Framework Best Practices](https://symfony.com/doc/current/best_practices.html).
 
