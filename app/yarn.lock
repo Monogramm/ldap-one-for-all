@@ -13622,10 +13622,17 @@
   "resolved" "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz"
   "version" "2.3.4"
 
+<<<<<<< HEAD
 "vue-i18n@^8.15.5":
   "integrity" "sha512-XLI5s0AdqMP2Lf4I4CmdmOq8kjb5DDFGR77wAuxCfpEuYSfhTRyyx6MetgZMiL6Lxa0DasjBOiOcciU3NkL3/Q=="
   "resolved" "https://registry.npmjs.org/vue-i18n/-/vue-i18n-8.22.4.tgz"
   "version" "8.22.4"
+=======
+"vue-i18n@^8.23.0":
+  "integrity" "sha512-mXgniaumwca8tKdp55fmvqIcW658vQQXq0zEyRHp8sgZ6t+Md+Whhu6CCPg9/erVNlvpKzsGsucGjt2N8GrFCA=="
+  "resolved" "https://registry.npmjs.org/vue-i18n/-/vue-i18n-8.23.0.tgz"
+  "version" "8.23.0"
+>>>>>>> upstream/feat/ldap
 
 "vue-loader@^15.8.3":
   "integrity" "sha512-j0cqiLzwbeImIC6nVIby2o/ABAWhlppyL/m5oJ67R5MloP0hj/DtFgb0Zmq3J9CG7AJ+AXIvHVnJAPBvrLyuDg=="

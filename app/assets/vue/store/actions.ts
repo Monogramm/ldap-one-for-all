@@ -2,7 +2,7 @@ import { ActionContext } from "vuex";
 import { AxiosResponse } from "axios";
 
 import { IRootState, IEntityState, IEntityReadApiState, IEntityReadWriteApiState } from "../interfaces/state";
-import { IPagination } from "../interfaces/pagination";
+import { IPagination, Pagination } from "../interfaces/pagination";
 import { IEntity } from "../interfaces/entity";
 import { Api, IListResponse, ReadApi, ReadWriteApi } from "../api";
 
@@ -30,11 +30,11 @@ export interface IReadActions<T extends IEntity = IEntity, S extends IEntityRead
 export const ReadActions: IReadActions<IEntity, IEntityReadApiState<IEntity>> = {
   async getAll(
     { commit, state }: ActionContext<IEntityReadApiState<IEntity>, IRootState>,
-    { page, size }: IPagination = { page: 1, size: -1 }
+    { page, size, criteria = null, orderBy = null }: IPagination = new Pagination()
   ) {
     commit("GET_ALL_PENDING");
     try {
-      const response: AxiosResponse<IListResponse<IEntity>> = await state.api.getAll(page, size);
+      const response: AxiosResponse<IListResponse<IEntity>> = await state.api.getAll(page, size, criteria, orderBy);
       commit("GET_ALL_SUCCESS", response.data);
       return response.data;
     } catch (error) {
