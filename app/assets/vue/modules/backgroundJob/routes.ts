@@ -1,11 +1,11 @@
 import { RouteConfig } from "@/vue/interfaces/router";
 
 import BackgroundJobs from "./views/admin/BackgroundJobs.vue";
-//const BackgroundJobs = () => import(/* webpackChunkName: "AdminUsers" */ "./views/admin/BackgroundJobs.vue").then((m: any) => m.default);
+//const BackgroundJobs = () => import(/* webpackChunkName: "AdminBackgroundJobs" */ "./views/admin/BackgroundJobs.vue").then((m: any) => m.default);
 
 export const BackgroundJobRoutes: RouteConfig[] = [
   {
-    name: "BackgroundJobs",
+    name: "AdminBackgroundJobs",
     path: "/admin/background-jobs",
     component: BackgroundJobs,
     meta: {

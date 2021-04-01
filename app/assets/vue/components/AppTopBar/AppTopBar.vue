@@ -39,7 +39,7 @@
             icon-left="sign-in-alt"
             :disabled="signingUp"
             tag="router-link"
-            to="/registration"
+            :to="{ name: 'Registration' }"
           >
             <strong>{{ $t("signup.title") }}</strong>
           </b-button>
@@ -48,7 +48,7 @@
             icon-left="user"
             :disabled="signingIn"
             tag="router-link"
-            to="/login"
+            :to="{ name: 'Login' }"
           >
             {{ $t("login.title") }}
           </b-button>

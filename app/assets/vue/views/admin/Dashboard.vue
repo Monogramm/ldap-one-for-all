@@ -9,25 +9,25 @@
     <section class="section box modules">
       <b-button
         tag="router-link"
-        to="/admin/users"
+        :to="{ name: 'AdminUsers' }"
       >
         {{ $t("admin.users") }}
       </b-button>
       <b-button
         tag="router-link"
-        to="/admin/parameters"
+        :to="{ name: 'AdminParameters' }"
       >
         {{ $t("admin.parameters") }}
       </b-button>
       <b-button
         tag="router-link"
-        to="/admin/medias"
+        :to="{ name: 'AdminMedias' }"
       >
         {{ $t("admin.medias") }}
       </b-button>
       <b-button
         tag="router-link"
-        to="/admin/background-jobs"
+        :to="{ name: 'AdminBackgroundJobs' }"
       >
         {{ $t("admin.background-jobs") }}
       </b-button>

@@ -24,7 +24,7 @@
             v-else
             tag="router-link"
             size="is-small"
-            to="/verify"
+            :to="{ name: 'VerifyAccount' }"
             type="is-primary"
           >{{ $t("profile.verification.title") }}</b-button>
         </span>

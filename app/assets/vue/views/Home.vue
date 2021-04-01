@@ -32,7 +32,7 @@
               icon-left="magic"
               class="profile-actions"
               tag="router-link"
-              to="/profile"
+              :to="{ name: 'UserProfile' }"
             >
               {{ $t("home.account") }}
             </b-button>
@@ -44,7 +44,7 @@
               type="is-info"
               class="profile-actions contact"
               tag="router-link"
-              to="/contact"
+              :to="{ name: 'ContactSupport' }"
             >
               {{ $t("home.contact") }}
             </b-button>
