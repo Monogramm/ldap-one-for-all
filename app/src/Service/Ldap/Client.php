@@ -137,9 +137,7 @@ class Client
                     return false;
                 }
             }
-        }
-
-        elseif (!$entry->getAttribute('phoneNumber')) {
+        } elseif (!$entry->getAttribute('phoneNumber')) {
             return false;
         }
     }

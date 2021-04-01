@@ -76,7 +76,7 @@ class LdapCreateEntry extends Command
                 $symfonyStyle->success('Everything is good ! : '.$resultCreate);
                 return 0;
             }
-            if (!$result) {
+            if (!$resultCreate) {
                 $symfonyStyle->error("Something went wrong... : ".$resultCreate);
                 return 1;
             }
