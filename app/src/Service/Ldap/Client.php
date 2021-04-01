@@ -78,7 +78,7 @@ class Client
         return $result;
     }
 
-    public function getLdapEntry(EntryManager $query)
+    public function getLdapEntry($query)
     {
         /*
         $result_query= $this->ldap->query($this->config['base_dn'],$query)->execute();
@@ -141,7 +141,7 @@ class Client
             return false;
         }
     }
-    public function delete(Entry $target)
+    public function delete($target)
     {
         $entryManager = $this->ldap->getEntryManager($target);
 
@@ -173,8 +173,7 @@ class Client
             'displayName'=>'Geroge le malin',
             'employeeType'=>'Existant',
             'mail'=>"pompote@gmail.com",
-            'title'=>'CEO',
-            'description'=>'a man'
+            'title'=>'CEO'
         ];
         $rows[2] = [
             'cn'=>"Grisois Margoulin",
