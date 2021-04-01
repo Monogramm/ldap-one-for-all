@@ -26,10 +26,18 @@ import AppContactSupport from "../components/AppContactSupport/AppContactSupport
 export default {
   name: "ContactSupport",
   components: { AppContactSupport },
+  props: {
+    subject: {
+      type: String,
+      default: ""
+    },
+    message: {
+      type: String,
+      default: ""
+    }
+  },
   data() {
     return {
-      subject: "",
-      message: "",
       disabled: false,
       secondsBeforeRedirect: 3
     };

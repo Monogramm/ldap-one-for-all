@@ -10,5 +10,6 @@ export const SupportRoutes: RouteConfig[] = [
     meta: {
       requiresAuth: true,
     },
+    props: (route) => ({ subject: route.query.subject, message: route.query.message }),
   },
 ];
