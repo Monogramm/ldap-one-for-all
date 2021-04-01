@@ -44,12 +44,12 @@ class LdapDeleteEntry extends Command
     protected function configure()
     {
         $this
-        ->setDescription('Delete a ldap Entrie')
-        ->setHelp('This command delete a entrie in the ldap using a raw query.')
-        ->addArgument(
-            'query',
-            InputArgument::REQUIRED,
-            'Query'
-        );
+            ->setDescription('Delete a ldap Entrie')
+            ->setHelp('This command delete a entrie in the ldap using a raw query.')
+            ->addArgument(
+                'query',
+                InputArgument::REQUIRED,
+                'Query'
+            );
     }
 }

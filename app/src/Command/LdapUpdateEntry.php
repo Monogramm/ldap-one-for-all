@@ -87,5 +87,4 @@ class LdapUpdateEntry extends Command
         }
         return true;
     }
-
 }
