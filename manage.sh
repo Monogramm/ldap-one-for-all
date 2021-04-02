@@ -211,6 +211,9 @@ lc-prepare-release() {
         -e "s|\"version\": \".*\"|\"version\": \"${NEW_VERSION}\"|g" \
         app/package.json app/composer.json .gitmoji-changelogrc
     sed -i \
+        -e "s|-v.*';|-v${NEW_VERSION}';|g" \
+        app/public/sw.js
+    sed -i \
         -e "s| VERSION=.*| VERSION=${NEW_VERSION}|g" \
         .travis.yml Dockerfile.alpine Dockerfile.debian
 
@@ -297,7 +300,7 @@ dc() {
     docker-compose -f "$@"
 }
 
-build() {
+dc-build() {
     CURRENT_VERSION=$(grep '"version"' app/package.json | cut -d'"' -f4)
 
     log 'Building container(s)...'
@@ -309,29 +312,69 @@ build() {
         "${@:2}"
 }
 
-start() {
+dc-start() {
     log 'Starting container(s)...'
     dc "${1}" up -d "${@:2}"
 }
 
-stop() {
+dc-stop() {
     log 'Stopping container(s)...'
     dc "${1}" stop "${@:2}"
 }
 
-restart() {
+dc-restart() {
     log 'Restarting container(s)...'
     dc "${1}" restart "${@:2}"
 }
 
-logs() {
+dc-logs() {
     log 'Following container(s) logs (Ctrl + C to stop)...'
     dc "${1}" logs -f "${@:2}"
 }
 
 dc-exec() {
-    log 'Executing container(s) command...'
+    log "Executing container(s) command: '${*:2}'"
     dc "${1}" exec "${@:2}"
+}
+
+dc-test() {
+    log 'Executing container(s) test...'
+    dc-test-front "${1}" "${2}"
+    dc-test-back "${1}" "${3}"
+}
+
+dc-test-front() {
+    log "Stylelint on SCSS..."
+    dc-exec "${1}" "${2}" npx stylelint 'assets/styles/*.scss' --fix
+
+    log "ESLint on TypeScript..."
+    dc-exec "${1}" "${2}" npx eslint 'assets/vue/**/*.ts' --fix
+
+    log "Stylelint on Vue.js..."
+    dc-exec "${1}" "${2}" npx stylelint 'assets/vue/**/*.vue' --fix
+    log "ESLint on Vue.js..."
+    dc-exec "${1}" "${2}" npx eslint 'assets/vue/**/*.vue' --fix
+}
+
+dc-test-back() {
+    log "Init test database..."
+    dc-exec "${1}" "${2}" php ./bin/console doctrine:migrations:migrate --no-interaction --env=test
+    #dc-exec "${1}" "${2}" php ./bin/console doctrine:fixtures:load --no-interaction --env=test
+    #log "PHPUnit bug fixer..."
+    #dc-exec "${1}" "${2}" php ./bin/phpunit --coverage-text "$@"
+    #log "PHPStan..."
+    #vendor/bin/phpstan analyse src tests
+    log "PHP_CodeSniffer bug fixer..."
+    dc-exec "${1}" "${2}" vendor/bin/phpcbf src tests
+    log "Psalm..."
+    dc-exec "${1}" "${2}" vendor/bin/psalm --alter --issues=MissingParamType,MissingReturnType,InvalidReturnType,InvalidNullableReturnType
+    log "PHP Copy/Paste detector..."
+    dc-exec "${1}" "${2}" vendor/bin/phpcpd src
+    log "PHP_CodeSniffer..."
+    dc-exec "${1}" "${2}" vendor/bin/phpcs src
+    log "PHPMD..."
+    dc-exec "${1}" "${2}" vendor/bin/phpmd src text cleancode,controversial,codesize,naming,design,unusedcode
+    #vendor/bin/phpmd src xml phpmd.xml
 }
 
 dc-ps() {
@@ -339,13 +382,13 @@ dc-ps() {
     dc "${1}" ps "${@:2}"
 }
 
-down() {
+dc-down() {
     log 'Stopping and removing container(s)...'
     dc "${1}" down "${@:2}"
 }
 
 dc-console() {
-    dc "${1}" exec "${2}" php bin/console "${@:3}"
+    dc-exec "${1}" "${2}" php bin/console "${@:3}"
 }
 
 usage() {
@@ -422,30 +465,33 @@ case "${1}" in
     local:prepare-docker|prepare-docker) lc-prepare-docker "${@:2}";;
 
     # DEV env
-    dev:build|build-dev) build docker-compose.yml "${@:2}";;
-    dev:start|start-dev) start docker-compose.yml "${@:2}";;
-    dev:restart|restart-dev) restart docker-compose.yml "${@:2}";;
-    dev:stop|stop-dev) stop docker-compose.yml "${@:2}";;
-    dev:logs|logs-dev) logs docker-compose.yml "${@:2}";;
-    dev:exec|exec-dev) dc-exec docker-compose.yml "${@:2}";;
-    dev:down|down-dev) down docker-compose.yml "${@:2}";;
-    dev:reset|reset-dev) down docker-compose.yml "${@:2}";
+    dev:build|build-dev) dc-build 'docker-compose.yml' "${@:2}";;
+    dev:start|start-dev) dc-start 'docker-compose.yml' "${@:2}";;
+    dev:restart|restart-dev) dc-restart 'docker-compose.yml' "${@:2}";;
+    dev:stop|stop-dev) dc-stop 'docker-compose.yml' "${@:2}";;
+    dev:test|test-dev) dc-test 'docker-compose.yml' 'app_dev_encore' 'app_dev_symfony';;
+    dev:test-front|test-front-dev) dc-test-front 'docker-compose.yml' 'app_dev_encore';;
+    dev:test-back|test-back-dev) dc-test-back 'docker-compose.yml' 'app_dev_symfony';;
+    dev:logs|logs-dev) dc-logs 'docker-compose.yml' "${@:2}";;
+    dev:exec|exec-dev) dc-exec 'docker-compose.yml' "${@:2}";;
+    dev:down|down-dev) dc-down 'docker-compose.yml' "${@:2}";;
+    dev:reset|reset-dev) dc-down 'docker-compose.yml' "${@:2}";
     . .env;
     sudo rm -rf "${APP_HOME:-/srv/app}_dev"
     ;;
-    dev:ps|ps-dev) dc-ps docker-compose.yml "${@:2}";;
+    dev:ps|ps-dev) dc-ps 'docker-compose.yml' "${@:2}";;
     dev:console|console-dev)
-    dc-console docker-compose.yml app_dev_symfony "${@:2}";;
+    dc-console 'docker-compose.yml' app_dev_symfony "${@:2}";;
 
     # PROD env
-    prod:build|build-prod|build) build "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
-    prod:start|start-prod|start) start "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
-    prod:restart|restart-prod|restart) restart "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
-    prod:stop|stop-prod|stop) stop "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
-    prod:logs|logs-prod|logs) logs "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
+    prod:build|build-prod|build) dc-build "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
+    prod:start|start-prod|start) dc-start "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
+    prod:restart|restart-prod|restart) dc-restart "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
+    prod:stop|stop-prod|stop) dc-stop "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
+    prod:logs|logs-prod|logs) dc-logs "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
     prod:exec|exec-prod|exec) dc-exec "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
-    prod:down|down-prod|down) down "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
-    prod:reset|reset-prod|reset) down "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";
+    prod:down|down-prod|down) dc-down "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
+    prod:reset|reset-prod|reset) dc-down "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";
     . .env;
     sudo rm -rf "${APP_HOME:-/srv/app}"
     ;;
