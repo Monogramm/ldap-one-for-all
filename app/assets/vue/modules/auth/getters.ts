@@ -13,6 +13,7 @@ export interface IAuthGetters {
   token(state: IAuthState): ILoginToken;
   authUser(state: IAuthState): IUser;
   isLoggedIn(state: IAuthState): boolean;
+  isAdmin(state: IAuthState): boolean;
   language(state: IAuthState): string;
 }
 
@@ -33,7 +34,10 @@ export const AuthGettersDefault: IAuthGetters = {
     return state.authUser;
   },
   isLoggedIn(state: IAuthState): boolean {
-    return !!state.authUser;
+    return state.isLoggedIn();
+  },
+  isAdmin(state: IAuthState): boolean {
+    return state.hasRole("ADMIN");
   },
   language(state: IAuthState): string {
     // TODO Get language from browser

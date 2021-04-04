@@ -17,6 +17,7 @@ export interface IAuthState extends IApiState<AuthAPI> {
 
   authUser: IUser;
   isLoggedIn(): boolean;
+  hasRole(role: string): boolean;
 }
 
 /**
@@ -34,6 +35,10 @@ export class AuthState extends AbstractState implements IAuthState {
 
   isLoggedIn(): boolean {
     return !!this.authUser;
+  }
+
+  hasRole(role: string): boolean {
+    return this.isLoggedIn() && this.authUser.roles.includes("ROLE_" + role);
   }
 }
 

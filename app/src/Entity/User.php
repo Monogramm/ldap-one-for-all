@@ -136,15 +136,24 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        // Ensure there are no duplicates AND no holes in array keys
+        $roles = [];
+        foreach($this->roles as $role) {
+            if (!in_array($role, $roles)) {
+                $roles[] = $role;
+            }
+        }
 
-        if ($this->isVerified) {
+        // guarantee every enabled user at least has ROLE_USER
+        if ($this->isEnabled() && !in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+
+        if ($this->isVerified() && !in_array('ROLE_VERIFIED_USER', $roles)) {
             $roles[] = 'ROLE_VERIFIED_USER';
         }
 
-        return array_unique($roles);
+        return $roles;
     }
 
     public function getTokens()

@@ -26,7 +26,7 @@ router.beforeEach(async (to: Route, from: Route, next: any) => {
     if (!store.state.auth.isLoggedIn()) {
       return next({ name: "Login" });
     }
-    let isAdmin = !!store.state.auth.authUser.roles.includes("ROLE_ADMIN");
+    let isAdmin = store.state.auth.hasRole("ADMIN");
     if (!isAdmin) {
       return next({ name: "Error" });
     } else {

@@ -45,10 +45,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("auth", ["isLoggedIn", "isLoading", "authUser"]),
-    isAdmin() {
-      return this.authUser && !!this.authUser.roles.includes("ROLE_ADMIN");
-    },
+    ...mapGetters("auth", ["isLoggedIn", "isLoading", "isAdmin", "authUser"]),
   },
   metaInfo: {
     title: "App",
