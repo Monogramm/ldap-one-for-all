@@ -138,7 +138,7 @@ class User implements UserInterface
     {
         // Ensure there are no duplicates AND no holes in array keys
         $roles = [];
-        foreach($this->roles as $role) {
+        foreach ($this->roles as $role) {
             if (!in_array($role, $roles)) {
                 $roles[] = $role;
             }
