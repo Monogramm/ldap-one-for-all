@@ -58,24 +58,38 @@ pipeline {
             steps {
                 sh "docker --version"
                 sh "docker-compose --version"
+                sh "docker info"
             }
         }
 
-        stage('build') {
+        stage('build-hooks') {
             steps {
                 updateGitlabCommitStatus name: 'jenkins', state: 'running'
 
-                script {
-                    docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS}") {
-                        def customImage = docker.build(
-                            "${DOCKER_REGISTRY}/${DOCKER_REPO}:${DOCKER_TAG}",
-                            "--build-arg TAG=${DOCKER_TAG} --build-arg STORIES=${STORIES} --build-arg EXPORT_TESTS_RESULTS=${EXPORT_TESTS_RESULTS} --build-arg APP_PUBLIC_URL=${APP_PUBLIC_URL} --build-arg WEBSITE_PUBLIC_URL=${WEBSITE_PUBLIC_URL} --build-arg VCS_REF=$(git rev-parse --short HEAD) --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') -f Dockerfile.${VARIANT} ."
-                        )
+                sh './hooks/run build "${VARIANT}"'
+            }
+        }
 
-                        customImage.push()
-                        customImage.push("${VARIANT}")
-                    }
-                }
+        stage('test-hooks') {
+            steps {
+                updateGitlabCommitStatus name: 'jenkins', state: 'running'
+
+                sh './hooks/run test "${VARIANT}"'
+            }
+        }
+
+        stage('push-hooks') {
+            environment {
+                DOCKER_CREDS = credentials("${DOCKER_CREDENTIALS}")
+            }
+            steps {
+                updateGitlabCommitStatus name: 'jenkins', state: 'running'
+
+                // Write Docker image tags to push
+                sh '([ "${DOCKER_TAG}" = "latest" ] && echo "${VARIANT} " || echo "${DOCKER_TAG}-${VARIANT} ") > .dockertags'
+                // Export variables to login and push to Docker Registry
+                sh 'export DOCKER_LOGIN=${DOCKER_CREDS_USR}; export DOCKER_PASSWORD=${DOCKER_CREDS_PSW}; ./hooks/run push "${VARIANT}"'
+                sh 'rm -f .dockertags'
             }
         }
     }

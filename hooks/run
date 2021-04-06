@@ -19,8 +19,13 @@ export BASE=${3:-fpm}
 
 export DOCKER_REPO=${DOCKER_REPO:-monogramm/ldap-all-for-one-manager}
 export DOCKERFILE_PATH=Dockerfile.${VARIANT}
-export DOCKER_TAG=${VARIANT}
-export IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}
+export DOCKER_TAG=${DOCKER_TAG:-${VARIANT}}
+
+if [ -n "${DOCKER_REGISTRY}" ]; then
+    export IMAGE_NAME=${DOCKER_REGISTRY}/${DOCKER_REPO}:${DOCKER_TAG}
+else
+    export IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}
+fi
 
 # Execute hooks in given order
 IFS=',' read -ra STEPS <<< "${1:-build,test}"
