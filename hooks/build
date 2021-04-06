@@ -5,8 +5,11 @@
 # https://microbadger.com/labels
 
 docker build \
-    --build-arg "VCS_REF=$(git rev-parse --short HEAD)" \
+    --build-arg "VCS_REF=${SOURCE_COMMIT}" \
     --build-arg "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
     --build-arg "EXPORT_TESTS_RESULTS=${EXPORT_TESTS_RESULTS:-false}" \
+    --build-arg "STORIES=${STORIES:-false}" \
+    --build-arg "APP_PUBLIC_URL=${APP_PUBLIC_URL}" \
+    --build-arg "WEBSITE_PUBLIC_URL=${WEBSITE_PUBLIC_URL}" \
     -f "$DOCKERFILE_PATH" \
     -t "$IMAGE_NAME" .

@@ -12,6 +12,10 @@ if [ -f ./.dockertags ]; then
     done
 fi
 
+# Push image with tag set to commit hash
+docker tag "$IMAGE_NAME" "$DOCKER_REPO:$SOURCE_COMMIT"
+docker push "$DOCKER_REPO:$SOURCE_COMMIT"
+
 if [ -n "${DOCKER_PASSWORD}" ] && [ -n "${DOCKER_REGISTRY}" ]; then
     docker logout "${DOCKER_REGISTRY}"
 fi

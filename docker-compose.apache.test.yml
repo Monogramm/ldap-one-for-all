@@ -28,6 +28,8 @@ services:
       timeout: 10s
       #start_period: 5s
       retries: 4
+    expose:
+      - '80'
     ports:
       - "8080:80"
     depends_on:
@@ -454,7 +456,8 @@ services:
     container_name: app_mailer
     restart: always
     expose:
-      - 1025
+      - '1025'
+      - '1080'
     ports:
       - "1025:1025"
       - "1080:1080"
