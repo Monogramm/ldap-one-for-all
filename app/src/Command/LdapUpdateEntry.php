@@ -79,6 +79,9 @@ class LdapUpdateEntry extends Command
         }
     }
     
+    /**
+     * @param null|string|string[] $query
+     */
     protected function isValid(SymfonyStyle $ioStyle, $query): bool
     {
         if (empty($query)&& is_string($query)) {

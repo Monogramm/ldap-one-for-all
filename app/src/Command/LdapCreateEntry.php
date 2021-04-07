@@ -12,10 +12,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Ldap\Ldap;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 
-class LdapSearchEntry extends Command
+class LdapCreateEntry extends Command
 {
-    protected static $defaultName = 'ldap:search:entry';
+    protected static $defaultName = 'ldap:create:entry';
 
     /**
      * @var Ldap
@@ -26,7 +29,6 @@ class LdapSearchEntry extends Command
      * @var Client
      */
     private $client;
-
 
     public function __construct(
         Ldap $ldap,
@@ -45,50 +47,45 @@ class LdapSearchEntry extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Search a ldap Entrie')
-            ->setHelp('This command give you the result to a raw query adress to the ldap.')
+            ->setDescription('Creates a ldap Entrie')
+            ->setHelp('This command create a entrie in the ldap using a raw query.')
             ->addArgument(
                 'query',
                 InputArgument::REQUIRED,
                 'Query'
+            )
+            ->addArgument(
+                'array',
+                InputArgument::REQUIRED,
+                'Array'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $query = $input->getArgument('query');
+        $queryArray = $input->getArgument('array');
 
         $symfonyStyle = new SymfonyStyle($input, $output);
 
-        $resultValid  = $this->isValid($symfonyStyle, $query);
+        $resultValid  = $this->isValid($symfonyStyle, $query, $queryArray);
 
         if ($resultValid) {
-            $symfonyStyle->comment("List of entry:");
-
-            // Get the ldap informations from the ldap
-            $data = $this->client->search($query);
-            
-            //Creating an associative array for fetching the data with 'key' and 'value'
-            //Create two array with all the datas for the SymfonyStyle->table function
-            for ($i=0; $i < sizeof($data); $i++) {
-                for ($y=0; $y < sizeof($data[$i]); $y++) {
-                    $keyArray[$i][$y] = $data[$i][$y]['key'];
-                    $valueArray[$i][$y] = $data[$i][$y]['value'];
-                }
+            $symfonyStyle->comment("Entrie create :");
+            $resultCreate = $this->client->create($query);
+            if ($resultCreate) {
+                $symfonyStyle->success('Everything is good ! : '.$resultCreate);
+                return 0;
             }
-            for ($i=0; $i < sizeof($data); $i++) {
-                  (new SymfonyStyle($input, $output))
-                    ->table(
-                        [$keyArray[$i]],
-                        [$valueArray[$i]]
-                    );
+            if (!$resultCreate) {
+                $symfonyStyle->error("Something went wrong... : ".$resultCreate);
+                return 1;
             }
-            return 0;
         }
         if (!$resultValid) {
-            $symfonyStyle->comment("The query is not valid:");
             return 1;
         }
+        return 0;
     }
 
     protected function isValid(SymfonyStyle $ioStyle, $query): bool

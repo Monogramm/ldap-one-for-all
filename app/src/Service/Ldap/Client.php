@@ -78,7 +78,12 @@ class Client
         return $result;
     }
 
-    public function getLdapEntry($query)
+    /**
+     * @return (mixed|string)[][]
+     *
+     * @psalm-return array{0: array{key: string, value: string}, 1: array{key: string, value: string}, 2: array{key: string, value: string}, 3: array{key: string, value: string}, 4: array{key: string, value: string}, 5: array{key: string, value: string}, 6: array{key: string, value: string}, 7: array{key: string, value: string}, 8: array{key: string, value: string}, 9: array{key: string, value: mixed}}
+     */
+    public function getLdapEntry($query): array
     {
         /*
         $result_query= $this->ldap->query($this->config['base_dn'],$query)->execute();
@@ -102,7 +107,7 @@ class Client
         return $entry;
     }
 
-    public function create(string $query)
+    public function create(string $query): bool
     {
         /*
         $entryManager = $this->ldap->getEntryManager();
@@ -115,7 +120,10 @@ class Client
         }
     }
 
-    public function update(array $query)
+    /**
+     * @return bool|null
+     */
+    public function update(string $query, array $arrayQuery)
     {
         $entry = $query;
 
@@ -141,7 +149,7 @@ class Client
             return false;
         }
     }
-    public function delete($target)
+    public function delete($target): void
     {
         $entryManager = $this->ldap->getEntryManager($target);
 
@@ -154,12 +162,12 @@ class Client
      */
     public function search($query)
     {
-        /*
-        Symfony base function for fetching ldap
+        //Symfony base function for fetching ldap
         $query = $ldap->query($query);
-        $results = $query->execute()->toArray();
-        */
+        $rows = $query->execute()->toArray();
+        
         // ------ HARD DATA FOR TEST
+        /*
         $rows[0] =
         [
             'query'=>$query
@@ -195,7 +203,7 @@ class Client
             'ou'=>"Delivering Crew",
             'title'=>'Employee'
         ];
-
+        */
         //Creating an associative array for fetching the data with 'key' and 'value'
         $index = $page  = 0;
         foreach ($rows as $inArray) {
