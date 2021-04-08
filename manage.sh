@@ -419,6 +419,9 @@ usage() {
         dev:start, start-dev                    Start Docker Dev env
         dev:restart, restart-dev                Retart Docker Dev env
         dev:stop, stop-dev                      Stop Docker Dev env
+        dev:test, test-dev                      Execute test of Docker Dev env
+        dev:test-front, test-front-dev          Execute test of Frontend Docker Dev env
+        dev:test-back, test-back-dev            Execute test of Backend Docker Dev env
         dev:logs, logs-dev                      Follow logs of Docker Dev env
         dev:exec, exec-dev                      Execute command in Docker Dev env
         dev:down, down-dev                      Stop and remove Docker Dev env
