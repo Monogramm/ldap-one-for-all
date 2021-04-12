@@ -33,7 +33,7 @@ class LdapDeleteEntry extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Delete a ldap Entry')
+            ->setDescription('Delete a LDAP Entry')
             ->setHelp('Delete an existing entry in the LDAP using a DN.')
             ->addArgument(
                 'dn',
@@ -48,11 +48,11 @@ class LdapDeleteEntry extends Command
         $symfonyStyle = new SymfonyStyle($input, $output);
 
         if ($this->client->delete($distingName)) {
-            $symfonyStyle->success('Following LDAP entry was successfuly create');
+            $symfonyStyle->success("Following LDAP entry was successfully deleted: $distingName");
             return 0;
         }
         
-        $symfonyStyle->error("An error occurred during creation of LDAP entry");
+        $symfonyStyle->error('An error occurred during deletion of LDAP entry');
         return 1;
     }
 }

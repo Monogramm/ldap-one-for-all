@@ -83,6 +83,8 @@ class Client
     /**
      * @return Entry[]|\Symfony\Component\Ldap\Adapter\CollectionInterface
      *
+     * @throws LdapException
+     *
      * @psalm-return \Symfony\Component\Ldap\Adapter\CollectionInterface|array<array-key, Entry>
      */
     public function executeQuery(string $query)
@@ -92,7 +94,9 @@ class Client
     }
     
     /**
-     * @return bool|LdapException
+     * @return bool
+     *
+     * @throws LdapException
      */
     public function create(string $distingName, array $attributes): bool
     {
@@ -108,7 +112,9 @@ class Client
     }
 
     /**
-     * @return bool|LdapException
+     * @return bool
+     *
+     * @throws LdapException
      */
     public function update(string $query, array $attributes) : bool
     {
@@ -119,7 +125,7 @@ class Client
 
         // FIXME Check result before doing anything on it
         $entry = $result[0];
-        if ($entry===null) {
+        if (empty($entry)) {
             return false;
         }
         
@@ -133,6 +139,8 @@ class Client
 
     /**
      * @return bool|LdapException
+     *
+     * @throws LdapException
      */
     public function delete(string $distingName)
     {
@@ -147,6 +155,8 @@ class Client
      * @var string
      *
      * @return Entry[]|\Symfony\Component\Ldap\Adapter\CollectionInterface
+     *
+     * @throws LdapException
      *
      * @psalm-return \Symfony\Component\Ldap\Adapter\CollectionInterface|array<array-key, Entry>
      */

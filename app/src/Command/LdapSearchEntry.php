@@ -48,8 +48,14 @@ class LdapSearchEntry extends Command
                 'attr',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Attributes to retrieve. Must be provided as a JSON. Example: {"Unique ID":"uid"}',
-                '{"Complete Name":"cn"}'
+                'Attributes to retrieve. Example: uid,sn,cn',
+                'cn'
+            )
+            ->addOption(
+                'labels',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Labels to show. Example: Unique ID,Last Name,Full Name'
             );
     }
 
@@ -60,59 +66,38 @@ class LdapSearchEntry extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+     
         $symfonyStyle = new SymfonyStyle($input, $output);
         $symfonyStyle->comment("List of entries:");
-
+        
         $query = $input->getArgument('query');
-        $attributes = $input->getOption('attr');
+        $attributes = explode(',', trim($input->getOption('attr')));
+        $labels =  explode(',', $input->getOption('labels'));
 
-        $arrayAttributes = json_decode($attributes, true);
+        $ldapEntries = $this->client->search($query);
 
-        if (empty($query) || !is_string($query)) {
-            $symfonyStyle->error("The query is not a valid string.");
-            return 1;
+        if (sizeof($labels) != sizeof($attributes)) {
+            $labels = $attributes;
         }
-        if ($arrayAttributes===null) {
-            $symfonyStyle->error("The Option format is not valid JSON format.");
-            return 1;
-        }
-        
-        // Get the LDAP informations from the ldap
-        $entries = $this->client->search($query);
 
-        $rows = [];
-        //Always put DN in labels
-        $labels = ['DN'];
-
-        // TODO Build array of attributes labels
-        $labels= array_merge($labels, $arrayAttributes);
+        array_unshift($labels, 'dn');
         
-        foreach ($entries as $key => $entry) {
+        foreach ($ldapEntries as $key => $entry) {
             $entryDn = $entry->getDn();
-            $entryAttrArray = $entry->getAttributes();
+            $entries[$key]['dn'] = $entryDn;
 
-            if (is_array($entryAttrArray)) {
-                // Always put DN in rows
-                $rows[$entryDn] = [
-                    json_encode($entryDn),
-                ];
-                // Get the ldap entry by the number of attribute given in command
-                foreach ($arrayAttributes as $attribute => $value) {
-                    //TODO Verify if the entry is not empty if empty return null
-                    //TODO Fix the way is handle the verification
-                    if (!empty($entryAttrArray[$value])) {
-                        $rows[$entryDn][] = json_encode(
-                            $entryAttrArray[$value]
-                        );
-                    } elseif (empty($entryAttrArray[$value])) {
-                        $rows[$entryDn][] = "null";
-                    }
+            foreach ($attributes as $attr) {
+                if ($entry->hasAttribute($attr) && !empty($entry->hasAttribute($attr))) {
+                    //Possibility to change json_encode by implode(', ', $var);
+                    $entries[$key][$attr] = json_encode($entry->getAttribute($attr));
+                } else {
+                    $entries[$key][$attr] = "null";
                 }
             }
         }
-      
+        
         (new SymfonyStyle($input, $output))
-            ->table($labels, $rows);
+            ->table($labels, $entries);
         
         return 0;
     }

@@ -62,7 +62,7 @@ class LdapCreateEntry extends Command
 
         $jsonDecodeAttributes = json_decode($attributes, true);
 
-        if (is_array($jsonDecodeAttributes) && empty($jsonDecodeAttributes) || $jsonDecodeAttributes==null) {
+        if (is_array($jsonDecodeAttributes) && !empty($jsonDecodeAttributes) || $jsonDecodeAttributes==null) {
             $symfonyStyle->error('The Attribute argument is not a valid JSON.');
             return 1;
         }

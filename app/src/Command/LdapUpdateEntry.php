@@ -35,7 +35,7 @@ class LdapUpdateEntry extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Update a ldap Entry')
+            ->setDescription('Update a LDAP Entry')
             ->setHelp('Update an existing entry in the LDAP using a DN and attributes.')
             ->addArgument(
                 'dn',
@@ -69,7 +69,7 @@ class LdapUpdateEntry extends Command
         }
 
         if ($this->client->update($distingName, $jsonDecodeAttributes)) {
-            $symfonyStyle->success('Following LDAP entry was successfuly updated');
+            $symfonyStyle->success("Following LDAP entry was successfully updated: $distingName");
             return 0;
         }
         $symfonyStyle->error("An error occurred during update of LDAP entry");
