@@ -3,8 +3,10 @@
 
 namespace App\Service\Ldap;
 
+use Error;
 use Symfony\Component\Ldap\Exception\ConnectionException;
 use Symfony\Component\Ldap\Ldap;
+use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\LdapInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
@@ -79,140 +81,75 @@ class Client
     }
 
     /**
-     * @return (mixed|string)[][]
+     * @return Entry[]|\Symfony\Component\Ldap\Adapter\CollectionInterface
      *
-     * @psalm-return array{0: array{key: string, value: string}, 1: array{key: string, value: string}, 2: array{key: string, value: string}, 3: array{key: string, value: string}, 4: array{key: string, value: string}, 5: array{key: string, value: string}, 6: array{key: string, value: string}, 7: array{key: string, value: string}, 8: array{key: string, value: string}, 9: array{key: string, value: mixed}}
+     * @psalm-return \Symfony\Component\Ldap\Adapter\CollectionInterface|array<array-key, Entry>
      */
-    public function getLdapEntry($query): array
+    public function executeQuery(string $query)
     {
-        /*
-        $result_query= $this->ldap->query($this->config['base_dn'],$query)->execute();
-        return $result_query;
-        */
-
-        $entry =
-        [
-            ['key'=>"objectClass", 'value'=>'inetOrgPerson'],
-            ['key'=>"cn", 'value'=>"Hubert J. Farnsworth"],
-            ['key'=>"sn",'value'=>"Farnsworth"],
-            ['key'=>"description",'value'=>"Human"],
-            ['key'=>"displayName",'value'=>"Professor Farnsworth"],
-            ['key'=>"employeeType",'value'=>"Owner"],
-            ['key'=>"employeeType",'value'=>"Founder"],
-            ['key'=>"givenName",'value'=>"Hubert"],
-            ['key'=>"mail",'value'=>"professor@planetexpress.com"],
-            ['key'=>"query",'value'=>$query]
-        ];
-
-        return $entry;
+        $this->ldap->bind($this->config['search_dn'], $this->config['search_password']);
+        return $this->ldap->query($this->config['base_dn'], $query)->execute();
     }
 
-    public function create(string $query): bool
+    public function create(string $dn, array $attributes): bool
     {
-        /*
-        $entryManager = $this->ldap->getEntryManager();
-        $entryManager->add($data);*/
+        // TODO Do not bind inside search (must be done before)
+        $this->ldap->bind($this->config['search_dn'], $this->config['search_password']);
 
-        if (gettype($query)=="string") {
-            return true;
-        } else {
-            return false;
-        }
+        $entry = new Entry($dn, $attributes);
+        $entryManager = $this->ldap->getEntryManager();
+
+        return $entryManager->add($entry);
     }
 
     /**
      * @return bool|null
      */
-    public function update(string $query, array $arrayQuery)
+    public function update(string $query, array $attributes) : bool
     {
-        $entry = $query;
-
         $entryManager = $this->ldap->getEntryManager();
 
         // Finding and updating an existing entry
-        $queryResult = $this->ldap->query($this->config['base_dn'], $query);
-        $result = $queryResult->execute();
-        $entry = $result[0];
-        if ($entry->getAttribute('phoneNumber')) {
-            if ($entry->hasAttribute('contractorCompany')) {
-                $entry->setAttribute('email', ['fabpot@symfony.com']);
-                $resultUpdate = $entryManager->update($entry);
-                if ($resultUpdate) {
-                    return true;
-                }
+        $result = $this->executeQuery($query);
 
-                if (!$resultUpdate) {
-                    return false;
-                }
-            }
-        } elseif (!$entry->getAttribute('phoneNumber')) {
+        // FIXME Check result before doing anything on it
+        $entry = $result[0];
+        if ($entry===null) {
             return false;
         }
+        
+        foreach ($attributes as $key => $value) {
+            $entry->setAttribute($key, $value);
+        }
+        $entryManager->update($entry);
+
+        return true;
     }
-    public function delete($target): void
+
+    /**
+     * @return boolean
+     */
+    public function delete(string $dn)
     {
-        $entryManager = $this->ldap->getEntryManager($target);
+        $this->ldap->bind($this->config['search_dn'], $this->config['search_password']);
+        $entryManager = $this->ldap->getEntryManager();
 
         // Removing an existing entry
-        $entryManager->remove('cn=Test User,dc=symfony,dc=com');
+        return $entryManager->remove(new Entry($dn));
     }
 
     /**
      * @var string
+     *
+     * @return (mixed|string)[][]
+     *
+     * @psalm-return array{0: array{key: string, value: string}, 1: array{key: string, value: string}, 2: array{key: string, value: string}, 3: array{key: string, value: string}, 4: array{key: string, value: string}, 5: array{key: string, value: string}, 6: array{key: string, value: string}, 7: array{key: string, value: string}, 8: array{key: string, value: string}, 9: array{key: string, value: mixed}}
      */
-    public function search($query)
+    public function search(string $query)
     {
         //Symfony base function for fetching ldap
-        $query = $ldap->query($query);
-        $rows = $query->execute()->toArray();
-        
-        // ------ HARD DATA FOR TEST
-        /*
-        $rows[0] =
-        [
-            'query'=>$query
-        ];
-        $rows[1] =
-        [
-            'cn'=>"George Pompote ",
-            'sn'=>'Pompote',
-            'givenName'=>'George',
-            'description'=>'lumière',
-            'displayName'=>'Geroge le malin',
-            'employeeType'=>'Existant',
-            'mail'=>"pompote@gmail.com",
-            'title'=>'CEO'
-        ];
-        $rows[2] = [
-            'cn'=>"Grisois Margoulin",
-            'sn'=>'Margoulin',
-            'givenName'=>'Grisois',
-            'description'=>'humain',
-            'displayName'=>'poussière',
-            'employeeType'=>'Existant',
-            'mail'=>"grisois@gmail.com"
-        ];
-        $rows[3] = [
-            'cn'=>"Kila Mira",
-            'sn'=>'Mira',
-            'givenName'=>'Kila',
-            'description'=>'lumière',
-            'displayName'=>'Muske',
-            'employeeType'=>'Existant',
-            'mail'=>"kila@gmail.com",
-            'ou'=>"Delivering Crew",
-            'title'=>'Employee'
-        ];
-        */
-        //Creating an associative array for fetching the data with 'key' and 'value'
-        $index = $page  = 0;
-        foreach ($rows as $inArray) {
-            foreach ($inArray as $key => $value) {
-                $assortedLdapEntry[$page][$index++] = ['key'=>$key,'value'=>$value];
-            }
-            $page++;
-            $index = 0;
-        }
-        return $assortedLdapEntry;
+        // TODO Do not bind inside search (must be done before)
+        $entries = $this->executeQuery($query);
+        return $entries;
     }
 }

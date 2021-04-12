@@ -3,24 +3,15 @@
 namespace App\Command;
 
 use App\Service\Ldap\Client;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Ldap\Ldap;
 
 class LdapDeleteEntry extends Command
 {
-    protected static $defaultName = 'ldap:delete:entry';
-
-    /**
-     * @var Ldap
-     */
-    private $ldap;
+    protected static $defaultName = 'app:ldap:delete-entry';
 
     /**
      * @var Client
@@ -28,10 +19,8 @@ class LdapDeleteEntry extends Command
     private $client;
 
     public function __construct(
-        Ldap $ldap,
         Client $client
     ) {
-        $this->ldap = $ldap;
         $this->client = $client;
         parent::__construct(self::$defaultName);
     }
@@ -44,12 +33,26 @@ class LdapDeleteEntry extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Delete a ldap Entrie')
-            ->setHelp('This command delete a entrie in the ldap using a raw query.')
+            ->setDescription('Delete a ldap Entry')
+            ->setHelp('Delete an existing entry in the LDAP using a DN.')
             ->addArgument(
-                'query',
+                'dn',
                 InputArgument::REQUIRED,
-                'Query'
+                'LDAP entry Distinguished Name'
             );
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $dn = $input->getArgument('dn');
+        $symfonyStyle = new SymfonyStyle($input, $output);
+
+        if ($this->client->delete($dn)) {
+            $symfonyStyle->success('Following LDAP entry was successfuly create');
+            return 0;
+        }
+        
+        $symfonyStyle->error("An error occurred during creation of LDAP entry");
+        return 1;
     }
 }

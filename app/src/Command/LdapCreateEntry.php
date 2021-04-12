@@ -11,19 +11,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 class LdapCreateEntry extends Command
 {
-    protected static $defaultName = 'ldap:create:entry';
-
-    /**
-     * @var Ldap
-     */
-    private $ldap;
+    protected static $defaultName = 'app:ldap:create-entry';
 
     /**
      * @var Client
@@ -31,10 +25,8 @@ class LdapCreateEntry extends Command
     private $client;
 
     public function __construct(
-        Ldap $ldap,
         Client $client
     ) {
-        $this->ldap = $ldap;
         $this->client = $client;
         parent::__construct(self::$defaultName);
     }
@@ -48,49 +40,45 @@ class LdapCreateEntry extends Command
     {
         $this
             ->setDescription('Creates a ldap Entrie')
-            ->setHelp('This command create a entrie in the ldap using a raw query.')
+            ->setHelp('Create a new entry in the LDAP using a DN and attributes.')
             ->addArgument(
-                'query',
+                'dn',
                 InputArgument::REQUIRED,
-                'Query'
+                'LDAP entry Distinguished Name'
             )
             ->addArgument(
-                'array',
+                'attr',
                 InputArgument::REQUIRED,
-                'Array'
+                'LDAP entry attributes. Must be provided as a valid JSON string: {"uid":"john.doe","cn":"John DOE"}'
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $query = $input->getArgument('query');
-        $queryArray = $input->getArgument('array');
+        $dn = $input->getArgument('dn');
+        $attributes = $input->getArgument('attr');
 
         $symfonyStyle = new SymfonyStyle($input, $output);
 
-        $resultValid  = $this->isValid($symfonyStyle, $query, $queryArray);
+        $jsonDecodeAttributes = json_decode($attributes, true);
 
-        if ($resultValid) {
-            $symfonyStyle->comment("Entrie create :");
-            $resultCreate = $this->client->create($query);
-            if ($resultCreate) {
-                $symfonyStyle->success('Everything is good ! : '.$resultCreate);
-                return 0;
-            }
-            if (!$resultCreate) {
-                $symfonyStyle->error("Something went wrong... : ".$resultCreate);
-                return 1;
-            }
-        }
-        if (!$resultValid) {
+        if ($jsonDecodeAttributes==null) {
+            $symfonyStyle->error("The Attribute argument is not a valid JSON.");
             return 1;
         }
-        return 0;
+
+        if ($this->client->create($dn, $jsonDecodeAttributes)) {
+            $symfonyStyle->success('Following LDAP entry was successfuly create');
+            return 0;
+        }
+        
+        $symfonyStyle->error("An error occurred during creation of LDAP entry");
+        return 1;
     }
 
-    protected function isValid(SymfonyStyle $ioStyle, $query): bool
+    protected function isValid(SymfonyStyle $ioStyle, $dn): bool
     {
-        if (empty($query)&& is_string($query)) {
+        if (empty($dn)&& is_string($dn)) {
             $ioStyle->error('Username cannot be empty');
             return false;
         }

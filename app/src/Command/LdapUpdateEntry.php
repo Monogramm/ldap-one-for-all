@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Service\Ldap\Client;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,16 +10,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Ldap\Ldap;
 
 class LdapUpdateEntry extends Command
 {
-    protected static $defaultName = 'ldap:update:entry';
-
-    /**
-     * @var Ldap
-     */
-    private $ldap;
+    protected static $defaultName = 'app:ldap:update-entry';
 
     /**
      * @var Client
@@ -28,10 +21,8 @@ class LdapUpdateEntry extends Command
     private $client;
 
     public function __construct(
-        Ldap $ldap,
         Client $client
     ) {
-        $this->ldap = $ldap;
         $this->client = $client;
         parent::__construct(self::$defaultName);
     }
@@ -44,50 +35,46 @@ class LdapUpdateEntry extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Update a ldap Entrie')
-            ->setHelp('This command create a entrie in the ldap using a raw query.')
+            ->setDescription('Update a ldap Entry')
+            ->setHelp('Update an existing entry in the LDAP using a DN and attributes.')
             ->addArgument(
-                'query',
+                'dn',
                 InputArgument::REQUIRED,
-                'Query'
+                'LDAP entry Distinguished Name'
+            )
+            ->addOption(
+                'attr',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'LDAP entry attributes. Must be provided as a valid JSON string: {"uid":"john.doe","cn":"John DOE"}'
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    /**
+     * @return int|null
+     *
+     * @psalm-return 0|1|null
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $query = $input->getArgument('query');
+        $dn = $input->getArgument('dn');
+        $attributes = $input->getOption('attr');
         $symfonyStyle = new SymfonyStyle($input, $output);
-
-        $resultValid = $this->isValid($symfonyStyle, $query);
-
-        if ($resultValid) {
-            $symfonyStyle->comment("update entry :");
-
-            // Get the ldap informations from the ldap
-            $resultUpdate = $this->client->update($query);
-            if ($resultUpdate) {
-                $symfonyStyle->success('Everything is good ! : '.$resultUpdate);
-                return 0;
-            }
-            if (!$resultUpdate) {
-                $symfonyStyle->error("Something went wrong... : ".$resultUpdate);
-                return 1;
-            }
+      
+        $symfonyStyle->comment("update entry :");
+        
+        $jsonDecodeAttributes = json_decode($attributes, true);
+        
+        if ($jsonDecodeAttributes===null) {
+            $symfonyStyle->error('The attribute Option is not a valid JSON');
+            return 1;
         }
-        if (!$resultValid) {
+
+        $e = $this->client->update($dn, $jsonDecodeAttributes);
+        if ($e) {
+            $symfonyStyle->success('Following LDAP entry was successfuly updated');
             return 0;
         }
-    }
-    
-    /**
-     * @param null|string|string[] $query
-     */
-    protected function isValid(SymfonyStyle $ioStyle, $query): bool
-    {
-        if (empty($query)&& is_string($query)) {
-            $ioStyle->error('Query cannot be empty');
-            return false;
-        }
-        return true;
+        $symfonyStyle->error("An error occurred during update of LDAP entry");
     }
 }
