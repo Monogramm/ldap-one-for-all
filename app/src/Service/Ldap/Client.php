@@ -68,14 +68,14 @@ class Client
                 throw new BadCredentialsException('The presented username is invalid.');
             }
 
-            $dn = $result[0]->getDn();
+            $distingName = $result[0]->getDn();
         } else {
             $username = $this->ldap->escape($login, '', LdapInterface::ESCAPE_DN);
-            $dn = sprintf('%s=%s,%s', $this->config['uid_key'], $username, $this->config['base_dn']);
+            $distingName = sprintf('%s=%s,%s', $this->config['uid_key'], $username, $this->config['base_dn']);
         }
 
-        $this->ldap->bind($dn, $password);
-        $result = $this->ldap->query($dn, $query)->execute()[0];
+        $this->ldap->bind($distingName, $password);
+        $result = $this->ldap->query($distingName, $query)->execute()[0];
 
         return $result;
     }
@@ -90,20 +90,25 @@ class Client
         $this->ldap->bind($this->config['search_dn'], $this->config['search_password']);
         return $this->ldap->query($this->config['base_dn'], $query)->execute();
     }
-
-    public function create(string $dn, array $attributes): bool
+    
+    /**
+     * @return bool|LdapException
+     */
+    public function create(string $distingName, array $attributes): bool
     {
         // TODO Do not bind inside search (must be done before)
+        $entryManager = $this->ldap->getEntryManager();
         $this->ldap->bind($this->config['search_dn'], $this->config['search_password']);
 
-        $entry = new Entry($dn, $attributes);
-        $entryManager = $this->ldap->getEntryManager();
-
-        return $entryManager->add($entry);
+        $entry = new Entry($distingName, $attributes);
+        if (!empty($entryManager->add($entry))) {
+            return true;
+        }
+        return false;
     }
 
     /**
-     * @return bool|null
+     * @return bool|LdapException
      */
     public function update(string $query, array $attributes) : bool
     {
@@ -127,23 +132,23 @@ class Client
     }
 
     /**
-     * @return boolean
+     * @return bool|LdapException
      */
-    public function delete(string $dn)
+    public function delete(string $distingName)
     {
         $this->ldap->bind($this->config['search_dn'], $this->config['search_password']);
         $entryManager = $this->ldap->getEntryManager();
-
+        $entryManager->remove(new Entry($distingName));
         // Removing an existing entry
-        return $entryManager->remove(new Entry($dn));
+        return true;
     }
 
     /**
      * @var string
      *
-     * @return (mixed|string)[][]
+     * @return Entry[]|\Symfony\Component\Ldap\Adapter\CollectionInterface
      *
-     * @psalm-return array{0: array{key: string, value: string}, 1: array{key: string, value: string}, 2: array{key: string, value: string}, 3: array{key: string, value: string}, 4: array{key: string, value: string}, 5: array{key: string, value: string}, 6: array{key: string, value: string}, 7: array{key: string, value: string}, 8: array{key: string, value: string}, 9: array{key: string, value: mixed}}
+     * @psalm-return \Symfony\Component\Ldap\Adapter\CollectionInterface|array<array-key, Entry>
      */
     public function search(string $query)
     {

@@ -44,10 +44,10 @@ class LdapDeleteEntry extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dn = $input->getArgument('dn');
+        $distingName = $input->getArgument('dn');
         $symfonyStyle = new SymfonyStyle($input, $output);
 
-        if ($this->client->delete($dn)) {
+        if ($this->client->delete($distingName)) {
             $symfonyStyle->success('Following LDAP entry was successfuly create');
             return 0;
         }

@@ -41,11 +41,9 @@ class LdapUpdateEntry extends Command
                 'dn',
                 InputArgument::REQUIRED,
                 'LDAP entry Distinguished Name'
-            )
-            ->addOption(
+            )->addArgument(
                 'attr',
-                null,
-                InputOption::VALUE_REQUIRED,
+                InputArgument::REQUIRED,
                 'LDAP entry attributes. Must be provided as a valid JSON string: {"uid":"john.doe","cn":"John DOE"}'
             );
     }
@@ -57,7 +55,7 @@ class LdapUpdateEntry extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dn = $input->getArgument('dn');
+        $distingName = $input->getArgument('dn');
         $attributes = $input->getOption('attr');
         $symfonyStyle = new SymfonyStyle($input, $output);
       
@@ -70,8 +68,7 @@ class LdapUpdateEntry extends Command
             return 1;
         }
 
-        $e = $this->client->update($dn, $jsonDecodeAttributes);
-        if ($e) {
+        if ($this->client->update($distingName, $jsonDecodeAttributes)) {
             $symfonyStyle->success('Following LDAP entry was successfuly updated');
             return 0;
         }

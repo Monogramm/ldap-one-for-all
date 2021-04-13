@@ -65,8 +65,8 @@ class LdapSearchEntry extends Command
 
         $query = $input->getArgument('query');
         $attributes = $input->getOption('attr');
-        
-        $arrayAttributes = json_decode($attributes);
+
+        $arrayAttributes = json_decode($attributes, true);
 
         if (empty($query) || !is_string($query)) {
             $symfonyStyle->error("The query is not a valid string.");
@@ -85,11 +85,9 @@ class LdapSearchEntry extends Command
         $labels = ['DN'];
 
         // TODO Build array of attributes labels
-        foreach ($arrayAttributes as $attribute => $value) {
-            $labels[] = $attribute;
-        }
+        $labels= array_merge($labels, $arrayAttributes);
         
-        foreach ($entries as $entry) {
+        foreach ($entries as $key => $entry) {
             $entryDn = $entry->getDn();
             $entryAttrArray = $entry->getAttributes();
 

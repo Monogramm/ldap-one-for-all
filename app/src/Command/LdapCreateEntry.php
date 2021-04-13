@@ -3,17 +3,12 @@
 namespace App\Command;
 
 use App\Service\Ldap\Client;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Question\Question;
 
 class LdapCreateEntry extends Command
 {
@@ -42,7 +37,7 @@ class LdapCreateEntry extends Command
             ->setDescription('Creates a ldap Entrie')
             ->setHelp('Create a new entry in the LDAP using a DN and attributes.')
             ->addArgument(
-                'dn',
+                'distingName',
                 InputArgument::REQUIRED,
                 'LDAP entry Distinguished Name'
             )
@@ -50,35 +45,40 @@ class LdapCreateEntry extends Command
                 'attr',
                 InputArgument::REQUIRED,
                 'LDAP entry attributes. Must be provided as a valid JSON string: {"uid":"john.doe","cn":"John DOE"}'
+            )->addOption(
+                'jsonfiles',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Path to the json files containing the LDAP entry attributes. Must be provided as a valid JSON file'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dn = $input->getArgument('dn');
+        $distingName = $input->getArgument('distingName');
         $attributes = $input->getArgument('attr');
 
         $symfonyStyle = new SymfonyStyle($input, $output);
 
         $jsonDecodeAttributes = json_decode($attributes, true);
 
-        if ($jsonDecodeAttributes==null) {
-            $symfonyStyle->error("The Attribute argument is not a valid JSON.");
+        if (is_array($jsonDecodeAttributes) && empty($jsonDecodeAttributes) || $jsonDecodeAttributes==null) {
+            $symfonyStyle->error('The Attribute argument is not a valid JSON.');
             return 1;
         }
 
-        if ($this->client->create($dn, $jsonDecodeAttributes)) {
-            $symfonyStyle->success('Following LDAP entry was successfuly create');
+        if ($this->client->create($distingName, $jsonDecodeAttributes)) {
+            $symfonyStyle->success("Following LDAP entry was successfuly create: $distingName");
             return 0;
         }
         
-        $symfonyStyle->error("An error occurred during creation of LDAP entry");
+        $symfonyStyle->error('An error occurred during creation of LDAP entry');
         return 1;
     }
 
-    protected function isValid(SymfonyStyle $ioStyle, $dn): bool
+    protected function isValid(SymfonyStyle $ioStyle, $distingName): bool
     {
-        if (empty($dn)&& is_string($dn)) {
+        if (empty($distingName)&& is_string($distingName)) {
             $ioStyle->error('Username cannot be empty');
             return false;
         }
