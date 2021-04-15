@@ -173,8 +173,10 @@ lc-test-back() {
     #vendor/bin/phpstan analyse src tests
     log "PHP_CodeSniffer bug fixer..."
     vendor/bin/phpcbf src tests
-    log "Psalm..."
+    log "Psalm (with auto-fixes)..."
     vendor/bin/psalm --alter --issues=MissingParamType,MissingReturnType,InvalidReturnType,InvalidNullableReturnType
+    log "Psalm..."
+    vendor/bin/psalm
     log "PHP Copy/Paste detector..."
     vendor/bin/phpcpd src
     log "PHP_CodeSniffer..."
@@ -359,15 +361,17 @@ dc-test-front() {
 dc-test-back() {
     log "Init test database..."
     dc-exec "${1}" "${2}" php ./bin/console doctrine:migrations:migrate --no-interaction --env=test
-    #dc-exec "${1}" "${2}" php ./bin/console doctrine:fixtures:load --no-interaction --env=test
-    #log "PHPUnit bug fixer..."
-    #dc-exec "${1}" "${2}" php ./bin/phpunit --coverage-text "$@"
+    dc-exec "${1}" "${2}" php ./bin/console doctrine:fixtures:load --no-interaction --env=test
+    log "PHPUnit bug fixer..."
+    dc-exec "${1}" "${2}" php ./bin/phpunit --coverage-text
     #log "PHPStan..."
     #vendor/bin/phpstan analyse src tests
     log "PHP_CodeSniffer bug fixer..."
     dc-exec "${1}" "${2}" vendor/bin/phpcbf src tests
-    log "Psalm..."
+    log "Psalm (with auto-fixes)..."
     dc-exec "${1}" "${2}" vendor/bin/psalm --alter --issues=MissingParamType,MissingReturnType,InvalidReturnType,InvalidNullableReturnType
+    log "Psalm..."
+    dc-exec "${1}" "${2}" vendor/bin/psalm
     log "PHP Copy/Paste detector..."
     dc-exec "${1}" "${2}" vendor/bin/phpcpd src
     log "PHP_CodeSniffer..."
