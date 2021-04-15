@@ -9,6 +9,7 @@ use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\LdapInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Ldap\LdapException;
 
 class Client
 {
@@ -68,14 +69,14 @@ class Client
                 throw new BadCredentialsException('The presented username is invalid.');
             }
 
-            $distingName = $result[0]->getDn();
+            $fullDn = $result[0]->getDn();
         } else {
             $username = $this->ldap->escape($login, '', LdapInterface::ESCAPE_DN);
-            $distingName = sprintf('%s=%s,%s', $this->config['uid_key'], $username, $this->config['base_dn']);
+            $fullDn = sprintf('%s=%s,%s', $this->config['uid_key'], $username, $this->config['base_dn']);
         }
 
-        $this->ldap->bind($distingName, $password);
-        $result = $this->ldap->query($distingName, $query)->execute()[0];
+        $this->ldap->bind($fullDn, $password);
+        $result = $this->ldap->query($fullDn, $query)->execute()[0];
 
         return $result;
     }
@@ -98,13 +99,13 @@ class Client
      *
      * @throws LdapException
      */
-    public function create(string $distingName, array $attributes): bool
+    public function create(string $fullDn, array $attributes): bool
     {
         // TODO Do not bind inside search (must be done before)
         $entryManager = $this->ldap->getEntryManager();
         $this->ldap->bind($this->config['search_dn'], $this->config['search_password']);
 
-        $entry = new Entry($distingName, $attributes);
+        $entry = new Entry($fullDn, $attributes);
         if (!empty($entryManager->add($entry))) {
             return true;
         }
@@ -142,11 +143,11 @@ class Client
      *
      * @throws LdapException
      */
-    public function delete(string $distingName)
+    public function delete(string $fullDn)
     {
         $this->ldap->bind($this->config['search_dn'], $this->config['search_password']);
         $entryManager = $this->ldap->getEntryManager();
-        $entryManager->remove(new Entry($distingName));
+        $entryManager->remove(new Entry($fullDn));
         // Removing an existing entry
         return true;
     }
