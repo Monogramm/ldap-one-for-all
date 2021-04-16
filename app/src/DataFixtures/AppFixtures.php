@@ -51,6 +51,26 @@ class AppFixtures extends Fixture
         ;
         $manager->persist($parameterAppUrl);
 
+        $parameterSupportEmail = new Parameter();
+        $parameterSupportEmail
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'))
+            ->setName('APP_SUPPORT_EMAIL')
+            ->setType(Parameter::STRING_TYPE)
+            ->setValue('support@yopmail.com')
+        ;
+        $manager->persist($parameterSupportEmail);
+
+        $parameterLdapDefaultRole = new Parameter();
+        $parameterLdapDefaultRole
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'))
+            ->setName('LDAP_USER_DEFAULT_ROLE')
+            ->setType(Parameter::STRING_TYPE)
+            ->setValue('ROLE_ADMIN')
+        ;
+        $manager->persist($parameterLdapDefaultRole);
+
         $user = new User();
         $user
             ->setCreatedAt(Carbon::now('UTC'))

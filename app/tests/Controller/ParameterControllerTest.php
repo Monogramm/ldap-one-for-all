@@ -66,7 +66,7 @@ class ParameterControllerTest extends WebTestCase
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $responseContent = $this->client->getResponse()->getContent();
         $content = json_decode($responseContent, true);
-        $this->assertSame(1, $content['total']);
+        $this->assertSame(3, $content['total']);
     }
 
     public function testCrud()
