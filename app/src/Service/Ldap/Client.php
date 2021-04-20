@@ -9,7 +9,7 @@ use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\LdapInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Ldap\LdapException;
+use Symfony\Component\Ldap\Exception\LdapException;
 
 class Client
 {
@@ -84,7 +84,7 @@ class Client
     /**
      * @return Entry[]|\Symfony\Component\Ldap\Adapter\CollectionInterface
      *
-     * @throws LdapException
+     * @throws LdapException When option given doesn't match a ldap entry
      *
      * @psalm-return \Symfony\Component\Ldap\Adapter\CollectionInterface|array<array-key, Entry>
      */
@@ -97,7 +97,7 @@ class Client
     /**
      * @return bool
      *
-     * @throws LdapException
+     * @throws LdapException When the query given was not right
      */
     public function create(string $fullDn, array $attributes): bool
     {
@@ -139,7 +139,7 @@ class Client
     }
 
     /**
-     * @return bool|LdapException
+     * @return bool
      *
      * @throws LdapException
      */
