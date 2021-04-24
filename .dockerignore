@@ -81,6 +81,10 @@ typings/
 # next.js build output
 .next
 
+# ignore phpdoc cache directories
+.phpdoc/
+docs/
+
 ###> symfony/framework-bundle ###
 /app/.env.local
 /app/.env.local.php

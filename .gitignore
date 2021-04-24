@@ -90,6 +90,9 @@ typings/
 # next.js build output
 .next
 
+# ignore phpdoc cache directories
+.phpdoc/
+
 # Custom files
 .docker/
 build.date
