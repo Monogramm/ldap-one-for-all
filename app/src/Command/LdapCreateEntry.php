@@ -3,6 +3,8 @@
 namespace App\Command;
 
 use App\Service\Ldap\Client;
+use App\Command\LdapConfig;
+use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,15 +16,17 @@ class LdapCreateEntry extends Command
 {
     protected static $defaultName = 'app:ldap:create-entry';
 
+    use LdapConfig;
+
     /**
-     * @var Client
+     * @var Ldap
      */
-    private $client;
+    private $ldap;
 
     public function __construct(
-        Client $client
+        Ldap $ldap
     ) {
-        $this->client = $client;
+        $this->ldap = $ldap;
         parent::__construct(self::$defaultName);
     }
 
@@ -55,33 +59,46 @@ class LdapCreateEntry extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
         $distingName = $input->getArgument('distingName');
         $attributes = $input->getArgument('attr');
 
         $symfonyStyle = new SymfonyStyle($input, $output);
 
         $jsonDecodeAttributes = json_decode($attributes, true);
-
-        if (is_array($jsonDecodeAttributes) && !empty($jsonDecodeAttributes) || $jsonDecodeAttributes==null) {
+        
+        if (is_array($jsonDecodeAttributes) && empty($jsonDecodeAttributes) || $jsonDecodeAttributes==null) {
             $symfonyStyle->error('The Attribute argument is not a valid JSON.');
             return 1;
         }
 
-        if ($this->client->create($distingName, $jsonDecodeAttributes)) {
+        // Creating LDAP config
+        $uidKey = getenv('LDAP_AUTH_USERNAME_ATTRIBUTE');
+        $mailKey = getenv('LDAP_AUTH_EMAIL_ATTRIBUTE');
+        $queryLdap = getenv('LDAP_AUTH_USER_QUERY');
+
+        $baseDn = getenv('LDAP_AUTH_BASE_DN');
+
+        $config = [
+            'uid_key' => $uidKey,
+            'mail_key' => $mailKey,
+            'base_dn' => $baseDn,
+            'is_ad' => "0",
+            'ad_domain' => 'planetexpress.com',
+            'query' => $queryLdap,
+            'search_dn' => 'cn=admin,dc=planetexpress,dc=com',
+            'search_password' => 'GoodNewsEveryone',
+            'enabled' => '1'
+        ];
+
+        $ldapClient = new Client($this->ldap, $config);
+        
+        if ($ldapClient->create($distingName, $jsonDecodeAttributes)) {
             $symfonyStyle->success("Following LDAP entry was successfuly create: $distingName");
             return 0;
         }
         
         $symfonyStyle->error('An error occurred during creation of LDAP entry');
         return 1;
-    }
-
-    protected function isValid(SymfonyStyle $ioStyle, $distingName): bool
-    {
-        if (empty($distingName)&& is_string($distingName)) {
-            $ioStyle->error('Username cannot be empty');
-            return false;
-        }
-        return true;
     }
 }

@@ -3,7 +3,8 @@
 namespace App\Command;
 
 use App\Service\Ldap\Client;
-use Laminas\Code\Generator\DocBlock\Tag\VarTag;
+use App\Command\LdapConfig;
+use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,16 +17,17 @@ class LdapSearchEntry extends Command
 {
     protected static $defaultName = 'app:ldap:search-entries';
 
-    /**
-     * @var Client
-     */
-    private $client;
+    use LdapConfig;
 
+    /**
+     * @var Ldap
+     */
+    private $ldap;
 
     public function __construct(
-        Client $client
+        Ldap $ldap
     ) {
-        $this->client = $client;
+        $this->ldap = $ldap;
         parent::__construct(self::$defaultName);
     }
 
@@ -66,22 +68,25 @@ class LdapSearchEntry extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-     
         $symfonyStyle = new SymfonyStyle($input, $output);
         $symfonyStyle->comment("List of entries:");
-        
+
         $query = $input->getArgument('query');
         $attributes = explode(',', trim($input->getOption('attr')));
         $labels =  explode(',', $input->getOption('labels'));
 
-        $ldapEntries = $this->client->search($query);
+        $config = $this->returnConfig();
+
+        $ldapClient = new Client($this->ldap, $config);
+
+        $ldapEntries = $ldapClient->search($query);
 
         if (sizeof($labels) != sizeof($attributes)) {
             $labels = $attributes;
         }
 
         array_unshift($labels, 'dn');
-        
+
         foreach ($ldapEntries as $key => $entry) {
             $entryDn = $entry->getDn();
             $entries[$key]['dn'] = $entryDn;
@@ -90,15 +95,21 @@ class LdapSearchEntry extends Command
                 if ($entry->hasAttribute($attr) && !empty($entry->hasAttribute($attr))) {
                     //Possibility to change json_encode by implode(', ', $var);
                     $entries[$key][$attr] = json_encode($entry->getAttribute($attr));
-                } else {
+                }
+
+                if (!$entry->hasAttribute($attr) || empty($entry->hasAttribute($attr))) {
                     $entries[$key][$attr] = "null";
                 }
             }
         }
-        
-        (new SymfonyStyle($input, $output))
+
+        if (isset($entries)) {
+            (new SymfonyStyle($input, $output))
             ->table($labels, $entries);
-        
-        return 0;
+            return 0;
+        }
+
+        $symfonyStyle->error('No ldap entry was found.');
+        return 1;
     }
 }

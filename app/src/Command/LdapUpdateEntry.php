@@ -38,9 +38,9 @@ class LdapUpdateEntry extends Command
             ->setDescription('Update a LDAP Entry')
             ->setHelp('Update an existing entry in the LDAP using a DN and attributes.')
             ->addArgument(
-                'dn',
+                'query',
                 InputArgument::REQUIRED,
-                'LDAP entry Distinguished Name'
+                'LDAP Update query. Must be a valid LDAP search query. Example: (description=Human)'
             )->addArgument(
                 'attr',
                 InputArgument::REQUIRED,
@@ -56,7 +56,7 @@ class LdapUpdateEntry extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $distingName = $input->getArgument('dn');
-        $attributes = $input->getOption('attr');
+        $attributes = $input->getArgument('attr');
         $symfonyStyle = new SymfonyStyle($input, $output);
       
         $symfonyStyle->comment("update entry :");
