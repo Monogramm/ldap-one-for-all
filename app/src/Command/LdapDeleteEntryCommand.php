@@ -3,25 +3,29 @@
 namespace App\Command;
 
 use App\Service\Ldap\Client;
+use App\Command\buildLdapConfig;
+use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class LdapDeleteEntry extends Command
+class LdapDeleteEntryCommand extends Command
 {
     protected static $defaultName = 'app:ldap:delete-entry';
 
+    use buildLdapConfig;
+
     /**
-     * @var Client
+     * @var Ldap
      */
-    private $client;
+    private $ldap;
 
     public function __construct(
-        Client $client
+        Ldap $ldap
     ) {
-        $this->client = $client;
+        $this->ldap = $ldap;
         parent::__construct(self::$defaultName);
     }
 
@@ -40,15 +44,20 @@ class LdapDeleteEntry extends Command
                 InputArgument::REQUIRED,
                 'LDAP entry Distinguished Name'
             );
+        $this->configureLdapOptions($this);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $distingName = $input->getArgument('dn');
+        $fullDn = $input->getArgument('dn');
         $symfonyStyle = new SymfonyStyle($input, $output);
 
-        if ($this->client->delete($distingName)) {
-            $symfonyStyle->success("Following LDAP entry was successfully deleted: $distingName");
+        $config = $this->returnConfig($input);
+
+        $ldapClient = new Client($this->ldap, $config);
+
+        if ($ldapClient->delete($fullDn)) {
+            $symfonyStyle->success("Following LDAP entry was successfully deleted: $fullDn");
             return 0;
         }
         

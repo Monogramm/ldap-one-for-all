@@ -3,27 +3,29 @@
 namespace App\Command;
 
 use App\Service\Ldap\Client;
+use App\Command\buildLdapConfig;
+use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class LdapUpdateEntry extends Command
+class LdapUpdateEntryCommand extends Command
 {
     protected static $defaultName = 'app:ldap:update-entry';
 
+    use buildLdapConfig;
+
     /**
-     * @var Client
+     * @var Ldap
      */
-    private $client;
+    private $ldap;
 
     public function __construct(
-        Client $client
+        Ldap $ldap
     ) {
-        $this->client = $client;
+        $this->ldap = $ldap;
         parent::__construct(self::$defaultName);
     }
 
@@ -46,6 +48,7 @@ class LdapUpdateEntry extends Command
                 InputArgument::REQUIRED,
                 'LDAP entry attributes. Must be provided as a valid JSON string: {"uid":"john.doe","cn":"John DOE"}'
             );
+        $this->configureLdapOptions($this);
     }
 
     /**
@@ -55,7 +58,7 @@ class LdapUpdateEntry extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $distingName = $input->getArgument('dn');
+        $fullDn = $input->getArgument('query');
         $attributes = $input->getArgument('attr');
         $symfonyStyle = new SymfonyStyle($input, $output);
       
@@ -63,13 +66,17 @@ class LdapUpdateEntry extends Command
         
         $jsonDecodeAttributes = json_decode($attributes, true);
         
-        if ($jsonDecodeAttributes===null) {
+        if (empty($jsonDecodeAttributes)) {
             $symfonyStyle->error('The attribute Option is not a valid JSON');
             return 1;
         }
 
-        if ($this->client->update($distingName, $jsonDecodeAttributes)) {
-            $symfonyStyle->success("Following LDAP entry was successfully updated: $distingName");
+        $config = $this->returnConfig($input);
+
+        $ldapClient = new Client($this->ldap, $config);
+
+        if ($ldapClient->update($fullDn, $jsonDecodeAttributes)) {
+            $symfonyStyle->success("Following LDAP entry was successfully updated: $fullDn");
             return 0;
         }
         $symfonyStyle->error("An error occurred during update of LDAP entry");

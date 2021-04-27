@@ -3,13 +3,11 @@
 
 namespace App\Service\Ldap;
 
-use Error;
-use Symfony\Component\Ldap\Exception\ConnectionException;
-use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Ldap\Entry;
+use Symfony\Component\Ldap\Exception\LdapException;
+use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Ldap\LdapInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Ldap\Exception\LdapException;
 
 class Client
 {
@@ -126,6 +124,7 @@ class Client
 
         // FIXME Check result before doing anything on it
         $entry = $result[0];
+
         if (empty($entry)) {
             return false;
         }

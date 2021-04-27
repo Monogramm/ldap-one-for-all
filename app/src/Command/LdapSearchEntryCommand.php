@@ -3,21 +3,21 @@
 namespace App\Command;
 
 use App\Service\Ldap\Client;
-use App\Command\LdapConfig;
+use App\Command\buildLdapConfig;
 use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Input\InputDefinition;
 
-class LdapSearchEntry extends Command
+class LdapSearchEntryCommand extends Command
 {
     protected static $defaultName = 'app:ldap:search-entries';
 
-    use LdapConfig;
+    use buildLdapConfig;
 
     /**
      * @var Ldap
@@ -59,6 +59,7 @@ class LdapSearchEntry extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Labels to show. Example: Unique ID,Last Name,Full Name'
             );
+        $this->configureLdapOptions($this);
     }
 
     /**
@@ -75,7 +76,7 @@ class LdapSearchEntry extends Command
         $attributes = explode(',', trim($input->getOption('attr')));
         $labels =  explode(',', $input->getOption('labels'));
 
-        $config = $this->returnConfig();
+        $config = $this->returnConfig($input);
 
         $ldapClient = new Client($this->ldap, $config);
 
@@ -93,7 +94,6 @@ class LdapSearchEntry extends Command
 
             foreach ($attributes as $attr) {
                 if ($entry->hasAttribute($attr) && !empty($entry->hasAttribute($attr))) {
-                    //Possibility to change json_encode by implode(', ', $var);
                     $entries[$key][$attr] = json_encode($entry->getAttribute($attr));
                 }
 
@@ -105,7 +105,8 @@ class LdapSearchEntry extends Command
 
         if (isset($entries)) {
             (new SymfonyStyle($input, $output))
-            ->table($labels, $entries);
+                ->table($labels, $entries);
+            
             return 0;
         }
 

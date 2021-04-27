@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Service\Ldap\Client;
-use App\Command\LdapConfig;
+use App\Command\buildLdapConfig;
 use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,11 +12,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class LdapCreateEntry extends Command
+class LdapCreateEntryCommand extends Command
 {
     protected static $defaultName = 'app:ldap:create-entry';
 
-    use LdapConfig;
+    use buildLdapConfig;
 
     /**
      * @var Ldap
@@ -38,10 +38,10 @@ class LdapCreateEntry extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Creates a ldap Entrie')
+            ->setDescription('Creates a LDAP Entry')
             ->setHelp('Create a new entry in the LDAP using a DN and attributes.')
             ->addArgument(
-                'distingName',
+                'dn',
                 InputArgument::REQUIRED,
                 'LDAP entry Distinguished Name'
             )
@@ -55,41 +55,25 @@ class LdapCreateEntry extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Path to the json files containing the LDAP entry attributes. Must be provided as a valid JSON file'
             );
+        $this->configureLdapOptions($this);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        $distingName = $input->getArgument('distingName');
+        $distingName = $input->getArgument('dn');
         $attributes = $input->getArgument('attr');
 
         $symfonyStyle = new SymfonyStyle($input, $output);
 
         $jsonDecodeAttributes = json_decode($attributes, true);
         
-        if (is_array($jsonDecodeAttributes) && empty($jsonDecodeAttributes) || $jsonDecodeAttributes==null) {
+        if (empty($jsonDecodeAttributes)) {
             $symfonyStyle->error('The Attribute argument is not a valid JSON.');
             return 1;
         }
 
-        // Creating LDAP config
-        $uidKey = getenv('LDAP_AUTH_USERNAME_ATTRIBUTE');
-        $mailKey = getenv('LDAP_AUTH_EMAIL_ATTRIBUTE');
-        $queryLdap = getenv('LDAP_AUTH_USER_QUERY');
-
-        $baseDn = getenv('LDAP_AUTH_BASE_DN');
-
-        $config = [
-            'uid_key' => $uidKey,
-            'mail_key' => $mailKey,
-            'base_dn' => $baseDn,
-            'is_ad' => "0",
-            'ad_domain' => 'planetexpress.com',
-            'query' => $queryLdap,
-            'search_dn' => 'cn=admin,dc=planetexpress,dc=com',
-            'search_password' => 'GoodNewsEveryone',
-            'enabled' => '1'
-        ];
+        $config = $this->returnConfig($input);
 
         $ldapClient = new Client($this->ldap, $config);
         

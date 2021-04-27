@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Service\Ldap\Client;
 use Psr\Log\LoggerInterface;
+use App\Command\buildLdapConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,6 +17,8 @@ use Symfony\Component\Ldap\Ldap;
 class LdapLoginCommand extends Command
 {
     protected static $defaultName = 'app:ldap:login';
+
+    use buildLdapConfig;
 
     /**
      * @var Ldap
@@ -54,64 +57,8 @@ class LdapLoginCommand extends Command
                 'password',
                 InputArgument::REQUIRED,
                 'LDAP User Password'
-            )
-            ->addOption(
-                'uid-key',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'LDAP username key. If not set, will retrieve value of env var LDAP_AUTH_USERNAME_ATTRIBUTE'
-            )
-            ->addOption(
-                'mail-key',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'LDAP mail key. If not set, will retrieve value of env var LDAP_AUTH_EMAIL_ATTRIBUTE'
-            )
-            ->addOption(
-                'base-dn',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'LDAP Base DN. If not set, will retrieve value of env var LDAP_AUTH_BASE_DN'
-            )
-            ->addOption(
-                'query',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'LDAP search query. If not set, will retrieve value of env var LDAP_AUTH_USER_QUERY'
-            )
-            ->addOption(
-                'search-dn',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'LDAP search DN. If not set, will retrieve value of env var LDAP_BIND_DN'
-            )
-            ->addOption(
-                'search-password',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'LDAP search password. If not set, will retrieve value of env var LDAP_BIND_SECRET'
             );
-        ;
-    }
-
-    /**
-     * Returns the option value for a given option name or returns the value of an environment variable.
-     *
-     * @param string $input The command input
-     * @param string $name The option name
-     * @param string $env The environment variable name
-     *
-     * @return string|string[]|bool|null The option value
-     *
-     * @throws InvalidArgumentException When option given doesn't exist
-     */
-    private function getOptionOrEnvVar(InputInterface $input, $name, $env)
-    {
-        $option = $input->getOption($name);
-        if (empty($option)) {
-            $option = getenv($env);
-        }
-        return $option;
+        $this->configureLdapOptions($this);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -137,25 +84,8 @@ class LdapLoginCommand extends Command
             return 2;
         }
 
-        // Creating LDAP config
-        $uidKey = $this->getOptionOrEnvVar($input, 'uid-key', 'LDAP_AUTH_USERNAME_ATTRIBUTE');
-        $mailKey = $this->getOptionOrEnvVar($input, 'mail-key', 'LDAP_AUTH_EMAIL_ATTRIBUTE');
-        $query = $this->getOptionOrEnvVar($input, 'query', 'LDAP_AUTH_USER_QUERY');
+        $config = $this->returnConfig($input);
 
-        $baseDn = $this->getOptionOrEnvVar($input, 'base-dn', 'LDAP_AUTH_BASE_DN');
-        $searchDn = $this->getOptionOrEnvVar($input, 'search-dn', 'LDAP_BIND_DN');
-        $searchPassword = $this->getOptionOrEnvVar($input, 'search-password', 'LDAP_BIND_SECRET');
-
-        $config = [
-            'uid_key' => $uidKey,
-            'mail_key' => $mailKey,
-            'base_dn' => $baseDn,
-            'is_ad' => false,
-            'ad_domain' => '',
-            'query' => $query,
-            'search_dn' => $searchDn,
-            'search_password' => $searchPassword
-        ];
         $ldapClient = new Client($this->ldap, $config);
 
         // LDAP login
