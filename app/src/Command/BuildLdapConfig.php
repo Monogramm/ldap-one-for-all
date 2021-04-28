@@ -5,9 +5,8 @@ namespace App\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-trait buildLdapConfig
+trait BuildLdapConfig
 {
-
     public function configureLdapOptions($commande)
     {
         $commande->addOption(

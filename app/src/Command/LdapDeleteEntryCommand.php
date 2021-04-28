@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Service\Ldap\Client;
-use App\Command\buildLdapConfig;
+use App\Command\BuildLdapConfig;
 use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,7 +15,7 @@ class LdapDeleteEntryCommand extends Command
 {
     protected static $defaultName = 'app:ldap:delete-entry';
 
-    use buildLdapConfig;
+    use BuildLdapConfig;
 
     /**
      * @var Ldap

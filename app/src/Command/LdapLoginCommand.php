@@ -4,7 +4,7 @@ namespace App\Command;
 
 use App\Service\Ldap\Client;
 use Psr\Log\LoggerInterface;
-use App\Command\buildLdapConfig;
+use App\Command\BuildLdapConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,7 +18,7 @@ class LdapLoginCommand extends Command
 {
     protected static $defaultName = 'app:ldap:login';
 
-    use buildLdapConfig;
+    use BuildLdapConfig;
 
     /**
      * @var Ldap
