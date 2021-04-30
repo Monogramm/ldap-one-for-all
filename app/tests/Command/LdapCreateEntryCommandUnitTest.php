@@ -2,72 +2,48 @@
 
 namespace App\Tests\Command;
 
-use App\Command\LdapCreateEntry;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Command\LdapCreateEntryCommand;
+use App\Tests\Command\AbstractUnitTestLdap;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Ldap;
-use Symfony\Component\Ldap\Adapter\AdapterInterface;
-use Symfony\Component\Ldap\Adapter\ConnectionInterface;
-use Symfony\Component\Ldap\Adapter\QueryInterface;
+use Symfony\Component\Console\Exception\RuntimeException;
 
-class LdapCreateEntryCommandUnitTest extends KernelTestCase
+class LdapCreateEntryCommandUnitTest extends AbstractUnitTestLdap
 {
-    public $baseDn = 'ou=people,dc=planetexpress,dc=com';
-    public $attribute = '{"sn":["vivi"],"objectClass":["inetOrgPerson"]}';
 
-    public function defautlLdapMock(bool $ldapResponse)
-    {
-        $ldapQueryMock = $this->getMockBuilder(QueryInterface::class)
-        ->disableOriginalClone()
-        ->disableProxyingToOriginalMethods()
-        ->disableOriginalConstructor()
-        ->setMethods(['execute'])
-        ->getMock();
+    public $fullDn = 'cn=Maurice M. Farnsworth,ou=people,dc=planetexpress,dc=com';
+    public $attribute = '{"sn":["Farn"],"objectClass":["inetOrgPerson"]}';
 
-        $ldapQueryMock->expects($this->any())
-            ->method('execute')
-            ->willReturn([
-                $ldapResponse,
-            ]);
-
-        $ldapAdapterMock = $this->getMockBuilder(AdapterInterface::class)
-            ->disableOriginalClone()
-            ->disableProxyingToOriginalMethods()
-            ->disableOriginalConstructor()
-            ->setMethods(['getConnection', 'createQuery', 'getEntryManager', 'escape'])
-            ->getMock();
-
-        $ldapConnectionMock = $this->getMockBuilder(ConnectionInterface::class)
-            ->disableOriginalClone()
-            ->disableProxyingToOriginalMethods()
-            ->disableOriginalConstructor()
-            ->setMethods(['isBound', 'bind'])
-            ->getMock();
-        $ldapConnectionMock->expects($this->exactly(0))
-            ->method('isBound')
-            ->willReturn(true);
-        $ldapConnectionMock->expects($this->once())
-            ->method('bind');
-
-        $ldapAdapterMock->expects($this->once())
-            ->method('getConnection')
-            ->willReturn($ldapConnectionMock);
-        $ldapAdapterMock->expects($this->once())
-            ->method('createQuery')
-            ->willReturn($ldapQueryMock);
-    
-        return $ldapAdapterMock;
-    }
+    public $dnWrong = 'cn=Maurice M. Farnsworthou=people,dc=planetexpress,dc=com';
+    public $attributeWrong = '{sn":["Farn"],"objectClass":["inetOrgPerson"]}';
 
     public function testExecute()
     {
-        $ldapAdapterMock = $this->defautlLdapMock(true);
+        $this->buildLdapMock();
 
-        $ldap = new Ldap($ldapAdapterMock);
+        $this->ldapConnectionMock->expects($this->exactly(0))
+            ->method('isBound')
+            ->willReturn(true);
         
-        $cmd = new LdapCreateEntry(
+        $this->ldapConnectionMock->expects($this->once())
+            ->method('bind');
+
+        $this->ldapAdapterMock->expects($this->once())
+            ->method('getConnection')
+            ->willReturn($this->ldapConnectionMock);
+
+        $this->ldapAdapterMock->expects($this->once())
+            ->method('getEntryManager')
+            ->willReturn($this->ldapEntryManagerMock);
+
+        $this->ldapEntryManagerMock->expects($this->any())
+            ->method('add')
+            ->willReturn(true);
+        
+        $ldap = new Ldap($this->ldapAdapterMock);
+        
+        $cmd = new LdapCreateEntryCommand(
             $ldap
         );
 
@@ -80,12 +56,235 @@ class LdapCreateEntryCommandUnitTest extends KernelTestCase
         $command = $application->find('app:ldap:create-entry');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
-            'distingName' => $this->baseDn,
+            'dn' => $this->fullDn,
             'attr'=>$this->attribute
         ]);
 
         // the output of the command in the console
-        $output = $commandTester->getDisplay();
-        $this->assertEquals(true, $output);
+        $code = $commandTester->getStatusCode();
+        $this->assertEquals(0, $code);
+    }
+    
+    public function testExecuteWithoutAttribute()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Not enough arguments (missing: "attr").');
+
+        $this->buildLdapMock();
+
+        $this->ldapConnectionMock->expects($this->exactly(0))
+            ->method('isBound')
+            ->willReturn(true);
+        
+        $this->ldapConnectionMock->expects($this->never())
+            ->method('bind');
+
+        $this->ldapAdapterMock->expects($this->never())
+            ->method('getConnection')
+            ->willReturn($this->ldapConnectionMock);
+
+        $this->ldapAdapterMock->expects($this->never())
+            ->method('getEntryManager')
+            ->willReturn($this->ldapEntryManagerMock);
+        
+        $ldap = new Ldap($this->ldapAdapterMock);
+        
+        $cmd = new LdapCreateEntryCommand(
+            $ldap
+        );
+
+        $kernel = static::createKernel();
+        $kernel->boot();
+        
+        $application = new Application();
+        $application->add($cmd);
+
+        $command = $application->find('app:ldap:create-entry');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'dn' => $this->fullDn
+        ]);
+
+        // the output of the command in the console
+        $code = $commandTester->getStatusCode();
+        $this->assertEquals(0, $code);
+    }
+
+    public function testExecuteWithoutDn()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Not enough arguments (missing: "dn").');
+
+        $this->buildLdapMock();
+
+        $this->ldapConnectionMock->expects($this->exactly(0))
+            ->method('isBound')
+            ->willReturn(true);
+        
+        $this->ldapConnectionMock->expects($this->never())
+            ->method('bind');
+
+        $this->ldapAdapterMock->expects($this->never())
+            ->method('getConnection')
+            ->willReturn($this->ldapConnectionMock);
+
+        $this->ldapAdapterMock->expects($this->never())
+            ->method('getEntryManager')
+            ->willReturn($this->ldapEntryManagerMock);
+        
+        $ldap = new Ldap($this->ldapAdapterMock);
+        
+        $cmd = new LdapCreateEntryCommand(
+            $ldap
+        );
+
+        $kernel = static::createKernel();
+        $kernel->boot();
+        
+        $application = new Application();
+        $application->add($cmd);
+
+        $command = $application->find('app:ldap:create-entry');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'attr'=>$this->attribute
+        ]);
+
+        // the output of the command in the console
+        $code = $commandTester->getStatusCode();
+        $this->assertEquals(0, $code);
+    }
+
+    public function testExecuteBadAttributeFormat()
+    {
+        $this->buildLdapMock();
+
+        $this->ldapConnectionMock->expects($this->exactly(0))
+            ->method('isBound')
+            ->willReturn(true);
+
+        $this->ldapConnectionMock->expects($this->never())
+            ->method('bind');
+                
+        $this->ldapAdapterMock->expects($this->never())
+            ->method('getConnection')
+            ->willReturn($this->ldapConnectionMock);
+        
+        $this->ldapAdapterMock->expects($this->never())
+            ->method('getEntryManager')
+            ->willReturn($this->ldapEntryManagerMock);
+
+        $ldap = new Ldap($this->ldapAdapterMock);
+        
+        $cmd = new LdapCreateEntryCommand(
+            $ldap
+        );
+
+        $kernel = static::createKernel();
+        $kernel->boot();
+        
+        $application = new Application();
+        $application->add($cmd);
+
+        $command = $application->find('app:ldap:create-entry');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'dn' => $this->fullDn,
+            'attr'=>$this->attributeWrong
+        ]);
+
+        // the output of the command in the console
+        $code = $commandTester->getStatusCode();
+        $this->assertEquals(1, $code);
+    }
+
+    public function testExecuteBadDnFormat()
+    {
+        $this->buildLdapMock();
+
+        $this->ldapConnectionMock->expects($this->exactly(0))
+            ->method('isBound')
+            ->willReturn(true);
+        
+        $this->ldapConnectionMock->expects($this->once())
+            ->method('bind');
+        
+        $this->ldapAdapterMock->expects($this->once())
+            ->method('getConnection')
+            ->willReturn($this->ldapConnectionMock);
+
+        $this->ldapAdapterMock->expects($this->once())
+            ->method('getEntryManager')
+            ->willReturn($this->ldapEntryManagerMock);
+
+        $this->ldapEntryManagerMock->expects($this->any())
+            ->method('add')
+            ->willReturn(false);
+
+        $ldap = new Ldap($this->ldapAdapterMock);
+        
+        $cmd = new LdapCreateEntryCommand(
+            $ldap
+        );
+
+        $kernel = static::createKernel();
+        $kernel->boot();
+        
+        $application = new Application();
+        $application->add($cmd);
+
+        $command = $application->find('app:ldap:create-entry');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'dn' => $this->dnWrong,
+            'attr'=> $this->attribute
+        ]);
+
+        // the output of the command in the console
+        $code = $commandTester->getStatusCode();
+        $this->assertEquals(1, $code);
+    }
+
+    public function testExecuteBadDnAndAttributeFormat()
+    {
+        $this->buildLdapMock();
+
+        $this->ldapConnectionMock->expects($this->exactly(0))
+            ->method('isBound')
+            ->willReturn(true);
+
+        $this->ldapConnectionMock->expects($this->never())
+            ->method('bind');
+                
+        $this->ldapAdapterMock->expects($this->never())
+            ->method('getConnection')
+            ->willReturn($this->ldapConnectionMock);
+        
+        $this->ldapAdapterMock->expects($this->never())
+            ->method('getEntryManager')
+            ->willReturn($this->ldapEntryManagerMock);
+
+        $ldap = new Ldap($this->ldapAdapterMock);
+        
+        $cmd = new LdapCreateEntryCommand(
+            $ldap
+        );
+
+        $kernel = static::createKernel();
+        $kernel->boot();
+        
+        $application = new Application();
+        $application->add($cmd);
+
+        $command = $application->find('app:ldap:create-entry');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'dn' => $this->dnWrong,
+            'attr'=> $this->attributeWrong
+        ]);
+
+        // the output of the command in the console
+        $code = $commandTester->getStatusCode();
+        $this->assertEquals(1, $code);
     }
 }
