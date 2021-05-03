@@ -68,7 +68,6 @@ class LdapCreateEntryCommandUnitTest extends AbstractUnitTestLdap
     public function testExecuteWithoutAttribute()
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Not enough arguments (missing: "attr").');
 
         $this->buildLdapMock();
 
@@ -113,7 +112,6 @@ class LdapCreateEntryCommandUnitTest extends AbstractUnitTestLdap
     public function testExecuteWithoutDn()
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Not enough arguments (missing: "dn").');
 
         $this->buildLdapMock();
 

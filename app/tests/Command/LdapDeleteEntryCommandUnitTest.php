@@ -64,7 +64,6 @@ class LdapDeleteEntryCommandUnitTest extends AbstractUnitTestLdap
     public function testExecuteWithoutQuery()
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Not enough arguments (missing: "dn").');
 
         $this->buildLdapMock();
 
@@ -107,7 +106,6 @@ class LdapDeleteEntryCommandUnitTest extends AbstractUnitTestLdap
     public function testExecuteWithEmptyDn()
     {
         $this->expectException(LdapException::class);
-        $this->expectExceptionMessage('Could not remove entry "": Server is unwilling to perform');
         
         $this->buildLdapMock();
 
@@ -128,7 +126,9 @@ class LdapDeleteEntryCommandUnitTest extends AbstractUnitTestLdap
 
         $this->ldapEntryManagerMock->expects($this->any())
             ->method('remove')
-            ->will($this->throwException(new LdapException('Could not remove entry "": Server is unwilling to perform"')));
+            ->will($this->throwException(
+                new LdapException()
+            ));
 
         $ldap = new Ldap($this->ldapAdapterMock);
         
