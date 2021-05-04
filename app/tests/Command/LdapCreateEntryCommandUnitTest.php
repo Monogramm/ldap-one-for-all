@@ -110,8 +110,6 @@ class LdapCreateEntryCommandUnitTest extends AbstractUnitTestLdap
 
     public function testExecuteWithoutDn()
     {
-        $this->expectException(RuntimeException::class);
-
         $this->buildLdapMock();
 
         $this->ldapConnectionMock->expects($this->exactly(0))
@@ -141,15 +139,13 @@ class LdapCreateEntryCommandUnitTest extends AbstractUnitTestLdap
         $application = new Application();
         $application->add($cmd);
 
+        $this->expectException(RuntimeException::class);
+
         $command = $application->find('app:ldap:create-entry');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'attr' => $this->attribute
         ]);
-
-        // the output of the command in the console
-        $code = $commandTester->getStatusCode();
-        $this->assertEquals(0, $code);
     }
 
     public function testExecuteBadAttributeFormat()

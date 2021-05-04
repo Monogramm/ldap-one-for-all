@@ -38,7 +38,7 @@ class LdapUpdateEntryCommand extends Command
     {
         $this
             ->setDescription('Update a LDAP Entry')
-            ->setHelp('Update an existing entry in the LDAP using a DN and attributes.')
+            ->setHelp('Update an existing LDAP entry using a DN and attributes.')
             ->addArgument(
                 'query',
                 InputArgument::REQUIRED,

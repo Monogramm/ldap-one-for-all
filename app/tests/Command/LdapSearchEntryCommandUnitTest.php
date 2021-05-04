@@ -86,8 +86,6 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
 
     public function testExecuteWithEmptyQuery()
     {
-        $this->expectException(LdapException::class);
-
         $this->buildLdapMock();
 
         $this->ldapConnectionMock->expects($this->exactly(0))
@@ -121,6 +119,8 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
         $application = new Application();
         $application->add($cmd);
 
+        $this->expectException(LdapException::class);
+
         $command = $application->find('app:ldap:search-entries');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
@@ -128,10 +128,6 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
             '--attr' => $this->attributes,
             '--labels' => $this->labels
         ]);
-
-        // the output of the command in the console
-        $code = $commandTester->getStatusCode();
-        $this->assertEquals(1, $code);
     }
 
     public function testExecuteWithoutAttribute()
@@ -300,8 +296,6 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
 
     public function testExecuteWithoutQuery()
     {
-        $this->expectException(RuntimeException::class);
-
         $this->buildLdapMock();
 
         $this->ldapConnectionMock->expects($this->exactly(0))
@@ -327,17 +321,14 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
         $application = new Application();
         $application->add($cmd);
 
+        $this->expectException(RuntimeException::class);
+
         $command = $application->find('app:ldap:search-entries');
         $commandTester = new CommandTester($command);
-
         $commandTester->execute([
             '--attr' => $this->attributes,
             '--labels' => $this->labels
         ]);
-
-        // the output of the command in the console
-        $code = $commandTester->getStatusCode();
-        $this->assertEquals(1, $code);
     }
 
     public function testExecuteNoLdapEntryFound()

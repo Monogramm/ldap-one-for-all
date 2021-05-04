@@ -39,7 +39,7 @@ class LdapSearchEntryCommand extends Command
     {
         $this
             ->setDescription('Search LDAP Entries')
-            ->setHelp('Search entries in the LDAP using a query.')
+            ->setHelp('Search LDAP entries using a query.')
             ->addArgument(
                 'query',
                 InputArgument::REQUIRED,
@@ -72,6 +72,7 @@ class LdapSearchEntryCommand extends Command
         $symfonyStyle->comment("List of entries:");
 
         $query = $input->getArgument('query');
+
         $attributes = explode(',', trim($input->getOption('attr')));
         $labels =  explode(',', $input->getOption('labels'));
 
@@ -81,7 +82,7 @@ class LdapSearchEntryCommand extends Command
 
         $ldapEntries = $ldapClient->search($query);
 
-        if (sizeof($labels) != sizeof($attributes)) {
+        if (count($labels) !== count($attributes) || empty($labels[0])) {
             $labels = $attributes;
         }
 
@@ -92,13 +93,8 @@ class LdapSearchEntryCommand extends Command
             $entries[$key]['dn'] = $entryDn;
 
             foreach ($attributes as $attr) {
-                if ($entry->hasAttribute($attr) && !empty($entry->hasAttribute($attr))) {
-                    $entries[$key][$attr] = json_encode($entry->getAttribute($attr));
-                }
-
-                if (!$entry->hasAttribute($attr) || empty($entry->hasAttribute($attr))) {
-                    $entries[$key][$attr] = "null";
-                }
+                $entries[$key][$attr] = ($entry->hasAttribute($attr) && !empty($entry->getAttribute($attr))) ?
+                    json_encode($entry->getAttribute($attr)) : "null";
             }
         }
 
@@ -109,7 +105,7 @@ class LdapSearchEntryCommand extends Command
             return 0;
         }
 
-        $symfonyStyle->error('No ldap entry was found.');
+        $symfonyStyle->error('No matching LDAP entry was found.');
         return 1;
     }
 }

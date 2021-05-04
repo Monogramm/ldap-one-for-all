@@ -39,7 +39,7 @@ class LdapCreateEntryCommand extends Command
     {
         $this
             ->setDescription('Creates a LDAP Entry')
-            ->setHelp('Create a new entry in the LDAP using a DN and attributes.')
+            ->setHelp('Create a new LDAP entry using a DN and attributes.')
             ->addArgument(
                 'dn',
                 InputArgument::REQUIRED,
@@ -51,10 +51,10 @@ class LdapCreateEntryCommand extends Command
                 'LDAP entry attributes. Must be provided as a valid JSON string: {"uid":"john.doe","cn":"John DOE"}'
             )
             ->addOption(
-                'jsonfiles',
+                'jsonfile',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Path to the json files containing the LDAP entry attributes. Must be provided as a valid JSON file'
+                'WIP Path to a JSON file containing the LDAP entry attributes. Must be provided a path to a valid JSON file'
             );
         $this->configureLdapOptions($this);
     }

@@ -44,6 +44,7 @@ class LdapUpdateEntryCommandUnitTest extends AbstractUnitTestLdap
                     ]
                 )
             ]);
+
         $this->ldapAdapterMock->expects($this->once())
             ->method('createQuery')
             ->willReturn($this->ldapQueryMock);
@@ -58,6 +59,7 @@ class LdapUpdateEntryCommandUnitTest extends AbstractUnitTestLdap
         $this->ldapAdapterMock->expects($this->once())
             ->method('getEntryManager')
             ->willReturn($this->ldapEntryManagerMock);
+
         $this->ldapEntryManagerMock->expects($this->any())
             ->method('update')
             ->willReturn(null);
@@ -88,8 +90,6 @@ class LdapUpdateEntryCommandUnitTest extends AbstractUnitTestLdap
 
     public function testExecuteWithEmptyQuery()
     {
-        $this->expectException(LdapException::class);
-
         $this->buildLdapMock();
 
         $this->ldapConnectionMock->expects($this->exactly(0))
@@ -127,22 +127,18 @@ class LdapUpdateEntryCommandUnitTest extends AbstractUnitTestLdap
         $application = new Application();
         $application->add($cmd);
 
+        $this->expectException(LdapException::class);
+
         $command = $application->find('app:ldap:update-entry');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'query' => '',
             'attr' => $this->attribute
         ]);
-
-        // the output of the command in the console
-        $code = $commandTester->getStatusCode();
-        $this->assertEquals(1, $code);
     }
 
     public function testExecuteWithoutAttribute()
     {
-        $this->expectException(RuntimeException::class);
-
         $this->buildLdapMock();
 
         $this->ldapConnectionMock->expects($this->exactly(0))
@@ -175,22 +171,18 @@ class LdapUpdateEntryCommandUnitTest extends AbstractUnitTestLdap
 
         $application = new Application();
         $application->add($cmd);
+
+        $this->expectException(RuntimeException::class);
 
         $command = $application->find('app:ldap:update-entry');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'query' => $this->query,
         ]);
-
-        // the output of the command in the console
-        $code = $commandTester->getStatusCode();
-        $this->assertEquals(1, $code);
     }
 
     public function testExecuteWithoutQuery()
     {
-        $this->expectException(RuntimeException::class);
-
         $this->buildLdapMock();
 
         $this->ldapConnectionMock->expects($this->exactly(0))
@@ -223,22 +215,18 @@ class LdapUpdateEntryCommandUnitTest extends AbstractUnitTestLdap
 
         $application = new Application();
         $application->add($cmd);
+
+        $this->expectException(RuntimeException::class);
 
         $command = $application->find('app:ldap:update-entry');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'attr' => $this->attribute
         ]);
-
-        // the output of the command in the console
-        $code = $commandTester->getStatusCode();
-        $this->assertEquals(1, $code);
     }
 
     public function testExecuteWithoutQueryAndAttribute()
     {
-        $this->expectException(RuntimeException::class);
-
         $this->buildLdapMock();
 
         $this->ldapConnectionMock->expects($this->exactly(0))
@@ -272,12 +260,10 @@ class LdapUpdateEntryCommandUnitTest extends AbstractUnitTestLdap
         $application = new Application();
         $application->add($cmd);
 
+        $this->expectException(RuntimeException::class);
+
         $command = $application->find('app:ldap:update-entry');
         $commandTester = new CommandTester($command);
         $commandTester->execute([]);
-
-        // the output of the command in the console
-        $code = $commandTester->getStatusCode();
-        $this->assertEquals(1, $code);
     }
 }

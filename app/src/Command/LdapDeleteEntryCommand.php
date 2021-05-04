@@ -38,7 +38,7 @@ class LdapDeleteEntryCommand extends Command
     {
         $this
             ->setDescription('Delete a LDAP Entry')
-            ->setHelp('Delete an existing entry in the LDAP using a DN.')
+            ->setHelp('Delete an existing LDAP entry identified by DN.')
             ->addArgument(
                 'dn',
                 InputArgument::REQUIRED,

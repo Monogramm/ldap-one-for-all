@@ -49,13 +49,5 @@ abstract class AbstractUnitTestLdap extends KernelTestCase
             ->disableOriginalConstructor()
             ->setMethods(['isBound', 'bind'])
             ->getMock();
-
-        return
-            [
-                "queryMock"=>$this->ldapQueryMock,
-                "adapterMock"=>$this->ldapAdapterMock,
-                "entryManagerMock"=>$this->ldapEntryManagerMock,
-                "connectionMock"=>$this->ldapConnectionMock
-            ];
     }
 }

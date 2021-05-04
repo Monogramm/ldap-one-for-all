@@ -63,8 +63,6 @@ class LdapDeleteEntryCommandUnitTest extends AbstractUnitTestLdap
 
     public function testExecuteWithoutQuery()
     {
-        $this->expectException(RuntimeException::class);
-
         $this->buildLdapMock();
 
         $this->ldapConnectionMock->expects($this->exactly(0))
@@ -94,13 +92,11 @@ class LdapDeleteEntryCommandUnitTest extends AbstractUnitTestLdap
         $application = new Application();
         $application->add($cmd);
 
+        $this->expectException(RuntimeException::class);
+
         $command = $application->find('app:ldap:delete-entry');
         $commandTester = new CommandTester($command);
         $commandTester->execute([]);
-
-        // the output of the command in the console
-        $code = $commandTester->getStatusCode();
-        $this->assertEquals(1, $code);
     }
 
     public function testExecuteWithEmptyDn()
@@ -147,11 +143,5 @@ class LdapDeleteEntryCommandUnitTest extends AbstractUnitTestLdap
         $commandTester->execute([
             'dn' => ''
         ]);
-
-        // the output of the command in the console
-        $code = $commandTester->getStatusCode();
-        $output = $commandTester->getDisplay();
-        var_dump($output);
-        $this->assertEquals(1, $code);
     }
 }
