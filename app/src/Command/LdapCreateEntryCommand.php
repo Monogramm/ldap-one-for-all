@@ -54,7 +54,7 @@ class LdapCreateEntryCommand extends Command
                 'jsonfile',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'WIP Path to a JSON file containing the LDAP entry attributes. Must be provided a path to a valid JSON file'
+                'WIP Path to a JSON file containing the LDAP entry attributes. Must be a path to a valid JSON file'
             );
         $this->configureLdapOptions($this);
     }
