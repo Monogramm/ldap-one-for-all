@@ -8,7 +8,7 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 trait BuildLdapConfig
 {
-    public function configureLdapOptions($commande)
+    public function configureLdapOptions($commande): void
     {
         $commande->addOption(
             'uid-key',

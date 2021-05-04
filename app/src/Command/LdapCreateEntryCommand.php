@@ -49,7 +49,8 @@ class LdapCreateEntryCommand extends Command
                 'attr',
                 InputArgument::REQUIRED,
                 'LDAP entry attributes. Must be provided as a valid JSON string: {"uid":"john.doe","cn":"John DOE"}'
-            )->addOption(
+            )
+            ->addOption(
                 'jsonfiles',
                 null,
                 InputOption::VALUE_OPTIONAL,
@@ -67,7 +68,7 @@ class LdapCreateEntryCommand extends Command
         $symfonyStyle = new SymfonyStyle($input, $output);
 
         $jsonDecodeAttributes = json_decode($attributes, true);
-        
+
         if (empty($jsonDecodeAttributes)) {
             $symfonyStyle->error('The Attribute argument is not a valid JSON.');
             return 1;
@@ -76,12 +77,12 @@ class LdapCreateEntryCommand extends Command
         $config = $this->returnConfig($input);
 
         $ldapClient = new Client($this->ldap, $config);
-        
+
         if ($ldapClient->create($distingName, $jsonDecodeAttributes)) {
             $symfonyStyle->success("Following LDAP entry was successfuly create: $distingName");
             return 0;
         }
-        
+
         $symfonyStyle->error('An error occurred during creation of LDAP entry');
         return 1;
     }

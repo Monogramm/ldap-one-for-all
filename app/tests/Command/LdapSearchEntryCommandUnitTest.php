@@ -22,7 +22,7 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
     public $userId = ['professor'];
     public $commonName = 'cn=Hubert J. Farnsworth';
     public $surname = ['Farnsworth'];
-    public $email = ["professor@planetexpress.com","hubert@planetexpress.com"];
+    public $email = ["professor@planetexpress.com", "hubert@planetexpress.com"];
     public $description = ['Human'];
 
     public function testExecute()
@@ -39,12 +39,13 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
                 new Entry(
                     "dn=$this->commonName,$this->baseDn",
                     [
-                    'uid' => $this->userId,
-                    'mail' => $this->email,
-                    'sn' => $this->surname,
-                    'description' => $this->description
+                        'uid' => $this->userId,
+                        'mail' => $this->email,
+                        'sn' => $this->surname,
+                        'description' => $this->description
                     ]
-                )]);
+                )
+            ]);
 
         $this->ldapConnectionMock->expects($this->once())
             ->method('bind');
@@ -72,9 +73,9 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
         $command = $application->find('app:ldap:search-entries');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
-            'query'=>$this->query,
-            '--attr'=>$this->attributes,
-            '--labels'=>$this->labels
+            'query' => $this->query,
+            '--attr' => $this->attributes,
+            '--labels' => $this->labels
         ]);
 
         // the output of the command in the console
@@ -82,7 +83,7 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
 
         $this->assertEquals(0, $code);
     }
- 
+
     public function testExecuteWithEmptyQuery()
     {
         $this->expectException(LdapException::class);
@@ -123,9 +124,9 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
         $command = $application->find('app:ldap:search-entries');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
-            'query'=>'',
-            '--attr'=>$this->attributes,
-            '--labels'=>$this->labels
+            'query' => '',
+            '--attr' => $this->attributes,
+            '--labels' => $this->labels
         ]);
 
         // the output of the command in the console
@@ -147,9 +148,10 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
                 new Entry(
                     "dn=$this->commonName,$this->baseDn",
                     [
-                    'cn' => $this->commonName
+                        'cn' => $this->commonName
                     ]
-                )]);
+                )
+            ]);
 
         $this->ldapConnectionMock->expects($this->once())
             ->method('bind');
@@ -177,15 +179,15 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
         $command = $application->find('app:ldap:search-entries');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
-            'query'=>$this->query,
-            '--labels'=>$this->labels
+            'query' => $this->query,
+            '--labels' => $this->labels
         ]);
 
         // the output of the command in the console
         $code = $commandTester->getStatusCode();
         $this->assertEquals(0, $code);
     }
-   
+
     public function testExecuteWithoutLabels()
     {
         $this->buildLdapMock();
@@ -200,12 +202,13 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
                 new Entry(
                     "dn=$this->commonName,$this->baseDn",
                     [
-                    'uid' => $this->userId,
-                    'mail' => $this->email,
-                    'sn' => $this->surname,
-                    'description' => $this->description
+                        'uid' => $this->userId,
+                        'mail' => $this->email,
+                        'sn' => $this->surname,
+                        'description' => $this->description
                     ]
-                )]);
+                )
+            ]);
 
         $this->ldapConnectionMock->expects($this->once())
             ->method('bind');
@@ -233,15 +236,15 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
         $command = $application->find('app:ldap:search-entries');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
-            'query'=>$this->query,
-            '--attr'=>$this->attributes
+            'query' => $this->query,
+            '--attr' => $this->attributes
         ]);
 
         // the output of the command in the console
         $code = $commandTester->getStatusCode();
         $this->assertEquals(0, $code);
     }
-    
+
     public function testExecuteWithoutAttributeAndLibelle()
     {
         $this->buildLdapMock();
@@ -256,9 +259,10 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
                 new Entry(
                     "dn=$this->commonName,$this->baseDn",
                     [
-                    'cn' => $this->commonName
+                        'cn' => $this->commonName
                     ]
-                )]);
+                )
+            ]);
 
         $this->ldapConnectionMock->expects($this->once())
             ->method('bind');
@@ -286,14 +290,14 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
         $command = $application->find('app:ldap:search-entries');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
-            'query'=>$this->query
+            'query' => $this->query
         ]);
 
         // the output of the command in the console
         $code = $commandTester->getStatusCode();
         $this->assertEquals(0, $code);
     }
-    
+
     public function testExecuteWithoutQuery()
     {
         $this->expectException(RuntimeException::class);
@@ -325,10 +329,10 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
 
         $command = $application->find('app:ldap:search-entries');
         $commandTester = new CommandTester($command);
-        
+
         $commandTester->execute([
-            '--attr'=>$this->attributes,
-            '--labels'=>$this->labels
+            '--attr' => $this->attributes,
+            '--labels' => $this->labels
         ]);
 
         // the output of the command in the console
@@ -373,11 +377,11 @@ class LdapSearchEntryCommandUnitTest extends AbstractUnitTestLdap
 
         $command = $application->find('app:ldap:search-entries');
         $commandTester = new CommandTester($command);
-        
+
         $commandTester->execute([
-            'query'=>"(cn=Test Test)",
-            '--attr'=>$this->attributes,
-            '--labels'=>$this->labels
+            'query' => "(cn=Test Test)",
+            '--attr' => $this->attributes,
+            '--labels' => $this->labels
         ]);
 
         // the output of the command in the console

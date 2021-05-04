@@ -13,7 +13,7 @@ use Symfony\Component\Console\Exception\RuntimeException;
 class LdapDeleteEntryCommandUnitTest extends AbstractUnitTestLdap
 {
 
-    public $fullDn = 'cn=Maurice M. Farnsworth,ou=people,dc=planetexpress,dc=com';
+    public $fullDn = 'cn=Hubert J. Farnsworth,ou=people,dc=planetexpress,dc=com';
 
     public function testExecute()
     {
@@ -22,7 +22,7 @@ class LdapDeleteEntryCommandUnitTest extends AbstractUnitTestLdap
         $this->ldapConnectionMock->expects($this->exactly(0))
             ->method('isBound')
             ->willReturn(true);
-        
+
         $this->ldapConnectionMock->expects($this->once())
             ->method('bind');
 
@@ -39,23 +39,23 @@ class LdapDeleteEntryCommandUnitTest extends AbstractUnitTestLdap
             ->willReturn(true);
 
         $ldap = new Ldap($this->ldapAdapterMock);
-        
+
         $cmd = new LdapDeleteEntryCommand(
             $ldap
         );
-    
+
         $kernel = static::createKernel();
         $kernel->boot();
-            
+
         $application = new Application();
         $application->add($cmd);
-    
+
         $command = $application->find('app:ldap:delete-entry');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'dn' => $this->fullDn
         ]);
-    
+
         // the output of the command in the console
         $code = $commandTester->getStatusCode();
         $this->assertEquals(0, $code);
@@ -83,21 +83,21 @@ class LdapDeleteEntryCommandUnitTest extends AbstractUnitTestLdap
             ->willReturn($this->ldapEntryManagerMock);
 
         $ldap = new Ldap($this->ldapAdapterMock);
-        
+
         $cmd = new LdapDeleteEntryCommand(
             $ldap
         );
-        
+
         $kernel = static::createKernel();
         $kernel->boot();
-                
+
         $application = new Application();
         $application->add($cmd);
-        
+
         $command = $application->find('app:ldap:delete-entry');
         $commandTester = new CommandTester($command);
         $commandTester->execute([]);
-        
+
         // the output of the command in the console
         $code = $commandTester->getStatusCode();
         $this->assertEquals(1, $code);
@@ -105,8 +105,6 @@ class LdapDeleteEntryCommandUnitTest extends AbstractUnitTestLdap
 
     public function testExecuteWithEmptyDn()
     {
-        $this->expectException(LdapException::class);
-        
         $this->buildLdapMock();
 
         $this->ldapConnectionMock->expects($this->exactly(0))
@@ -131,23 +129,25 @@ class LdapDeleteEntryCommandUnitTest extends AbstractUnitTestLdap
             ));
 
         $ldap = new Ldap($this->ldapAdapterMock);
-        
+
         $cmd = new LdapDeleteEntryCommand(
             $ldap
         );
-        
+
         $kernel = static::createKernel();
         $kernel->boot();
-                
+
         $application = new Application();
         $application->add($cmd);
-        
+
+        $this->expectException(LdapException::class);
+
         $command = $application->find('app:ldap:delete-entry');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'dn' => ''
         ]);
-        
+
         // the output of the command in the console
         $code = $commandTester->getStatusCode();
         $output = $commandTester->getDisplay();

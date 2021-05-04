@@ -60,7 +60,7 @@ class LdapDeleteEntryCommand extends Command
             $symfonyStyle->success("Following LDAP entry was successfully deleted: $fullDn");
             return 0;
         }
-        
+
         $symfonyStyle->error('An error occurred during deletion of LDAP entry');
         return 1;
     }

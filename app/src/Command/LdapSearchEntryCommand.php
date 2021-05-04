@@ -105,7 +105,7 @@ class LdapSearchEntryCommand extends Command
         if (isset($entries)) {
             (new SymfonyStyle($input, $output))
                 ->table($labels, $entries);
-            
+
             return 0;
         }
 

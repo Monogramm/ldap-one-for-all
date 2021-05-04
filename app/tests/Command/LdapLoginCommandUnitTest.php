@@ -33,8 +33,8 @@ class LdapLoginCommandUnitTest extends KernelTestCase
         $ldapEntry = new Entry(
             "uid=$username,$baseDn",
             [
-                'uid' => [ $username ],
-                'mail' => [ $email ],
+                'uid' => [$username],
+                'mail' => [$email],
             ]
         );
         $ldapQueryMock->expects($this->any())

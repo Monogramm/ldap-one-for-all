@@ -61,11 +61,11 @@ class LdapUpdateEntryCommand extends Command
         $fullDn = $input->getArgument('query');
         $attributes = $input->getArgument('attr');
         $symfonyStyle = new SymfonyStyle($input, $output);
-      
+
         $symfonyStyle->comment("update entry :");
-        
+
         $jsonDecodeAttributes = json_decode($attributes, true);
-        
+
         if (empty($jsonDecodeAttributes)) {
             $symfonyStyle->error('The attribute Option is not a valid JSON');
             return 1;
