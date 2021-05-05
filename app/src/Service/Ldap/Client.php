@@ -3,7 +3,8 @@
 
 namespace App\Service\Ldap;
 
-use Symfony\Component\Ldap\Exception\ConnectionException;
+use Symfony\Component\Ldap\Entry;
+use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Ldap\LdapInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
@@ -66,15 +67,104 @@ class Client
                 throw new BadCredentialsException('The presented username is invalid.');
             }
 
-            $dn = $result[0]->getDn();
+            $fullDn = $result[0]->getDn();
         } else {
             $username = $this->ldap->escape($login, '', LdapInterface::ESCAPE_DN);
-            $dn = sprintf('%s=%s,%s', $this->config['uid_key'], $username, $this->config['base_dn']);
+            $fullDn = sprintf('%s=%s,%s', $this->config['uid_key'], $username, $this->config['base_dn']);
         }
 
-        $this->ldap->bind($dn, $password);
-        $result = $this->ldap->query($dn, $query)->execute()[0];
+        $this->ldap->bind($fullDn, $password);
+        $result = $this->ldap->query($fullDn, $query)->execute()[0];
 
         return $result;
+    }
+
+    /**
+     * @return Entry[]|\Symfony\Component\Ldap\Adapter\CollectionInterface
+     *
+     * @throws LdapException When option given doesn't match a ldap entry
+     *
+     * @psalm-return \Symfony\Component\Ldap\Adapter\CollectionInterface|array<array-key, Entry>
+     */
+    public function executeQuery(string $query)
+    {
+        $this->ldap->bind($this->config['search_dn'], $this->config['search_password']);
+        return $this->ldap->query($this->config['base_dn'], $query)->execute();
+    }
+    
+    /**
+     * @return bool
+     *
+     * @throws LdapException When the query given was not right
+     */
+    public function create(string $fullDn, array $attributes): bool
+    {
+        // TODO Do not bind inside search (must be done before)
+        $entryManager = $this->ldap->getEntryManager();
+        $this->ldap->bind($this->config['search_dn'], $this->config['search_password']);
+
+        $entry = new Entry($fullDn, $attributes);
+        if (!empty($entryManager->add($entry))) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return bool
+     *
+     * @throws LdapException
+     */
+    public function update(string $query, array $attributes) : bool
+    {
+        $entryManager = $this->ldap->getEntryManager();
+
+        // Finding and updating an existing entry
+        $result = $this->executeQuery($query);
+
+        // FIXME Check result before doing anything on it
+        $entry = $result[0];
+
+        if (empty($entry)) {
+            return false;
+        }
+        
+        foreach ($attributes as $key => $value) {
+            $entry->setAttribute($key, $value);
+        }
+        $entryManager->update($entry);
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     *
+     * @throws LdapException
+     */
+    public function delete(string $fullDn)
+    {
+        $this->ldap->bind($this->config['search_dn'], $this->config['search_password']);
+        $entryManager = $this->ldap->getEntryManager();
+        $entryManager->remove(new Entry($fullDn));
+        // Removing an existing entry
+        return true;
+    }
+
+    /**
+     * @var string
+     *
+     * @return Entry[]|\Symfony\Component\Ldap\Adapter\CollectionInterface
+     *
+     * @throws LdapException
+     *
+     * @psalm-return \Symfony\Component\Ldap\Adapter\CollectionInterface|array<array-key, Entry>
+     */
+    public function search(string $query)
+    {
+        //Symfony base function for fetching ldap
+        // TODO Do not bind inside search (must be done before)
+        $entries = $this->executeQuery($query);
+        return $entries;
     }
 }

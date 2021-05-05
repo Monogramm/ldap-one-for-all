@@ -3,19 +3,13 @@
 namespace App\Tests\Command;
 
 use App\Command\LdapLoginCommand;
-use App\Service\Ldap\Client;
-use Carbon\Carbon;
 use Monolog\Logger;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Ldap;
-use Symfony\Component\Ldap\Adapter\AdapterInterface;
-use Symfony\Component\Ldap\Adapter\ConnectionInterface;
-use Symfony\Component\Ldap\Adapter\QueryInterface;
 
-class LdapLoginCommandUnitTest extends KernelTestCase
+class LdapLoginCommandUnitTest extends AbstractUnitTestLdap
 {
     public function testExecute()
     {
@@ -23,56 +17,42 @@ class LdapLoginCommandUnitTest extends KernelTestCase
         $username = 'firstname.lastname';
         $email = 'firstname.lastname@yopmail.com';
         $password = 'S&cur3P@ssW0rd';
-        $ldapQueryMock = $this->getMockBuilder(QueryInterface::class)
-            ->disableOriginalClone()
-            ->disableProxyingToOriginalMethods()
-            ->disableOriginalConstructor()
-            ->setMethods(['execute'])
-            ->getMock();
 
         $ldapEntry = new Entry(
             "uid=$username,$baseDn",
             [
-                'uid' => [ $username ],
-                'mail' => [ $email ],
+                'uid' => [$username],
+                'mail' => [$email],
             ]
         );
-        $ldapQueryMock->expects($this->any())
+
+        $this->buildLdapMock();
+
+        $this->ldapQueryMock->expects($this->any())
             ->method('execute')
             ->willReturn([
                 $ldapEntry,
             ]);
 
-        $ldapAdapterMock = $this->getMockBuilder(AdapterInterface::class)
-            ->disableOriginalClone()
-            ->disableProxyingToOriginalMethods()
-            ->disableOriginalConstructor()
-            ->setMethods(['getConnection', 'createQuery', 'getEntryManager', 'escape'])
-            ->getMock();
-
-        $ldapConnectionMock = $this->getMockBuilder(ConnectionInterface::class)
-            ->disableOriginalClone()
-            ->disableProxyingToOriginalMethods()
-            ->disableOriginalConstructor()
-            ->setMethods(['isBound', 'bind'])
-            ->getMock();
-        $ldapConnectionMock->expects($this->exactly(0))
+        $this->ldapConnectionMock->expects($this->exactly(0))
             ->method('isBound')
             ->willReturn(true);
-        $ldapConnectionMock->expects($this->once())
+            $this->ldapConnectionMock->expects($this->once())
             ->method('bind');
 
-        $ldapAdapterMock->expects($this->once())
+        $this->ldapAdapterMock->expects($this->once())
             ->method('getConnection')
-            ->willReturn($ldapConnectionMock);
-        $ldapAdapterMock->expects($this->once())
+            ->willReturn($this->ldapConnectionMock);
+
+        $this->ldapAdapterMock->expects($this->once())
             ->method('createQuery')
-            ->willReturn($ldapQueryMock);
-        $ldapAdapterMock->expects($this->any())
+            ->willReturn($this->ldapQueryMock);
+
+            $this->ldapAdapterMock->expects($this->any())
             ->method('escape')
             ->willReturn($username);
 
-        $ldap = new Ldap($ldapAdapterMock);
+        $ldap = new Ldap($this->ldapAdapterMock);
 
         $logger = $this->createMock(Logger::class);
 
@@ -102,7 +82,6 @@ class LdapLoginCommandUnitTest extends KernelTestCase
         ]);
 
         $code = $commandTester->getStatusCode();
-
         $this->assertEquals(0, $code);
     }
 }
