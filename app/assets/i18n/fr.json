@@ -34,11 +34,13 @@
     "declare": "Déclarer",
     "create": "Créer",
     "edit": "Editer",
+    "clone": "Cloner",
     "update": "Mettre à jour",
     "delete": "Supprimer",
     "manage": "Gérer",
     "view": "Voir",
     "details": "Détails",
+    "sucess": "Succès",
     "username": {
       "label": "Nom d'utilisateur",
       "placeholder": "Entrer un nom d'utilisateur"
@@ -65,7 +67,8 @@
     },
     "error": {
       "required-field-emmpty": "Veuillez renseigner ce champ",
-      "field-not-valid": "Veuillez respecter le format demandé"
+      "field-not-valid": "Veuillez respecter le format demandé",
+      "already-exists": "Existe déjà"
     },
     "send": "Envoyer",
     "user": "Utilisateur",
@@ -252,6 +255,54 @@
     "name": "Nom",
     "filename": "Nom du fichier",
     "description": "Description"
+  },
+  "ldap": {
+    "entries": {
+      "admin": "Entrées Ldap",
+      "list": "Liste des entrées LDAP",
+      "edit": "Modification d'une entrée LDAP",
+      "clone": "Clonage d'une entrée LDAP",
+      "create": "Création d'une entrée LDAP",
+      "delete": "Supprimer une entrée LDAP",
+      "search": "Rechercher une entrée par son DN",
+      "dn": "Nom distinctif",
+      "new": {
+        "dn": {
+          "title-input": "Champ du Nom distinctif",
+          "key-placeholder": "Nouveaux Nom distinctif"
+        },
+        "attribute": {
+            "title-input": "Champ du nom de l'attribut",
+            "key-label": "Nom du nouvel attribut",
+            "key-placeholder": "Nom du nouvel attribut exemple : sn",
+            "add": "Ajouter un attribut",
+            "del-title": "Supprimer un attribut"
+        },
+        "value": {
+            "value-placeholder": "Valeur de l'attribut LDAP",
+            "value-title": "Champ de valeur pour l'attribut",
+            "add-title": "Ajouter un nouveaux champ d'attribut",
+            "del-title": "Supprimer champ d'attribut"
+        },
+        "save": "Envoyer au serveur LDAP"
+      }
+    },
+    "attributes": {
+      "sn": "Nom de famille",
+      "cn": "Nom complet",
+      "email": "Email",
+      "description": "Description",
+      "displayName": "Nom d'affichage",
+      "employeeType": "Type d'employé",
+      "givenName": "Prénom",
+      "mail": "Email",
+      "ou": "Unité organisationnelle",
+      "title": "Emploi",
+      "uid": "Identifiant Utilisateur",
+      "member": "Membre",
+      "groupType": "Type de groupe LDAP",
+      "objectClass": "Classe d'objets"
+    }
   },
   "background-jobs": {
     "admin": "Tâches de fond",

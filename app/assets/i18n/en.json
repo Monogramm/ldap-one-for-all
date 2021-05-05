@@ -34,11 +34,13 @@
     "declare": "Declare",
     "create": "Create",
     "edit": "Edit",
+    "clone": "Clone",
     "update": "Update",
     "delete": "Delete",
     "manage": "Manage",
     "view": "View",
     "details": "Details",
+    "sucess": "Success",
     "username": {
       "label": "Username",
       "placeholder": "Enter a username"
@@ -65,7 +67,8 @@
     },
     "error": {
       "required-field-emmpty": "Please fill out this field",
-      "field-not-valid": "Please match the requested format"
+      "field-not-valid": "Please match the requested format",
+      "already-exists": "Already exists"
     },
     "send": "Send",
     "user": "User",
@@ -252,6 +255,54 @@
     "name": "Name",
     "filename": "Filename",
     "description": "Description"
+  },
+  "ldap": {
+    "entries": {
+      "admin": "LDAP Entries",
+      "list": "LDAP Entries List",
+      "edit": "Edit LDAP Entry",
+      "clone": "Clone LDAP Entry",
+      "create": "Create LDAP Entry",
+      "delete": "Delete LDAP Entry",
+      "search": "Search entry by DN",
+      "dn": "Distinguished Name",
+      "new": {
+        "dn": {
+          "title-input": "Distinguished Name name field",
+          "key-placeholder": "New Distinguished Name"
+        },
+        "attribute": {
+            "title-input": "Attribute name field",
+            "key-label": "New attribute name",
+            "key-placeholder": "New attribute name example: sn",
+            "add": "Add an attribute",
+            "del-title": "Remove an attribute"
+        },
+        "value": {
+            "value-placeholder": "LDAP attribute value",
+            "value-title": "Value field for attribute",
+            "add-title": "Add a new attribute field",
+            "del-title": "Remove attribute field"
+        },
+        "save": "Send to the LDAP server"
+      }
+    },
+    "attributes": {
+      "sn": "Last name",
+      "cn": "Full Name",
+      "email": "Email",
+      "description": "Description",
+      "displayName": "Display name",
+      "employeeType": "Employee type",
+      "givenName": "First name",
+      "mail": "Email",
+      "ou": "Organizational unit",
+      "title": "Employment",
+      "uid": "User identifiant",
+      "member": "Member",
+      "groupType": "LDAP group type",
+      "objectClass": "Object class"
+    }
   },
   "background-jobs": {
     "admin": "Background jobs",

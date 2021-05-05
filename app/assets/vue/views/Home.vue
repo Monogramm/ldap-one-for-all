@@ -12,7 +12,30 @@
           <h2 class="subtitle">
             {{ $t("home.welcome") }}
           </h2>
-
+          <div class="content">
+            <template
+              v-for="(row, index) in data"
+            >
+              <div
+                :key="`divColumns:${index}`"
+                class="columns mb-0 is-mobile"
+              >
+                <div
+                  :key="`divValueInput:${index}`"
+                  class="column is-three-fifths is-offset-one-fifth"
+                >
+                  <!-- Input value attribute-->
+                  <p
+                    :key="`inputValue:${index}`"
+                    :title="$t('ldap.entries.new.value.value-title')"
+                    :placeholder="$t('ldap.entries.new.value.value-placeholder')"
+                  >
+                    {{ row }}
+                  </p>
+                </div>
+              </div>
+            </template>
+          </div>
           <!-- TODO -->
         </section>
       </div>
@@ -60,6 +83,11 @@
 export default {
   name: "Home",
   components: {
+  },
+  data() {
+    return {
+      data: [1,2,3,4],
+    };
   },
   computed: {
     titleLabel() {
