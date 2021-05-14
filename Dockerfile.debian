@@ -58,6 +58,8 @@ RUN set -ex; \
     docker-php-ext-enable amqp; \
     pecl install libsodium; \
     docker-php-ext-enable sodium; \
+    pecl install apcu; \
+    docker-php-ext-enable apcu; \
     yes | pecl install xdebug; \
     echo "xdebug.mode=coverage\n" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
          "xdebug.idekey=\"DOCKER\"\n" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
@@ -219,6 +221,8 @@ RUN set -ex; \
     docker-php-ext-enable amqp; \
     pecl install libsodium; \
     docker-php-ext-enable sodium; \
+    pecl install apcu; \
+    docker-php-ext-enable apcu; \
     docker-php-ext-install -j "$(nproc)" \
         bcmath \
         gd \
@@ -236,6 +240,7 @@ RUN set -ex; \
         zip \
     ; \
     \
+    pecl clear-cache; \
     rm -rf /var/lib/apt/lists/*; \
     \
     chown -R www-data:root /var/www/html; \
