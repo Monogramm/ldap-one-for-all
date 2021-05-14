@@ -29,10 +29,6 @@ services:
       - app_dev_db
       - app_dev_rabbitmq
       - app_dev_mailer
-    links:
-      - app_dev_db:database
-      - app_dev_rabbitmq:rabbitmq
-      - app_dev_mailer:mailer
     networks:
       - app_dev_external_network
       - app_dev_internal_network
@@ -138,10 +134,6 @@ services:
         condition: service_healthy
       app_dev_rabbitmq:
         condition: service_started
-    links:
-      - app_dev_db:database
-      - app_dev_rabbitmq:rabbitmq
-      - app_dev_mailer:mailer
     networks:
       - app_dev_internal_network
     volumes:
@@ -224,10 +216,6 @@ services:
     depends_on:
       app_dev_symfony:
         condition: service_started
-    links:
-      - app_dev_db:database
-      - app_dev_rabbitmq:rabbitmq
-      - app_dev_mailer:mailer
     networks:
       - app_dev_internal_network
     volumes:
@@ -256,10 +244,6 @@ services:
     depends_on:
       app_dev_encore:
         condition: service_started
-    links:
-      - app_dev_db:database
-      - app_dev_rabbitmq:rabbitmq
-      - app_dev_mailer:mailer
     networks:
       - app_dev_external_network
       - app_dev_internal_network
@@ -287,11 +271,13 @@ services:
       test:
         ["CMD", "pg_isready", "-U", "${APP_DB_USER}", "-d", "${APP_DB_NAME}"]
     expose:
-      - 5432
+      - '5432'
     ports:
       - "55432:5432"
     networks:
-      - app_dev_internal_network
+      app_dev_internal_network:
+        aliases:
+          - database
     labels:
       com.symfony.server.service-prefix: "DATABASE"
     environment:
@@ -303,8 +289,35 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
+  app_dev_pghero:
+    image: ankane/pghero:v2.8.1
+    container_name: app_dev_pghero
+    #restart: always
+    healthcheck:
+      test: CMD curl -v --fail --silent http://localhost:8080/health 2>&1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      #start_period: 40s
+    expose:
+      - '8080'
+    ports:
+      - "58080:8080"
+    depends_on:
+      - app_dev_db
+    networks:
+      - app_dev_internal_network
+      - app_dev_external_network
+    environment:
+      - DATABASE_URL=postgres://${APP_DB_USER}:${APP_DB_PASSWD}@database:5432/${APP_DB_NAME}
+      - PGHERO_USERNAME=${APP_DB_USER}
+      - PGHERO_PASSWORD=${APP_DB_PASSWD}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
   app_dev_rabbitmq:
-    image: rabbitmq:3-alpine
+    image: rabbitmq:3-management-alpine
     hostname: app_dev_rabbitmq
     container_name: app_dev_rabbitmq
     restart: always
@@ -316,10 +329,16 @@ services:
     memswap_limit: 1024M
     expose:
       - '5672'
+      - '15672'
+    ports:
+      - "15672:15672"
     labels:
       com.symfony.server.service-prefix: "RABBITMQ"
     networks:
-      - app_dev_internal_network
+      app_dev_external_network:
+      app_dev_internal_network:
+        aliases:
+          - rabbitmq
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -336,14 +355,16 @@ services:
     container_name: app_dev_mailer
     restart: always
     expose:
-      - 1025
+      - '1025'
     ports:
       - "1080:1080"
     labels:
       com.symfony.server.service-prefix: "MAILER"
     networks:
-      - app_dev_external_network
-      - app_dev_internal_network
+      app_dev_external_network:
+      app_dev_internal_network:
+        aliases:
+          - mailer
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -358,6 +379,8 @@ services:
     #  - "10389:10389"
     #  - "10636:10636"
     networks:
-      - app_dev_internal_network
+      app_dev_internal_network:
+        aliases:
+          - ldap
     #volumes:
     #  - ${APP_HOME}_dev/ldap/:/var/lib/ldap/
