@@ -51,12 +51,12 @@ RUN set -ex; \
     docker-php-ext-configure gd; \
     docker-php-ext-configure intl; \
     docker-php-ext-configure zip; \
+    pecl install apcu; \
+    docker-php-ext-enable apcu; \
     pecl install amqp; \
     docker-php-ext-enable amqp; \
     pecl install libsodium; \
     docker-php-ext-enable sodium; \
-    pecl install apcu; \
-    docker-php-ext-enable apcu; \
     yes | pecl install xdebug; \
     echo "xdebug.mode=debug\n" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
          "xdebug.idekey=\"DOCKER\"\n" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
