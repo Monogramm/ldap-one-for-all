@@ -8,24 +8,25 @@
       <b-button
         type="is-primary"
         class="field"
-        @click="create"
+        @click="onCreate"
       >
         {{ $t("common.create") }}
       </b-button>
       <b-table
         :data="parameters"
         :loading="isLoading"
+        :total="total"
+        :paginated="perPage > 0"
+        :per-page="perPage"
+        backend-pagination
+        pagination-position="both"
+        :backend-filtering="perPage > 0"
+        :debounce-search="500"
+        :backend-sorting="perPage > 0"
         :aria-next-label="nextPageLabel"
         :aria-previous-label="previousPageLabel"
         :aria-page-label="pageLabel"
         :aria-current-label="currentPageLabel"
-        paginated
-        backend-pagination
-        :total="total"
-        :per-page="perPage"
-        backend-filtering
-        :debounce-search="500"
-        backend-sorting
         @page-change="onPageChange"
         @filters-change="onFiltersChange"
         @sort="onSortingChange"
@@ -67,13 +68,13 @@
           <div class="buttons">
             <b-button
               type="is-warning"
-              @click="edit(props.row.id)"
+              @click="onEdit(props.row.id)"
             >
               {{ $t("common.edit") }}
             </b-button>
             <b-button
               type="is-danger"
-              @click="deleteParameter(props.row.id)"
+              @click="onDelete(props.row.id)"
             >
               {{ $t("common.delete") }}
             </b-button>
@@ -136,13 +137,13 @@ export default {
     },
   },
   methods: {
-    edit(id: string) {
+    onEdit(id: string) {
       this.$emit("edit", id);
     },
-    create() {
+    onCreate() {
       this.$emit("create");
     },
-    deleteParameter(id: string) {
+    onDelete(id: string) {
       this.$emit("delete", id);
     },
     onPageChange(page: number) {

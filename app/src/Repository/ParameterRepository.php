@@ -6,6 +6,7 @@ use App\Entity\Parameter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -32,37 +33,62 @@ class ParameterRepository extends ServiceEntityRepository
      * @psalm-return Paginator<mixed>
      */
     public function findAllByPage(
-        int $page,
-        int $size,
+        int $page = 1,
+        int $size = 20,
         ?array $filters = [],
         ?array $orders = null
     ): Paginator {
-        $offset = ($page - 1) * $size;
-        $alias = 'p';
+        $queryBuilder = $this->setupQueryBuilder('p', null, $page, $size, $filters, $orders);
 
-        $query = $this->createQueryBuilder($alias)
-            ->setFirstResult($offset)
-            ->setMaxResults($size);
+        return new Paginator($queryBuilder, true);
+    }
+
+    public function findAll(
+        ?array $filters = [],
+        ?array $orders = null
+    ) {
+        $queryBuilder = $this->setupQueryBuilder('p', null, 0, 0, $filters, $orders);
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
+    protected function setupQueryBuilder(
+        $alias,
+        QueryBuilder $queryBuilder = null,
+        int $page = 0,
+        int $size = 0,
+        ?array $filters = [],
+        ?array $orders = null
+    ): QueryBuilder {
+        if ( empty($queryBuilder) ) {
+            $queryBuilder = $this->createQueryBuilder($alias);
+        }
+
+        if ($page > 0 && $size > 0) {
+            $offset = ($page - 1) * $size;
+            $queryBuilder->setFirstResult($offset)
+                ->setMaxResults($size);
+        }
 
         if (!empty($filters)) {
             foreach ($filters as $field => $value) {
                 if (!empty($field)) {
-                    $parameters = [];
 
                     if ($value === null) {
-                        $query->andWhere($alias . '.' . $field . ' IS NULL');
+                        $queryBuilder->andWhere($alias . '.' . $field . ' IS NULL');
                     } elseif (is_array($value)) {
-                        $query->andWhere($alias . '.' . $field . ' IN :' . $field);
-                        $parameters[$field] = $value;
+                        $queryBuilder->andWhere($alias . '.' . $field . ' IN :' . $field);
+                        $queryBuilder->setParameter($field, $value);
                     } elseif (is_string($value)) {
-                        $query->andWhere($alias . '.' . $field . ' LIKE :' . $field);
-                        $parameters[$field] = '%' . $value . '%';
+                        $queryBuilder->andWhere($alias . '.' . $field . ' LIKE :' . $field);
+                        $queryBuilder->setParameter($field, '%' . $value . '%');
                     } else {
-                        $query->andWhere($alias . '.' . $field . ' = :' . $field);
-                        $parameters[$field] = $value;
+                        $queryBuilder->andWhere($alias . '.' . $field . ' = :' . $field);
+                        $queryBuilder->setParameter($field, $value);
                     }
 
-                    $query->setParameters($parameters);
                 }
             }
         }
@@ -70,12 +96,12 @@ class ParameterRepository extends ServiceEntityRepository
         if (!empty($orders)) {
             foreach ($orders as $sort => $order) {
                 if (!empty($sort)) {
-                    $query->addOrderBy($alias . '.' . $sort, $order);
+                    $queryBuilder->addOrderBy($alias . '.' . $sort, $order);
                 }
             }
         }
 
-        return new Paginator($query, true);
+        return $queryBuilder;
     }
 
     public function findByName(string $name): ?Parameter
