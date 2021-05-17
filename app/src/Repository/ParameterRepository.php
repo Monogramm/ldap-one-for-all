@@ -62,7 +62,7 @@ class ParameterRepository extends ServiceEntityRepository
         ?array $filters = [],
         ?array $orders = null
     ): QueryBuilder {
-        if ( empty($queryBuilder) ) {
+        if (empty($queryBuilder)) {
             $queryBuilder = $this->createQueryBuilder($alias);
         }
 
@@ -74,21 +74,21 @@ class ParameterRepository extends ServiceEntityRepository
 
         if (!empty($filters)) {
             foreach ($filters as $field => $value) {
-                if (!empty($field)) {
+                if (empty($field) || is_int($field)) {
+                    continue;
+                }
 
-                    if ($value === null) {
-                        $queryBuilder->andWhere($alias . '.' . $field . ' IS NULL');
-                    } elseif (is_array($value)) {
-                        $queryBuilder->andWhere($alias . '.' . $field . ' IN :' . $field);
-                        $queryBuilder->setParameter($field, $value);
-                    } elseif (is_string($value)) {
-                        $queryBuilder->andWhere($alias . '.' . $field . ' LIKE :' . $field);
-                        $queryBuilder->setParameter($field, '%' . $value . '%');
-                    } else {
-                        $queryBuilder->andWhere($alias . '.' . $field . ' = :' . $field);
-                        $queryBuilder->setParameter($field, $value);
-                    }
-
+                if ($value === null) {
+                    $queryBuilder->andWhere($alias . '.' . $field . ' IS NULL');
+                } elseif (is_array($value)) {
+                    $queryBuilder->andWhere($alias . '.' . $field . ' IN :' . $field);
+                    $queryBuilder->setParameter($field, $value);
+                } elseif (is_string($value)) {
+                    $queryBuilder->andWhere($alias . '.' . $field . ' LIKE :' . $field);
+                    $queryBuilder->setParameter($field, '%' . $value . '%');
+                } else {
+                    $queryBuilder->andWhere($alias . '.' . $field . ' = :' . $field);
+                    $queryBuilder->setParameter($field, $value);
                 }
             }
         }
