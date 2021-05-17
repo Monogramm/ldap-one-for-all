@@ -6,7 +6,7 @@
       </h1>
     </div>
 
-    <section class="section box modules">
+    <section class="section box buttons modules">
       <b-button
         tag="router-link"
         :to="{ name: 'AdminUsers' }"
