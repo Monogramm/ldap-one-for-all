@@ -30,23 +30,23 @@ class SupportController extends AbstractController
 
         $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
-        $parameter = $parameterRepository
+        $supportEmail = $parameterRepository
             ->findByName('APP_SUPPORT_EMAIL');
 
-        if (!$parameter) {
+        if (!$supportEmail) {
             throw new \RuntimeException("Parameter \"APP_SUPPORT_EMAIL\" not found");
         }
 
         $bus->dispatch(
             new EmailNotification(
-                $user->getEmail(),
+                $supportEmail->getValue(),
                 $data['subject'],
                 [
                     'subject' => $data['subject'],
                     'message' => $data['message']
                 ],
                 'to_support',
-                $parameter->getValue()
+                $user->getEmail()
             )
         );
 
