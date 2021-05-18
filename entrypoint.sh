@@ -213,7 +213,9 @@ elif ! init_file_exists 'app' || date_greater "$image_build_date" "$installed_bu
 
     log "Updating Symfony app..."
     rsync $rsync_options \
-        --exclude /var --exclude /web \
+        --exclude /var \
+        --exclude /public/uploads \
+        --exclude /web \
         --delete --ignore-times \
         /usr/src/symfony/ \
         /var/www/html/
