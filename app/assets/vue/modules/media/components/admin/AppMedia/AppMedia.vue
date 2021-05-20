@@ -61,7 +61,7 @@
         :loading="isLoading"
         @click="submit"
       >
-        {{ $t(isEdit ? 'common.edit' : 'common.create') }}
+        {{ $t(isEdit ? 'common.update' : 'common.create') }}
       </b-button>
     </form>
   </div>
