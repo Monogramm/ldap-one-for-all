@@ -445,6 +445,9 @@ usage() {
         prod:ps, ps-prod, ps                    List Docker Prod env containers
         prod:console, console-prod, console     Send command to Docker Prod env bin/console
 
+      hooks
+        hooks:run, hooks                        Call CI hooks script.
+
     "
 }
 
@@ -505,6 +508,9 @@ case "${1}" in
     prod:ps|ps-prod|ps) dc-ps "docker-compose.${BASE:-fpm}.test.yml" "${@:2}";;
     prod:console|console-prod|console)
     dc-console "docker-compose.${BASE:-fpm}.test.yml" app_backend "${@:2}";;
+
+    # CI hooks
+    hooks|hooks:run) ./hooks/run "${@:2}";;
 
     # Help
     *) usage;;
