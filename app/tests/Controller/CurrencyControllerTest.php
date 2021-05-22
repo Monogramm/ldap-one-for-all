@@ -2,10 +2,11 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\Currency;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
-class MediaControllerTest extends AuthenticatedWebTestCase
+class CurrencyControllerTest extends AuthenticatedWebTestCase
 {
     /**
      * @var KernelBrowser
@@ -19,7 +20,7 @@ class MediaControllerTest extends AuthenticatedWebTestCase
 
     public function testGetAll()
     {
-        $this->client->request('GET', '/api/admin/media', ['page'=>0, 'size'=>0]);
+        $this->client->request('GET', '/api/currency', ['page'=>0, 'size'=>0]);
 
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $responseContent = $this->client->getResponse()->getContent();
@@ -29,7 +30,7 @@ class MediaControllerTest extends AuthenticatedWebTestCase
 
     public function testGetAllPaginated()
     {
-        $this->client->request('GET', '/api/admin/media', ['page'=>1, 'size'=>20]);
+        $this->client->request('GET', '/api/currency', ['page'=>1, 'size'=>20]);
 
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $responseContent = $this->client->getResponse()->getContent();

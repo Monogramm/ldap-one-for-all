@@ -3,16 +3,14 @@
 namespace App\Repository;
 
 use App\Entity\VerificationCode;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method VerificationCode|null find($id, $lockMode = null, $lockVersion = null)
  * @method VerificationCode|null findOneBy(array $criteria, array $orderBy = null)
- * @method VerificationCode[]    findAll()
  * @method VerificationCode[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VerificationCodeRepository extends ServiceEntityRepository
+class VerificationCodeRepository extends AbstractServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

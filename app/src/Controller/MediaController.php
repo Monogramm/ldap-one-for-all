@@ -36,19 +36,27 @@ class MediaController extends AbstractController
         $page = (int) $request->get('page', 1);
         $itemsPerPage = (int) $request->get('size', 20);
 
-        $medias = $repository->findAllByPage($page, $itemsPerPage);
+        $filters = json_decode($request->get('filters', '[]'), true);
+        $orders  = json_decode($request->get('orders', '{"name":"ASC"}'), true);
+
+        if ($page > 0 && $itemsPerPage > 0) {
+            $medias = $repository->findAllByPage($page, $itemsPerPage, $filters, $orders);
+        } else {
+            $medias = $repository->findAll($filters, $orders);
+        }
 
         $total = count($medias);
+        $results = array();
         foreach ($medias as $key => $media) {
             if ($media->getFilename()) {
                 $media->setFilename('/'.$publicUploadsPath.'/'.$media->getFilename());
             }
-            $medias[$key] = $serializer->normalize($media, Media::class);
+            $results[$key] = $serializer->normalize($media, Media::class);
         }
 
         return new JsonResponse([
             'total' => $total,
-            'items' => $medias
+            'items' => $results
         ]);
     }
 

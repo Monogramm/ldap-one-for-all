@@ -1,16 +1,22 @@
 <template>
-  <app-parameters
-    :is-loading="isLoading"
-    :parameters="items"
-    :per-page="pagination.size"
-    :total="total"
-    @create="onCreate"
-    @edit="onEdit"
-    @delete="onDelete"
-    @pageChanged="onPageChange"
-    @filtersChanged="onFiltersChange"
-    @sortingChanged="onSortingChange"
-  />
+  <section class="section">
+    <h1 class="title is-1">
+      {{ $t("parameters.list") }}
+    </h1>
+
+    <app-parameters
+      :is-loading="isLoading"
+      :parameters="items"
+      :per-page="pagination.size"
+      :total="total"
+      @create="onCreate"
+      @edit="onEdit"
+      @delete="onDelete"
+      @pageChanged="onPageChange"
+      @filtersChanged="onFiltersChange"
+      @sortingChanged="onSortingChange"
+    />
+  </section>
 </template>
 
 <script lang="ts">
@@ -40,7 +46,7 @@ export default {
     load() {
       this.$store.dispatch("parameter/getAll", this.pagination);
     },
-    onPageChange(page: string) {
+    onPageChange(page: number) {
       this.pagination.page = page;
       if (this.pagination.size > 0) {
         this.load();

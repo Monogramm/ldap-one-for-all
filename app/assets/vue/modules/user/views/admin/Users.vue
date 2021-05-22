@@ -9,11 +9,11 @@
     <app-users
       :users="items"
       :is-loading="isLoading"
-      :total="total"
       :per-page="pagination.size"
+      :total="total"
       @pageChanged="onPageChange"
-      @edit="onEdit"
-      @create="onCreate"
+      @filtersChanged="onFiltersChange"
+      @sortingChanged="onSortingChange"
     />
   </section>
 </template>
@@ -21,7 +21,9 @@
 <script lang="ts">
 import { mapGetters } from "vuex";
 
-import { IPagination, Pagination } from "../../../../interfaces/pagination";
+import { Pagination } from "../../../../interfaces/pagination";
+import { Criteria } from "../../../../interfaces/criteria";
+import { Sort } from "../../../../interfaces/sort";
 
 import AppUsers from "../../components/admin/AppUsers/AppUsers.vue";
 
@@ -30,7 +32,6 @@ export default {
   components: { AppUsers },
   data() {
     return {
-      isFullPage: true,
       pagination: new Pagination(),
     };
   },
@@ -38,19 +39,30 @@ export default {
     ...mapGetters("user", ["items", "total", "isLoading"])
   },
   created() {
-    this.$store.dispatch("user/getAll", this.pagination);
+    this.load();
   },
   methods: {
-    onPageChange(page: number) {
-      this.pagination.page = page;
+    load() {
       this.$store.dispatch("user/getAll", this.pagination);
     },
-    onEdit(id: string) {
-      this.$router.push({ name: "UserEdit", params: { id: id } });
+    onPageChange(page: string) {
+      this.pagination.page = page;
+      if (this.pagination.size > 0) {
+        this.load();
+      }
     },
-    onCreate() {
-      this.$router.push({ name: "UserCreate" });
-    }
+    onFiltersChange(filters: any) {
+      this.pagination.criteria = new Criteria(filters);
+      if (this.pagination.size > 0) {
+        this.load();
+      }
+    },
+    onSortingChange(field: string, order: string) {
+      this.pagination.orderBy = new Sort(field, order);
+      if (this.pagination.size > 0) {
+        this.load();
+      }
+    },
   }
 };
 </script>

@@ -3,9 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\BackgroundJob;
+use App\Entity\Currency;
 use App\Entity\Media;
 use App\Entity\Parameter;
 use App\Entity\User;
+use App\Entity\VerificationCode;
 use Carbon\Carbon;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -40,6 +42,15 @@ class AppFixtures extends Fixture
         $backgroundJobE->init('Fixture error job');
         $backgroundJobE->error();
         $manager->persist($backgroundJobE);
+
+        $currencyEuro = new Currency();
+        $currencyEuro
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'))
+            ->setName('Euro')
+            ->setIsoCode('EUR')
+        ;
+        $manager->persist($currencyEuro);
 
         $parameterAppUrl = new Parameter();
         $parameterAppUrl
@@ -84,12 +95,22 @@ class AppFixtures extends Fixture
         $user->setPassword($password);
         $manager->persist($user);
 
+        $verificationCode = new VerificationCode();
+        $verificationCode
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'))
+            ->setCode('9P8O7I6U')
+            ->setUser($user)
+        ;
+        $manager->persist($verificationCode);
+
         $media = new Media();
         $media
             ->setCreatedAt(Carbon::now('UTC'))
             ->setUpdatedAt(Carbon::now('UTC'))
             ->setName('DummyMedia.png')
             ->setFilename('DummyMedia123456789.png')
+            ->setDescription('Test Media')
             ->setType('image/png')
         ;
         $manager->persist($media);

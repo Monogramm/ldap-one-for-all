@@ -1,88 +1,82 @@
 <template>
-  <section class="section">
-    <h1 class="title is-1">
-      {{ $t("parameters.list") }}
-    </h1>
-
-    <div class="box">
-      <b-button
-        type="is-primary"
-        class="field"
-        @click="onCreate"
+  <div class="box">
+    <b-button
+      type="is-primary"
+      class="field"
+      @click="onCreate"
+    >
+      {{ $t("common.create") }}
+    </b-button>
+    <b-table
+      :data="parameters"
+      :loading="isLoading"
+      :total="total"
+      :paginated="perPage > 0"
+      :per-page="perPage"
+      backend-pagination
+      pagination-position="both"
+      :backend-filtering="perPage > 0"
+      :debounce-search="500"
+      :backend-sorting="perPage > 0"
+      :aria-next-label="nextPageLabel"
+      :aria-previous-label="previousPageLabel"
+      :aria-page-label="pageLabel"
+      :aria-current-label="currentPageLabel"
+      @page-change="onPageChange"
+      @filters-change="onFiltersChange"
+      @sort="onSortingChange"
+    >
+      <b-table-column
+        v-slot="props"
+        field="name"
+        searchable
+        sortable
+        :label="nameColumnLabel"
       >
-        {{ $t("common.create") }}
-      </b-button>
-      <b-table
-        :data="parameters"
-        :loading="isLoading"
-        :total="total"
-        :paginated="perPage > 0"
-        :per-page="perPage"
-        backend-pagination
-        pagination-position="both"
-        :backend-filtering="perPage > 0"
-        :debounce-search="500"
-        :backend-sorting="perPage > 0"
-        :aria-next-label="nextPageLabel"
-        :aria-previous-label="previousPageLabel"
-        :aria-page-label="pageLabel"
-        :aria-current-label="currentPageLabel"
-        @page-change="onPageChange"
-        @filters-change="onFiltersChange"
-        @sort="onSortingChange"
+        {{ props.row.name }}
+      </b-table-column>
+
+      <b-table-column
+        v-slot="props"
+        field="value"
+        searchable
+        sortable
+        :label="valueColumnLabel"
       >
-        <b-table-column
-          v-slot="props"
-          field="name"
-          searchable
-          sortable
-          :label="nameColumnLabel"
-        >
-          {{ props.row.name }}
-        </b-table-column>
+        {{ formatValue(props.row.value, props.row.type) }}
+      </b-table-column>
 
-        <b-table-column
-          v-slot="props"
-          field="value"
-          searchable
-          sortable
-          :label="valueColumnLabel"
-        >
-          {{ formatValue(props.row.value, props.row.type) }}
-        </b-table-column>
+      <b-table-column
+        v-slot="props"
+        field="description"
+        searchable
+        sortable
+        :label="descriptionColumnLabel"
+      >
+        {{ props.row.description | shorten(60) }}
+      </b-table-column>
 
-        <b-table-column
-          v-slot="props"
-          field="description"
-          searchable
-          sortable
-          :label="descriptionColumnLabel"
-        >
-          {{ props.row.description | shorten(60) }}
-        </b-table-column>
-
-        <b-table-column
-          v-slot="props"
-          field="buttons"
-        >
-          <div class="buttons">
-            <b-button
-              type="is-warning"
-              @click="onEdit(props.row.id)"
-            >
-              {{ $t("common.edit") }}
-            </b-button>
-            <b-button
-              type="is-danger"
-              @click="onDelete(props.row.id)"
-            >
-              {{ $t("common.delete") }}
-            </b-button>
-          </div>
-        </b-table-column>
-      </b-table>
-    </div>
-  </section>
+      <b-table-column
+        v-slot="props"
+        field="buttons"
+      >
+        <div class="buttons">
+          <b-button
+            type="is-warning"
+            @click="onEdit(props.row.id)"
+          >
+            {{ $t("common.edit") }}
+          </b-button>
+          <b-button
+            type="is-danger"
+            @click="onDelete(props.row.id)"
+          >
+            {{ $t("common.delete") }}
+          </b-button>
+        </div>
+      </b-table-column>
+    </b-table>
+  </div>
 </template>
 
 <script lang="ts">

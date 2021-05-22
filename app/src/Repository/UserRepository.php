@@ -10,35 +10,13 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends AbstractServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
-    }
-
-    /**
-     * @param int $page Page number (starting at 1).
-     * @param int $size Page size.
-     *
-     * @return Paginator
-     *
-     * @psalm-return Paginator<mixed>
-     */
-    public function findAllByPage(
-        int $page,
-        int $size
-    ): Paginator {
-        $offset = ($page - 1) * $size;
-
-        $query = $this->createQueryBuilder('p')
-            ->setFirstResult($offset)
-            ->setMaxResults($size);
-
-        return new Paginator($query, true);
     }
 
     public function findAllByEmail(string $email)

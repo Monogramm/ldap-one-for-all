@@ -2,10 +2,11 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\BackgroundJob;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
-class MediaControllerTest extends AuthenticatedWebTestCase
+class BackgroundJobControllerTest extends AuthenticatedWebTestCase
 {
     /**
      * @var KernelBrowser
@@ -19,21 +20,21 @@ class MediaControllerTest extends AuthenticatedWebTestCase
 
     public function testGetAll()
     {
-        $this->client->request('GET', '/api/admin/media', ['page'=>0, 'size'=>0]);
+        $this->client->request('GET', '/api/admin/background-jobs', ['page'=>0, 'size'=>0]);
 
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $responseContent = $this->client->getResponse()->getContent();
         $content = json_decode($responseContent, true);
-        $this->assertSame(1, $content['total']);
+        $this->assertSame(2, $content['total']);
     }
 
     public function testGetAllPaginated()
     {
-        $this->client->request('GET', '/api/admin/media', ['page'=>1, 'size'=>20]);
+        $this->client->request('GET', '/api/admin/background-jobs', ['page'=>1, 'size'=>20]);
 
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $responseContent = $this->client->getResponse()->getContent();
         $content = json_decode($responseContent, true);
-        $this->assertSame(1, $content['total']);
+        $this->assertSame(2, $content['total']);
     }
 }

@@ -61,8 +61,12 @@ class UserController extends AbstractController
      */
     public function verifyUser(Request $request, EntityManagerInterface $em): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
+
+        $data = json_decode($request->getContent(), true);
 
         $code = $user->getVerificationCode();
 
@@ -132,6 +136,9 @@ class UserController extends AbstractController
      */
     public function getCurrentUser(): JsonResponse
     {
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
 
         return new JsonResponse([
@@ -186,21 +193,25 @@ class UserController extends AbstractController
      *
      * @return JsonResponse
      */
-    public function getAllWithPagination(
-        UserRepository $userRepository,
+    public function getUsers(
+        UserRepository $repository,
         SerializerInterface $serializer,
         Request $request
     ): JsonResponse {
         $page = (int) $request->get('page', 1);
         $itemsPerPage = (int) $request->get('size', 20);
 
-        $users = $userRepository->findAllByPage(
-            $page,
-            $itemsPerPage
-        );
+        $filters = json_decode($request->get('filters', '[]'), true);
+        $orders  = json_decode($request->get('orders', ''), true);
+
+        if ($page > 0 && $itemsPerPage > 0) {
+            $users = $repository->findAllByPage($page, $itemsPerPage, $filters, $orders);
+        } else {
+            $users = $repository->findAll($filters, $orders);
+        }
 
         $total = count($users);
-        $users = $serializer->normalize(
+        $results = $serializer->normalize(
             $users,
             User::class,
             [AbstractNormalizer::GROUPS => 'admin']
@@ -208,7 +219,7 @@ class UserController extends AbstractController
 
         return new JsonResponse([
             'total' => $total,
-            'items' => $users
+            'items' => $results
         ]);
     }
 }

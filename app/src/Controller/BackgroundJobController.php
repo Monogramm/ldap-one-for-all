@@ -17,25 +17,32 @@ class BackgroundJobController extends AbstractController
      *
      * @return JsonResponse
      */
-    public function getByPage(
+    public function getBackgroundJobs(
         Request $request,
         BackgroundJobRepository $repository,
         SerializerInterface $serializer
     ): JsonResponse {
         $page = (int)$request->get('page', 1);
-        $items = (int)$request->get('size', 20);
+        $itemsPerPage = (int)$request->get('size', 20);
 
-        $jobs = $repository->findAllByPage($page, $items);
+        $filters = json_decode($request->get('filters', '[]'), true);
+        $orders  = json_decode($request->get('orders', '{"lastExecution":"DESC"}'), true);
 
-        $data = $serializer->normalize(
+        if ($page > 0 && $itemsPerPage > 0) {
+            $jobs = $repository->findAllByPage($page, $itemsPerPage, $filters, $orders);
+        } else {
+            $jobs = $repository->findAll($filters, $orders);
+        }
+
+        $total = count($jobs);
+        $results = $serializer->normalize(
             $jobs,
             BackgroundJob::class
         );
 
-        $total = count($jobs);
         return new JsonResponse([
             'total' => $total,
-            'items' => $data,
+            'items' => $results,
         ]);
     }
 }
