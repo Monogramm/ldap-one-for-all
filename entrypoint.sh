@@ -277,6 +277,7 @@ if [ -z "${DATABASE_URL}" ]; then
 fi
 
 if [ -z "${MAILER_DSN}" ]; then
+    # https://symfony.com/doc/current/mailer.html
     log "Initializing Symfony mailer DSN..."
 
     if [ -n "${MAILER_USER}" ] && [ -n "${MAILER_PASSWORD}" ]; then
