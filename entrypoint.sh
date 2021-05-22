@@ -251,10 +251,10 @@ if [ -f /var/www/html/app/parameters.yml ]; then
         -e "s|database_name:.*|database_name: '${SF_DB_NAME}'|g" \
         -e "s|database_user:.*|database_user: '${SF_DB_USER}'|g" \
         -e "s|database_password:.*|database_password: '${SF_DB_PASSWORD}'|g" \
-        -e "s|mailer_transport:.*|mailer_transport: '${SF_MAIL_TRANSPORT}'|g" \
-        -e "s|mailer_host:.*|mailer_host: '${SF_MAIL_HOST}'|g" \
-        -e "s|mailer_user:.*|mailer_user: '${SF_MAIL_USER}'|g" \
-        -e "s|mailer_password:.*|mailer_password: '${SF_MAIL_PASSWORD}'|g" \
+        -e "s|mailer_transport:.*|mailer_transport: '${MAILER_TRANSPORT}'|g" \
+        -e "s|mailer_host:.*|mailer_host: '${MAILER_HOST}'|g" \
+        -e "s|mailer_user:.*|mailer_user: '${MAILER_USER}'|g" \
+        -e "s|mailer_password:.*|mailer_password: '${MAILER_PASSWORD}'|g" \
         /var/www/html/app/parameters.yml
 
     log "Symfony application parameters updated"
@@ -279,19 +279,30 @@ fi
 if [ -z "${MAILER_DSN}" ]; then
     log "Initializing Symfony mailer DSN..."
 
-    if [ -n "${SF_MAIL_USER}" ] && [ -n "${SF_MAIL_PASSWORD}" ]; then
-        export MAILER_DSN="${SF_MAIL_TRANSPORT:-smtp}://${SF_MAIL_USER}:${SF_MAIL_PASSWORD}@${SF_MAIL_HOST:-mailer}:${SF_MAIL_PORT:-465}"
+    if [ -n "${MAILER_USER}" ] && [ -n "${MAILER_PASSWORD}" ]; then
+        export MAILER_DSN="${MAILER_TRANSPORT:-smtp}://${MAILER_USER}:${MAILER_PASSWORD}@${MAILER_HOST:-mailer}:${MAILER_PORT:-465}"
     else
-        export MAILER_DSN="${SF_MAIL_TRANSPORT:-smtp}://${SF_MAIL_HOST:-mailer}:${SF_MAIL_PORT:-465}"
+        export MAILER_DSN="${MAILER_TRANSPORT:-smtp}://${MAILER_HOST:-mailer}:${MAILER_PORT:-465}"
     fi
 
     log "Symfony mailer DSN initialized"
 fi
 
 if [ -z "${MESSENGER_TRANSPORT_DSN}" ]; then
-    log "Initializing Symfony messenger transport DSN..."
-
-    export MESSENGER_TRANSPORT_DSN="${SF_RABBIT_TRANSPORT:-amqp}://${SF_RABBIT_USER:-guest}:${SF_RABBIT_PASSWORD:-guest}@${SF_RABBIT_HOST:-rabbitmq}:${SF_RABBIT_PORT:-5672}/%2f/messages"
+    if [ "${MESSENGER_TRANSPORT}" = "amqp" ]; then
+        # https://symfony.com/doc/current/messenger.html#amqp-transport
+        log "Initializing Symfony Messenger AMQP transport..."
+        export MESSENGER_TRANSPORT_DSN="amqp://${SF_RABBITMQ_USER:-guest}:${SF_RABBITMQ_PASSWORD:-guest}@${SF_RABBITMQ_HOST:-rabbitmq}:${SF_RABBITMQ_PORT:-5672}/%2f/messages"
+    elif [ "${MESSENGER_TRANSPORT}" = "redis" ]; then
+        # https://symfony.com/doc/current/messenger.html#redis-transport
+        log "Initializing Symfony Messenger Redis transport..."
+        export MESSENGER_TRANSPORT_DSN="redis://${SF_REDIS_HOST:-redis}:${SF_REDIS_PORT:-6379}/messages"
+    else
+        # https://symfony.com/doc/current/messenger.html#doctrine-transport
+        log "Initializing Symfony Messenger Doctrine transport..."
+        export MESSENGER_TRANSPORT_DSN=doctrine://default
+    fi
+    # XXX Call console messenger:setup-transports?
 
     log "Symfony messenger transport DSN initialized"
 fi
