@@ -11,6 +11,10 @@ export const BackgroundJobRoutes: RouteConfig[] = [
     meta: {
       requiresAuth: true,
       requiresAdmin: true,
+      adminDashboard: {
+        label: "background-jobs.admin",
+        icon: "clock",
+      },
     },
   },
 ];

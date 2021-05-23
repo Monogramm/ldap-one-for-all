@@ -214,20 +214,18 @@
     }
   },
   "admin": {
-    "dashboard": "Administration",
-    "users": "Users",
-    "parameters": "Parameters",
-    "medias": "Médias",
-    "background-jobs": "Background jobs"
+    "dashboard": "Administration"
   },
   "users": {
-    "title": "Users List",
+    "admin": "Users",
+    "list": "Users List",
     "username": "Username",
     "email": "Email",
     "language": "Language",
     "verified": "Verified"
   },
   "parameters": {
+    "admin": "Parameters",
     "list": "Parameters List",
     "edit": "Edit Parameter",
     "create": "Create Parameter",
@@ -238,15 +236,17 @@
     "types": "Types"
   },
   "medias": {
-    "list": "Liste des médias",
-    "edit": "Modification d'un média",
-    "create": "Création d'un média",
-    "name": "Nom",
-    "filename": "Nom du fichier",
+    "admin": "Medias",
+    "list": "Medias List",
+    "edit": "Edit Media",
+    "create": "Create Media",
+    "name": "Name",
+    "filename": "Filename",
     "description": "Description"
   },
   "background-jobs": {
-    "title": "Background jobs"
+    "admin": "Background jobs",
+    "list": "Background jobs List"
   },
   "support": {
     "contact": {

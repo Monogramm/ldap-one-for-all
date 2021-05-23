@@ -2,7 +2,7 @@
   <section class="section">
     <div class="content">
       <h1 class="title is-1">
-        {{ $t("background-jobs.title") }}
+        {{ $t("background-jobs.list") }}
       </h1>
     </div>
 

@@ -215,20 +215,18 @@
     }
   },
   "admin": {
-    "dashboard": "Administration",
-    "users": "Utilisateurs",
-    "parameters": "Paramètres",
-    "medias": "Médias",
-    "background-jobs": "Tâches de fond"
+    "dashboard": "Administration"
   },
   "users": {
-    "title": "Liste des utilisateurs",
+    "admin": "Utilisateurs",
+    "list": "Liste des utilisateurs",
     "username": "Nom d'utilisateur",
     "email": "Email",
     "language": "Langue",
     "verified": "Vérification"
   },
   "parameters": {
+    "admin": "Paramètres",
     "list": "Liste des paramètres",
     "edit": "Modification d'un paramètre",
     "create": "Création d'un paramètre",
@@ -239,6 +237,7 @@
     "types": "Types"
   },
   "medias": {
+    "admin": "Médias",
     "list": "Liste des médias",
     "edit": "Modification d'un média",
     "create": "Création d'un média",
@@ -247,7 +246,8 @@
     "description": "Description"
   },
   "background-jobs": {
-    "title": "Tâches de fonds"
+    "admin": "Tâches de fond",
+    "list": "Liste des tâches de fonds"
   },
   "support": {
     "contact": {

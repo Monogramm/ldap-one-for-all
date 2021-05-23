@@ -13,6 +13,10 @@ export const ParameterRoutes: RouteConfig[] = [
     meta: {
       requiresAuth: true,
       requiresAdmin: true,
+      adminDashboard: {
+        label: "parameters.admin",
+        icon: "cogs",
+      },
     },
   },
   {

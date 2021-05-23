@@ -13,6 +13,10 @@ export const MediaRoutes: RouteConfig[] = [
     meta: {
       requiresAuth: true,
       requiresAdmin: true,
+      adminDashboard: {
+        label: "medias.admin",
+        icon: "images",
+      },
     },
   },
   {

@@ -62,6 +62,10 @@ export const UserRoutes: RouteConfig[] = [
     meta: {
       requiresAuth: true,
       requiresAdmin: true,
+      adminDashboard: {
+        label: "users.admin",
+        icon: "users",
+      },
     },
   },
 ];
