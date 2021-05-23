@@ -60,7 +60,8 @@
       "update-message": "Are you sure you want to <b>update</b>?",
       "delete": "Confirm deletion?",
       "delete-message": "Are you sure you want to <b>delete</b>? This action cannot be undone.",
-      "deleted": "Deleted"
+      "deleted": "Deleted",
+      "info": "Info"
     },
     "error": {
       "required-field-emmpty": "Please fill out this field",
