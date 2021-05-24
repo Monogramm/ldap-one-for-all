@@ -48,6 +48,8 @@ class AuthenticatedWebTestCase extends WebTestCase
         );
 
         $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertNotEmpty($data);
+        $this->assertNotEmpty($data['token']);
 
         $client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
     }
