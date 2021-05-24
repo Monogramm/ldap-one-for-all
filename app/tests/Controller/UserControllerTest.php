@@ -102,7 +102,7 @@ class UserControllerTest extends AuthenticatedWebTestCase
         $this->assertSame(false, $getUser['isVerified']);
         $this->assertSame($user['language'], $getUser['language']);
 
-        // Verify current user (retrieve user and verification code from DB)
+        // Retrieve user and verification code from DB
         /**
          * @var User
          */
@@ -111,6 +111,21 @@ class UserControllerTest extends AuthenticatedWebTestCase
             ->findOneBy(['username' => $user['username']])
         ;
         $this->assertNotEmpty($userEntity->getId());
+
+        // Resend verification code
+        $this->client->request(
+            'POST',
+            '/api/user/verify/resend'
+        );
+
+        // TODO Test async message is sent to resend verification code
+        ///**
+        // * @var InMemoryTransport $transport
+        // */
+        //$transport = self::$container->get('messenger.transport.async');
+        //$this->assertCount(1, $transport->getSent());
+
+        // Verify current user (retrieve user and verification code from DB)
         /**
          * @var VerificationCode
          */
