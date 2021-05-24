@@ -93,8 +93,7 @@ class UserController extends AbstractController
      */
     public function resendVerificationCode(
         MessageBusInterface $bus,
-        TranslatorInterface $translator,
-        string $mailerFrom
+        TranslatorInterface $translator
     ): JsonResponse {
         $user = $this->getUser();
 
