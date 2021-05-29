@@ -6,6 +6,9 @@ networks:
     internal: true
   #app_elk_network:
 
+#volumes:
+#  app_elasticsearch:
+
 services:
   app_backend:
     build:
@@ -416,45 +419,82 @@ services:
       #- /etc/localtime:/etc/localtime:ro
       #- /etc/timezone:/etc/timezone:ro
 
-#  # TODO ELK for looking through logs
+#  # Uncomment ELK stack for searching through logs
 #  app_elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
 #    container_name: app_elasticsearch
-#    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
-#    environment:
-#      discovery.type: "single-node"
+#    expose:
+#      - '9200'
+#      - '9300'
 #    ports:
 #      - "9200:9200"
 #    networks:
+#      app_internal_network:
 #      app_elk_network:
 #        aliases:
 #          - "elasticsearch"
+#    volumes:
+#      - app_elasticsearch:/usr/share/elasticsearch/data:rw
+#    #  - ${APP_HOME}/elasticsearch/:/usr/share/elasticsearch/data:rw
+#    environment:
+#      - discovery.type=single-node
+#      #- ELASTIC_PASSWORD=${APP_ELASTICSEARCH_PASSWORD}
+#      #- xpack.security.authc.realms.ldap.ldap1.order=0
+#      #- xpack.security.authc.realms.ldap.ldap1.url=ldap://ldap:389
+#      #- xpack.security.authc.realms.ldap.ldap1.bind_dn=${APP_LDAP_BIND_DN}
+#      #- xpack.security.authc.realms.ldap.ldap1.bind_password=${APP_LDAP_BIND_SECRET}
+#      #- xpack.security.authc.realms.ldap.ldap1.user_search.base_dn=${APP_LDAP_AUTH_BASE_DN}
+#      #- xpack.security.authc.realms.ldap.ldap1.user_search.filter=(uid={0})
+#      #- xpack.security.authc.realms.ldap.ldap1.group_search.base_dn=${APP_LDAP_AUTH_BASE_DN}
+#      #- xpack.security.authc.realms.ldap.ldap1.files.role_mapping=ES_PATH_CONF/role_mapping.yml
+#      #- xpack.security.authc.realms.ldap.ldap1.unmapped_groups_as_roles=false
 #
 #  app_logstash:
+#    image: docker.elastic.co/logstash/logstash:7.12.1
 #    container_name: app_logstash
-#    image: docker.elastic.co/logstash/logstash:7.10.2
 #    depends_on:
-#      - app_elasticsearch
+#      app_elasticsearch:
+#        condition: service_started
+#    expose:
+#      - '5044'
+#      - '9060'
+#      - '9600'
+#    ports:
+#      - "9600:9600"
+#    networks:
+#      app_elk_network:
+#        aliases:
+#          - "logstash"
 #    volumes:
-#      - ./docker/logstash/patterns:/usr/share/logstash/pipeline/patterns:cached
-#      - ./docker/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:cached
+#      - ./docker/logstash/pipeline:/usr/share/logstash/pipeline:cached
 #      - ${APP_HOME}/html/var/log:/var/www/symfony/var/log:cached
 #      - ${APP_HOME}/nginx/logs:/var/log/nginx:cached
 #      - ${APP_HOME}/cron/:/var/log/cron:cached
-#    networks:
-#      - app_elk_network
+#    environment:
+#      #- LS_JAVA_OPTS=-Xmx1024m -Xms1024m
+#      - MONITORING_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+#      - XPACK_MONITORING_ENABLED=true
+#      - XPACK_MONITORING_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+#      #- XPACK_MONITORING_ELASTICSEARCH_USERNAME=${APP_ELASTICSEARCH_USERNAME}
+#      #- XPACK_MONITORING_ELASTICSEARCH_PASSWORD=${APP_ELASTICSEARCH_PASSWORD}
+#      #- OUTPUT_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
 #
 #  app_kibana:
+#    image: docker.elastic.co/kibana/kibana:7.12.1
 #    container_name: app_kibana
 #    depends_on:
 #      - app_elasticsearch
-#    image: docker.elastic.co/kibana/kibana:7.10.2
-#    environment:
-#      - SERVER_NAME=localhost
-#      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
 #    networks:
-#        - app_elk_network
+#      app_elk_network:
+#        aliases:
+#          - "kibana"
 #    ports:
 #        - "5601:5601"
+#    environment:
+#      - SERVER_NAME=kibana
+#      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+#      #- ELASTICSEARCH_USERNAME=${APP_ELASTICSEARCH_USERNAME}
+#      #- ELASTICSEARCH_PASSWORD=${APP_ELASTICSEARCH_PASSWORD}
 
   # Test services (do not use in production)
 
