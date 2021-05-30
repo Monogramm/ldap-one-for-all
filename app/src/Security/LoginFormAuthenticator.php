@@ -57,13 +57,10 @@ class LoginFormAuthenticator extends AbstractGuardAuthenticator
         if (!isset($credentials['username'])) {
             return null;
         }
-        $username = $credentials['username'];
+        $usernameOrEmail = $credentials['username'];
 
-        $user = $this->userRepository->findOneBy(['username' => $username]);
-
-        if (!$user) {
-            $user = $this->userRepository->findOneBy(['email' => $username]);
-        }
+        // Load user by username or email
+        $user = $this->userRepository->loadUserByUsername($usernameOrEmail);
 
         return $user;
     }

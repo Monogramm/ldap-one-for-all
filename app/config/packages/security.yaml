@@ -1,13 +1,38 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        users:
+        entity_users:
             entity:
                 class: 'App\Entity\User'
+        ldap_users:
+            ldap:
+                service: Symfony\Component\Ldap\Ldap
+                base_dn: '%env(resolve:LDAP_AUTH_BASE_DN)%'
+                search_dn: '%env(resolve:LDAP_BIND_DN)%'
+                search_password: '%env(resolve:LDAP_BIND_SECRET)%'
+                default_roles: ROLE_ADMIN
+                uid_key: '%env(resolve:LDAP_AUTH_USERNAME_ATTRIBUTE)%'
+                extra_fields: ['%env(resolve:LDAP_AUTH_EMAIL_ATTRIBUTE)%']
+        all_users:
+            chain:
+                providers: ['entity_users', 'ldap_users']
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        monitoring:
+            pattern: ^/api/(metrics)/
+            stateless: true
+            anonymous: lazy
+            provider: 'all_users'
+            http_basic:
+                realm: Secured Area
+            http_basic_ldap:
+                service: Symfony\Component\Ldap\Ldap
+                dn_string: '%env(resolve:LDAP_AUTH_BASE_DN)%'
+                query_string: '(&(%env(resolve:LDAP_AUTH_USERNAME_ATTRIBUTE)%={username})%env(resolve:LDAP_AUTH_USER_QUERY)%)'
+                search_dn: '%env(resolve:LDAP_BIND_DN)%'
+                search_password: '%env(resolve:LDAP_BIND_SECRET)%'
         main:
             stateless: true
             anonymous: lazy
@@ -31,6 +56,7 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/api/payment/success, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /api/password/reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/metrics, roles: ROLE_ADMIN, methods: [GET] }
         - { path: ^/api/admin, roles: ROLE_ADMIN }
         - { path: ^/api/user/verify, roles: ROLE_USER }
         - { path: ^/api/user, roles: ROLE_USER, methods: [DELETE, PUT, GET] }
