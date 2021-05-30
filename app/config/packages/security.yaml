@@ -36,6 +36,7 @@ security:
         main:
             stateless: true
             anonymous: lazy
+            provider: 'entity_users'
             guard:
                 authenticators:
                     - App\Security\LdapAuthenticator
