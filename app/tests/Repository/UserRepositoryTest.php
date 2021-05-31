@@ -59,7 +59,7 @@ class UserRepositoryTest extends KernelTestCase
         $this->assertSame(0, count($users));
     }
 
-    public function testFindAllByUsername()
+    public function testFindAllByUsernameExactly()
     {
         /**
          * @var UserRepository
@@ -78,7 +78,7 @@ class UserRepositoryTest extends KernelTestCase
         $this->assertSame('firstname.lastname@yopmail.com', $users[0]->getEmail());
     }
 
-    public function testFindAllByUsernameNone()
+    public function testFindAllByUsernameExactlyNone()
     {
         /**
          * @var UserRepository
@@ -95,6 +95,38 @@ class UserRepositoryTest extends KernelTestCase
         $this->assertSame(0, count($users));
     }
 
+    public function testFindAll()
+    {
+        /**
+         * @var UserRepository
+         */
+        $repository = $this->entityManager
+            ->getRepository(User::class)
+        ;
+        /**
+         * @var User[]
+         */
+        $users = $repository->findAll();
+
+        $this->assertSame(1, count($users));
+    }
+
+    public function testFindAllByUsername()
+    {
+        /**
+         * @var UserRepository
+         */
+        $repository = $this->entityManager
+            ->getRepository(User::class)
+        ;
+        /**
+         * @var User[]
+         */
+        $users = $repository->findAll(['username' => 'username'], ['username' => 'DESC']);
+
+        $this->assertSame(1, count($users));
+    }
+
     public function testFindAllByPage()
     {
         /**
@@ -108,7 +140,23 @@ class UserRepositoryTest extends KernelTestCase
          */
         $users = $repository->findAllByPage(1, 10, ['username' => 'username'], ['username' => 'DESC']);
 
-        $this->assertSame(1, $users->count());
+        $this->assertSame(1, count($users));
+    }
+
+    public function testFindAllByPageAndUsername()
+    {
+        /**
+         * @var UserRepository
+         */
+        $repository = $this->entityManager
+            ->getRepository(User::class)
+        ;
+        /**
+         * @var Paginator
+         */
+        $users = $repository->findAllByPage(1, 10, ['username' => 'username'], ['username' => 'DESC']);
+
+        $this->assertSame(1, count($users));
     }
 
     public function testFindAllLikeUsername()

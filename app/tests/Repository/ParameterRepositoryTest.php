@@ -56,6 +56,38 @@ class ParameterRepositoryTest extends KernelTestCase
         $this->assertSame(1, count($parameters));
     }
 
+    public function testFindAll()
+    {
+        /**
+         * @var ParameterRepository
+         */
+        $repository = $this->entityManager
+            ->getRepository(Parameter::class)
+        ;
+        /**
+         * @var Parameter[]
+         */
+        $parameters = $repository->findAll();
+
+        $this->assertSame(3, count($parameters));
+    }
+
+    public function testFindAllByName()
+    {
+        /**
+         * @var ParameterRepository
+         */
+        $repository = $this->entityManager
+            ->getRepository(Parameter::class)
+        ;
+        /**
+         * @var Parameter[]
+         */
+        $parameters = $repository->findAll(['name' => 'APP_PUBLIC_URL'], ['name' => 'DESC']);
+
+        $this->assertSame(1, count($parameters));
+    }
+
     public function testFindAllByPage()
     {
         /**
@@ -65,11 +97,27 @@ class ParameterRepositoryTest extends KernelTestCase
             ->getRepository(Parameter::class)
         ;
         /**
-         * @var Paginator<Parameter>
+         * @var Paginator
+         */
+        $parameters = $repository->findAllByPage(1, 10);
+
+        $this->assertSame(3, count($parameters));
+    }
+
+    public function testFindAllByPageAndName()
+    {
+        /**
+         * @var ParameterRepository
+         */
+        $repository = $this->entityManager
+            ->getRepository(Parameter::class)
+        ;
+        /**
+         * @var Paginator
          */
         $parameters = $repository->findAllByPage(1, 10, ['name' => 'APP_PUBLIC_URL'], ['name' => 'DESC']);
 
-        $this->assertSame(1, $parameters->count());
+        $this->assertSame(1, count($parameters));
     }
 
     protected function tearDown(): void
