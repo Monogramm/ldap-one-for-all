@@ -3,6 +3,10 @@ version: "2.4"
 networks:
   app_dev_external_network:
   app_dev_internal_network:
+  #app_dev_elk_network:
+
+#volumes:
+#  app_dev_elasticsearch:
 
 services:
   app_dev_symfony:
@@ -346,8 +350,167 @@ services:
       - RABBITMQ_DEFAULT_USER=${APP_RABBIT_USER}
       - RABBITMQ_DEFAULT_PASS=${APP_RABBIT_PASSWD}
 
-  # https://github.com/maxpou/docker-symfony
-  # TODO Add ELK for looking through logs?
+#  # Uncomment ELK stack for searching through logs
+#  app_dev_elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
+#    container_name: app_dev_elasticsearch
+#    expose:
+#      - '9200'
+#      - '9300'
+#    ports:
+#      - "9200:9200"
+#    networks:
+#      app_dev_internal_network:
+#      app_dev_elk_network:
+#        aliases:
+#          - "elasticsearch"
+#    volumes:
+#      - app_dev_elasticsearch:/usr/share/elasticsearch/data:rw
+#    #  - ${APP_HOME}_dev/elasticsearch/:/usr/share/elasticsearch/data:rw
+#    environment:
+#      - discovery.type=single-node
+#      #- ELASTIC_PASSWORD=${APP_ELASTICSEARCH_PASSWORD}
+#      #- xpack.security.authc.realms.ldap.ldap1.order=0
+#      #- xpack.security.authc.realms.ldap.ldap1.url=ldap://ldap:389
+#      #- xpack.security.authc.realms.ldap.ldap1.bind_dn=${APP_LDAP_BIND_DN}
+#      #- xpack.security.authc.realms.ldap.ldap1.bind_password=${APP_LDAP_BIND_SECRET}
+#      #- xpack.security.authc.realms.ldap.ldap1.user_search.base_dn=${APP_LDAP_AUTH_BASE_DN}
+#      #- xpack.security.authc.realms.ldap.ldap1.user_search.filter=(uid={0})
+#      #- xpack.security.authc.realms.ldap.ldap1.group_search.base_dn=${APP_LDAP_AUTH_BASE_DN}
+#      #- xpack.security.authc.realms.ldap.ldap1.files.role_mapping=ES_PATH_CONF/role_mapping.yml
+#      #- xpack.security.authc.realms.ldap.ldap1.unmapped_groups_as_roles=false
+#
+#  app_dev_logstash:
+#    image: docker.elastic.co/logstash/logstash:7.12.1
+#    container_name: app_dev_logstash
+#    depends_on:
+#      app_dev_elasticsearch:
+#        condition: service_started
+#    expose:
+#      - '5044'
+#      - '9060'
+#      - '9600'
+#    ports:
+#      - "9600:9600"
+#    networks:
+#      app_dev_elk_network:
+#        aliases:
+#          - "logstash"
+#    volumes:
+#      - ./docker/logstash/pipeline:/usr/share/logstash/pipeline:cached
+#      - ${APP_HOME}_dev/html/var/log:/var/www/symfony/var/log:cached
+#      - ${APP_HOME}_dev/nginx/logs:/var/log/nginx:cached
+#      - ${APP_HOME}_dev/cron/:/var/log/cron:cached
+#    environment:
+#      #- LS_JAVA_OPTS=-Xmx1024m -Xms1024m
+#      - MONITORING_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+#      - XPACK_MONITORING_ENABLED=true
+#      - XPACK_MONITORING_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+#      #- XPACK_MONITORING_ELASTICSEARCH_USERNAME=${APP_ELASTICSEARCH_USERNAME}
+#      #- XPACK_MONITORING_ELASTICSEARCH_PASSWORD=${APP_ELASTICSEARCH_PASSWORD}
+#      #- OUTPUT_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+#
+#  app_dev_kibana:
+#    image: docker.elastic.co/kibana/kibana:7.12.1
+#    container_name: app_dev_kibana
+#    depends_on:
+#      - app_dev_elasticsearch
+#    networks:
+#      app_dev_elk_network:
+#        aliases:
+#          - "kibana"
+#    ports:
+#        - "5601:5601"
+#    environment:
+#      - SERVER_NAME=kibana
+#      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+#      #- ELASTICSEARCH_USERNAME=${APP_ELASTICSEARCH_USERNAME}
+#      #- ELASTICSEARCH_PASSWORD=${APP_ELASTICSEARCH_PASSWORD}
+
+#  # Uncomment to monitor services
+#  app_dev_grafana:
+#    # https://hub.docker.com/r/grafana/grafana/tags
+#    image: grafana/grafana:7.5.6
+#    container_name: app_dev_grafana
+#    #restart: always
+#    ports:
+#      - "3000:3000"
+#    networks:
+#      app_dev_external_network:
+#      app_dev_internal_network:
+#        aliases:
+#          - grafana
+#    volumes:
+#      - app_dev_grafana_data:/var/lib/grafana
+#      # Use bind mounts to persist on disk
+#      #- ${APP_HOME}_dev/grafana:/var/lib/grafana
+#      - ./docker/grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/rabbitmq.yaml
+#      - ./docker/grafana/datasources.yml:/etc/grafana/provisioning/datasources/prometheus.yaml
+#      - ./docker/grafana/dashboards:/dashboards
+#    environment:
+#      # https://grafana.com/plugins/flant-statusmap-panel
+#      # https://grafana.com/plugins/grafana-piechart-panel
+#      # https://grafana.com/plugins/grafana-polystat-panel
+#      # https://grafana.com/plugins/jdbranham-diagram-panel
+#      # https://grafana.com/plugins/michaeldmoore-multistat-panel
+#      # https://grafana.com/plugins/vonage-status-panel
+#      # https://grafana.com/plugins/yesoreyeram-boomtable-panel
+#      GF_INSTALL_PLUGINS: "flant-statusmap-panel,grafana-piechart-panel"
+#      #GF_SECURITY_ADMIN_PASSWORD: "${APP_GRAFANA_ADMIN_PASSWD}"
+#
+#  app_dev_prometheus:
+#    image: prom/prometheus:main
+#    container_name: app_dev_prometheus
+#    restart: always
+#    ports:
+#      - "9090:9090"
+#    networks:
+#      app_dev_internal_network:
+#        aliases:
+#          - prometheus
+#    volumes:
+#      - ./docker/prometheus/dev:/etc/prometheus:ro
+#
+#  app_dev_node_exporter:
+#    # https://hub.docker.com/r/prom/node-exporter/tags
+#    image: prom/node-exporter:v1.0.1
+#    container_name: app_dev_node_exporter
+#    #restart: always
+#    command:
+#      - '--path.procfs=/host/proc'
+#      - '--path.rootfs=/rootfs'
+#      - '--path.sysfs=/host/sys'
+#      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+#    expose:
+#      - '9100'
+#    networks:
+#      app_dev_internal_network:
+#        aliases:
+#          - node-exporter
+#    volumes:
+#      - /proc:/host/proc:ro
+#      - /sys:/host/sys:ro
+#      - /:/rootfs:ro
+#
+#  app_dev_cadvisor:
+#    # https://hub.docker.com/r/google/cadvisor/tags
+#    #image: google/cadvisor:v0.33.0
+#    # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor
+#    image: gcr.io/cadvisor/cadvisor:v0.39.0
+#    container_name: app_dev_cadvisor
+#    #restart: always
+#    expose:
+#      - '8080'
+#    networks:
+#      app_dev_internal_network:
+#        aliases:
+#          - cadvisor
+#    volumes:
+#      - /:/rootfs:ro
+#      - /var/run:/var/run:rw
+#      - /sys:/sys:ro
+#      - /var/lib/docker/:/var/lib/docker:ro
+#      #- /cgroup:/cgroup:ro #doesn't work on MacOS only for Linux
 
   app_dev_mailer:
     image: sj26/mailcatcher:latest
