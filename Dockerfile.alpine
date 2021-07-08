@@ -61,7 +61,7 @@ RUN set -ex; \
     yes | pecl install xdebug; \
     echo "xdebug.mode=coverage\n" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
          "xdebug.idekey=\"DOCKER\"\n" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-         "xdebug.client_port=9001\n" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+         "xdebug.client_port=9003\n" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
     docker-php-ext-enable xdebug; \
     docker-php-ext-install -j "$(nproc)" \
         bcmath \
