@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Parameter
 {
-    use Metadata;
+    use EntityTrait;
 
     public const STRING_TYPE = 'string';
 

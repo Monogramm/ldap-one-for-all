@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Provides common fields needed in entities.
  */
-trait Metadata
+trait EntityTrait
 {
     /**
      * @ORM\Id()

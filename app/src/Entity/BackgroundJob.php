@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class BackgroundJob
 {
-    use Metadata;
+    use EntityTrait;
 
     /**
      * @ORM\Column(type="string", length=255)

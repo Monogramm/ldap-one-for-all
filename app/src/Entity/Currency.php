@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Currency
 {
-    use Metadata;
+    use EntityTrait;
 
     /**
      * @ORM\Column(type="string", length=50)

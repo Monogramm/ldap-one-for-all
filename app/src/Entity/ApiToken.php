@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class ApiToken
 {
-    use Metadata;
+    use EntityTrait;
 
     /**
      * @ORM\Column(type="text")

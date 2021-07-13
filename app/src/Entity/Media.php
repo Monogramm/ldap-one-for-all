@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Media
 {
-    use Metadata;
+    use EntityTrait;
 
     /**
      * @ORM\Column(type="string", length=255)

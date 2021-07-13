@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
-    use Metadata;
+    use EntityTrait;
 
     /**
      * @ORM\Column(type="string", length=50)
