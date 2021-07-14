@@ -363,7 +363,7 @@ dc-test-back() {
     dc-exec "${1}" "${2}" php ./bin/console doctrine:migrations:migrate --no-interaction --env=test
     dc-exec "${1}" "${2}" php ./bin/console doctrine:fixtures:load --no-interaction --env=test
     log "PHPUnit bug fixer..."
-    dc-exec "${1}" "${2}" php ./bin/phpunit --coverage-text
+    dc-exec "${1}" "${2}" php ./bin/phpunit --coverage-text --coverage-html coverage/coverage-phpunit-html
     #log "PHPStan..."
     #vendor/bin/phpstan analyse src tests
     log "PHP_CodeSniffer bug fixer..."
