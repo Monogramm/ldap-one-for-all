@@ -72,11 +72,13 @@ class User implements UserInterface
      */
     private $enabled;
 
-    public function __construct()
+    public function __construct(string $username = null, string $email = null, $verified = false, $enabled = true)
     {
         $this->tokens = new ArrayCollection();
-        $this->isVerified = false;
-        $this->enabled = true;
+        $this->username = $username;
+        $this->email = $email;
+        $this->isVerified = $verified;
+        $this->enabled = $enabled;
     }
 
     public function getUsername(): ?string
