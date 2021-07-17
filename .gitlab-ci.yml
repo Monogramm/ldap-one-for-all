@@ -6,7 +6,8 @@ image:
   entrypoint: ["sh", "-c"]
 
 services:
-  - name: docker:19.03.12-dind
+  # https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.14.0#faccessat2
+  - name: docker:20.10.7-dind
     alias: docker
 
 variables:
