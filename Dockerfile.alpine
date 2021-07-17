@@ -207,8 +207,9 @@ RUN set -ex; \
     docker-php-ext-configure gd; \
     docker-php-ext-configure intl; \
     docker-php-ext-configure zip; \
-    pecl install apcu; \
+    echo "\n" | pecl install apcu; \
     docker-php-ext-enable apcu; \
+    echo "apc.enable_cli=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini; \
     pecl install amqp; \
     docker-php-ext-enable amqp; \
     pecl install libsodium; \
