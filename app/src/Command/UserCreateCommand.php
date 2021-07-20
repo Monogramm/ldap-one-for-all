@@ -103,7 +103,7 @@ class UserCreateCommand extends Command
         }
 
         // Creating user
-        $role = $input->getOption('role');
+        $role = strtoupper($input->getOption('role'));
         $isVerified = $input->getOption('verified');
 
         $user = new User();

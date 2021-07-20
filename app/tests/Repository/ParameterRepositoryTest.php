@@ -69,7 +69,7 @@ class ParameterRepositoryTest extends KernelTestCase
          */
         $parameters = $repository->findAll();
 
-        $this->assertSame(3, count($parameters));
+        $this->assertSame(5, count($parameters));
     }
 
     public function testFindAllByName()
@@ -101,7 +101,7 @@ class ParameterRepositoryTest extends KernelTestCase
          */
         $parameters = $repository->findAllByPage(1, 10);
 
-        $this->assertSame(3, count($parameters));
+        $this->assertSame(5, count($parameters));
     }
 
     public function testFindAllByPageAndName()

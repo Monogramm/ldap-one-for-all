@@ -193,7 +193,7 @@
       "link": "CGU"
     },
     "register": "S'inscrire",
-    "success": "Inscription réussie! Vous pouvez maintenant vous connecter."
+    "success": "Inscription réussie ! Vous pouvez maintenant vous connecter et valider votre compte."
   },
   "payment": {
     "title": "Vérification du paiement",
@@ -223,7 +223,15 @@
     "username": "Nom d'utilisateur",
     "email": "Email",
     "language": "Langue",
-    "verified": "Vérification"
+    "verified": "Vérification",
+    "role": {
+      "super-admin": "Super Administrateur",
+      "admin": "Administrateur",
+      "monitoring": "Supervision",
+      "verified-user": "Utilisateur vérifié",
+      "user": "Utilisateur",
+      "unknown": "Rôle inconnu"
+    }
   },
   "parameters": {
     "admin": "Paramètres",

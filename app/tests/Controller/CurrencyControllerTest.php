@@ -37,4 +37,26 @@ class CurrencyControllerTest extends AuthenticatedWebTestCase
         $content = json_decode($responseContent, true);
         $this->assertSame(1, $content['total']);
     }
+
+    public function testGet()
+    {
+        $this->client->request('GET', '/api/currency', ['page'=>1, 'size'=>20]);
+
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $responseAllContent = $this->client->getResponse()->getContent();
+        $allContent = json_decode($responseAllContent, true);
+        $this->assertSame(1, $allContent['total']);
+
+        $currencies = $allContent['items'];
+        $currency = $currencies[0];
+
+        // Get
+        $this->client->request('GET', '/api/currency/' . $currency['id']);
+
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $responseContent = $this->client->getResponse()->getContent();
+        $content = json_decode($responseContent, true);
+        $this->assertSame($currency['id'], $content['id']);
+        $this->assertSame($currency['isoCode'], $content['isoCode']);
+    }
 }

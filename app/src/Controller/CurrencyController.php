@@ -8,13 +8,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class CurrencyController extends AbstractController
 {
     /**
-     * @Route("/api/currency", name="currency", methods={"GET"})
+     * @Route("/api/currency", name="get_currencies", methods={"GET"})
      *
      * @return JsonResponse
      */
@@ -45,5 +46,19 @@ class CurrencyController extends AbstractController
             'total' => $total,
             'items' => $results,
         ]);
+    }
+
+    /**
+     * @Route("/api/currency/{currency}", name="get_currency", methods={"GET"})
+     *
+     * @return JsonResponse
+     */
+    public function getCurrency(
+        Currency $currency,
+        SerializerInterface $serializer
+    ): JsonResponse {
+        return JsonResponse::fromJsonString(
+            $serializer->serialize($currency, 'json', [AbstractNormalizer::GROUPS => 'default'])
+        );
     }
 }

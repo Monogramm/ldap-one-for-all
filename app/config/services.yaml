@@ -18,6 +18,8 @@ services:
             $publicUploadsPath: 'uploads/media'
             $publicUrl: '%env(SF_SERVER_PUBLIC_URL)%'
             $ldapConfig:
+                enabled:
+                    '%env(resolve:LDAP_AUTH_ENABLED)%'
                 uid_key:
                     '%env(resolve:LDAP_AUTH_USERNAME_ATTRIBUTE)%'
                 mail_key:
@@ -34,8 +36,12 @@ services:
                     '%env(resolve:LDAP_BIND_DN)%'
                 search_password:
                     '%env(resolve:LDAP_BIND_SECRET)%'
-                enabled:
-                    '%env(resolve:LDAP_AUTH_ENABLED)%'
+                group_base_dn:
+                    '%env(resolve:LDAP_GROUP_BASE_DN)%'
+                group_query:
+                    '%env(resolve:LDAP_GROUP_QUERY)%'
+                group_key:
+                    '%env(resolve:LDAP_GROUP_ATTRIBUTE)%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

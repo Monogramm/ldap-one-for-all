@@ -77,6 +77,7 @@ MAILER_DSN=smtp://localhost:1025
 ###< symfony/messenger ###
 
 ###> symfony/ldap ###
+#LDAP_AUTH_ENABLED=0
 #LDAP_AUTH_HOST=localhost
 #LDAP_AUTH_PORT=10389
 #LDAP_AUTH_ENCRYPTION=none
@@ -88,7 +89,9 @@ MAILER_DSN=smtp://localhost:1025
 #LDAP_AUTH_USER_QUERY=(objectClass=inetOrgPerson)
 #LDAP_BIND_DN=cn=admin,dc=planetexpress,dc=com
 #LDAP_BIND_SECRET=GoodNewsEveryone
-#LDAP_AUTH_ENABLED=0
+#LDAP_GROUP_BASE_DN=ou=people,dc=planetexpress,dc=com
+#LDAP_GROUP_QUERY=(objectClass=Group)
+#LDAP_GROUP_ATTRIBUTE=member
 ###< symfony/ldap ###
 
 # Paypal configuration

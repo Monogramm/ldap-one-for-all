@@ -143,18 +143,20 @@ class LdapAuthenticator extends AbstractGuardAuthenticator
         $user = $this->userRepository->findOneBy(['username' => $username]);
 
         if (!$user) {
-            $role = $this->getUserDefaultRole();
             $user = (new User())
                 ->setEmail($entry->getAttribute($this->ldapConfig['mail_key'])[0])
                 ->setUsername($entry->getAttribute($this->ldapConfig['uid_key'])[0])
-                ->setPassword(LoginFormAuthenticator::NO_PASSWORD)
-                ->verify();
-            if ($role) {
-                $user->setRoles([$role]);
-            }
-            $this->em->persist($user);
-            $this->em->flush();
+                ->setPassword(LoginFormAuthenticator::NO_PASSWORD);
         }
+
+        // Always update user roles based on LDAP configuration
+        $userRoles = $this->getUserRoles($entry->getDn());
+        $user->setRoles($userRoles);
+        // Always verify LDAP user
+        $user->verify();
+
+        $this->em->persist($user);
+        $this->em->flush();
 
         return $user;
     }
@@ -186,10 +188,11 @@ class LdapAuthenticator extends AbstractGuardAuthenticator
      *      parameters under the "remember_me" firewall key
      *  D) The onAuthenticationSuccess method returns a Response object
      *
-     * @return void
+     * @return bool
      */
     public function supportsRememberMe()
     {
+        return false;
     }
 
     private function getUserDefaultRole(): ?string
@@ -198,6 +201,77 @@ class LdapAuthenticator extends AbstractGuardAuthenticator
          * @var Parameter|null $parameter
          */
         $parameter = $this->parameterRepository->findByName('LDAP_USER_DEFAULT_ROLE');
+
+        if (!$parameter) {
+            return null;
+        }
+
+        return $parameter->getValue();
+    }
+
+    /**
+     * @return string[]
+     *
+     * @psalm-return list<string>
+     */
+    private function getUserRoles(string $fullDn): array
+    {
+        $userRoles = [];
+
+        $defaultRole = $this->getUserDefaultRole();
+        if (!empty($defaultRole)) {
+            $userRoles[] = $defaultRole;
+        }
+
+        $groupBase = $this->ldapConfig['group_base_dn'];
+        if (!empty($groupBase)) {
+            $userGroup = $this->getLdapGroupForUserRole();
+            $adminGroup = $this->getLdapGroupForAdminRole();
+
+            // TODO Search user in User or Admin groups only
+            $groupQuery = sprintf(
+                '(&(%s=%s)%s)',
+                $this->ldapConfig['group_key'],
+                $fullDn,
+                $this->ldapConfig['group_query']
+            );
+
+            $ldapGroups = $this->ldap->search($groupQuery, $groupBase);
+            $defaultRole = '';
+            if (0 !== count($ldapGroups)) {
+                foreach ($ldapGroups as $ldapGroup) {
+                    if ($adminGroup === $ldapGroup->getDn()) {
+                        $userRoles[] = 'ROLE_ADMIN';
+                    } elseif ($userGroup === $ldapGroup->getDn()) {
+                        $userRoles[] = 'ROLE_USER';
+                    }
+                }
+            }
+        }
+
+        return $userRoles;
+    }
+
+    private function getLdapGroupForAdminRole(): ?string
+    {
+        /**
+         * @var Parameter|null $parameter
+         */
+        $parameter = $this->parameterRepository->findByName('LDAP_GROUP_ADMIN');
+
+        if (!$parameter) {
+            return null;
+        }
+
+        return $parameter->getValue();
+    }
+
+    private function getLdapGroupForUserRole(): ?string
+    {
+        /**
+         * @var Parameter|null $parameter
+         */
+        $parameter = $this->parameterRepository->findByName('LDAP_GROUP_USER');
 
         if (!$parameter) {
             return null;

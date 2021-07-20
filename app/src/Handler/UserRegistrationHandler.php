@@ -37,7 +37,7 @@ class UserRegistrationHandler
         $this->userRepository = $userRepository;
     }
 
-    public function handle(User $user): void
+    public function handle(User $user): User
     {
         $users = $this->userRepository->findAllByEmail($user->getEmail());
 
@@ -53,7 +53,14 @@ class UserRegistrationHandler
 
         $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
 
+        // Always force registered user status and role
+        $user->enable();
+        $user->setRoles(['ROLE_USER']);
+        $user->unverify();
+
         $this->em->persist($user);
         $this->em->flush();
+
+        return $user;
     }
 }

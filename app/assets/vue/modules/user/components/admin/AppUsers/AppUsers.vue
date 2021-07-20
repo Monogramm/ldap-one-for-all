@@ -26,7 +26,14 @@
         sortable
         :label="usernameLabel"
       >
-        {{ props.row.username }}
+        <span>
+          <b-icon
+            pack="fas"
+            :icon="roleIcon(props.row.roles)"
+            :title="$t(roleTitle(props.row.roles))"
+          />
+          {{ props.row.username }}
+        </span>
       </b-table-column>
 
       <b-table-column
@@ -146,6 +153,36 @@ export default {
     },
     onSortingChange(field: string, order: string) {
       this.$emit("sortingChanged", field, order);
+    },
+    roleIcon(roles: Array<string>): string {
+      if (roles.includes('ROLE_SUPER_ADMIN')) {
+        return 'user-secret';
+      } else if (roles.includes('ROLE_ADMIN')) {
+        return 'user-tie';
+      } else if (roles.includes('ROLE_MONITORING')) {
+        return 'user-clock';
+      } else if (roles.includes('ROLE_VERIFIED_USER')) {
+        return 'user-check';
+      } else if (roles.includes('ROLE_USER')) {
+        return 'user';
+      } else {
+        return 'question';
+      }
+    },
+    roleTitle(roles: Array<string>): string {
+      if (roles.includes('ROLE_SUPER_ADMIN')) {
+        return 'users.role.super-admin';
+      } else if (roles.includes('ROLE_ADMIN')) {
+        return 'users.role.admin';
+      } else if (roles.includes('ROLE_MONITORING')) {
+        return 'users.role.monitoring';
+      } else if (roles.includes('ROLE_VERIFIED_USER')) {
+        return 'users.role.verified-user';
+      } else if (roles.includes('ROLE_USER')) {
+        return 'users.role.user';
+      } else {
+        return 'users.role.unknown';
+      }
     },
   }
 };

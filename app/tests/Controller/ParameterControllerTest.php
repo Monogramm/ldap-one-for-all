@@ -35,7 +35,7 @@ class ParameterControllerTest extends AuthenticatedWebTestCase
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $responseContent = $this->client->getResponse()->getContent();
         $content = json_decode($responseContent, true);
-        $this->assertSame(3, $content['total']);
+        $this->assertSame(5, $content['total']);
     }
 
     public function testGetAllPaginated()
@@ -45,7 +45,7 @@ class ParameterControllerTest extends AuthenticatedWebTestCase
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $responseContent = $this->client->getResponse()->getContent();
         $content = json_decode($responseContent, true);
-        $this->assertSame(3, $content['total']);
+        $this->assertSame(5, $content['total']);
     }
 
     public function testCrud()

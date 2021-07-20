@@ -146,16 +146,28 @@ class User implements UserInterface
             }
         }
 
-        // guarantee every enabled user at least has ROLE_USER
-        if ($this->isEnabled() && !in_array('ROLE_USER', $roles)) {
-            $roles[] = 'ROLE_USER';
-        }
-
-        if ($this->isVerified() && !in_array('ROLE_VERIFIED_USER', $roles)) {
-            $roles[] = 'ROLE_VERIFIED_USER';
-        }
-
         return $roles;
+    }
+
+    public function hasRole(string $role)
+    {
+        return in_array($role, $this->roles, true);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('ROLE_ADMIN');
+    }
+
+    public function getAllowedGroups(): array
+    {
+        $groups = ['default'];
+
+        if ($this->isAdmin()) {
+            $groups[] = 'admin';
+        }
+
+        return $groups;
     }
 
     public function getTokens()
@@ -181,14 +193,63 @@ class User implements UserInterface
         return $this;
     }
 
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    private function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
+        return $this;
+    }
+
+    public function enable(): self
+    {
+        return $this->setEnabled(true);
+    }
+
+    public function disable(): self
+    {
+        return $this->setEnabled(false);
+    }
+
     public function isVerified()
     {
         return $this->isVerified;
     }
 
+    private function setVerified(bool $verified): self
+    {
+        $this->isVerified = $verified;
+        return $this;
+    }
+
     public function verify(): self
     {
-        $this->isVerified = true;
+        $this->setVerified(true);
+
+        if (!$this->hasRole('ROLE_VERIFIED_USER')) {
+            $this->roles[] = 'ROLE_VERIFIED_USER';
+        }
+
+        return $this;
+    }
+
+    public function unverify(): self
+    {
+        $this->setVerified(false);
+
+        if ($this->hasRole('ROLE_VERIFIED_USER')) {
+            // Ensure there are no duplicates AND no holes in array keys
+            $roles = [];
+            foreach ($this->roles as $role) {
+                if ($role !== 'ROLE_VERIFIED_USER' && !in_array($role, $roles)) {
+                    $roles[] = $role;
+                }
+            }
+            $this->roles[] = $roles;
+        }
 
         return $this;
     }
@@ -196,31 +257,5 @@ class User implements UserInterface
     public function getVerificationCode()
     {
         return $this->verificationCode;
-    }
-
-    public function getAllowedGroups(): array
-    {
-        $groups = ['default'];
-
-        if (in_array('ROLE_ADMIN', $this->getRoles(), true)) {
-            $groups[] = 'admin';
-        }
-
-        return $groups;
-    }
-
-    public function isEnabled(): bool
-    {
-        return $this->enabled;
-    }
-
-    public function disable(): void
-    {
-        $this->enabled = false;
-    }
-
-    public function isAdmin(): bool
-    {
-        return in_array('ROLE_ADMIN', $this->getRoles(), true);
     }
 }

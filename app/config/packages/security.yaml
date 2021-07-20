@@ -55,9 +55,9 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/api/payment/success, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/currency, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
         - { path: /api/password/reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/metrics, roles: ROLE_ADMIN, methods: [GET] }
+        - { path: ^/api/metrics, roles: ROLE_MONITORING, methods: [GET] }
         - { path: ^/api/admin, roles: ROLE_ADMIN }
         - { path: ^/api/user/verify, roles: ROLE_USER }
         - { path: ^/api/user, roles: ROLE_USER, methods: [DELETE, PUT, GET] }
@@ -65,6 +65,9 @@ security:
         - { path: /api/logout, roles: ROLE_USER }
         - { path: ^/api, roles: ROLE_VERIFIED_USER }
 
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER, ROLE_MONITORING]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     encoders:
         App\Entity\User:

@@ -52,35 +52,30 @@ class AppFixtures extends Fixture
         ;
         $manager->persist($currencyEuro);
 
-        $parameterAppUrl = new Parameter();
-        $parameterAppUrl
-            ->setCreatedAt(Carbon::now('UTC'))
-            ->setUpdatedAt(Carbon::now('UTC'))
-            ->setName('APP_PUBLIC_URL')
-            ->setType(Parameter::STRING_TYPE)
-            ->setValue('http://localhost:8000')
-        ;
-        $manager->persist($parameterAppUrl);
+        $parametersFxtures = array(
+            array( 'name' => 'APP_PUBLIC_URL', 'value' => 'http://localhost:8000', 'type' => 'string', 'description' => 'Public URL for backend generated links'),
+            array( 'name' => 'APP_SUPPORT_EMAIL', 'value' => 'support@yopmail.com', 'type' => 'string', 'description' => 'Support email address which will receive technical notifications'),
+            array( 'name' => 'LDAP_USER_DEFAULT_ROLE', 'value' => 'ROLE_ADMIN', 'type' => 'string', 'description' => 'LDAP default role on first login'),
+            array( 'name' => 'LDAP_GROUP_ADMIN', 'value' => 'cn=admin_staff,ou=people,dc=planetexpress,dc=com', 'type' => 'string', 'description' => 'LDAP default role on first login'),
+            array( 'name' => 'LDAP_GROUP_USER', 'value' => 'cn=ship_crew,ou=people,dc=planetexpress,dc=com', 'type' => 'string', 'description' => 'LDAP default role on first login'),
+        );
 
-        $parameterSupportEmail = new Parameter();
-        $parameterSupportEmail
-            ->setCreatedAt(Carbon::now('UTC'))
-            ->setUpdatedAt(Carbon::now('UTC'))
-            ->setName('APP_SUPPORT_EMAIL')
-            ->setType(Parameter::STRING_TYPE)
-            ->setValue('support@yopmail.com')
-        ;
-        $manager->persist($parameterSupportEmail);
-
-        $parameterLdapDefaultRole = new Parameter();
-        $parameterLdapDefaultRole
-            ->setCreatedAt(Carbon::now('UTC'))
-            ->setUpdatedAt(Carbon::now('UTC'))
-            ->setName('LDAP_USER_DEFAULT_ROLE')
-            ->setType(Parameter::STRING_TYPE)
-            ->setValue('ROLE_ADMIN')
-        ;
-        $manager->persist($parameterLdapDefaultRole);
+        foreach ($parametersFxtures as $param) {
+            $parameter = new Parameter();
+            $parameter
+                ->setCreatedAt(Carbon::now('UTC'))
+                ->setUpdatedAt(Carbon::now('UTC'))
+                ->setName($param['name'])
+                ->setValue($param['value'])
+            ;
+            if (isset($param['type'])) {
+                $parameter->setType($param['type']);
+            }
+            if (isset($param['description'])) {
+                $parameter->setDescription($param['description']);
+            }
+            $manager->persist($parameter);
+        }
 
         $user = new User();
         $user

@@ -112,6 +112,10 @@ services:
       - LDAP_AUTH_EMAIL_ATTRIBUTE=mail
       - LDAP_BIND_DN=${APP_LDAP_BIND_DN}
       - LDAP_BIND_SECRET=${APP_LDAP_BIND_SECRET}
+      # LDAP Group configuration
+      - LDAP_GROUP_BASE_DN=${APP_LDAP_GROUP_BASE_DN}
+      - LDAP_GROUP_QUERY=(objectClass=Group)
+      - LDAP_GROUP_ATTRIBUTE=member
       # Paypal configuration
       - PAYPAL_CLIENT_ID=${APP_PAYPAL_CLIENT_ID}
       - PAYPAL_CLIENT_SECRET=${APP_PAYPAL_CLIENT_SECRET}
@@ -223,6 +227,10 @@ services:
       - LDAP_AUTH_EMAIL_ATTRIBUTE=mail
       - LDAP_BIND_DN=${APP_LDAP_BIND_DN}
       - LDAP_BIND_SECRET=${APP_LDAP_BIND_SECRET}
+      # LDAP Group configuration
+      - LDAP_GROUP_BASE_DN=${APP_LDAP_GROUP_BASE_DN}
+      - LDAP_GROUP_QUERY=(objectClass=Group)
+      - LDAP_GROUP_ATTRIBUTE=member
       # Paypal configuration
       - PAYPAL_CLIENT_ID=${APP_PAYPAL_CLIENT_ID}
       - PAYPAL_CLIENT_SECRET=${APP_PAYPAL_CLIENT_SECRET}
@@ -324,6 +332,10 @@ services:
       - LDAP_AUTH_EMAIL_ATTRIBUTE=mail
       - LDAP_BIND_DN=${APP_LDAP_BIND_DN}
       - LDAP_BIND_SECRET=${APP_LDAP_BIND_SECRET}
+      # LDAP Group configuration
+      - LDAP_GROUP_BASE_DN=${APP_LDAP_GROUP_BASE_DN}
+      - LDAP_GROUP_QUERY=(objectClass=Group)
+      - LDAP_GROUP_ATTRIBUTE=member
       # Paypal configuration
       - PAYPAL_CLIENT_ID=${APP_PAYPAL_CLIENT_ID}
       - PAYPAL_CLIENT_SECRET=${APP_PAYPAL_CLIENT_SECRET}

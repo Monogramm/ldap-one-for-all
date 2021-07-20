@@ -47,9 +47,9 @@ class UserController extends AbstractController
             return new JsonResponse($errorMessage, 422);
         }
 
-        $registrationHandler->handle($user);
+        $savedUser = $registrationHandler->handle($user);
 
-        $dispatcher->dispatch(new UserCreatedEvent($user));
+        $dispatcher->dispatch(new UserCreatedEvent($savedUser));
 
         return new Response('', 201);
     }

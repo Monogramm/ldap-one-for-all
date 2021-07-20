@@ -32,6 +32,11 @@ class UserRegistrationHandlerUnitTest extends TestCase
             ->setEmail($email)
             ->setLanguage('en');
 
+        // Check that users cannot force their status or role through API
+        $user->disable(true);
+        $user->setRoles(['ROLE_ADMIN']);
+        $user->verify();
+
         $userRepositoryMock->expects($this->once())
             ->method('findAllByEmail')
             ->willReturn([]);
@@ -65,7 +70,13 @@ class UserRegistrationHandlerUnitTest extends TestCase
             $userRepositoryMock
         );
 
-        $handler->handle($user);
+        $saveUser = $handler->handle($user);
+
+        // Check that users cannot force their status or role through API
+        $this->assertNotNull($saveUser);
+        $this->assertTrue($saveUser->isEnabled());
+        $this->assertEquals(['ROLE_USER'], $saveUser->getRoles());
+        $this->assertFalse($saveUser->isVerified());
     }
 
     public function testHandleEmailAlreadyTaken()

@@ -193,7 +193,7 @@
       "link": "ToS"
     },
     "register": "Register",
-    "success": "Registration successful! You can now login."
+    "success": "Registration successful! You can now login and verify your email address."
   },
   "payment": {
     "title": "Payment verification",
@@ -223,7 +223,15 @@
     "username": "Username",
     "email": "Email",
     "language": "Language",
-    "verified": "Verified"
+    "verified": "Verified",
+    "role": {
+      "super-admin": "Super Administrator",
+      "admin": "Administrator",
+      "monitoring": "Monitoring account",
+      "verified-user": "Verified User",
+      "user": "User",
+      "unknown": "Unknown role"
+    }
   },
   "parameters": {
     "admin": "Parameters",
