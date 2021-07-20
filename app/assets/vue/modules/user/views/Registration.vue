@@ -9,13 +9,6 @@
       </h2>
     </div>
 
-    <b-message
-      type="is-success"
-      :active="isSuccess"
-    >
-      {{ $t("signup.success") }}
-    </b-message>
-
     <app-register
       class=""
       @register="doRegister"
@@ -35,20 +28,12 @@ export default {
   },
   data() {
     return {
-      success: false,
-      duration: 4000
+      redirectionDuration: 4000,
+      toastDuration: 5000
     };
   },
   computed: {
     ...mapGetters("user", ["error", "hasError", "isLoading", "language"]),
-    isSuccess: {
-      get(): boolean {
-        return this.success;
-      },
-      set(value: boolean) {
-        this.success = value;
-      }
-    },
     titleLabel() {
       return this.$t("signup.title");
     }
@@ -74,8 +59,13 @@ export default {
       };
       await this.$store.dispatch("user/register", user);
       if (!this.hasError) {
-        this.isSuccess = true;
-        await new Promise(r => setTimeout(r, this.duration));
+        this.$buefy.toast.open({
+          duration: this.toastDuration,
+          message: this.$t("signup.success"),
+          type: 'is-success'
+        });
+
+        await new Promise(r => setTimeout(r, this.redirectionDuration));
         this.$router.replace("/login");
       }
     },
