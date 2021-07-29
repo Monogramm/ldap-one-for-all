@@ -25,8 +25,7 @@
       :label="dnColumnLabel"
     >
       <router-link
-        class="a-dn"
-        :to="'../ldap-entry/'+props.row.dn"
+        :to="{ name: 'LdapEntry', params: { dn: props.row.dn }}"
       >
         {{ props.row.dn }} 
       </router-link>
@@ -135,11 +134,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.a-dn {
-  color: rgb(0, 0, 0);
-}
 
-.a-dn:hover {
-  color: rgb(0, 0, 255);
-}
 </style>

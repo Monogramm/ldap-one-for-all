@@ -84,9 +84,8 @@ export const LdapEntryMutationsDefault: ILdapEntryMutations = {
   CREATE_ERROR(state: ILdapEntryState, error?: AxiosError): void {
     state.isLoading = false;
     if (error && error.response) {
-      state.error.data = error.response.data;
       state.error.status = error.response.status;
-      state.error.message = error.response.statusText;
+      state.error.message = error.response.data;
     } else {
       state.error.status = 418;
       state.error.message = 'unknown-error';
@@ -107,9 +106,8 @@ export const LdapEntryMutationsDefault: ILdapEntryMutations = {
   EDIT_ERROR(state: ILdapEntryState, error?: AxiosError): void {
     state.isLoading = false;
     if (error && error.response) {
-      state.error.data = error.response.data;
       state.error.status = error.response.status;
-      state.error.message = error.response.statusText;
+      state.error.message = error.response.data;
     } else {
       state.error.status = 418;
       state.error.message = 'unknown-error';

@@ -40,7 +40,8 @@
     "manage": "Gérer",
     "view": "Voir",
     "details": "Détails",
-    "sucess": "Succès",
+    "success": "Succès",
+    "new-feature": "Bientôt disponible",
     "username": {
       "label": "Nom d'utilisateur",
       "placeholder": "Entrer un nom d'utilisateur"
@@ -68,12 +69,14 @@
     "error": {
       "required-field-emmpty": "Veuillez renseigner ce champ",
       "field-not-valid": "Veuillez respecter le format demandé",
-      "already-exists": "Existe déjà"
+      "already-exists": "Existe déjà",
+      "upload-fail": "Une erreur s'est produite lors du téléchargement du fichier !"
     },
     "send": "Envoyer",
     "user": "Utilisateur",
     "info": "Info",
-    "upload-file": "Téléverser fichier"
+    "upload-file": "Téléverser fichier",
+    "drag-and-drop": "Déposez votre fichier ici ou cliquez pour télécharger"
   },
   "component": {
     "password-change": {
@@ -165,6 +168,8 @@
       "description": "Accéder à votre page de profil et vos informations"
     },
     "account": "Compte utilisateur",
+    "modify-account": "Modifier Profil",
+    "modify-phrase": "Modifier phrase secret",
     "contact": "Contact"
   },
   "privacy": {
@@ -268,11 +273,11 @@
       "dn": "Nom distinctif",
       "new": {
         "dn": {
-          "title-input": "Champ du Nom distinctif",
-          "key-placeholder": "Nouveaux Nom distinctif"
+          "title-input": "Nom distinctif",
+          "key-placeholder": "Nouveau Nom distinctif"
         },
         "attribute": {
-            "title-input": "Champ du nom de l'attribut",
+            "title-input": "Nom de l'attribut",
             "key-label": "Nom du nouvel attribut",
             "key-placeholder": "Nom du nouvel attribut exemple : sn",
             "add": "Ajouter un attribut",
@@ -280,9 +285,9 @@
         },
         "value": {
             "value-placeholder": "Valeur de l'attribut LDAP",
-            "value-title": "Champ de valeur pour l'attribut",
-            "add-title": "Ajouter un nouveaux champ d'attribut",
-            "del-title": "Supprimer champ d'attribut"
+            "value-title": "Valeur de l'attribut",
+            "add-title": "Ajouter un nouvel attribut",
+            "del-title": "Supprimer l'attribut"
         },
         "save": "Envoyer au serveur LDAP"
       }
@@ -297,7 +302,7 @@
       "givenName": "Prénom",
       "mail": "Email",
       "ou": "Unité organisationnelle",
-      "title": "Emploi",
+      "title": "Intitulé du poste",
       "uid": "Identifiant Utilisateur",
       "member": "Membre",
       "groupType": "Type de groupe LDAP",

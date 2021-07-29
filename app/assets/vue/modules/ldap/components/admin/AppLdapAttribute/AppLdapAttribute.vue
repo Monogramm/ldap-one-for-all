@@ -37,7 +37,7 @@
                         size="is-large"
                       />
                     </p>
-                    <p>Drop your file here or click to upload</p>
+                    <p>{{ $t("common.drag-and-drop") }}</p>
                   </div>
                 </section>
               </b-upload>
@@ -145,8 +145,13 @@ export default {
           this.$set(this.values, index, result);
         },
         (reader: FileReader, ev: ProgressEvent<FileReader>) => {
-          // TODO Display error toast
-          console.error('Error occurred on file upload!', ev);
+          this.$buefy.toast.open(
+            {
+              message:this.$t('common.error.upload-fail'),
+              type: "is-danger",
+              indefinite: true,
+            }
+          );
         }
       );
     },

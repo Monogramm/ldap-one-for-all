@@ -1,42 +1,26 @@
 <template>
-  <section class="section">
-    <div class="content">
-      <h1 class="title is-1">
-        {{ titleLabel }}
-      </h1>
-    </div>
-
+  <section class="">
     <div class="columns">
       <div class="column is-8">
         <section class="section box">
-          <h2 class="subtitle">
-            {{ $t("home.welcome") }}
-          </h2>
-          <div class="content">
-            <template
-              v-for="(row, index) in data"
-            >
-              <div
-                :key="`divColumns:${index}`"
-                class="columns mb-0 is-mobile"
-              >
-                <div
-                  :key="`divValueInput:${index}`"
-                  class="column is-three-fifths is-offset-one-fifth"
-                >
-                  <!-- Input value attribute-->
-                  <p
-                    :key="`inputValue:${index}`"
-                    :title="$t('ldap.entries.new.value.value-title')"
-                    :placeholder="$t('ldap.entries.new.value.value-placeholder')"
-                  >
-                    {{ row }}
-                  </p>
-                </div>
-              </div>
-            </template>
+          <div class="mb-1 is-flex is-flex-direction-column is-justify-content-center">
+            <div class="mb-1">
+              <h1 class="title is-2">
+                {{ titleLabel }}
+              </h1>
+            </div>
+            <div>
+              <h2 class="subtitle">
+                {{ $t("home.welcome") }}
+              </h2>
+            </div>
           </div>
-          <!-- TODO -->
+
+          <div class="ldap-entry-div">
+            <ldap-entry
+              dn="cn=Hubert J. Farnsworth,ou=people,dc=planetexpress,dc=com"
+            />
+          </div>
         </section>
       </div>
 
@@ -63,6 +47,32 @@
 
           <div class="has-text-centered">
             <b-button
+              type="iis-link"
+              icon-left="edit"
+              class="profile-actions"
+              tag="router-link"
+              :to="{ name: '' }"
+            >
+              {{ $t("home.modify-account") }}
+            </b-button>
+          </div>
+
+          <div class="has-text-centered">
+            <b-button
+              :title="$t('common.new-feature')"
+              disabled="true"
+              type="iis-link"
+              icon-left="edit"
+              class="profile-actions"
+              tag="router-link"
+              :to="{ name: '' }"
+            >
+              {{ $t("home.modify-phrase") }}
+            </b-button>
+          </div>
+
+          <div class="has-text-centered">
+            <b-button
               icon-left="envelope"
               type="is-info"
               class="profile-actions contact"
@@ -79,10 +89,12 @@
 </template>
 
 <script lang="ts">
+import LdapEntry from "../modules/ldap/views/LdapEntry.vue";
 
 export default {
   name: "Home",
   components: {
+    LdapEntry
   },
   data() {
     return {
@@ -110,5 +122,10 @@ export default {
 
 .contact {
   margin-top: 15%;
+}
+
+.ldap-entry-div {
+  height: 50vh;
+  overflow-y: scroll;
 }
 </style>

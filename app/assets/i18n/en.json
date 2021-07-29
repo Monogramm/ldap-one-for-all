@@ -40,7 +40,8 @@
     "manage": "Manage",
     "view": "View",
     "details": "Details",
-    "sucess": "Success",
+    "success": "Success",
+    "new-feature": "Comming soon",
     "username": {
       "label": "Username",
       "placeholder": "Enter a username"
@@ -68,12 +69,14 @@
     "error": {
       "required-field-emmpty": "Please fill out this field",
       "field-not-valid": "Please match the requested format",
-      "already-exists": "Already exists"
+      "already-exists": "Already exists",
+      "upload-fail": "Error occurred on file upload !"
     },
     "send": "Send",
     "user": "User",
     "info": "Info",
-    "upload-file": "Téléverser fichier"
+    "upload-file": "Upload file",
+    "drag-and-drop": "Drop your file here or click to upload"
   },
   "component": {
     "password-change": {
@@ -165,6 +168,8 @@
       "description": "Access you profile page and information"
     },
     "account": "User account",
+    "modify-account": "Edit Profile",
+    "modify-phrase": "Modify secret phrase",
     "contact": "Contact"
   },
   "privacy": {
@@ -268,11 +273,11 @@
       "dn": "Distinguished Name",
       "new": {
         "dn": {
-          "title-input": "Distinguished Name name field",
+          "title-input": "Distinguished Name",
           "key-placeholder": "New Distinguished Name"
         },
         "attribute": {
-            "title-input": "Attribute name field",
+            "title-input": "Attribute name",
             "key-label": "New attribute name",
             "key-placeholder": "New attribute name example: sn",
             "add": "Add an attribute",
@@ -280,9 +285,9 @@
         },
         "value": {
             "value-placeholder": "LDAP attribute value",
-            "value-title": "Value field for attribute",
-            "add-title": "Add a new attribute field",
-            "del-title": "Remove attribute field"
+            "value-title": "Value for attribute",
+            "add-title": "Add a new attribute",
+            "del-title": "Remove attribute"
         },
         "save": "Send to the LDAP server"
       }
@@ -297,8 +302,10 @@
       "givenName": "First name",
       "mail": "Email",
       "ou": "Organizational unit",
-      "title": "Employment",
-      "uid": "User identifiant",
+      "o": "Organization Name",
+      "street": "Street Address",
+      "title": "Job title",
+      "uid": "User identifier",
       "member": "Member",
       "groupType": "LDAP group type",
       "objectClass": "Object class"

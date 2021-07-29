@@ -42,7 +42,7 @@
       <div class="columns is-centered is-mobile mt-5">
         <!-- Button submit call onSubmit() from parent-->
         <b-button
-          :disabled="ldapEntry.dn == '' || ldapEntry.dn == null "
+          :disabled="!!!ldapEntry.dn"
           :loading="isLoading"
           :title="$t('ldap.entries.new.save')"
           type="is-primary"

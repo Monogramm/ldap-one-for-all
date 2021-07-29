@@ -115,7 +115,7 @@ class LdapController extends AbstractController
             $ldap->bind();
             $ldapEntry = $ldap->get($query, $fullDN, $options);
         } catch (LdapException $exception) {
-            return new JsonResponse($exception->getMessage(), 400);
+            return new JsonResponse($exception->getMessage(), 500);
         }
 
         $dto = LdapEntryDTO::fromEntry($ldapEntry);

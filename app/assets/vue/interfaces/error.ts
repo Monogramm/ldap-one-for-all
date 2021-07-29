@@ -3,7 +3,6 @@
  */
 export interface IError {
   code: number;
-  data: string;
   message: string;
   status: number;
 }
@@ -13,7 +12,6 @@ export interface IError {
  */
 export class Error implements IError {
   code: number = null;
-  data: string = null;
   message: string = null;
   status: number = null;
 }

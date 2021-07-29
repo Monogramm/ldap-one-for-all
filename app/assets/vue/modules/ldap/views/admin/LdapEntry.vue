@@ -13,6 +13,7 @@ import { mapGetters } from "vuex";
 import { ILdapEntry, LdapEntry, LdapEntryDefault } from "../../interfaces/entry";
 
 import AppLdapEntry from "../../components/admin/AppLdapEntry/AppLdapEntry.vue";
+import { AxiosError } from 'axios';
 
 export default {
   name: "LdapEntry",
@@ -56,7 +57,7 @@ export default {
         .dispatch("ldapEntry/update", ldapEntry)
         .then(() => {
           if (!this.hasError) {
-            this.handleSucess();
+            this.handleSuccess();
             this.$router.replace({ name: "AdminLdapEntries" });
           } else {
             this.handleError(this.error)
@@ -68,7 +69,7 @@ export default {
         .dispatch("ldapEntry/create", ldapEntry)
         .then(() => {
           if (!this.hasError) {
-            this.handleSucess();
+            this.handleSuccess();
             this.$router.replace({ name: "AdminLdapEntries" });
           } else {
             this.handleError(this.error)
@@ -82,21 +83,21 @@ export default {
 
       return this.createLdapEntry(this.entry);
     },
-    handleError(error: any) {
+    handleError(error: AxiosError) {
       // TODO if possible, set error type
       this.$buefy.snackbar.open(
         {
-          message: error.data,
+          message: error.message,
           type: "is-danger",
           indefinite: true,
         }
       );
     },
-    handleSucess() {
+    handleSuccess() {
       this.$buefy.toast.open(
         {
           duration: 2500,
-          message:this.$t('common.sucess'),
+          message:this.$t('common.success'),
           type: 'is-success'
         }
       );
