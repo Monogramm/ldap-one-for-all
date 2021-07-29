@@ -129,6 +129,11 @@ class LdapAuthenticator extends AbstractGuardAuthenticator
         // Always verify LDAP user
         $user->verify();
 
+        // Persist in meta LDAP details
+        $user->setMeta('ldap', [
+            'fullDn' => $entry->getDn(),
+        ]);
+
         $this->em->persist($user);
         $this->em->flush();
 
