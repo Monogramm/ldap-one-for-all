@@ -89,6 +89,8 @@ class LoginFormAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        $token->setAttribute('source', 'local');
+        $token->setAttribute('provider', $providerKey);
         return $this->successHandler->onAuthenticationSuccess($request, $token);
     }
 

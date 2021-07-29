@@ -77,32 +77,6 @@ class LdapAuthenticator extends AbstractGuardAuthenticator
         $this->logger = $logger;
     }
 
-    /**
-     * Returns a response that directs the user to authenticate.
-     *
-     * This is called when an anonymous request accesses a resource that
-     * requires authentication. The job of this method is to return some
-     * response that "helps" the user start into the authentication process.
-     *
-     * Examples:
-     *
-     * - For a form login, you might redirect to the login page
-     *
-     *     return new RedirectResponse('/login');
-     *
-     * - For an API token authentication system, you return a 401 response
-     *
-     *     return new Response('Auth header required', 401);
-     *
-     * @param Request                 $request       The request.
-     * @param AuthenticationException $authException An authentication exception.
-     *
-     * @return void
-     */
-    public function start(Request $request, AuthenticationException $authException = null)
-    {
-    }
-
     public function supports(Request $request)
     {
         return 'api_ldap_auth' === $request->attributes->get('_route')
@@ -173,7 +147,35 @@ class LdapAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        $token->setAttribute('source', 'ldap');
+        $token->setAttribute('provider', $providerKey);
         return $this->successHandler->onAuthenticationSuccess($request, $token);
+    }
+
+    /**
+     * Returns a response that directs the user to authenticate.
+     *
+     * This is called when an anonymous request accesses a resource that
+     * requires authentication. The job of this method is to return some
+     * response that "helps" the user start into the authentication process.
+     *
+     * Examples:
+     *
+     * - For a form login, you might redirect to the login page
+     *
+     *     return new RedirectResponse('/login');
+     *
+     * - For an API token authentication system, you return a 401 response
+     *
+     *     return new Response('Auth header required', 401);
+     *
+     * @param Request                 $request       The request.
+     * @param AuthenticationException $authException An authentication exception.
+     *
+     * @return void
+     */
+    public function start(Request $request, AuthenticationException $authException = null)
+    {
     }
 
     /**

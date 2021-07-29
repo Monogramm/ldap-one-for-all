@@ -29,27 +29,27 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
     /**
      * @var EntityManagerInterface
      */
-    protected $em;
+    protected $emi;
 
     public function __construct(
         JWTTokenManagerInterface $jwtManager,
         EventDispatcherInterface $dispatcher,
-        EntityManagerInterface $em
+        EntityManagerInterface $emi
     ) {
         $this->jwtManager = $jwtManager;
         $this->dispatcher = $dispatcher;
-        $this->em = $em;
+        $this->emi = $emi;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
-        return $this->handleAuthenticationSuccess($token->getUser());
+        return $this->handleAuthenticationSuccess($token->getUser(), $token->getAttributes());
     }
 
-    public function handleAuthenticationSuccess(User $user, $jwt = null): JWTAuthenticationSuccessResponse
+    public function handleAuthenticationSuccess(User $user, array $payload = [], $jwt = null): JWTAuthenticationSuccessResponse
     {
         if (null === $jwt) {
-            $jwt = $this->jwtManager->create($user);
+            $jwt = $this->jwtManager->createFromPayload($user, $payload);
         }
 
         $response = new JWTAuthenticationSuccessResponse($jwt);
@@ -57,11 +57,12 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
 
         $token = new ApiToken();
         $token->setToken($jwt);
-        $token->setExpiredAt(Carbon::now()->addDays(7));
+        $expiration = Carbon::now()->addDays(7);
+        $token->setExpiredAt($expiration);
         $user->addToken($token);
-        $this->em->persist($user);
-        $this->em->persist($token);
-        $this->em->flush();
+        $this->emi->persist($user);
+        $this->emi->persist($token);
+        $this->emi->flush();
 
         $this->dispatcher->dispatch($event, Events::AUTHENTICATION_SUCCESS);
 

@@ -9,6 +9,9 @@ use App\Handler\UserRegistrationHandler;
 use App\Message\EmailNotification;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
+use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\AuthorizationHeaderTokenExtractor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -133,12 +136,32 @@ class UserController extends AbstractController
      *
      * @return JsonResponse
      */
-    public function getCurrentUser(): JsonResponse
-    {
+    public function getCurrentUser(
+        Request $request,
+        JWTEncoderInterface $jwtEncoder
+    ): JsonResponse {
         /**
          * @var User $user
          */
         $user = $this->getUser();
+
+        $extractor = new AuthorizationHeaderTokenExtractor(
+            'Bearer',
+            'Authorization'
+        );
+
+        $token = $extractor->extract($request);
+        try {
+            $payload = $jwtEncoder->decode($token);
+        } catch (JWTDecodeFailureException $ex) {
+            // if no exception thrown then the token could be used
+            $payload = [];
+        }
+
+        // Merge token payload with current user metadata
+        $mergeMetadata = $user->getMetadata();
+        // XXX Maybe only extract part of the payload?
+        $mergeMetadata['auth'] = $payload;
 
         return new JsonResponse([
             'username' => $user->getUsername(),
@@ -146,6 +169,7 @@ class UserController extends AbstractController
             'roles' => $user->getRoles(),
             'isVerified' => $user->isVerified(),
             'language' => $user->getLanguage(),
+            'metadata' => $mergeMetadata,
         ]);
     }
 
