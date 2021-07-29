@@ -96,11 +96,6 @@ export default {
   components: {
     LdapEntry
   },
-  data() {
-    return {
-      data: [1,2,3,4],
-    };
-  },
   computed: {
     titleLabel() {
       return this.$t("home.title");

@@ -15,6 +15,8 @@ export interface IAuthState extends IApiState<AuthAPI> {
 
   token: ILoginToken;
 
+  type: string;
+
   authUser: IUser;
   isLoggedIn(): boolean;
   hasRole(role: string): boolean;
@@ -30,6 +32,8 @@ export class AuthState extends AbstractState implements IAuthState {
   isLoading: boolean = false;
 
   token: ILoginToken = new LoginToken();
+
+  type: string = null;
 
   authUser: IUser = null;
 

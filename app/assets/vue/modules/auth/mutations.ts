@@ -7,12 +7,13 @@ import { IUser } from "../user/interfaces";
 
 import { IAuthState } from "./state";
 import { ILogin, ILoginToken } from "./interfaces";
+import { ILoginObject } from './interfaces/login';
 
 export interface IAuthMutations extends IMutations {
   GET_USER_SUCCESS(state: IAuthState, response: AxiosResponse<IUser>): void;
 
   LOGIN_PENDING(state: IAuthState): void;
-  LOGIN_SUCCESS(state: IAuthState, loginPayload: ILoginToken): void;
+  LOGIN_SUCCESS(state: IAuthState, loginPayload: ILoginObject): void;
   LOGIN_FAILED(state: IAuthState, error: AxiosError): void;
 
   LOGOUT_PENDING(state: IAuthState): void;
@@ -40,12 +41,13 @@ export const AuthMutationsDefault: IAuthMutations =  {
     state.error.message = null;
     state.error.status = null;
   },
-  LOGIN_SUCCESS(state: IAuthState, loginPayload: ILoginToken): void {
+  LOGIN_SUCCESS(state: IAuthState, loginPayload: ILoginObject): void {
     state.isLoading = false;
     state.error.code = null;
     state.error.message = null;
-    state.token.update(loginPayload);
-    localStorage.setItem("token", loginPayload.token);
+    state.type = loginPayload.type;
+    state.token.update(loginPayload.data);
+    localStorage.setItem("token", loginPayload.data.token);
   },
   LOGIN_FAILED(state: IAuthState, error: AxiosError): void {
     state.isLoading = false;
