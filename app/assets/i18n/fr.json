@@ -42,6 +42,7 @@
     "details": "Détails",
     "success": "Succès",
     "new-feature": "Bientôt disponible",
+    "role": "Rôles",
     "username": {
       "label": "Nom d'utilisateur",
       "placeholder": "Entrer un nom d'utilisateur"
@@ -302,6 +303,8 @@
       "givenName": "Prénom",
       "mail": "Email",
       "ou": "Unité organisationnelle",
+      "o": "Nom de l'organisation",
+      "street": "Adresse de la rue",
       "title": "Intitulé du poste",
       "uid": "Identifiant Utilisateur",
       "member": "Membre",

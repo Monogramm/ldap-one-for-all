@@ -42,6 +42,7 @@
     "details": "Details",
     "success": "Success",
     "new-feature": "Comming soon",
+    "role": "Roles",
     "username": {
       "label": "Username",
       "placeholder": "Enter a username"
