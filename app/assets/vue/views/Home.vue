@@ -1,14 +1,15 @@
 <template>
-  <section class="">
+  <section>
     <div class="columns">
       <div class="column is-8">
         <section class="section box">
-          <div class="mb-1 is-flex is-flex-direction-column is-justify-content-center">
+          <div class="mb-2 is-flex is-flex-direction-column is-justify-content-center">
             <div class="mb-1">
               <h1 class="title is-2">
                 {{ titleLabel }}
               </h1>
             </div>
+
             <div>
               <h2 class="subtitle">
                 {{ $t("home.welcome") }}
@@ -16,10 +17,43 @@
             </div>
           </div>
 
-          <div class="ldap-entry-div">
-            <ldap-entry
-              dn="cn=Hubert J. Farnsworth,ou=people,dc=planetexpress,dc=com"
-            />
+          <div class="user-datas-div">
+            <template>
+              <ldap-entry
+                v-if="getAuthSource() == 'ldap'"
+                :dn="fullDn"
+              />
+            </template>
+
+            <div
+              v-if="getAuthSource() == 'local'"
+              class="card-content"
+            >
+              <strong>{{ $t("common.username.label") }}:</strong>
+              <span>
+                {{ authUser.username }}
+              </span>
+              <hr>
+              <strong>{{ $t("common.email.label") }}:</strong>
+              <span>
+                {{ authUser.email }}
+              </span>
+              <hr>
+              <strong>{{ $t("common.languages") }}:</strong>
+              <span>
+                {{ authUser.language }}
+              </span>
+              <hr>
+              <strong>{{ $t("users.role.verified-user") }}: </strong>
+              <span>
+                {{ authUser.isVerified }}
+              </span>
+              <hr>
+              <strong>{{ $t("common.role") }}: </strong>
+              <span>
+                {{ authUser.roles }}
+              </span>
+            </div>
           </div>
         </section>
       </div>
@@ -42,18 +76,6 @@
               :to="{ name: 'UserProfile' }"
             >
               {{ $t("home.account") }}
-            </b-button>
-          </div>
-
-          <div class="has-text-centered">
-            <b-button
-              type="iis-link"
-              icon-left="edit"
-              class="profile-actions"
-              tag="router-link"
-              :to="{ name: '' }"
-            >
-              {{ $t("home.modify-account") }}
             </b-button>
           </div>
 
@@ -89,6 +111,7 @@
 </template>
 
 <script lang="ts">
+import { mapGetters } from "vuex";
 import LdapEntry from "../modules/ldap/views/LdapEntry.vue";
 
 export default {
@@ -96,9 +119,26 @@ export default {
   components: {
     LdapEntry
   },
+  data() {
+    return {
+      fullDn: null as string
+    };
+  },
   computed: {
+    ...mapGetters("auth", ["authUser"]),
     titleLabel() {
       return this.$t("home.title");
+    }
+  },
+  methods: {
+    getAuthSource()
+    {
+      let source = this.authUser.metadata.auth.source;
+      if(source === 'ldap')
+      {
+        this.fullDn = this.authUser.metadata.ldap.fullDn;
+      }
+      return source;
     }
   },
   metaInfo() {
@@ -119,7 +159,7 @@ export default {
   margin-top: 15%;
 }
 
-.ldap-entry-div {
+.user-datas-div {
   height: 50vh;
   overflow-y: scroll;
 }
