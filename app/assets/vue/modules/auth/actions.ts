@@ -26,20 +26,12 @@ export const AuthActionsDefault: IAuthActions = {
     commit(`LOGIN_PENDING`);
     try {
       const responseLdap = await state.api.loginLdap(credentials);
-      const loginData = {
-        data: responseLdap.data,
-        type: 'ldap'
-      }
-      commit(`LOGIN_SUCCESS`, loginData);
+      commit(`LOGIN_SUCCESS`, responseLdap.data);
       return responseLdap;
     } catch (errorLdap) {
       try {
         const response = await state.api.login(credentials);
-        const loginData = {
-          data: response.data,
-          type: 'local'
-        }
-        commit(`LOGIN_SUCCESS`, loginData);
+        commit(`LOGIN_SUCCESS`, response.data);
         return response;
       } catch (error) {
         commit(`LOGIN_FAILED`, errorLdap);

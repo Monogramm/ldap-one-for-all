@@ -8,7 +8,6 @@ export interface IUser extends IEntity {
   username: string;
   language: string;
   roles: Array<string>;
-  type: string;
   isVerified: boolean;
   metadata: Array<any>;
 }

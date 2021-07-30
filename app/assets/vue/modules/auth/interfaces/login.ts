@@ -28,14 +28,6 @@ export const LoginDefault = (): Login => {
 };
 
 /**
- * Login object interface.
- */
-export interface ILoginObject {
-  data: ILoginToken;
-  type: string;
-}
-
-/**
  * Login token interface.
  */
 export interface ILoginToken {
