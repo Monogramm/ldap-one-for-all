@@ -17,16 +17,16 @@
             </div>
           </div>
 
-          <div class="user-datas-div">
+          <div class="user-data-div">
             <template>
               <ldap-entry
-                v-if="getAuthSource() == 'ldap'"
+                v-if="getAuthSource() === 'ldap'"
                 :dn="fullDn"
               />
             </template>
 
             <div
-              v-if="getAuthSource() == 'local'"
+              v-else
               class="card-content"
             >
               <strong>{{ $t("common.username.label") }}:</strong>
@@ -81,15 +81,14 @@
 
           <div class="has-text-centered">
             <b-button
-              :title="$t('common.new-feature')"
+              :title="$t('common.coming-soon')"
               disabled="true"
-              type="iis-link"
+              type="is-link"
               icon-left="edit"
               class="profile-actions"
               tag="router-link"
-              :to="{ name: '' }"
             >
-              {{ $t("home.modify-phrase") }}
+              {{ $t("home.modify-secret") }}
             </b-button>
           </div>
 
@@ -131,11 +130,9 @@ export default {
     }
   },
   methods: {
-    getAuthSource()
-    {
+    getAuthSource() {
       let source = this.authUser.metadata.auth.source;
-      if(source === 'ldap')
-      {
+      if (source === 'ldap') {
         this.fullDn = this.authUser.metadata.ldap.fullDn;
       }
       return source;
@@ -159,7 +156,7 @@ export default {
   margin-top: 15%;
 }
 
-.user-datas-div {
+.user-data-div {
   height: 50vh;
   overflow-y: scroll;
 }

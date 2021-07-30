@@ -41,7 +41,7 @@
     "view": "Voir",
     "details": "Détails",
     "success": "Succès",
-    "new-feature": "Bientôt disponible",
+    "coming-soon": "Bientôt disponible",
     "role": "Rôles",
     "username": {
       "label": "Nom d'utilisateur",
@@ -71,7 +71,7 @@
       "required-field-emmpty": "Veuillez renseigner ce champ",
       "field-not-valid": "Veuillez respecter le format demandé",
       "already-exists": "Existe déjà",
-      "upload-fail": "Une erreur s'est produite lors du téléchargement du fichier !"
+      "upload-failure": "Une erreur s'est produite lors du téléchargement du fichier !"
     },
     "send": "Envoyer",
     "user": "Utilisateur",
@@ -170,7 +170,7 @@
     },
     "account": "Compte utilisateur",
     "modify-account": "Modifier Profil",
-    "modify-phrase": "Modifier phrase secret",
+    "modify-secret": "Modifier phrase secret",
     "contact": "Contact"
   },
   "privacy": {

@@ -41,7 +41,7 @@
     "view": "View",
     "details": "Details",
     "success": "Success",
-    "new-feature": "Comming soon",
+    "coming-soon": "Coming soon",
     "role": "Roles",
     "username": {
       "label": "Username",
@@ -71,7 +71,7 @@
       "required-field-emmpty": "Please fill out this field",
       "field-not-valid": "Please match the requested format",
       "already-exists": "Already exists",
-      "upload-fail": "Error occurred on file upload !"
+      "upload-failure": "Error occurred on file upload!"
     },
     "send": "Send",
     "user": "User",
@@ -170,7 +170,7 @@
     },
     "account": "User account",
     "modify-account": "Edit Profile",
-    "modify-phrase": "Modify secret phrase",
+    "modify-secret": "Edit secret phrase",
     "contact": "Contact"
   },
   "privacy": {

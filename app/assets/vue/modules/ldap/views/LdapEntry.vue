@@ -97,7 +97,7 @@ export default {
     displayTitle(): string {
       let title = null;
 
-      if(this.entry.attributes.hasOwnProperty('cn')) {
+      if (this.entry.attributes.hasOwnProperty('cn')) {
         title = this.entry.attributes.cn.toString();
       } else if (this.entry.attributes.hasOwnProperty('displayName')) {
         title = this.entry.attributes.displayName.toString();

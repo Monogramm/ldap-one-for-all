@@ -147,7 +147,7 @@ export default {
         (reader: FileReader, ev: ProgressEvent<FileReader>) => {
           this.$buefy.toast.open(
             {
-              message:this.$t('common.error.upload-fail'),
+              message:this.$t('common.error.upload-failure'),
               type: "is-danger",
               indefinite: true,
             }
