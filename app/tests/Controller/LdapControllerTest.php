@@ -122,7 +122,7 @@ class LdapControllerTest extends AuthenticatedWebTestCase
         $param = 'not-exist';
         $this->client->request('GET', "/api/ldap/$param");
         $this->assertSame(
-            Response::HTTP_BAD_REQUEST,
+            Response::HTTP_INTERNAL_SERVER_ERROR,
             $this->client->getResponse()->getStatusCode()
         );
     }
