@@ -83,8 +83,7 @@ export default {
 
       return this.createLdapEntry(this.entry);
     },
-    handleError(error: AxiosError) {
-      // TODO if possible, set error type
+    handleError(error: AxiosError<string | number>) {
       this.$buefy.snackbar.open(
         {
           message: error.message,

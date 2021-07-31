@@ -71,7 +71,7 @@
       "required-field-emmpty": "Veuillez renseigner ce champ",
       "field-not-valid": "Veuillez respecter le format demandé",
       "already-exists": "Existe déjà",
-      "upload-failure": "Une erreur s'est produite lors du téléchargement du fichier !"
+      "upload-failure": "Une erreur s'est produite lors du téléchargement du fichier ! {error}"
     },
     "send": "Envoyer",
     "user": "Utilisateur",
@@ -164,6 +164,7 @@
   "home": {
     "title": "Accueil",
     "welcome": "Bienvenue chez LDAP All-For-One Manager",
+    "not-ldap-user": "Vous n'êtes pas authentifié auprès d'un serveur LDAP, mais vous pouvez tout de même utiliser l'application.",
     "profile": {
       "manage": "Gérer votre profil",
       "description": "Accéder à votre page de profil et vos informations"

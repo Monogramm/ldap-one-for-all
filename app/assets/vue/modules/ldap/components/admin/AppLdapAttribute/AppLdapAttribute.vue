@@ -131,7 +131,6 @@ export default {
     },
     async droppedFile(file: File, index: number) {
       // TODO Control that file.type matches attribute type
-      console.dir(file);
 
       await this.toBase64(file,
         (reader: FileReader, result: string | ArrayBuffer) => {
@@ -145,19 +144,22 @@ export default {
           this.$set(this.values, index, result);
         },
         (reader: FileReader, ev: ProgressEvent<FileReader>) => {
-          this.$buefy.toast.open(
-            {
-              message:this.$t('common.error.upload-failure'),
-              type: "is-danger",
-              indefinite: true,
-            }
-          );
+          reader.onerror = ()=> {
+            this.$buefy.toast.open(
+              {
+                message:this.$t('common.error.upload-failure',{error: reader.error}),
+                type: "is-danger",
+                indefinite: true,
+              }
+            );
+          };
         }
       );
     },
     toBase64(file: File, resolve: (reader: FileReader, result: string | ArrayBuffer) => any, reject: (reader: FileReader, ev: ProgressEvent<FileReader>) => any) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
+
       if (!!resolve) {
         reader.onload = () => resolve(reader, reader.result);
       }

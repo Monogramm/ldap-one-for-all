@@ -71,7 +71,7 @@
       "required-field-emmpty": "Please fill out this field",
       "field-not-valid": "Please match the requested format",
       "already-exists": "Already exists",
-      "upload-failure": "Error occurred on file upload!"
+      "upload-failure": "Error occurred on file upload! {error}"
     },
     "send": "Send",
     "user": "User",
@@ -164,6 +164,7 @@
   "home": {
     "title": "Home",
     "welcome": "Welcome to LDAP All-For-One Manager",
+    "not-ldap-user": "You are not authenticated with an LDAP server, but you can still use the application.",
     "profile": {
       "manage": "Manage your profile",
       "description": "Access you profile page and information"

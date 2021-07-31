@@ -17,43 +17,19 @@
             </div>
           </div>
 
-          <div class="user-data-div">
-            <template>
-              <ldap-entry
-                v-if="getAuthSource() === 'ldap'"
-                :dn="fullDn"
-              />
-            </template>
-
-            <div
-              v-else
-              class="card-content"
-            >
-              <strong>{{ $t("common.username.label") }}:</strong>
-              <span>
-                {{ authUser.username }}
-              </span>
-              <hr>
-              <strong>{{ $t("common.email.label") }}:</strong>
-              <span>
-                {{ authUser.email }}
-              </span>
-              <hr>
-              <strong>{{ $t("common.languages") }}:</strong>
-              <span>
-                {{ authUser.language }}
-              </span>
-              <hr>
-              <strong>{{ $t("users.role.verified-user") }}: </strong>
-              <span>
-                {{ authUser.isVerified }}
-              </span>
-              <hr>
-              <strong>{{ $t("common.role") }}: </strong>
-              <span>
-                {{ authUser.roles }}
-              </span>
-            </div>
+          <div
+            v-if="getAuthSource() === 'ldap'"
+            class="user-data-div"
+          >
+            <ldap-entry
+              :dn="fullDn"
+            />
+          </div>
+          <div
+            v-else
+            class="card-content"
+          >
+            <span>{{ $t("home.not-ldap-user") }}</span>
           </div>
         </section>
       </div>
@@ -157,7 +133,7 @@ export default {
 }
 
 .user-data-div {
-  height: 50vh;
+  height: 70vh;
   overflow-y: scroll;
 }
 </style>
