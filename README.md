@@ -9,7 +9,6 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/c0736494f8314577b7164bfcbd752780)](https://www.codacy.com/gh/Monogramm/ldap-all-for-one-manager/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Monogramm/ldap-all-for-one-manager&amp;utm_campaign=Badge_Coverage)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Monogramm/ldap-all-for-one-manager/Docker%20Image%20CI)](https://github.com/Monogramm/ldap-all-for-one-manager/actions)
 
-[![Docker Automated buid](https://img.shields.io/docker/cloud/build/monogramm/ldap-all-for-one-manager.svg)](https://hub.docker.com/r/monogramm/ldap-all-for-one-manager/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/ldap-all-for-one-manager.svg)](https://hub.docker.com/r/monogramm/ldap-all-for-one-manager/)
 [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/monogramm/ldap-all-for-one-manager/latest)](https://hub.docker.com/r/monogramm/ldap-all-for-one-manager/)
 
