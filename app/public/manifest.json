@@ -1,7 +1,7 @@
 {
   "name": "LDAP All-For-One Manager",
   "short_name": "LDAP All-For-One Manager",
-  "theme_color": "#da532c",
+  "theme_color": "#5ba550",
   "background_color": "#fcfcfc",
   "display": "standalone",
   "orientation": "portrait",
