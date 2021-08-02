@@ -158,9 +158,15 @@ class Client
             return false;
         }
 
-        foreach ($attributes as $key => $value) {
-            $entry->setAttribute($key, $value);
+        foreach ($entry->getAttributes() as $key => $value) {
+            if (!in_array($key, $attributes)) {
+                $entry->setAttribute($key, []);
+            }
         }
+        foreach ($attributes as $key => $value) {
+            $entry->setAttribute($key, $attributes[$key]);
+        }
+
         // XXX Check if it's possible to return the saved LDAP entry.
         $entryManager->update($entry);
 
