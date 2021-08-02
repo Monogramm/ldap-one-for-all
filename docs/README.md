@@ -1,8 +1,8 @@
-# **LDAP All-For-One Manager** Documentation site
+# ![icon](assets/icon.png) **LDAP All-For-One Manager** Documentation
 
 **LDAP All-For-One Manager**: A web based LDAP Manager for everyone.
 
-The objective of the project is to provide a user-friendly web application to manage LDAP account, reset password, explore the LDAP and others.
+The objective of the project is to provide a user-friendly web application to manage LDAP account, reset password, explore the LDAP and much more.
 
 It comes with full build / tests / deploy automation while providing as much "_standard_" features as usually found in recent web applications.
 

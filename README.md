@@ -12,7 +12,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/ldap-all-for-one-manager.svg)](https://hub.docker.com/r/monogramm/ldap-all-for-one-manager/)
 [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/monogramm/ldap-all-for-one-manager/latest)](https://hub.docker.com/r/monogramm/ldap-all-for-one-manager/)
 
-# **LDAP All-For-One Manager**
+# ![icon](docs/assets/icon.png) **LDAP All-For-One Manager**
 
 > :alembic: :elephant: A web based LDAP Manager for everyone.
 
@@ -184,11 +184,11 @@ This project support Continuous Integration with the following platforms:
 
 -   GitHub: [@madmath03](https://github.com/madmath03)
 
-**Artur Khachaturyan**
+**Artur KHACHATURYAN**
 
 -   Github: [@Arky9782](https://github.com/orgs/Monogramm/people/Arky9782)
 
-**Prudentos Allan**
+**Allan PRUDENTOS**
 
 -   Github: [@Nathan-Al](https://github.com/Nathan-Al)
 
