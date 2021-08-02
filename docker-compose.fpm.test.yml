@@ -390,14 +390,11 @@ services:
       - '5672'
     networks:
       - app_internal_network
-    # If you want, you can sync time & timezone with host
-    #volumes:
-    #  - /etc/localtime:/etc/localtime:ro
-    #  - /etc/timezone:/etc/timezone:ro
-    environment:
-      - RABBITMQ_DEFAULT_USER=${APP_RABBIT_USER}
-      - RABBITMQ_DEFAULT_PASS=${APP_RABBIT_PASSWD}
-      - RABBITMQ_VM_MEMORY_HIGH_WATERMARK=50%
+    volumes:
+      - ./docker/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      # If you want, you can sync time & timezone with host
+      #- /etc/localtime:/etc/localtime:ro
+      #- /etc/timezone:/etc/timezone:ro
 
   app_web:
     image: nginx:alpine

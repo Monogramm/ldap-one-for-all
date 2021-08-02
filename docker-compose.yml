@@ -360,11 +360,9 @@ services:
         aliases:
           - rabbitmq
     volumes:
+      - ./docker/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-    environment:
-      - RABBITMQ_DEFAULT_USER=${APP_RABBIT_USER}
-      - RABBITMQ_DEFAULT_PASS=${APP_RABBIT_PASSWD}
 
 #  # Uncomment ELK stack for searching through logs
 #  app_dev_elasticsearch:
