@@ -55,6 +55,7 @@ class AppFixtures extends Fixture
         $parametersFxtures = array(
             array( 'name' => 'APP_PUBLIC_URL', 'value' => 'http://localhost:8000', 'type' => 'string', 'description' => 'Public URL for backend generated links'),
             array( 'name' => 'APP_SUPPORT_EMAIL', 'value' => 'support@yopmail.com', 'type' => 'string', 'description' => 'Support email address which will receive technical notifications'),
+            array( 'name' => 'APP_REGISTRATION_ENABLED', 'value' => '1', 'type' => 'string', 'description' => 'Enable/disable user registration. Allowed values are 1 (enabled) and 0 (disabled).'),
             array( 'name' => 'LDAP_USER_DEFAULT_ROLE', 'value' => 'ROLE_ADMIN', 'type' => 'string', 'description' => 'LDAP default role on first login'),
             array( 'name' => 'LDAP_GROUP_ADMIN', 'value' => 'cn=admin_staff,ou=people,dc=planetexpress,dc=com', 'type' => 'string', 'description' => 'LDAP default role on first login'),
             array( 'name' => 'LDAP_GROUP_USER', 'value' => 'cn=ship_crew,ou=people,dc=planetexpress,dc=com', 'type' => 'string', 'description' => 'LDAP default role on first login'),

@@ -13,9 +13,9 @@ class EmailAlreadyTakenUnitTest extends TestCase
 
         $this->assertNotNull($exception->getMessage());
 
+        $this->assertNotNull($exception->getCode());
+        $this->assertEquals(1001, $exception->getCode());
         $this->assertNotNull($exception->getStatusCode());
-        $this->assertEquals(1001, $exception->getStatusCode());
-        $this->assertNotNull($exception->getHttpErrorCode());
-        $this->assertEquals(409, $exception->getHttpErrorCode());
+        $this->assertEquals(409, $exception->getStatusCode());
     }
 }
