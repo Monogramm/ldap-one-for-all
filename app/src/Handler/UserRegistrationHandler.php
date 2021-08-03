@@ -5,7 +5,9 @@ namespace App\Handler;
 
 use App\Entity\User;
 use App\Exception\User\EmailAlreadyTaken;
+use App\Exception\User\RegistrationDisabled;
 use App\Exception\User\UsernameAlreadyTaken;
+use App\Repository\ParameterRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -15,7 +17,7 @@ class UserRegistrationHandler
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private $emi;
 
     /**
      * @var UserPasswordEncoderInterface
@@ -27,18 +29,29 @@ class UserRegistrationHandler
      */
     private $userRepository;
 
+    /**
+     * @var ParameterRepository
+     */
+    private $parameterRepository;
+
     public function __construct(
-        EntityManagerInterface $em,
+        EntityManagerInterface $emi,
         UserPasswordEncoderInterface $passwordEncoder,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        ParameterRepository $parameterRepository
     ) {
-        $this->em = $em;
+        $this->emi = $emi;
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
+        $this->parameterRepository = $parameterRepository;
     }
 
     public function handle(User $user): User
     {
+        if (!$this->isRegistrationEnabled()) {
+            throw new RegistrationDisabled();
+        }
+
         $users = $this->userRepository->findAllByEmail($user->getEmail());
 
         if (count($users) > 0) {
@@ -58,9 +71,34 @@ class UserRegistrationHandler
         $user->setRoles(['ROLE_USER']);
         $user->unverify();
 
-        $this->em->persist($user);
-        $this->em->flush();
+        $this->emi->persist($user);
+        $this->emi->flush();
 
         return $user;
+    }
+
+    private function getRegistrationEnabled(): ?string
+    {
+        /**
+         * @var Parameter|null $parameter
+         */
+        $parameter = $this->parameterRepository->findByName('APP_REGISTRATION_ENABLED');
+
+        if (!$parameter) {
+            return null;
+        }
+
+        return $parameter->getValue();
+    }
+
+    /**
+     * Is user registration currently enabled for this app.
+     *
+     * @return bool
+     */
+    public function isRegistrationEnabled(): bool {
+        $value = $this->getRegistrationEnabled();
+
+        return $value === '1';
     }
 }
