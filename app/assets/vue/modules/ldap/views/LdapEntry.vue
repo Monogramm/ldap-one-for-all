@@ -21,7 +21,7 @@
       <template v-if="index !== 'jpegPhoto' && index !== 'userPassword'">
         <div
           :key="`divArrangement:${index}`"
-          class="column is-two-thirds is-offset-2"
+          class="column"
         >
           <div
             :key="`divElemente:${index}`"
@@ -30,7 +30,7 @@
             <div class="column is-5">
               <span
                 :key="`spanEntryKey:${index}`"
-                class="is-size-4 is-offset-3 column"
+                class="is-size-4-desktop is-offset-3 column"
               >
                 {{ $t('ldap.attributes.'+index) }}
               </span>
@@ -59,7 +59,6 @@
 </template>
 
 <script lang="ts">
-import { mapGetters } from "vuex";
 import { ILdapEntry, LdapEntry, LdapEntryDefault } from "../interfaces/entry";
 
 export default {
@@ -74,9 +73,6 @@ export default {
     return {
       entry: null as LdapEntry | null
     };
-  },
-  computed: {
-    ...mapGetters("ldapEntry", ["hasError", "error"]),
   },
   async created() {
     if (this.dn) {

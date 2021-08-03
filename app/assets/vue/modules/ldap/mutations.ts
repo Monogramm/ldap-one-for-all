@@ -81,7 +81,7 @@ export const LdapEntryMutationsDefault: ILdapEntryMutations = {
     state.error.message = null;
     state.item = data;
   },
-  CREATE_ERROR(state: ILdapEntryState, error?: AxiosError): void {
+  CREATE_ERROR(state: ILdapEntryState, error?: AxiosError<string>): void {
     state.isLoading = false;
     if (error && error.response) {
       state.error.status = error.response.status;
@@ -103,7 +103,7 @@ export const LdapEntryMutationsDefault: ILdapEntryMutations = {
     state.error.message = null;
     state.item = data;
   },
-  EDIT_ERROR(state: ILdapEntryState, error?: AxiosError): void {
+  EDIT_ERROR(state: ILdapEntryState, error?: AxiosError<string>): void {
     state.isLoading = false;
     if (error && error.response) {
       state.error.status = error.response.status;

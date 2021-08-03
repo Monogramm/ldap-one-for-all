@@ -19,7 +19,6 @@
 
           <div
             v-if="getAuthSource() === 'ldap'"
-            class="user-data-div"
           >
             <ldap-entry
               :dn="fullDn"
@@ -132,8 +131,4 @@ export default {
   margin-top: 15%;
 }
 
-.user-data-div {
-  height: 70vh;
-  overflow-y: scroll;
-}
 </style>
