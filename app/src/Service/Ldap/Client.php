@@ -144,13 +144,14 @@ class Client
     }
 
     /**
+     * Finding and updating an existing entry
+     *
      * @return bool
      *
      * @throws LdapException
      */
     public function update(string $fullDn, string $query, array $attributes = []) : bool
     {
-        // Finding and updating an existing entry
         $entryManager = $this->ldap->getEntryManager();
         $entry = $this->get($query, $fullDn);
 
@@ -159,9 +160,7 @@ class Client
         }
 
         foreach ($entry->getAttributes() as $key => $value) {
-            if (!in_array($key, $attributes)) {
-                $entry->setAttribute($key, []);
-            }
+            $entry->setAttribute($key, []);
         }
         foreach ($attributes as $key => $value) {
             $entry->setAttribute($key, $attributes[$key]);
