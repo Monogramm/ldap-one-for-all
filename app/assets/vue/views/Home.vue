@@ -18,9 +18,9 @@
           </div>
 
           <div
-            v-if="getAuthSource() === 'ldap'"
+            v-if="getAuthUserSource() === 'ldap'"
           >
-            <ldap-entry
+            <app-ldap-entry
               :dn="fullDn"
             />
           </div>
@@ -86,12 +86,12 @@
 
 <script lang="ts">
 import { mapGetters } from "vuex";
-import LdapEntry from "../modules/ldap/views/LdapEntry.vue";
+import AppLdapEntry from "../modules/ldap/components/AppLdapEntry/AppLdapEntry.vue";
 
 export default {
   name: "Home",
   components: {
-    LdapEntry
+    AppLdapEntry
   },
   data() {
     return {
@@ -105,7 +105,7 @@ export default {
     }
   },
   methods: {
-    getAuthSource() {
+    getAuthUserSource() {
       let source = this.authUser.metadata.auth.source;
       if (source === 'ldap') {
         this.fullDn = this.authUser.metadata.ldap.fullDn;
