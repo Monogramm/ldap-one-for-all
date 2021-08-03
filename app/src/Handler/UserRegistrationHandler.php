@@ -3,6 +3,7 @@
 
 namespace App\Handler;
 
+use App\Entity\Parameter;
 use App\Entity\User;
 use App\Exception\User\EmailAlreadyTaken;
 use App\Exception\User\RegistrationDisabled;
@@ -96,7 +97,8 @@ class UserRegistrationHandler
      *
      * @return bool
      */
-    public function isRegistrationEnabled(): bool {
+    public function isRegistrationEnabled(): bool
+    {
         $value = $this->getRegistrationEnabled();
 
         return $value === '1';

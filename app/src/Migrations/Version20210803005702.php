@@ -30,6 +30,5 @@ final class Version20210803005702 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->skipIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
-
     }
 }

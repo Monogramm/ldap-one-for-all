@@ -30,6 +30,5 @@ final class Version20210803005703 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->skipIf($this->connection->getDatabasePlatform()->getName() !== 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
-
     }
 }
