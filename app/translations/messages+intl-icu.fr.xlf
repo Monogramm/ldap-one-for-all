@@ -70,6 +70,10 @@
                 <source>error.user.username.already.taken</source>
                 <target>Nom d'utilisateur non disponible</target>
             </trans-unit>
+            <trans-unit id="error_user_registration_disabled">
+                <source>error.user.registration.disabled</source>
+                <target>Création de compte désactivée!</target>
+            </trans-unit>
             <trans-unit id="error_common_invalid_json">
                 <source>error.common.invalid.json</source>
                 <target>JSON invalide</target>

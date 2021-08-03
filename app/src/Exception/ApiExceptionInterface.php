@@ -3,9 +3,8 @@
 
 namespace App\Exception;
 
-interface ApiExceptionInterface
-{
-    public function getHttpErrorCode(): int;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
-    public function getStatusCode(): int;
+interface ApiExceptionInterface extends HttpExceptionInterface
+{
 }

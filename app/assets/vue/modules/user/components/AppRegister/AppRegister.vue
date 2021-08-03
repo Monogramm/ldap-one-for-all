@@ -116,7 +116,7 @@ export default {
     emailErrorMessage: {
       get(): any {
         return {
-          [this.error.message]: this.error.code === 1001,
+          [this.error.message]: this.error.code === 1001 || this.error.code === 1000,
           ["Email is incorrect"]:
             this.username && this.password && this.error.status === 422
         };
@@ -130,7 +130,7 @@ export default {
         return {
           "is-danger":
             this.hasError &&
-            (this.error.code === 1001 ||
+            (this.error.code === 1001 || this.error.code === 1000 ||
               (!this.validEmail(this.email) && this.error.status === 422))
         };
       },

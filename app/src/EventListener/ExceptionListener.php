@@ -54,7 +54,7 @@ class ExceptionListener
 
         if ($exception instanceof ApiExceptionInterface) {
             $message = [
-                'code' => $exception->getStatusCode(),
+                'code' => $exception->getCode(),
                 'message' => $this
                     ->translator
                     ->trans(
@@ -63,7 +63,7 @@ class ExceptionListener
             ];
             $response = new JsonResponse(
                 $message,
-                $exception->getHttpErrorCode()
+                $exception->getStatusCode()
             );
             $event->setResponse($response);
             return;

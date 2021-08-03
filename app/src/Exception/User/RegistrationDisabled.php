@@ -8,11 +8,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
-class InvalidVerificationCode extends HttpException implements ApiExceptionInterface
+class RegistrationDisabled extends HttpException implements ApiExceptionInterface
 {
-    protected const ERROR_CODE  = 1004;
-    protected const STATUS_CODE = Response::HTTP_BAD_REQUEST;
-    protected const MESSAGE     = 'error.user.invalid.verification.code';
+    protected const ERROR_CODE  = 1000;
+    protected const STATUS_CODE = Response::HTTP_METHOD_NOT_ALLOWED;
+    protected const MESSAGE     = 'error.user.registration.disabled';
 
     public function __construct(Throwable $previous = null, array $headers = [])
     {

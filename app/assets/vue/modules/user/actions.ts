@@ -46,7 +46,7 @@ export const UserActionsDefault: IUserActions = {
       commit("CREATE_SUCCESS", response.data);
       return response.data;
     } catch (error) {
-      commit("CREATE_ERROR", error.response);
+      commit("CREATE_ERROR", error);
       return error;
     }
   },

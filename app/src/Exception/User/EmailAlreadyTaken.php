@@ -4,27 +4,24 @@
 namespace App\Exception\User;
 
 use App\Exception\ApiExceptionInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
-class EmailAlreadyTaken extends \RuntimeException implements ApiExceptionInterface
+class EmailAlreadyTaken extends HttpException implements ApiExceptionInterface
 {
-    protected $code = 1001;
-    protected $httpErrorCode = 409;
-    protected $message = 'error.user.email.already.taken';
+    protected const ERROR_CODE  = 1001;
+    protected const STATUS_CODE = Response::HTTP_CONFLICT;
+    protected const MESSAGE     = 'error.user.email.already.taken';
 
-    public function __construct(Throwable $previous = null)
+    public function __construct(Throwable $previous = null, array $headers = [])
     {
-        parent::__construct($this->message, $this->code, $previous);
-    }
-
-    public function getStatusCode(): int
-    {
-        return $this->code;
-    }
-
-    public function getHttpErrorCode(): int
-    {
-        return $this->httpErrorCode;
+        parent::__construct(
+            self::STATUS_CODE,
+            self::MESSAGE,
+            $previous,
+            $headers,
+            self::ERROR_CODE
+        );
     }
 }
