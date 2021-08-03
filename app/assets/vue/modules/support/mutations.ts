@@ -16,20 +16,17 @@ export const SupportMutationsDefault: ISupportMutations = {
 
   SUPPORT_SEND_REQUEST_PENDING(state: ISupportState, data: ISupport = null) {
     state.isLoading = true;
-    state.error.status = null;
-    state.error.message = null;
+    state.clearError();
     state.item = data;
   },
   SUPPORT_SEND_REQUEST_SUCCESS(state: ISupportState) {
     state.isLoading = false;
-    state.error.status = null;
-    state.error.message = null;
+    state.clearError();
     state.item = null;
   },
   SUPPORT_SEND_REQUEST_ERROR(state: ISupportState, error?: AxiosError) {
     state.isLoading = false;
-    state.error.status = error.response.status;
-    state.error.message = error.response.statusText;
+    state.saveError(error);
     state.item = null;
   },
 

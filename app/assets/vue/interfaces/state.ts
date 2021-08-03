@@ -1,3 +1,5 @@
+import { AxiosError } from "axios";
+
 import { IError, Error } from "./error";
 import { Entity } from "./entity";
 
@@ -58,6 +60,9 @@ export interface IEntityState<T extends Entity> extends IState {
   initCurrent(): T;
 
   clearList(): void;
+
+  clearError(): void;
+  saveError(error: AxiosError<IError>): void;
 }
 
 /**
@@ -79,6 +84,30 @@ export abstract class AbstractEntityState<T extends Entity> extends AbstractStat
 
   clearList(): void {
     this.items.splice(0, this.items.length);
+  }
+
+  clearError(): void {
+    this.error.code = null;
+    this.error.status = null;
+    this.error.message = null;
+  }
+  saveError(error: AxiosError<IError>): void {
+    if (error && error.response) {
+      const response = error.response;
+      this.error.status = response.status;
+
+      if (response.data && response.data.code) {
+        this.error.code = response.data.code;
+      }
+      if (response.data && response.data.message) {
+        this.error.message = response.data.message;
+      } else {
+        this.error.message = response.statusText;
+      }
+    } else {
+      this.error.status = 417;
+      this.error.message = 'unknown-error';
+    }
   }
 }
 

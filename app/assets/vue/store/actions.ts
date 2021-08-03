@@ -53,7 +53,7 @@ export const ReadActions: IReadActions<IEntity, IEntityReadApiState<IEntity>> = 
       commit("GET_SUCCESS", response.data);
       return response.data;
     } catch (error) {
-      commit("GET_ERROR", error.response);
+      commit("GET_ERROR", error);
       return error;
     }
   },
@@ -87,7 +87,7 @@ export const ReadWriteActions: IReadWriteActions<IEntity, IEntityReadWriteApiSta
       commit("CREATE_SUCCESS", response.data);
       return response.data;
     } catch (error) {
-      commit("CREATE_ERROR", error.response);
+      commit("CREATE_ERROR", error);
       return error;
     }
   },
@@ -102,7 +102,7 @@ export const ReadWriteActions: IReadWriteActions<IEntity, IEntityReadWriteApiSta
       commit("EDIT_SUCCESS", response.data);
       return response.data;
     } catch (error) {
-      commit("EDIT_ERROR", error.response);
+      commit("EDIT_ERROR", error);
       return error;
     }
   },
@@ -117,7 +117,7 @@ export const ReadWriteActions: IReadWriteActions<IEntity, IEntityReadWriteApiSta
       commit("DELETE_SUCCESS", id);
       return response.data;
     } catch (error) {
-      commit("DELETE_ERROR", error.response);
+      commit("DELETE_ERROR", error);
       return error;
     }
   },
