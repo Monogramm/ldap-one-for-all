@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from "axios";
 
-import { IError } from "@/vue/interfaces/error";
-import { IReadWriteMutations, ReadWriteMutations } from "@/vue/store/mutations";
+import { IError } from "../../interfaces/error";
+import { IReadWriteMutations, ReadWriteMutations } from "../../store/mutations";
 
 import { IUserState } from "./state";
 import { IUser, ILogin } from "./interfaces";
