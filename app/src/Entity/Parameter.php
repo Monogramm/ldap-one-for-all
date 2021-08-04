@@ -38,6 +38,18 @@ class Parameter
      */
     private $type;
 
+    public function __construct(
+        $name = null,
+        $value = null,
+        $description = null,
+        $type = self::STRING_TYPE
+    ) {
+        $this->name = $name;
+        $this->value = $value;
+        $this->description = $description;
+        $this->type = $type;
+    }
+
     public function getName(): ?string
     {
         return $this->name;
