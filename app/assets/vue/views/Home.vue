@@ -22,6 +22,9 @@
           >
             <app-ldap-entry
               :dn="fullDn"
+              :is-edit="edit"
+              :entry="ldapEntry"
+              :is-loading="isLoading"
             />
           </div>
           <div
@@ -42,41 +45,77 @@
             <p>{{ $t("home.profile.description") }}</p>
           </div>
 
-          <div class="has-text-centered">
-            <b-button
-              type="is-primary"
-              icon-left="magic"
-              class="profile-actions"
-              tag="router-link"
-              :to="{ name: 'UserProfile' }"
-            >
-              {{ $t("home.account") }}
-            </b-button>
-          </div>
+          <template v-if="edit === false">
+            <div class="has-text-centered">
+              <b-button
+                type="is-primary"
+                icon-left="magic"
+                class="profile-actions"
+                tag="router-link"
+                :to="{ name: 'UserProfile' }"
+              >
+                {{ $t("home.account") }}
+              </b-button>
+            </div>
 
-          <div class="has-text-centered">
-            <b-button
-              :title="$t('common.coming-soon')"
-              disabled="true"
-              type="is-link"
-              icon-left="edit"
-              class="profile-actions"
-              tag="router-link"
-            >
-              {{ $t("home.modify-secret") }}
-            </b-button>
-          </div>
+            <div class="has-text-centered">
+              <b-button
+                type="is-link"
+                icon-left="edit"
+                class="profile-actions"
+                @click="onEdit()"
+              >
+                {{ $t("home.modify-account") }}
+              </b-button>
+            </div>
 
-          <div class="has-text-centered">
-            <b-button
-              icon-left="envelope"
-              type="is-info"
-              class="profile-actions contact"
-              tag="router-link"
-              :to="{ name: 'ContactSupport' }"
-            >
-              {{ $t("home.contact") }}
-            </b-button>
+            <div class="has-text-centered">
+              <b-button
+                :title="$t('common.coming-soon')"
+                disabled="true"
+                type="is-link"
+                icon-left="edit"
+                class="profile-actions"
+                tag="router-link"
+              >
+                {{ $t("home.modify-secret") }}
+              </b-button>
+            </div>
+
+            <div class="has-text-centered">
+              <b-button
+                icon-left="envelope"
+                type="is-info"
+                class="profile-actions contact"
+                tag="router-link"
+                :to="{ name: 'ContactSupport' }"
+              >
+                {{ $t("home.contact") }}
+              </b-button>
+            </div>
+          </template>
+          <div v-else>
+            <div class="has-text-centered">
+              <b-button
+                type="is-primary"
+                class="profile-actions contact"
+                :loading="isLoading"
+                @click="onSubmit()"
+              >
+                {{ $t("common.update") }}
+              </b-button>
+            </div>
+            <div class="has-text-centered">
+              <b-button
+                type="is-danger"
+                icon-left="trash"
+                class="profile-actions contact mt-0"
+                :loading="isLoading"
+                @click="cancel()"
+              >
+                {{ $t("common.cancel") }}
+              </b-button>
+            </div>
           </div>
         </section>
       </div>
@@ -87,30 +126,73 @@
 <script lang="ts">
 import { mapGetters } from "vuex";
 import AppLdapEntry from "../modules/ldap/components/AppLdapEntry/AppLdapEntry.vue";
+import { LdapEntryDefault, ILdapEntry } from '../modules/ldap/interfaces';
+import { AxiosError } from 'axios';
 
 export default {
   name: "Home",
   components: {
-    AppLdapEntry
+    AppLdapEntry,
   },
   data() {
     return {
-      fullDn: null as string
+      fullDn: null as string,
+      edit: false as boolean,
+      ldapEntry: LdapEntryDefault() as ILdapEntry | null
     };
   },
   computed: {
     ...mapGetters("auth", ["authUser"]),
+    ...mapGetters("ldapEntry", ["isLoading", "hasError", "error"]),
     titleLabel() {
       return this.$t("home.title");
     }
   },
   methods: {
-    getAuthUserSource() {
-      let source = this.authUser.metadata.auth.source;
+    getAuthUserSource(): string | null {
+      let source = this.authUser?.metadata?.auth?.source ?? "unknown";
+
       if (source === 'ldap') {
         this.fullDn = this.authUser.metadata.ldap.fullDn;
       }
+
       return source;
+    },
+    onEdit() {
+      this.edit = true;
+    },
+    cancel() {
+      this.edit = false;
+    },
+    async onSubmit() {
+      await this.$store
+        .dispatch("ldapEntry/update", this.ldapEntry)
+        .then(() => {
+          if (!this.hasError) {
+            this.handleSuccess();
+            this.edit = false;
+          } else {
+            this.handleError(this.error)
+          }
+        })
+    },
+    handleError(error: AxiosError<string | number>) {
+      this.$buefy.snackbar.open(
+        {
+          message: error.message,
+          type: "is-danger",
+          indefinite: true,
+        }
+      );
+    },
+    handleSuccess() {
+      this.$buefy.toast.open(
+        {
+          duration: 2500,
+          message:this.$t('common.success'),
+          type: 'is-success'
+        }
+      );
     }
   },
   metaInfo() {
