@@ -1,12 +1,7 @@
 <template>
-  <div class="section">
-    <h1 class="title is-1">
-      {{ $t(isEdit ? "ldap.entries.edit" : "ldap.entries.create") }}
-    </h1>
-
+  <div class="section pt-2">
     <form
       role="form"
-      class="box"
       @submit.prevent
     >
       <div class="columns mt-1 is-centered">

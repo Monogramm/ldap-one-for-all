@@ -9,45 +9,8 @@
         class="columns mb-0 is-mobile"
       >
         <div
-          v-if="type === 'image' || type === 'file'"
           :key="`divValueInput:${index}`"
-          class="column is-three-fifths is-offset-one-fifth"
-        >
-          <!-- Display current image -->
-          <figure
-            v-if="type === 'image'"
-            class="image"
-          >
-            <b-image
-              :src="formattedValue(index)"
-            />
-          </figure>
-          <div class="mt-4 columns mt-1 is-centered">
-            <b-field>
-              <b-upload
-                drag-drop
-                :disabled="isLoading"
-                @input="droppedFile($event, index)"
-              >
-                <section class="section">
-                  <div class="content has-text-centered">
-                    <p>
-                      <b-icon
-                        icon="upload"
-                        size="is-large"
-                      />
-                    </p>
-                    <p>{{ $t("common.drag-and-drop") }}</p>
-                  </div>
-                </section>
-              </b-upload>
-            </b-field>
-          </div>
-        </div>
-        <div
-          v-else
-          :key="`divValueInput:${index}`"
-          class="column is-three-fifths is-offset-one-fifth"
+          class="column"
         >
           <!-- Input value attribute-->
           <b-input
@@ -80,7 +43,7 @@
     <div
       class="columns mb-0 is-mobile"
     >
-      <div class="column is-three-fifths is-offset-one-fifth" />
+      <div class="column" />
       <div class="column is-2 pl-0">
         <b-button
           icon-right="plus"
@@ -128,63 +91,7 @@ export default {
     },
     getLastItem() {
       return this.values.length-1;
-    },
-    async droppedFile(file: File, index: number) {
-      // TODO Control that file.type matches attribute type
-
-      await this.toBase64(file,
-        (reader: FileReader, result: string | ArrayBuffer) => {
-          if(typeof(result)=="string") {
-            if (result.startsWith('data:')) {
-              result = result.substring(result.indexOf(',')+1);
-            }
-          }
-
-          // Save base64 into attribute values
-          this.$set(this.values, index, result);
-        },
-        (reader: FileReader, ev: ProgressEvent<FileReader>) => {
-          reader.onerror = ()=> {
-            this.$buefy.toast.open(
-              {
-                message:this.$t('common.error.upload-failure',{error: reader.error}),
-                type: "is-danger",
-                indefinite: true,
-              }
-            );
-          };
-        }
-      );
-    },
-    toBase64(file: File, resolve: (reader: FileReader, result: string | ArrayBuffer) => any, reject: (reader: FileReader, ev: ProgressEvent<FileReader>) => any) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      if (!!resolve) {
-        reader.onload = () => resolve(reader, reader.result);
-      }
-      if (!!reject) {
-        reader.onerror = (error) => reject(reader, error);
-      }
-    },
-    formattedValue(index: number): string {
-      let formattedValue = '';
-
-      switch (this.type) {
-      case 'image':
-        formattedValue = this.values[index];
-        if (! formattedValue.startsWith('data:')) {
-          formattedValue = 'data:image/png;base64,' + formattedValue;
-        }
-        break;
-
-      default:
-        formattedValue = this.values[index];
-        break;
-      }
-
-      return formattedValue;
-    },
+    }
   }
 };
 </script>

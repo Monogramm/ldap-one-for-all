@@ -1,11 +1,18 @@
 <template>
-  <app-ldap-entry
-    v-if="entry !== null"
-    :ldap-entry="entry"
-    :is-loading="isLoading"
-    :is-edit="isEdit"
-    @submit="onSubmit"
-  />
+  <div class="box mt-2">
+    <div class="has-text-centered">
+      <h1 class="title is-1">
+        {{ $t(isEdit ? "ldap.entries.edit" : "ldap.entries.create") }}
+      </h1>
+    </div>
+    <app-ldap-entry
+      v-if="entry !== null"
+      :ldap-entry="entry"
+      :is-loading="isLoading"
+      :is-edit="isEdit"
+      @submit="onSubmit"
+    />
+  </div>
 </template>
 
 <script lang="ts">

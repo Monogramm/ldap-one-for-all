@@ -18,13 +18,19 @@
           </div>
 
           <div
-            v-if="getAuthUserSource() === 'ldap'"
+            v-if="source === 'ldap' && edit === false"
           >
             <app-ldap-entry
               :dn="fullDn"
-              :is-edit="edit"
-              :entry="ldapEntry"
+            />
+          </div>
+          <div v-else-if="edit === true">
+            <app-ldap-entry-admin
+              v-if="entry !== null"
+              :ldap-entry="entry"
+              :is-edit="true"
               :is-loading="isLoading"
+              @submit="onSubmit"
             />
           </div>
           <div
@@ -98,6 +104,7 @@
             <div class="has-text-centered">
               <b-button
                 type="is-primary"
+                icon-left="save"
                 class="profile-actions contact"
                 :loading="isLoading"
                 @click="onSubmit()"
@@ -108,7 +115,7 @@
             <div class="has-text-centered">
               <b-button
                 type="is-danger"
-                icon-left="trash"
+                icon-left="exclamation-triangle"
                 class="profile-actions contact mt-0"
                 :loading="isLoading"
                 @click="cancel()"
@@ -126,19 +133,22 @@
 <script lang="ts">
 import { mapGetters } from "vuex";
 import AppLdapEntry from "../modules/ldap/components/AppLdapEntry/AppLdapEntry.vue";
-import { LdapEntryDefault, ILdapEntry } from '../modules/ldap/interfaces';
+import { LdapEntryDefault, ILdapEntry, LdapEntry } from '../modules/ldap/interfaces';
 import { AxiosError } from 'axios';
+import AppLdapEntryAdmin from '../modules/ldap/components/admin/AppLdapEntry/AppLdapEntry.vue';
 
 export default {
   name: "Home",
   components: {
     AppLdapEntry,
+    AppLdapEntryAdmin,
   },
   data() {
     return {
       fullDn: null as string,
       edit: false as boolean,
-      ldapEntry: LdapEntryDefault() as ILdapEntry | null
+      entry: null as LdapEntry | null,
+      source: null as String
     };
   },
   computed: {
@@ -148,16 +158,23 @@ export default {
       return this.$t("home.title");
     }
   },
+  async created() {
+    this.source = this.authUser?.metadata?.auth?.source ?? "unknown";
+
+    if (this.source === 'ldap') {
+      this.fullDn = this.authUser.metadata.ldap.fullDn;
+    }
+
+    if (this.fullDn) {
+      await this.$store
+        .dispatch("ldapEntry/get", this.fullDn).then((result: ILdapEntry) => {
+          this.entry = result;
+        });
+    } else {
+      this.entry = LdapEntryDefault();
+    }
+  },
   methods: {
-    getAuthUserSource(): string | null {
-      let source = this.authUser?.metadata?.auth?.source ?? "unknown";
-
-      if (source === 'ldap') {
-        this.fullDn = this.authUser.metadata.ldap.fullDn;
-      }
-
-      return source;
-    },
     onEdit() {
       this.edit = true;
     },
@@ -166,7 +183,7 @@ export default {
     },
     async onSubmit() {
       await this.$store
-        .dispatch("ldapEntry/update", this.ldapEntry)
+        .dispatch("ldapEntry/update", this.entry)
         .then(() => {
           if (!this.hasError) {
             this.handleSuccess();
