@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="values.hasOwnProperty('jpegPhoto')"
+      v-if="attributes.hasOwnProperty('jpegPhoto')"
       class="columns is-centered"
     >
       <div
@@ -16,6 +16,19 @@
             class="column is-5 box"
             :src="formattedJpegPhotoValue()"
           />
+          
+          <div
+            class="column is-2 pl-0"
+          >
+            <!-- Section for the input create/delete-->
+            <b-button
+              type="is-danger"
+              icon-right="trash"
+              :title="$t('ldap.entries.new.value.del-title')"
+              :disabled="isLoading"
+              @click="removeAttribute('jpegPhoto')"
+            />
+          </div>
         </div>
         <div class="mt-4 columns mt-1 is-centered">
           <div class="column is-flex is-justify-content-center">
@@ -152,6 +165,7 @@ export default {
       if(!this.attributes.hasOwnProperty(this.newAttributeKey))
       {
         this.$set(this.attributes, this.newAttributeKey, ['']);
+        this.newAttributeKey = '';
       } else {
         this.$buefy.toast.open(this.$t('common.error.already-exists'));
       }
@@ -194,7 +208,7 @@ export default {
           }
 
           // Save base64 into attribute values
-          this.values.jpegPhoto = [result];
+          this.attributes.jpegPhoto = [result];
         },
         (reader: FileReader, ev: ProgressEvent<FileReader>) => {
           reader.onerror = ()=> {
@@ -221,7 +235,7 @@ export default {
       }
     },
     formattedJpegPhotoValue(): string {
-      let formattedValue = this.values?.jpegPhoto.toString() ?? '';
+      let formattedValue = this.attributes?.jpegPhoto.toString() ?? '';
 
       if (! formattedValue.startsWith('data:')) {
         formattedValue = 'data:image/png;base64,' + formattedValue;
