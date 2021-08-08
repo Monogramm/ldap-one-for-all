@@ -214,7 +214,7 @@ lc-prepare-release() {
     log 'Updating gitmoji-changelog version...'
     sed -i \
         -e "s|\"version\": \".*\"|\"version\": \"${NEW_VERSION}\"|g" \
-        app/package.json app/composer.json .gitmoji-changelogrc
+        app/package.json app/package-lock.json app/composer.json .gitmoji-changelogrc
     sed -i \
         -e "s|-v.*';|-v${NEW_VERSION}';|g" \
         app/public/sw.js
