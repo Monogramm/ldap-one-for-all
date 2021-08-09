@@ -64,7 +64,7 @@
               </b-button>
             </div>
 
-            <div class="has-text-centered">
+            <div class="has-text-centered" v-if="source === 'ldap'">
               <b-button
                 type="is-link"
                 icon-left="edit"
@@ -75,7 +75,7 @@
               </b-button>
             </div>
 
-            <div class="has-text-centered">
+            <div class="has-text-centered" v-if="source === 'ldap'">
               <b-button
                 :title="$t('common.coming-soon')"
                 disabled="true"
