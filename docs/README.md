@@ -96,3 +96,15 @@ Check repository on GitHub for details: <https://github.com/Monogramm/ldap-one-f
 ## Contributing
 
 For information about contributing, see the [Contributing page](https://github.com/Monogramm/ldap-one-for-all/blob/main/CONTRIBUTING.md).
+
+## Screenshots
+
+![Mobile Landing page](assets/screenshot_m-00.png)
+
+![Landing page](assets/screenshot_00.png)
+
+![Home page](assets/screenshot_01.png)
+
+![Admin page](assets/screenshot_02.png)
+
+![Edit page](assets/screenshot_03.png)
