@@ -105,7 +105,7 @@
               <b-button
                 type="is-primary"
                 icon-left="save"
-                class="profile-actions contact"
+                class="profile-actions"
                 :loading="isLoading"
                 @click="onSubmit()"
               >
@@ -114,9 +114,9 @@
             </div>
             <div class="has-text-centered">
               <b-button
-                type="is-danger"
-                icon-left="exclamation-triangle"
-                class="profile-actions contact mt-0"
+                type="is-warning"
+                icon-left="times"
+                class="profile-actions mt-0"
                 :loading="isLoading"
                 @click="cancel()"
               >

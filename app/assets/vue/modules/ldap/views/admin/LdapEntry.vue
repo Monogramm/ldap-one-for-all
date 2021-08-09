@@ -5,6 +5,10 @@
         {{ $t(isEdit ? "ldap.entries.edit" : "ldap.entries.create") }}
       </h1>
     </div>
+    <b-loading
+      :is-full-page="isFullPage"
+      :active.sync="isLoading"
+    />
     <app-ldap-entry
       v-if="entry !== null"
       :ldap-entry="entry"
@@ -37,7 +41,8 @@ export default {
   },
   data() {
     return {
-      entry: null as LdapEntry | null
+      entry: null as LdapEntry | null,
+      isFullPage: true,
     };
   },
   computed: {

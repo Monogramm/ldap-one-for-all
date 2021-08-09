@@ -41,6 +41,7 @@
           :loading="isLoading"
           :title="$t('ldap.entries.new.save')"
           type="is-primary"
+          icon-left="save"
           native-type="submit"
           @click="submit"
         >

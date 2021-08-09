@@ -12,11 +12,15 @@
           v-if="attributes.hasOwnProperty('jpegPhoto')"
           class="columns is-centered"
         >
-          <b-image
-            class="column is-5 box"
-            :src="formattedJpegPhotoValue()"
-          />
-          
+          <div
+            class="column is-5"
+          >
+            <b-image
+              class="box"
+              :src="formattedJpegPhotoValue()"
+            />
+          </div>
+
           <div
             class="column is-2 pl-0"
           >
@@ -106,7 +110,7 @@
 
     <div class="columns mx-4 mt-4 is mobile">
       <div class="column is-flex is-justify-content-center">
-        <div class="column is-4">
+        <div class="column is-full">
           <b-field
             :label="$t('ldap.entries.new.attribute.key-label')" 
           >
@@ -116,6 +120,7 @@
               :placeholder="$t('ldap.entries.new.attribute.key-placeholder')"
               :disabled="isLoading"
               type="text"
+              required
             />
           </b-field>
           <div class="column is-flex is-justify-content-center pt-0">
