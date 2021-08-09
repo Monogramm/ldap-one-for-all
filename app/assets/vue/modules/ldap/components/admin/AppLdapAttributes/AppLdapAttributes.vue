@@ -121,7 +121,7 @@
           <div class="column is-flex is-justify-content-center pt-0">
             <b-button
               :title="$t('ldap.entries.new.attribute.add')"
-              :disabled="isLoading || newAttributeKey===''"
+              :disabled="isLoading || !!!newAttributeKey"
               @click="addAttribute()"
             >
               {{ $t('ldap.entries.new.attribute.add') }}
@@ -201,9 +201,9 @@ export default {
 
       await this.toBase64(file,
         (reader: FileReader, result: string | ArrayBuffer) => {
-          if(typeof(result)=="string") {
+          if (typeof(result) === 'string') {
             if (result.startsWith('data:')) {
-              result = result.substring(result.indexOf(',')+1);
+              result = result.substring(result.indexOf(',') + 1);
             }
           }
 

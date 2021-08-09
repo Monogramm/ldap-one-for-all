@@ -144,7 +144,7 @@ class Client
     }
 
     /**
-     * Finding and updating an existing entry
+     * Finding and updating an existing entry.
      *
      * @return bool
      *
@@ -163,7 +163,7 @@ class Client
             $entry->setAttribute($key, []);
         }
         foreach ($attributes as $key => $value) {
-            $entry->setAttribute($key, $attributes[$key]);
+            $entry->setAttribute($key, $value);
         }
 
         // XXX Check if it's possible to return the saved LDAP entry.

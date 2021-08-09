@@ -89,9 +89,6 @@ export default {
     removeValue(index: number) {
       this.values.splice(index, 1);
     },
-    getLastItem() {
-      return this.values.length-1;
-    }
   }
 };
 </script>

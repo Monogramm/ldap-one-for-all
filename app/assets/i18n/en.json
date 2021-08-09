@@ -318,14 +318,14 @@
       "member": "Member",
       "groupType": "LDAP group type",
       "objectClass": "Object class",
-      "telephoneNumber": "Telephone",
+      "telephoneNumber": "Phone number",
       "postalCode": "Postal Code",
       "co": "Country code",
       "c": "Country code",
-      "friendlyCountryName": "Country code",
+      "friendlyCountryName": "Country name",
       "accountExpires": "Account Expires",
-      "homePhone": "Home phone number",
-      "mobile": "Mobile Telephone",
+      "homePhone": "Home phone",
+      "mobile": "Mobile phone",
       "gender": "Gender",
       "company": "Company",
       "department": "Department",
@@ -336,9 +336,9 @@
       "postalAddress": "Address",
       "serialNumber": "Serial Number",
       "st": "State",
-      "stateOrProvinceName": "State",
-      "url": "Other Web Page",
-      "jpegPhoto": "User profile picture"
+      "stateOrProvinceName": "State or Province",
+      "url": "Web Page",
+      "jpegPhoto": "Profile picture"
     }
   },
   "background-jobs": {
