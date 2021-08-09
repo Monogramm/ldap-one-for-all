@@ -34,11 +34,15 @@
     "declare": "Declare",
     "create": "Create",
     "edit": "Edit",
+    "clone": "Clone",
     "update": "Update",
     "delete": "Delete",
     "manage": "Manage",
     "view": "View",
     "details": "Details",
+    "success": "Success",
+    "coming-soon": "Coming soon",
+    "role": "Roles",
     "username": {
       "label": "Username",
       "placeholder": "Enter a username"
@@ -65,12 +69,15 @@
     },
     "error": {
       "required-field-emmpty": "Please fill out this field",
-      "field-not-valid": "Please match the requested format"
+      "field-not-valid": "Please match the requested format",
+      "already-exists": "Already exists",
+      "upload-failure": "Error occurred on file upload! {error}"
     },
     "send": "Send",
     "user": "User",
     "info": "Info",
-    "upload-file": "Téléverser fichier"
+    "upload-file": "Upload file",
+    "drag-and-drop": "Drop your file here or click to upload"
   },
   "component": {
     "password-change": {
@@ -157,11 +164,14 @@
   "home": {
     "title": "Home",
     "welcome": "Welcome to LDAP All-For-One Manager",
+    "not-ldap-user": "You are not authenticated with an LDAP server, but you can still use the application.",
     "profile": {
       "manage": "Manage your profile",
       "description": "Access you profile page and information"
     },
     "account": "User account",
+    "modify-account": "Edit Profile",
+    "modify-secret": "Edit secret phrase",
     "contact": "Contact"
   },
   "privacy": {
@@ -252,6 +262,84 @@
     "name": "Name",
     "filename": "Filename",
     "description": "Description"
+  },
+  "ldap": {
+    "entries": {
+      "admin": "LDAP Entries",
+      "list": "LDAP Entries List",
+      "edit": "Edit LDAP Entry",
+      "clone": "Clone LDAP Entry",
+      "create": "Create LDAP Entry",
+      "delete": "Delete LDAP Entry",
+      "search": "Search entry by DN",
+      "dn": "Distinguished Name",
+      "new": {
+        "dn": {
+          "title-input": "Distinguished Name",
+          "key-placeholder": "New Distinguished Name"
+        },
+        "attribute": {
+            "title-input": "Attribute name",
+            "key-label": "New attribute name",
+            "key-placeholder": "New attribute name example: sn",
+            "add": "Add an attribute",
+            "del-title": "Remove an attribute"
+        },
+        "value": {
+            "value-placeholder": "LDAP attribute value",
+            "value-title": "Value for attribute",
+            "add-title": "Add a new attribute",
+            "del-title": "Remove attribute"
+        },
+        "save": "Send to the LDAP server"
+      }
+    },
+    "attributes": {
+      "dn": "Distinguished Name",
+      "distinguishedName": "Distinguished Name",
+      "surname": "Last Name",
+      "sn": "Last name",
+      "cn": "Full Name",
+      "name": "Full Name",
+      "email": "Email",
+      "description": "Description",
+      "displayName": "Display name",
+      "employeeType": "Employee type",
+      "givenName": "First name",
+      "mail": "Email",
+      "ou": "Organizational unit",
+      "o": "Organization Name",
+      "language": "Languages",
+      "street": "Street Address",
+      "streetAddress": "Street Address",
+      "title": "Job title",
+      "uid": "User identifier",
+      "userPrincipalName": "User ID",
+      "member": "Member",
+      "groupType": "LDAP group type",
+      "objectClass": "Object class",
+      "telephoneNumber": "Phone number",
+      "postalCode": "Postal Code",
+      "co": "Country code",
+      "c": "Country code",
+      "friendlyCountryName": "Country name",
+      "accountExpires": "Account Expires",
+      "homePhone": "Home phone",
+      "mobile": "Mobile phone",
+      "gender": "Gender",
+      "company": "Company",
+      "department": "Department",
+      "fax": "Fax",
+      "info": "Information",
+      "initials": "Middle Initial",
+      "l": "City",
+      "postalAddress": "Address",
+      "serialNumber": "Serial Number",
+      "st": "State",
+      "stateOrProvinceName": "State or Province",
+      "url": "Web Page",
+      "jpegPhoto": "Profile picture"
+    }
   },
   "background-jobs": {
     "admin": "Background jobs",

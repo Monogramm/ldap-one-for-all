@@ -27,8 +27,6 @@ export const LoginDefault = (): Login => {
   return new Login();
 };
 
-
-
 /**
  * Login token interface.
  */

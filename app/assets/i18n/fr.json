@@ -34,11 +34,15 @@
     "declare": "Déclarer",
     "create": "Créer",
     "edit": "Editer",
+    "clone": "Cloner",
     "update": "Mettre à jour",
     "delete": "Supprimer",
     "manage": "Gérer",
     "view": "Voir",
     "details": "Détails",
+    "success": "Succès",
+    "coming-soon": "Bientôt disponible",
+    "role": "Rôles",
     "username": {
       "label": "Nom d'utilisateur",
       "placeholder": "Entrer un nom d'utilisateur"
@@ -65,12 +69,15 @@
     },
     "error": {
       "required-field-emmpty": "Veuillez renseigner ce champ",
-      "field-not-valid": "Veuillez respecter le format demandé"
+      "field-not-valid": "Veuillez respecter le format demandé",
+      "already-exists": "Existe déjà",
+      "upload-failure": "Une erreur s'est produite lors du téléchargement du fichier ! {error}"
     },
     "send": "Envoyer",
     "user": "Utilisateur",
     "info": "Info",
-    "upload-file": "Téléverser fichier"
+    "upload-file": "Téléverser fichier",
+    "drag-and-drop": "Déposez votre fichier ici ou cliquez pour télécharger"
   },
   "component": {
     "password-change": {
@@ -157,11 +164,14 @@
   "home": {
     "title": "Accueil",
     "welcome": "Bienvenue chez LDAP All-For-One Manager",
+    "not-ldap-user": "Vous n'êtes pas authentifié auprès d'un serveur LDAP, mais vous pouvez tout de même utiliser l'application.",
     "profile": {
       "manage": "Gérer votre profil",
       "description": "Accéder à votre page de profil et vos informations"
     },
     "account": "Compte utilisateur",
+    "modify-account": "Modifier Profil",
+    "modify-secret": "Modifier phrase secret",
     "contact": "Contact"
   },
   "privacy": {
@@ -252,6 +262,84 @@
     "name": "Nom",
     "filename": "Nom du fichier",
     "description": "Description"
+  },
+  "ldap": {
+    "entries": {
+      "admin": "Entrées Ldap",
+      "list": "Liste des entrées LDAP",
+      "edit": "Modification d'une entrée LDAP",
+      "clone": "Clonage d'une entrée LDAP",
+      "create": "Création d'une entrée LDAP",
+      "delete": "Supprimer une entrée LDAP",
+      "search": "Rechercher une entrée par son DN",
+      "dn": "Nom distinctif",
+      "new": {
+        "dn": {
+          "title-input": "Nom distinctif",
+          "key-placeholder": "Nouveau Nom distinctif"
+        },
+        "attribute": {
+            "title-input": "Nom de l'attribut",
+            "key-label": "Nom du nouvel attribut",
+            "key-placeholder": "Nom du nouvel attribut exemple : sn",
+            "add": "Ajouter un attribut",
+            "del-title": "Supprimer un attribut"
+        },
+        "value": {
+            "value-placeholder": "Valeur de l'attribut LDAP",
+            "value-title": "Valeur de l'attribut",
+            "add-title": "Ajouter un nouvel attribut",
+            "del-title": "Supprimer l'attribut"
+        },
+        "save": "Envoyer au serveur LDAP"
+      }
+    },
+    "attributes": {
+      "dn": "Nom distinctif",
+      "distinguishedName": "Nom distinctif",
+      "surname": "Nom de famille",
+      "sn": "Nom de famille",
+      "cn": "Nom complet",
+      "name": "Full Name",
+      "email": "Email",
+      "description": "Description",
+      "displayName": "Nom d'affichage",
+      "employeeType": "Type d'employé",
+      "givenName": "Prénom",
+      "mail": "Email",
+      "ou": "Unité organisationnelle",
+      "o": "Nom de l'organisation",
+      "language": "Langue",
+      "street": "Rue",
+      "streetAddress": "Rue",
+      "title": "Intitulé du poste",
+      "uid": "Identifiant Utilisateur",
+      "userPrincipalName": "User ID",
+      "member": "Membre",
+      "groupType": "Type de groupe LDAP",
+      "objectClass": "Classe d'objet",
+      "telephoneNumber": "Téléphone",
+      "postalCode": "Code postal",
+      "co": "Code du pays",
+      "c": "Code du pays",
+      "friendlyCountryName": "Nom du pays",
+      "accountExpires": "Expiration du compte",
+      "homePhone": "Téléphone fixe",
+      "mobile": "Téléphone mobile",
+      "gender": "Genre",
+      "company": "Société",
+      "department": "Département",
+      "fax": "Fax",
+      "info": "Information",
+      "initials": "Initiales",
+      "l": "Ville",
+      "postalAddress": "Adresse",
+      "serialNumber": "Numéro de série",
+      "st": "État",
+      "stateOrProvinceName": "État ou province",
+      "url": "Page Web",
+      "jpegPhoto": "Photo de profil"
+    }
   },
   "background-jobs": {
     "admin": "Tâches de fond",

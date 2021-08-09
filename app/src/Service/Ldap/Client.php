@@ -3,6 +3,7 @@
 namespace App\Service\Ldap;
 
 use Symfony\Component\Ldap\Adapter\CollectionInterface;
+use Symfony\Component\Ldap\Adapter\ExtLdap\EntryManager;
 use Symfony\Component\Ldap\Adapter\QueryInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
@@ -143,13 +144,14 @@ class Client
     }
 
     /**
+     * Finding and updating an existing entry.
+     *
      * @return bool
      *
      * @throws LdapException
      */
     public function update(string $fullDn, string $query, array $attributes = []) : bool
     {
-        // Finding and updating an existing entry
         $entryManager = $this->ldap->getEntryManager();
         $entry = $this->get($query, $fullDn);
 
@@ -157,9 +159,13 @@ class Client
             return false;
         }
 
+        foreach ($entry->getAttributes() as $key => $value) {
+            $entry->setAttribute($key, []);
+        }
         foreach ($attributes as $key => $value) {
             $entry->setAttribute($key, $value);
         }
+
         // XXX Check if it's possible to return the saved LDAP entry.
         $entryManager->update($entry);
 
