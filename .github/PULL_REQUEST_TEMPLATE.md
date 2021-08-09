@@ -12,7 +12,7 @@ Some key notes before you open a PR:
 
 Also, if you're new here
 
-- Contribution Guide => https://github.com/Monogramm/ldap-all-for-one-manager/blob/main/CONTRIBUTING.md
+- Contribution Guide => https://github.com/Monogramm/ldap-one-for-all/blob/main/CONTRIBUTING.md
 
 -->
 

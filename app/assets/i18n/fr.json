@@ -1,12 +1,12 @@
 {
   "app": {
     "core": {
-      "name": "LDAP All-For-One Manager",
-      "alias": "LDAP All-For-One Manager",
+      "name": "LDAP One-For-All",
+      "alias": "LDAP One-For-All",
       "slogan": "A web based LDAP Manager for everyone.",
       "keywords": "logiciel libre, application open source, logiciel open source, progressive web app, pwa",
       "start-here": "Commencer ici",
-      "description": "LDAP All-For-One Manager est un gestionnaire LDAP Web pour tout le monde. Il fourni une application Web conviviale pour gérer son compte LDAP, réinitialiser le mot de passe, explorer le server LDAP et bien plus encore.",
+      "description": "LDAP One-For-All est un gestionnaire LDAP Web pour tout le monde. Il fourni une application Web conviviale pour gérer son compte LDAP, réinitialiser le mot de passe, explorer le server LDAP et bien plus encore.",
       "copyright": "Tous droits réservés {year} Monogramm."
     }
   },
@@ -163,7 +163,7 @@
   "logout.title": "Déconnexion",
   "home": {
     "title": "Accueil",
-    "welcome": "Bienvenue chez LDAP All-For-One Manager",
+    "welcome": "Bienvenue chez LDAP One-For-All",
     "not-ldap-user": "Vous n'êtes pas authentifié auprès d'un serveur LDAP, mais vous pouvez tout de même utiliser l'application.",
     "profile": {
       "manage": "Gérer votre profil",

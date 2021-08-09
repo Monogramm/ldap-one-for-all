@@ -12,7 +12,7 @@ Some key notes before you open a MR:
 
 Also, if you're new here
 
-- Contribution Guide => https://gitlab.com/monogramm/ldap-all-for-one-manager/blob/main/CONTRIBUTING.md
+- Contribution Guide => https://gitlab.com/monogramm/ldap-one-for-all/blob/main/CONTRIBUTING.md
 
 -->
 

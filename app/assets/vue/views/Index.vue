@@ -5,7 +5,7 @@
         <figure class="image is-128x128">
           <img
             :src="require('../../images/app_logo.png')"
-            alt="LDAP All-For-One Manager Logo"
+            alt="LDAP One-For-All Logo"
           >
         </figure>
       </div>

@@ -4,7 +4,7 @@
         <body>
             <trans-unit id="email_base_title">
                 <source>email.base.title</source>
-                <target>LDAP All-For-One Manager</target>
+                <target>LDAP One-For-All</target>
             </trans-unit>
             <trans-unit id="email_base_slogan">
                 <source>email.base.slogan</source>
@@ -16,15 +16,15 @@
             </trans-unit>
             <trans-unit id="email_base_discover">
                 <source>email.base.discover</source>
-                <target>Découvrez LDAP All-For-One Manager</target>
+                <target>Découvrez LDAP One-For-All</target>
             </trans-unit>
             <trans-unit id="email_base_manage">
                 <source>email.base.manage</source>
-                <target>Gérez LDAP All-For-One Manager</target>
+                <target>Gérez LDAP One-For-All</target>
             </trans-unit>
             <trans-unit id="email_base_footer">
                 <source>email.base.footer</source>
-                <target>LDAP All-For-One Manager © est un service Monogramm. Tous droits réservés.</target>
+                <target>LDAP One-For-All © est un service Monogramm. Tous droits réservés.</target>
             </trans-unit>
             <trans-unit id="email_verification_code_subject">
                 <source>email.verification.code.subject</source>

@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "name": "LDAP All-For-One Manager",
+    "name": "LDAP One-For-All",
     "lastOpened": 0,
     "created": 1589496656334
   },
@@ -242,9 +242,9 @@
         }
       ],
       "metadata": {
-        "name": "LDAP All-For-One Manager Icons",
+        "name": "LDAP One-For-All Icons",
         "iconsHash": 1246653999,
-        "url": "https://monogramm.github.io/ldap-all-for-one-manager",
+        "url": "https://monogramm.github.io/ldap-one-for-all",
         "designer": "Monogramm",
         "designerURL": "https://www.monogramm.io",
         "license": "CC BY-ND",

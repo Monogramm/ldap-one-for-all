@@ -1,18 +1,18 @@
 [![License: AGPL v3][uri_license_image]][uri_license]
-[![Docs](https://img.shields.io/badge/Docs-Github%20Pages-blue)](https://monogramm.github.io/ldap-all-for-one-manager/)
+[![Docs](https://img.shields.io/badge/Docs-Github%20Pages-blue)](https://monogramm.github.io/ldap-one-for-all/)
 [![gitmoji-changelog](https://img.shields.io/badge/Changelog-gitmoji-blue.svg)](https://github.com/frinyvonnick/gitmoji-changelog)
-[![Managed with Taiga.io](https://img.shields.io/badge/Managed%20with-TAIGA.io-709f14.svg)](https://tree.taiga.io/project/monogrammbot-monogrammldap-all-for-one-manager/ "Managed with Taiga.io")
-[![GitHub stars](https://img.shields.io/github/stars/Monogramm/ldap-all-for-one-manager?style=social)](https://github.com/Monogramm/ldap-all-for-one-manager)
+[![Managed with Taiga.io](https://img.shields.io/badge/Managed%20with-TAIGA.io-709f14.svg)](https://tree.taiga.io/project/monogrammbot-monogrammldap-one-for-all/ "Managed with Taiga.io")
+[![GitHub stars](https://img.shields.io/github/stars/Monogramm/ldap-one-for-all?style=social)](https://github.com/Monogramm/ldap-one-for-all)
 
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Monogramm/ldap-all-for-one-manager)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c0736494f8314577b7164bfcbd752780)](https://www.codacy.com/gh/Monogramm/ldap-all-for-one-manager/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Monogramm/ldap-all-for-one-manager&utm_campaign=Badge_Grade)
-[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/c0736494f8314577b7164bfcbd752780)](https://www.codacy.com/gh/Monogramm/ldap-all-for-one-manager/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Monogramm/ldap-all-for-one-manager&amp;utm_campaign=Badge_Coverage)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Monogramm/ldap-all-for-one-manager/Docker%20Image%20CI)](https://github.com/Monogramm/ldap-all-for-one-manager/actions)
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Monogramm/ldap-one-for-all)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c0736494f8314577b7164bfcbd752780)](https://www.codacy.com/gh/Monogramm/ldap-one-for-all/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Monogramm/ldap-one-for-all&utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/c0736494f8314577b7164bfcbd752780)](https://www.codacy.com/gh/Monogramm/ldap-one-for-all/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Monogramm/ldap-one-for-all&amp;utm_campaign=Badge_Coverage)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Monogramm/ldap-one-for-all/Docker%20Image%20CI)](https://github.com/Monogramm/ldap-one-for-all/actions)
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/ldap-all-for-one-manager.svg)](https://hub.docker.com/r/monogramm/ldap-all-for-one-manager/)
-[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/monogramm/ldap-all-for-one-manager/latest)](https://hub.docker.com/r/monogramm/ldap-all-for-one-manager/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/ldap-one-for-all.svg)](https://hub.docker.com/r/monogramm/ldap-one-for-all/)
+[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/monogramm/ldap-one-for-all/latest)](https://hub.docker.com/r/monogramm/ldap-one-for-all/)
 
-# ![icon](docs/assets/icon.png) **LDAP All-For-One Manager**
+# ![icon](docs/assets/icon.png) **LDAP One-For-All**
 
 > :alembic: :elephant: A web based LDAP Manager for everyone.
 
@@ -22,7 +22,7 @@ This project was initialized from [Monogramm/vue-symfony-starter](https://github
 
 ## :blue_book: Docs
 
-See GitHub Pages at [monogramm.github.io/ldap-all-for-one-manager](https://monogramm.github.io/ldap-all-for-one-manager/).
+See GitHub Pages at [monogramm.github.io/ldap-one-for-all](https://monogramm.github.io/ldap-one-for-all/).
 
 You can generate the PHP documentation using PHPDocumentor:
 
@@ -51,7 +51,7 @@ See [Taiga.io](https://tree.taiga.io/project/monogrammbot-monogrammldap-all-for-
 
 ## :whale: Supported Docker tags
 
-[Dockerhub monogramm/ldap-all-for-one-manager](https://hub.docker.com/r/monogramm/ldap-all-for-one-manager/)
+[Dockerhub monogramm/ldap-one-for-all](https://hub.docker.com/r/monogramm/ldap-one-for-all/)
 
 -   `latest`
 -   `debian`
@@ -99,7 +99,7 @@ Now go to <http://localhost:8080> to access development environment using docker
 
 You can run the development environment locally.
 
-You can also use [GitPod](https://gitpod.io/) to run the local development environment: [![open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Monogramm/ldap-all-for-one-manager)
+You can also use [GitPod](https://gitpod.io/) to run the local development environment: [![open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Monogramm/ldap-one-for-all)
 
 If you wish to sign your commits using GitPod, follow the instructions from [gitpod-io/gitpod#666](https://github.com/gitpod-io/gitpod/issues/666#issuecomment-534347856):
 
@@ -194,7 +194,7 @@ This project support Continuous Integration with the following platforms:
 
 ## :handshake: Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Monogramm/ldap-all-for-one-manager/issues).
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Monogramm/ldap-one-for-all/issues).
 [Check the contributing guide](./CONTRIBUTING.md).<br />
 
 ## :thumbsup: Show your support

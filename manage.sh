@@ -293,7 +293,7 @@ init_compose() {
     export VARIANT=alpine
     export BASE=fpm
 
-    export DOCKER_REPO=monogramm/ldap-all-for-one-manager
+    export DOCKER_REPO=monogramm/ldap-one-for-all
     export DOCKERFILE_PATH=Dockerfile.${VARIANT}
     export DOCKER_TAG=${VARIANT}
     export IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}

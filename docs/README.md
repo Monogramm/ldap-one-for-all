@@ -1,10 +1,12 @@
-# ![icon](assets/icon.png) **LDAP All-For-One Manager** Documentation
+# ![icon](assets/icon.png) **LDAP One-For-All** Documentation
 
-**LDAP All-For-One Manager**: A web based LDAP Manager for everyone.
+**LDAP One-For-All**: A web based LDAP Manager for everyone.
 
-The objective of the project is to provide a user-friendly web application to manage LDAP account, reset password, explore the LDAP and much more.
+The objective of the project is to provide a user-friendly web application to manage LDAP account, reset password, explore the LDAP and much more, "One application for all LDAP users."
 
 It comes with full build / tests / deploy automation while providing as much "_standard_" features as usually found in recent web applications.
+
+:construction: **This project is still in development!**
 
 Similar applications and inspirations:
 
@@ -52,7 +54,7 @@ This project uses the following technologies:
     -   GitLab [Issue and MR templates](https://docs.gitlab.com/ee/user/project/description_templates.html)
 
 -   Ready to Code:
-    -   [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Monogramm/ldap-all-for-one-manager)
+    -   [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Monogramm/ldap-one-for-all)
 
 ## Architecture diagram
 
@@ -89,8 +91,8 @@ Directory structure:
 
 ## How to use
 
-Check repository on GitHub for details: <https://github.com/Monogramm/ldap-all-for-one-manager>
+Check repository on GitHub for details: <https://github.com/Monogramm/ldap-one-for-all>
 
 ## Contributing
 
-For information about contributing, see the [Contributing page](https://github.com/Monogramm/ldap-all-for-one-manager/blob/main/CONTRIBUTING.md).
+For information about contributing, see the [Contributing page](https://github.com/Monogramm/ldap-one-for-all/blob/main/CONTRIBUTING.md).

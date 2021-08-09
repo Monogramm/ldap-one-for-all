@@ -8,7 +8,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class EmailFactory
 {
-    public const SUBJECT_PREFIX = '[LDAP All-For-One Manager] ';
+    public const SUBJECT_PREFIX = '[LDAP One-For-All] ';
 
     /**
      * @var string

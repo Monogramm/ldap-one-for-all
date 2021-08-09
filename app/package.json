@@ -1,21 +1,21 @@
 {
-  "name": "ldap-all-for-one-manager",
-  "version": "0.1.0",
+  "name": "ldap-one-for-all",
+  "version": "0.9.0",
   "description": "A web based LDAP Manager for everyone.",
   "license": "proprietary",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/Monogramm/ldap-all-for-one-manager.git"
+    "url": "https://github.com/Monogramm/ldap-one-for-all.git"
   },
   "keywords": [
     "symfony",
     "vuejs"
   ],
   "author": "Monogramm",
-  "homepage": "https://monogramm.github.io/ldap-all-for-one-manager",
+  "homepage": "https://monogramm.github.io/ldap-one-for-all",
   "bugs": {
-    "url": "https://github.com/Monogramm/ldap-all-for-one-manager/issues"
+    "url": "https://github.com/Monogramm/ldap-one-for-all/issues"
   },
   "scripts": {
     "dev-server": "encore dev-server",

@@ -12,7 +12,7 @@ services:
 
 variables:
   VARIANT: alpine
-  DOCKER_REPO: monogramm/ldap-all-for-one-manager
+  DOCKER_REPO: monogramm/ldap-one-for-all
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
   # This instructs Docker NOT to start over TLS.

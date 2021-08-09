@@ -1,6 +1,6 @@
 {
-  "name": "LDAP All-For-One Manager",
-  "short_name": "LDAP All-For-One Manager",
+  "name": "LDAP One-For-All",
+  "short_name": "LDAP One-For-All",
   "theme_color": "#5ba550",
   "background_color": "#fcfcfc",
   "display": "standalone",

@@ -26,7 +26,7 @@ pipeline {
      *            * Tracks/checks out the specified tag. E.g. tags/git-2.3.0
      */
     parameters {
-        string(name: 'DOCKER_REPO', defaultValue: 'monogramm/ldap-all-for-one-manager', description: 'Docker Image name.')
+        string(name: 'DOCKER_REPO', defaultValue: 'monogramm/ldap-one-for-all', description: 'Docker Image name.')
 
         string(name: 'DOCKER_TAG', defaultValue: 'latest', description: 'Docker Image tag.')
 

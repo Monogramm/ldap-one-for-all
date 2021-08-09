@@ -49,7 +49,7 @@ export default {
   },
   metaInfo: {
     title: "App",
-    titleTemplate: "LDAP All-For-One Manager - %s",
+    titleTemplate: "LDAP One-For-All - %s",
     htmlAttrs: {
       lang: i18n.locale
     }
