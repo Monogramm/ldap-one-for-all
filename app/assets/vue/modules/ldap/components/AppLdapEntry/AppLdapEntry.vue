@@ -121,7 +121,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../../../../styles/design-system";
+@import '../../../../../styles/design-system';
 
 .bb-1 {
   border-bottom: 1px solid $grey-darker;

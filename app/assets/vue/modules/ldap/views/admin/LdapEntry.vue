@@ -50,7 +50,7 @@ export default {
     ...mapGetters("ldapEntry", ["isLoading", "item", "hasError", "error"]),
     isEdit() {
       return !!this.dn && !this.clone;
-    }
+    },
   },
   async created() {
     if (this.dn) {
