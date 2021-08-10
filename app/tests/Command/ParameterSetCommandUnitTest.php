@@ -15,8 +15,8 @@ class ParameterSetCommandUnitTest extends KernelTestCase
 {
     public function testExecute()
     {
-        /** @var ParameterRepository|MockObject $parameterRepositoryMock */
-        $parameterRepositoryMock = $this->getMockBuilder(ParameterRepository::class)
+        /** @var ParameterRepository|MockObject $parameterRepository */
+        $parameterRepository = $this->getMockBuilder(ParameterRepository::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
@@ -28,12 +28,12 @@ class ParameterSetCommandUnitTest extends KernelTestCase
         $type = 'string';
         $desc = 'This is a test parameter';
 
-        $parameterRepositoryMock->expects($this->exactly(1))
+        $parameterRepository->expects($this->exactly(1))
             ->method('findOneBy')
             ->willReturn(null);
 
-        /** @var EntityManager|MockObject $emMock */
-        $emMock = $this->getMockBuilder(EntityManager::class)
+        /** @var EntityManager|MockObject $emi */
+        $emi = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
@@ -43,8 +43,8 @@ class ParameterSetCommandUnitTest extends KernelTestCase
         $encryptor = new Encryptor('12345678901234567890123456789012');
 
         $cmd = new ParameterSetCommand(
-            $emMock,
-            $parameterRepositoryMock,
+            $emi,
+            $parameterRepository,
             $encryptor
         );
 
@@ -71,8 +71,8 @@ class ParameterSetCommandUnitTest extends KernelTestCase
 
     public function testExecuteInvalidUnknownType()
     {
-        /** @var ParameterRepository|MockObject $parameterRepositoryMock */
-        $parameterRepositoryMock = $this->getMockBuilder(ParameterRepository::class)
+        /** @var ParameterRepository|MockObject $parameterRepository */
+        $parameterRepository = $this->getMockBuilder(ParameterRepository::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
@@ -84,12 +84,12 @@ class ParameterSetCommandUnitTest extends KernelTestCase
         $type = 'unknown';
         $desc = 'This is a test parameter';
 
-        $parameterRepositoryMock->expects($this->exactly(0))
+        $parameterRepository->expects($this->exactly(0))
             ->method('findOneBy')
             ->willReturn(null);
 
-        /** @var EntityManager|MockObject $emMock */
-        $emMock = $this->getMockBuilder(EntityManager::class)
+        /** @var EntityManager|MockObject $emi */
+        $emi = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
@@ -99,8 +99,8 @@ class ParameterSetCommandUnitTest extends KernelTestCase
         $encryptor = new Encryptor('12345678901234567890123456789012');
 
         $cmd = new ParameterSetCommand(
-            $emMock,
-            $parameterRepositoryMock,
+            $emi,
+            $parameterRepository,
             $encryptor
         );
 
@@ -127,8 +127,8 @@ class ParameterSetCommandUnitTest extends KernelTestCase
 
     public function testExecuteInvalidEmpty()
     {
-        /** @var ParameterRepository|MockObject $parameterRepositoryMock */
-        $parameterRepositoryMock = $this->getMockBuilder(ParameterRepository::class)
+        /** @var ParameterRepository|MockObject $parameterRepository */
+        $parameterRepository = $this->getMockBuilder(ParameterRepository::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
@@ -140,12 +140,12 @@ class ParameterSetCommandUnitTest extends KernelTestCase
         $type = '';
         $desc = '';
 
-        $parameterRepositoryMock->expects($this->exactly(0))
+        $parameterRepository->expects($this->exactly(0))
             ->method('findOneBy')
             ->willReturn(null);
 
-        /** @var EntityManager|MockObject $emMock */
-        $emMock = $this->getMockBuilder(EntityManager::class)
+        /** @var EntityManager|MockObject $emi */
+        $emi = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
@@ -155,8 +155,8 @@ class ParameterSetCommandUnitTest extends KernelTestCase
         $encryptor = new Encryptor('12345678901234567890123456789012');
 
         $cmd = new ParameterSetCommand(
-            $emMock,
-            $parameterRepositoryMock,
+            $emi,
+            $parameterRepository,
             $encryptor
         );
 
@@ -183,8 +183,8 @@ class ParameterSetCommandUnitTest extends KernelTestCase
 
     public function testExecuteInvalidNumber()
     {
-        /** @var ParameterRepository|MockObject $parameterRepositoryMock */
-        $parameterRepositoryMock = $this->getMockBuilder(ParameterRepository::class)
+        /** @var ParameterRepository|MockObject $parameterRepository */
+        $parameterRepository = $this->getMockBuilder(ParameterRepository::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
@@ -196,12 +196,12 @@ class ParameterSetCommandUnitTest extends KernelTestCase
         $type = 'number';
         $desc = 'This is a test parameter';
 
-        $parameterRepositoryMock->expects($this->exactly(0))
+        $parameterRepository->expects($this->exactly(0))
             ->method('findOneBy')
             ->willReturn(null);
 
-        /** @var EntityManager|MockObject $emMock */
-        $emMock = $this->getMockBuilder(EntityManager::class)
+        /** @var EntityManager|MockObject $emi */
+        $emi = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
@@ -211,8 +211,8 @@ class ParameterSetCommandUnitTest extends KernelTestCase
         $encryptor = new Encryptor('12345678901234567890123456789012');
 
         $cmd = new ParameterSetCommand(
-            $emMock,
-            $parameterRepositoryMock,
+            $emi,
+            $parameterRepository,
             $encryptor
         );
 
@@ -239,8 +239,8 @@ class ParameterSetCommandUnitTest extends KernelTestCase
 
     public function testExecuteSecret()
     {
-        /** @var ParameterRepository|MockObject $parameterRepositoryMock */
-        $parameterRepositoryMock = $this->getMockBuilder(ParameterRepository::class)
+        /** @var ParameterRepository|MockObject $parameterRepository */
+        $parameterRepository = $this->getMockBuilder(ParameterRepository::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
@@ -258,12 +258,12 @@ class ParameterSetCommandUnitTest extends KernelTestCase
             ->setType('string')
             ->setDescription('Initial description');
 
-        $parameterRepositoryMock->expects($this->exactly(1))
+        $parameterRepository->expects($this->exactly(1))
             ->method('findOneBy')
             ->willReturn($parameter);
 
-        /** @var EntityManager|MockObject $emMock */
-        $emMock = $this->getMockBuilder(EntityManager::class)
+        /** @var EntityManager|MockObject $emi */
+        $emi = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
@@ -273,8 +273,8 @@ class ParameterSetCommandUnitTest extends KernelTestCase
         $encryptor = new Encryptor('12345678901234567890123456789012');
 
         $cmd = new ParameterSetCommand(
-            $emMock,
-            $parameterRepositoryMock,
+            $emi,
+            $parameterRepository,
             $encryptor
         );
 
