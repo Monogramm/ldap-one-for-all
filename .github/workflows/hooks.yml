@@ -4,6 +4,8 @@ name: Docker Image CI
 on:
   pull_request:
   push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
     branches:
       - main
       - master
@@ -20,14 +22,37 @@ jobs:
       - name: Check Out Repo
         uses: actions/checkout@v2
 
+      - name: Branch name
+        id: branch_name
+        run: |
+          echo ::set-output name=SOURCE_NAME::${GITHUB_REF#refs/*/}
+          echo ::set-output name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
+          echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+
       - name: Execute CI build hooks
         id: docker_build
         run: |
           # Export variables to tag against GitHub Container Registry
           #export DOCKER_REGISTRY=ghcr.io
           #export DOCKER_REPO=${{ github.repository }}
+
+          export DOCKER_TAG=${SOURCE_TAG:-$SOURCE_BRANCH}
+          if "${SOURCE_BRANCH}" == "main" || "${SOURCE_BRANCH}" == "master" ; then
+            export DOCKER_TAG=latest
+            echo "latest ${{ matrix.variant }} " > .dockertags
+          elif "${{ matrix.variant }}" == "alpine" ; then
+            echo "${DOCKER_TAG} ${DOCKER_TAG}-${{ matrix.variant }} " > .dockertags
+          else "${SOURCE_BRANCH}" == "main" || "${SOURCE_BRANCH}" == "master" ; then
+            echo "${DOCKER_TAG}-${{ matrix.variant }} " > .dockertags
+          fi
+          cat .dockertags
+
           export EXPORT_TESTS_RESULTS=true
           ./hooks/run build ${{ matrix.variant }} 'fpm'
+        env:
+          SOURCE_NAME: ${{ steps.branch_name.outputs.SOURCE_NAME }}
+          SOURCE_BRANCH: ${{ steps.branch_name.outputs.SOURCE_BRANCH }}
+          SOURCE_TAG: ${{ steps.branch_name.outputs.SOURCE_TAG }}
 
       - name: Display docker images
         run: docker images
@@ -48,7 +73,7 @@ jobs:
 
       - name: Execute CI push hooks
         id: docker_push
-        if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ) }}
+        if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || startsWith( github.ref, 'refs/tags/') }}
         run: |
           # Export variables to login and push to GitHub Container Registry
           #export DOCKER_REGISTRY=ghcr.io
