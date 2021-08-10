@@ -1,5 +1,30 @@
 # Changelog
 
+<a name="0.9.1"></a>
+
+## 0.9.1 (2021-08-10)
+
+### Added
+
+*   ✨ Display attribute code in LdapEntry view
+
+### Changed
+
+*   🎨 Change icons import order
+*   💄 Add icons and local entity in admin screens
+*   🎨 Improve small quality details
+*   🎨 Fix Psalm issues
+*   💬 Change title for removing attribute values
+*   💄 Display loading for LDAP user in Home
+
+### Fixed
+
+*   🐛 Fix parameter creation
+
+### Miscellaneous
+
+*   👷 Add docker tag for CI
+
 <a name="0.9.0"></a>
 
 ## 0.9.0 (2021-08-09)

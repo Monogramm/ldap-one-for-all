@@ -1,5 +1,30 @@
 # Changelog
 
+<a name="0.9.1"></a>
+
+## 0.9.1 (2021-08-10)
+
+### Added
+
+*   ✨ Display attribute code in LdapEntry view \[[613ddc7](https://github.com/Monogramm/ldap-all-for-one-manager/commit/613ddc7cb578594d89db4eede203e0709ea2b668)]
+
+### Changed
+
+*   🎨 Change icons import order \[[2f98eca](https://github.com/Monogramm/ldap-all-for-one-manager/commit/2f98ecad9430fc3e1bfddae401637a82ac2aa145)]
+*   💄 Add icons and local entity in admin screens \[[e0ee272](https://github.com/Monogramm/ldap-all-for-one-manager/commit/e0ee27296cebfd1ed9162720e8ff663e4f3b9cf1)]
+*   🎨 Improve small quality details \[[55fdbfa](https://github.com/Monogramm/ldap-all-for-one-manager/commit/55fdbfa4aeb0e582c5272e8f60f278739d88977b)]
+*   🎨 Fix Psalm issues \[[d1fd2b5](https://github.com/Monogramm/ldap-all-for-one-manager/commit/d1fd2b5c0990da6eadc08feb6e38a69feb2cdbff)]
+*   💬 Change title for removing attribute values \[[f7ccf2b](https://github.com/Monogramm/ldap-all-for-one-manager/commit/f7ccf2ba5cccae069d74f9687c9d3d8c2a088ea6)]
+*   💄 Display loading for LDAP user in Home \[[247c3ca](https://github.com/Monogramm/ldap-all-for-one-manager/commit/247c3ca2ddb149f31ff531dcc1a38579f22023fe)]
+
+### Fixed
+
+*   🐛 Fix parameter creation \[[f3c65ea](https://github.com/Monogramm/ldap-all-for-one-manager/commit/f3c65eabae56201d32adbd59dd0c0ef15ac5313b)]
+
+### Miscellaneous
+
+*   👷 Add docker tag for CI \[[d5c4f0d](https://github.com/Monogramm/ldap-all-for-one-manager/commit/d5c4f0df9b77620fcb97999b3871c379bbb78b87)]
+
 <a name="0.9.0"></a>
 
 ## 0.9.0 (2021-08-09)
