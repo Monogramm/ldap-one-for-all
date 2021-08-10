@@ -20,6 +20,10 @@
           <div
             v-if="source === 'ldap' && edit === false"
           >
+            <b-loading
+              :is-full-page="isFullPage"
+              :active.sync="isLoading"
+            />
             <app-ldap-entry
               :dn="fullDn"
             />
@@ -64,7 +68,10 @@
               </b-button>
             </div>
 
-            <div class="has-text-centered" v-if="source === 'ldap'">
+            <div
+              v-if="source === 'ldap'"
+              class="has-text-centered"
+            >
               <b-button
                 type="is-link"
                 icon-left="edit"
@@ -75,7 +82,10 @@
               </b-button>
             </div>
 
-            <div class="has-text-centered" v-if="source === 'ldap'">
+            <div
+              v-if="source === 'ldap'"
+              class="has-text-centered"
+            >
               <b-button
                 :title="$t('common.coming-soon')"
                 disabled="true"
@@ -148,7 +158,8 @@ export default {
       fullDn: null as string,
       edit: false as boolean,
       entry: null as LdapEntry | null,
-      source: null as String
+      source: null as String,
+      isFullPage: true,
     };
   },
   computed: {
@@ -167,7 +178,8 @@ export default {
 
     if (this.fullDn) {
       await this.$store
-        .dispatch("ldapEntry/get", this.fullDn).then((result: ILdapEntry) => {
+        .dispatch("ldapEntry/get", this.fullDn)
+        .then((result: ILdapEntry) => {
           this.entry = result;
         });
     } else {
