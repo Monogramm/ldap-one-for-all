@@ -289,7 +289,7 @@
             "value-placeholder": "LDAP attribute value",
             "value-title": "Value for attribute",
             "add-title": "Add a new attribute",
-            "del-title": "Remove attribute"
+            "del-title": "Remove attribute value"
         },
         "save": "Send to the LDAP server"
       }

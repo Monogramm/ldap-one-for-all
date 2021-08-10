@@ -289,7 +289,7 @@
             "value-placeholder": "Valeur de l'attribut LDAP",
             "value-title": "Valeur de l'attribut",
             "add-title": "Ajouter un nouvel attribut",
-            "del-title": "Supprimer l'attribut"
+            "del-title": "Supprimer la valeur de l'attribut"
         },
         "save": "Envoyer au serveur LDAP"
       }
