@@ -1,20 +1,30 @@
 <template>
-  <app-medias
-    :is-loading="isLoading"
-    :medias="items"
-    :per-page="pagination.size"
-    :total="total"
-    @pageChanged="onPageChange"
-    @create="onCreate"
-    @edit="onEdit"
-    @delete="onDelete"
-  />
+  <section class="section">
+    <h1 class="title is-1">
+      {{ $t("medias.list") }}
+    </h1>
+
+    <app-medias
+      :medias="items"
+      :is-loading="isLoading"
+      :per-page="pagination.size"
+      :total="total"
+      @create="onCreate"
+      @edit="onEdit"
+      @delete="onDelete"
+      @pageChanged="onPageChange"
+      @filtersChanged="onFiltersChange"
+      @sortingChanged="onSortingChange"
+    />
+  </section>
 </template>
 
 <script lang="ts">
 import { mapGetters } from "vuex";
 
-import { IPagination, Pagination } from "../../../../interfaces/pagination";
+import { Pagination } from "../../../../interfaces/pagination";
+import { Criteria } from "../../../../interfaces/criteria";
+import { Sort } from "../../../../interfaces/sort";
 
 import AppMedias from "../../components/admin/AppMedias/AppMedias.vue";
 
@@ -30,12 +40,29 @@ export default {
     ...mapGetters("media", ["items", "isLoading", "total"])
   },
   created() {
-    this.$store.dispatch("media/getAll", this.pagination);
+    this.load();
   },
   methods: {
-    onPageChange(page: string) {
-      this.pagination.page = page;
+    load() {
       this.$store.dispatch("media/getAll", this.pagination);
+    },
+    onPageChange(page: number) {
+      this.pagination.page = page;
+      if (this.pagination.size > 0) {
+        this.load();
+      }
+    },
+    onFiltersChange(filters: any) {
+      this.pagination.criteria = new Criteria(filters);
+      if (this.pagination.size > 0) {
+        this.load();
+      }
+    },
+    onSortingChange(field: string, order: string) {
+      this.pagination.orderBy = new Sort(field, order);
+      if (this.pagination.size > 0) {
+        this.load();
+      }
     },
     onEdit(paramId: string) {
       this.$router.push({ name: "MediaEdit", params: { id: paramId } });

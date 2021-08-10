@@ -1,76 +1,84 @@
 <template>
-  <section class="section">
-    <h1 class="title is-1">
-      {{ $t("medias.list") }}
-    </h1>
-
-    <div class="box">
-      <b-button
-        type="is-primary"
-        class="field"
-        @click="create"
+  <div class="box">
+    <b-button
+      type="is-primary"
+      icon-left="plus"
+      class="field"
+      @click="create"
+    >
+      {{ $t("common.create") }}
+    </b-button>
+    <b-table
+      :data="medias"
+      :loading="isLoading"
+      :total="total"
+      :paginated="perPage > 0"
+      :per-page="perPage"
+      backend-pagination
+      pagination-position="both"
+      :backend-filtering="perPage > 0"
+      :debounce-search="500"
+      :backend-sorting="perPage > 0"
+      :aria-next-label="nextPageLabel"
+      :aria-previous-label="previousPageLabel"
+      :aria-page-label="pageLabel"
+      :aria-current-label="currentPageLabel"
+      @page-change="onPageChange"
+      @filters-change="onFiltersChange"
+      @sort="onSortingChange"
+    >
+      <b-table-column
+        v-slot="props"
+        field="name"
+        searchable
+        sortable
+        :label="nameColumnLabel"
       >
-        {{ $t("common.create") }}
-      </b-button>
-      <b-table
-        :data="medias"
-        :loading="isLoading"
-        :total="total"
-        :per-page="perPage"
-        backend-pagination
-        paginated
-        :aria-next-label="nextPageLabel"
-        :aria-previous-label="previousPageLabel"
-        :aria-page-label="pageLabel"
-        :aria-current-label="currentPageLabel"
-        @page-change="onPageChange"
+        {{ props.row.name }}
+      </b-table-column>
+
+      <b-table-column
+        v-slot="props"
+        field="filename"
+        sortable
+        :label="fileColumnLabel"
       >
-        <b-table-column
-          v-slot="props"
-          field="name"
-          :label="nameColumnLabel"
-        >
-          {{ props.row.name }}
-        </b-table-column>
+        {{ props.row.filename }}
+      </b-table-column>
 
-        <b-table-column
-          v-slot="props"
-          field="filename"
-          :label="fileColumnLabel"
-        >
-          {{ props.row.filename }}
-        </b-table-column>
+      <b-table-column
+        v-slot="props"
+        field="description"
+        searchable
+        sortable
+        :label="descriptionColumnLabel"
+      >
+        {{ props.row.description | shorten(60) }}
+      </b-table-column>
 
-        <b-table-column
-          v-slot="props"
-          field="description"
-          :label="descriptionColumnLabel"
-        >
-          {{ props.row.description | shorten(60) }}
-        </b-table-column>
-
-        <b-table-column
-          v-slot="props"
-          field="buttons"
-        >
-          <div class="buttons">
-            <b-button
-              type="is-warning"
-              @click="edit(props.row.id)"
-            >
-              {{ $t("common.edit") }}
-            </b-button>
-            <b-button
-              type="is-danger"
-              @click="deleteMedia(props.row.id)"
-            >
-              {{ $t("common.delete") }}
-            </b-button>
-          </div>
-        </b-table-column>
-      </b-table>
-    </div>
-  </section>
+      <b-table-column
+        v-slot="props"
+        field="buttons"
+      >
+        <div class="buttons">
+          <b-button
+            type="is-warning"
+            icon-left="edit"
+            @click="edit(props.row.id)"
+          >
+            {{ $t("common.edit") }}
+          </b-button>
+          <b-button
+            type="is-danger"
+            icon-left="trash"
+            @click="deleteMedia(props.row.id)"
+          >
+            {{ $t("common.delete") }}
+          </b-button>
+        </div>
+      </b-table-column>
+    </b-table>
+  </div>
 </template>
 
 <script lang="ts">
@@ -136,7 +144,13 @@ export default {
     },
     onPageChange(page: number) {
       this.$emit("pageChanged", page);
-    }
+    },
+    onFiltersChange(filters: any) {
+      this.$emit("filtersChanged", filters);
+    },
+    onSortingChange(field: string, order: string) {
+      this.$emit("sortingChanged", field, order);
+    },
   },
 };
 </script>

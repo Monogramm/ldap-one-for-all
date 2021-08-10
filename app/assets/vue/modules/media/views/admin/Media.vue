@@ -1,6 +1,7 @@
 <template>
   <app-media
-    :media="item"
+    v-if="media"
+    :media="media"
     :is-loading="isLoading"
     @updateParent="onChildPropsChanged"
     @submit="onSubmit"
@@ -26,7 +27,8 @@ export default {
   },
   data() {
     return {
-      types: [] as string[]
+      types: [] as string[],
+      media: null as IMedia,
     };
   },
   computed: {
@@ -39,7 +41,12 @@ export default {
   created() {
     if (this.id) {
       this.$store
-        .dispatch("media/get", this.id);
+        .dispatch("media/get", this.id)
+        .then((response: IMedia) => {
+          this.media = response;
+        });
+    } else {
+      this.media = new Media();
     }
   },
   methods: {
@@ -74,10 +81,10 @@ export default {
     },
     onSubmit(file: any) {
       if (this.isEdit) {
-        return this.editMedia(this.item, file);
+        return this.editMedia(this.media, file);
       }
 
-      return this.createMedia(this.item, file);
+      return this.createMedia(this.media, file);
     }
   }
 };

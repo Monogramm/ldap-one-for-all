@@ -1,6 +1,7 @@
 <template>
   <app-parameter
-    :parameter="item"
+    v-if="parameter"
+    :parameter="parameter"
     :types="types"
     :is-loading="isLoading"
     @updateParent="onChildPropsChanged"
@@ -10,7 +11,7 @@
 
 <script lang="ts">
 import { mapGetters } from "vuex";
-import { IParameter } from "../../interfaces/parameter";
+import { IParameter, Parameter } from "../../interfaces/parameter";
 
 import AppParameter from "../../components/admin/AppParameter/AppParameter.vue";
 
@@ -25,7 +26,8 @@ export default {
   },
   data() {
     return {
-      types: [] as string[]
+      types: [] as string[],
+      parameter: null as IParameter,
     };
   },
   computed: {
@@ -43,7 +45,12 @@ export default {
       });
     if (this.id) {
       this.$store
-        .dispatch("parameter/get", this.id);
+        .dispatch("parameter/get", this.id)
+        .then((response: IParameter) => {
+          this.parameter = response;
+        });
+    } else {
+      this.parameter = new Parameter();
     }
   },
   methods: {
@@ -70,10 +77,10 @@ export default {
     },
     onSubmit() {
       if (this.isEdit) {
-        return this.editParameter(this.id, this.item);
+        return this.editParameter(this.id, this.parameter);
       }
 
-      return this.createParameter(this.item);
+      return this.createParameter(this.parameter);
     }
   }
 };

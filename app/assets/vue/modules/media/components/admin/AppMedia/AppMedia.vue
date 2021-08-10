@@ -57,6 +57,7 @@
 
       <b-button
         type="is-primary"
+        icon-left="save"
         native-type="submit"
         :loading="isLoading"
         @click="submit"
