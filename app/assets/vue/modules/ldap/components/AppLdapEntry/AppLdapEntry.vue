@@ -15,9 +15,7 @@
       />
     </div>
     <div>
-      <template
-        v-for="(attribute, key) in attributes"
-      >
+      <template v-for="(attribute, key) in attributes">
         <template v-if="key !== 'jpegPhoto' && key !== 'userPassword'">
           <div
             :key="`divArrangement:${key}`"
@@ -32,20 +30,19 @@
                   <div class="column is-7 has-text-centered">
                     <span
                       :key="`spanEntryKey:${key}`"
+                      :title="key"
                       class="is-size-4-desktop is-size-4-mobile is-size-5-tablet"
                     >
-                      {{ $t('ldap.attributes.'+key) }}
+                      {{ $t("ldap.attributes." + key) }}
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div
-                class="column mt-0 mb-2 pt-0"
-              >
+              <div class="column mt-0 mb-2 pt-0">
                 <template v-for="(value, indexValue) in attribute">
                   <div
-                    :key="`divInputValue`+indexValue"
+                    :key="`divInputValue${indexValue}`"
                     :title="key"
                     class="is-flex is-justify-content-center mb-1"
                   >
@@ -53,8 +50,8 @@
                       <span
                         :key="`spanEntryValue:${value}`"
                         class="is-centered"
-                      > 
-                        {{ value }} 
+                      >
+                        {{ value }}
                       </span>
                     </template>
                   </div>
@@ -82,13 +79,14 @@ export default {
   },
   data() {
     return {
-      attributes: null as ILdapAttributes,
+      attributes: null as ILdapAttributes
     };
   },
   async created() {
     if (this.dn) {
       await this.$store
-        .dispatch("ldapEntry/get", this.dn).then((result: ILdapEntry) => {
+        .dispatch("ldapEntry/get", this.dn)
+        .then((result: ILdapEntry) => {
           this.attributes = result.attributes;
         });
     } else {
@@ -97,10 +95,10 @@ export default {
   },
   methods: {
     formattedValue(): string {
-      let formattedValue =  this.attributes?.jpegPhoto.toString() ?? '';
+      let formattedValue = this.attributes?.jpegPhoto.toString() ?? "";
 
-      if (! formattedValue.startsWith('data:')) {
-        formattedValue = 'data:image/png;base64,' + formattedValue;
+      if (!formattedValue.startsWith("data:")) {
+        formattedValue = "data:image/png;base64," + formattedValue;
       }
 
       return formattedValue;
@@ -108,22 +106,22 @@ export default {
     displayTitle(): string {
       let title = null;
 
-      if (this.attributes.hasOwnProperty('cn')) {
+      if (this.attributes.hasOwnProperty("cn")) {
         title = this.attributes.cn.toString();
-      } else if (this.attributes.hasOwnProperty('displayName')) {
+      } else if (this.attributes.hasOwnProperty("displayName")) {
         title = this.attributes.displayName.toString();
       } else {
         title = this.dn;
       }
 
       return title;
-    }
+    },
   }
-}
+};
 </script>
 
 <style lang="scss">
-@import '../../../../../styles/design-system';
+@import "../../../../../styles/design-system";
 
 .bb-1 {
   border-bottom: 1px solid $grey-darker;
