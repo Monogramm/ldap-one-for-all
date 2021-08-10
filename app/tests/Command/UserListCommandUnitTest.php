@@ -16,11 +16,12 @@ class UserListCommandUnitTest extends KernelTestCase
 {
     public function testExecute()
     {
+        /** @var UserRepository|MockObject $userRepositoryMock */
         $userRepositoryMock = $this->getMockBuilder(UserRepository::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['findAll'])
+            ->onlyMethods(['findAll'])
             ->getMock();
 
         $username = 'firstname.lastname';
@@ -34,11 +35,12 @@ class UserListCommandUnitTest extends KernelTestCase
             ->method('findAll')
             ->willReturn([$user]);
 
+        /** @var EntityManager|MockObject $emMock */
         $emMock = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['persist', 'flush'])
+            ->onlyMethods(['persist', 'flush'])
             ->getMock();
 
         $cmd = new UserListCommand(

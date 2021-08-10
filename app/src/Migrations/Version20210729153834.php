@@ -12,6 +12,9 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210729153834 extends AbstractMigration
 {
+    /**
+     * @return string
+     */
     public function getDescription() : string
     {
         return 'User metadata (SQLite)';

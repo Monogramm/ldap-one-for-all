@@ -92,6 +92,9 @@ class User implements UserInterface
         return $this->username;
     }
 
+    /**
+     * @return static
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -104,6 +107,9 @@ class User implements UserInterface
         return $this->email;
     }
 
+    /**
+     * @return static
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -116,6 +122,9 @@ class User implements UserInterface
         return $this->password;
     }
 
+    /**
+     * @return static
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -123,6 +132,9 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return null
+     */
     public function getSalt()
     {
         return null;
@@ -140,6 +152,9 @@ class User implements UserInterface
         return $this->language;
     }
 
+    /**
+     * @return static
+     */
     public function setLanguage(string $language): self
     {
         $this->language = $language;
@@ -147,6 +162,9 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -177,6 +195,11 @@ class User implements UserInterface
         return $this->hasRole('ROLE_ADMIN');
     }
 
+    /**
+     * @return string[]
+     *
+     * @psalm-return array{0: string, 1?: string}
+     */
     public function getAllowedGroups(): array
     {
         $groups = ['default'];
@@ -193,17 +216,26 @@ class User implements UserInterface
         return $this->enabled;
     }
 
+    /**
+     * @return static
+     */
     private function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function enable(): self
     {
         return $this->setEnabled(true);
     }
 
+    /**
+     * @return static
+     */
     public function disable(): self
     {
         return $this->setEnabled(false);
@@ -225,12 +257,18 @@ class User implements UserInterface
         return $this->isVerified;
     }
 
+    /**
+     * @return static
+     */
     private function setVerified(bool $verified): self
     {
         $this->isVerified = $verified;
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function verify(): self
     {
         $this->setVerified(true);
@@ -242,6 +280,9 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function unverify(): self
     {
         $this->setVerified(false);
@@ -276,8 +317,10 @@ class User implements UserInterface
 
     /**
      * Set the user metadata.
+     *
      * @param array $metadata the new user metadata
-     * @return self
+     *
+     * @return static
      */
     public function setMetadata(array $metadata): self
     {
@@ -299,9 +342,11 @@ class User implements UserInterface
 
     /**
      * Set a specific field in the user metadata.
+     *
      * @param string $meta the user metadata field to set
      * @param mixed $data the new user metadata
-     * @return self
+     *
+     * @return static
      */
     public function setMeta(string $meta, $data): self
     {
@@ -312,8 +357,10 @@ class User implements UserInterface
 
     /**
      * Unset a specific field in the user metadata.
+     *
      * @param string $meta the user metadata field to unset
-     * @return self
+     *
+     * @return static
      */
     public function unsetMeta(string $meta): self
     {

@@ -20,15 +20,15 @@ class PasswordResetCodesDeleteExpiredCommand extends Command
 
     private const TIME_IN_HOURS_BEFORE_EXPIRATION = 1;
 
-    private $em;
+    private $emi;
 
     private $codeRepository;
 
     public function __construct(
-        EntityManagerInterface $em,
+        EntityManagerInterface $emi,
         PasswordResetCodeRepository $codeRepository
     ) {
-        $this->em = $em;
+        $this->emi = $emi;
         $this->codeRepository = $codeRepository;
 
         parent::__construct(self::$defaultName);
@@ -46,6 +46,9 @@ class PasswordResetCodesDeleteExpiredCommand extends Command
         ;
     }
 
+    /**
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -54,8 +57,8 @@ class PasswordResetCodesDeleteExpiredCommand extends Command
         $backgroundJob->init(self::$defaultName);
 
         $backgroundJob->running();
-        $this->em->persist($backgroundJob);
-        $this->em->flush();
+        $this->emi->persist($backgroundJob);
+        $this->emi->flush();
 
         $expired = CarbonImmutable::now()->subHours(self::TIME_IN_HOURS_BEFORE_EXPIRATION);
 
@@ -68,10 +71,10 @@ class PasswordResetCodesDeleteExpiredCommand extends Command
         $count = sizeof($codes);
         if ($count) {
             foreach ($codes as $code) {
-                $this->em->remove($code);
+                $this->emi->remove($code);
                 $io->text('Deleting:' . $code->getId());
             }
-            $this->em->flush();
+            $this->emi->flush();
     
             $io->success("$count expired password reset code(s) deleted");
         } else {
@@ -79,8 +82,8 @@ class PasswordResetCodesDeleteExpiredCommand extends Command
         }
 
         $backgroundJob->success();
-        $this->em->persist($backgroundJob);
-        $this->em->flush();
+        $this->emi->persist($backgroundJob);
+        $this->emi->flush();
 
         return 0;
     }

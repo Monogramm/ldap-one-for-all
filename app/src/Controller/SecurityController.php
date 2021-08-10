@@ -41,7 +41,7 @@ class SecurityController extends AbstractController
     public function logout(
         Request $request,
         ApiTokenRepository $tokenRepository,
-        EntityManagerInterface $em
+        EntityManagerInterface $emi
     ): JsonResponse {
         $extractor = new AuthorizationHeaderTokenExtractor(
             'Bearer',
@@ -56,8 +56,8 @@ class SecurityController extends AbstractController
             return new JsonResponse([], 200);
         }
 
-        $em->remove($token);
-        $em->flush();
+        $emi->remove($token);
+        $emi->flush();
 
         return new JsonResponse([], 200);
     }

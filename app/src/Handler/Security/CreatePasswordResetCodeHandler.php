@@ -14,17 +14,17 @@ class CreatePasswordResetCodeHandler
 {
     private $encoder;
 
-    private $em;
+    private $emi;
 
     private $eventDispatcher;
 
     public function __construct(
         JWTEncoder $encoder,
-        EntityManagerInterface $em,
+        EntityManagerInterface $emi,
         EventDispatcherInterface $eventDispatcher
     ) {
         $this->encoder = $encoder;
-        $this->em = $em;
+        $this->emi = $emi;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -39,8 +39,8 @@ class CreatePasswordResetCodeHandler
         $code = new PasswordResetCode();
         $code->setCode($jwtCode);
 
-        $this->em->persist($code);
-        $this->em->flush();
+        $this->emi->persist($code);
+        $this->emi->flush();
 
         $this->eventDispatcher->dispatch(
             new PasswordResetCodeCreatedEvent($user, $code)

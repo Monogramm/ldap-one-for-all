@@ -13,6 +13,9 @@ use Ramsey\Uuid\Uuid;
  */
 final class Version20210630151706 extends AbstractMigration
 {
+    /**
+     * @return string
+     */
     public function getDescription() : string
     {
         return 'LDAP Groups (PostgreSQL)';

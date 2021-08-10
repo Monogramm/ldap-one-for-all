@@ -22,6 +22,9 @@ class PasswordResetCode
         return $this->code;
     }
 
+    /**
+     * @return static
+     */
     public function setCode(string $code): self
     {
         $this->code = $code;

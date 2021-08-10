@@ -27,6 +27,9 @@ class VerificationCode
         return $this->code;
     }
 
+    /**
+     * @return static
+     */
     public function setCode(string $code): self
     {
         $this->code = $code;
@@ -39,6 +42,9 @@ class VerificationCode
         return $this->user;
     }
 
+    /**
+     * @return static
+     */
     public function setUser(User $user): self
     {
         $this->user = $user;

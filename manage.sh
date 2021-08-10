@@ -372,7 +372,7 @@ dc-test-back() {
     log "PHP_CodeSniffer bug fixer..."
     dc-exec "${1}" "${2}" vendor/bin/phpcbf src tests
     log "Psalm (with auto-fixes)..."
-    dc-exec "${1}" "${2}" vendor/bin/psalm --alter --issues=MissingParamType,MissingReturnType,InvalidReturnType,InvalidNullableReturnType
+    dc-exec "${1}" "${2}" vendor/bin/psalm --alter --issues=MissingParamType,MissingReturnType,InvalidReturnType,InvalidNullableReturnType,MismatchingDocblockParamType,MismatchingDocblockReturnType
     log "Psalm..."
     dc-exec "${1}" "${2}" vendor/bin/psalm
     log "PHP Copy/Paste detector..."

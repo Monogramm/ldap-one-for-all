@@ -41,6 +41,9 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
         $this->emi = $emi;
     }
 
+    /**
+     * @return JWTAuthenticationSuccessResponse
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         return $this->handleAuthenticationSuccess($token->getUser(), $token->getAttributes());

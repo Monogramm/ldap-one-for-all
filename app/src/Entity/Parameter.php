@@ -55,6 +55,9 @@ class Parameter
         return $this->name;
     }
 
+    /**
+     * @return static
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -67,6 +70,9 @@ class Parameter
         return $this->value;
     }
 
+    /**
+     * @return static
+     */
     public function setValue(string $value): self
     {
         $this->value = $value;
@@ -79,6 +85,9 @@ class Parameter
         return $this->description;
     }
 
+    /**
+     * @return static
+     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;

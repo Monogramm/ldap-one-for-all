@@ -10,15 +10,15 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PasswordChangeHandler
 {
-    private $em;
+    private $emi;
 
     private $passwordEncoder;
 
     public function __construct(
-        EntityManagerInterface $em,
+        EntityManagerInterface $emi,
         UserPasswordEncoderInterface $passwordEncoder
     ) {
-        $this->em = $em;
+        $this->emi = $emi;
         $this->passwordEncoder = $passwordEncoder;
     }
 
@@ -39,9 +39,9 @@ class PasswordChangeHandler
         $user->setPassword($newPassword);
 
         foreach ($user->getTokens() as $token) {
-            $this->em->remove($token);
+            $this->emi->remove($token);
         }
-        $this->em->persist($user);
-        $this->em->flush();
+        $this->emi->persist($user);
+        $this->emi->flush();
     }
 }

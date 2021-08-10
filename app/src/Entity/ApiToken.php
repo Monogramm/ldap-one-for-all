@@ -35,6 +35,9 @@ class ApiToken
         return $this->token;
     }
 
+    /**
+     * @return static
+     */
     public function setToken(string $token): self
     {
         $this->token = $token;
@@ -47,6 +50,9 @@ class ApiToken
         return $this->expiredAt;
     }
 
+    /**
+     * @return static
+     */
     public function setExpiredAt(\DateTimeInterface $expiredAt): self
     {
         $this->expiredAt = $expiredAt;

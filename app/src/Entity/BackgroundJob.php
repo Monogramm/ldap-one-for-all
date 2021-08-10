@@ -39,6 +39,9 @@ class BackgroundJob
         return $this->name;
     }
 
+    /**
+     * @return static
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -51,6 +54,9 @@ class BackgroundJob
         return $this->lastExecution;
     }
 
+    /**
+     * @return static
+     */
     public function setLastExecution(\DateTimeInterface $lastExecution): self
     {
         $this->lastExecution = $lastExecution;
@@ -63,6 +69,9 @@ class BackgroundJob
         return $this->status;
     }
 
+    /**
+     * @return static
+     */
     public function setStatus(string $status): self
     {
         $this->status = $status;

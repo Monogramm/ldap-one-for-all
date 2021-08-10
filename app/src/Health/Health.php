@@ -51,6 +51,9 @@ class Health implements JsonSerializable
         return $this->status;
     }
 
+    /**
+     * @return static
+     */
     private function setStatus(string $status): self
     {
         $this->status = $status;
@@ -58,17 +61,19 @@ class Health implements JsonSerializable
         return $this;
     }
 
-    public function getDetails(): ?array
+    public function getDetails(): array
     {
         return $this->details;
     }
 
     /**
      * Set health detail for given throwable.
+     *
      * @param \Throwable $th the exception
-     * @return Health Health instance
+     *
+     * @return static Health instance
      */
-    public function withException(\Throwable $th): Health
+    public function withException(\Throwable $th): self
     {
         if ($th === null) {
             return $this;
@@ -78,11 +83,13 @@ class Health implements JsonSerializable
 
     /**
      * Set detail using given key and value.
+     *
      * @param string $key the detail key
      * @param mixed $value the detail value
-     * @return Health Health instance
+     *
+     * @return static Health instance
      */
-    public function withDetail(string $key, $value): Health
+    public function withDetail(string $key, $value): self
     {
         $this->details[$key] = $value;
         return $this;
@@ -90,46 +97,53 @@ class Health implements JsonSerializable
 
     /**
      * New Health instance with set status to UNKNOWN status.
-     * @return Health Health instance
+     *
+     * @return static Health instance
      */
-    public function unknown(): Health
+    public function unknown(): self
     {
         return $this->setStatus(self::UNKNOWN);
     }
 
     /**
      * Set status to UP status.
-     * @return Health Health instance
+     *
+     * @return static Health instance
      */
-    public function up(): Health
+    public function up(): self
     {
         return $this->setStatus(self::UP);
     }
 
     /**
      * Set status to DOWN and add details for given Throwable.
+     *
      * @param \Throwable $th the exception
-     * @return Health Health instance
+     *
+     * @return static Health instance
      */
-    public function down(\Throwable $th = null): Health
+    public function down(\Throwable $th = null): self
     {
         return $this->down()->withException($th);
     }
 
     /**
      * Set status to OUT_OF_SERVICE.
-     * @return Health Health instance
+     *
+     * @return static Health instance
      */
-    public function outOfService()
+    public function outOfService(): self
     {
         return $this->setStatus(self::OUT_OF_SERVICE);
     }
 
     /**
      * Aggregate health status backed by an ordered status list.
+     *
      * @param Health $other the other health instance to aggregate with the current one
      * @param string[] $order the status aggregation order
-     * @return Health Health instance
+     *
+     * @return static Health instance
      */
     public function aggregate(Health $other, $order = self::DEFAULT_ORDER): self
     {

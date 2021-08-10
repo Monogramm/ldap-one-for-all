@@ -130,7 +130,7 @@ class Client
     }
 
     /**
-     * @return String|bool
+     * @return bool
      *
      * @throws LdapException When the query given was not right
      */
@@ -175,11 +175,11 @@ class Client
     /**
      * Delete an entry from a directory.
      *
-     * @return bool
+     * @return true
      *
      * @throws LdapException
      */
-    public function delete(string $fullDn)
+    public function delete(string $fullDn): bool
     {
         // Removing an existing entry
         $entryManager = $this->ldap->getEntryManager();

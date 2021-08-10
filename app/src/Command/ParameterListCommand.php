@@ -4,7 +4,6 @@ namespace App\Command;
 
 use App\Entity\Parameter;
 use App\Repository\ParameterRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Dumper;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,21 +17,14 @@ class ParameterListCommand extends Command
     protected static $defaultName = 'app:parameters:list';
 
     /**
-     * @var EntityManagerInterface
-     */
-    private $_em;
-
-    /**
      * @var ParameterRepository
      */
-    private $_parameterRepository;
+    private $parameterRepository;
 
     public function __construct(
-        EntityManagerInterface $em,
         ParameterRepository $parameterRepository
     ) {
-        $this->_parameterRepository = $parameterRepository;
-        $this->_em = $em;
+        $this->parameterRepository = $parameterRepository;
 
         parent::__construct(self::$defaultName);
     }
@@ -76,6 +68,9 @@ class ParameterListCommand extends Command
         ;
     }
 
+    /**
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -102,7 +97,7 @@ class ParameterListCommand extends Command
             $size = null;
         }
 
-        $parameters = $this->_parameterRepository->findBy($criteria, $orderBy, $size, $offset);
+        $parameters = $this->parameterRepository->findBy($criteria, $orderBy, $size, $offset);
         $rows = [];
         foreach ($parameters as $key => $parameter) {
             $rows[$key] = [$parameter->getId(),

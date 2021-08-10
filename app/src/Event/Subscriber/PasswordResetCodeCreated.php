@@ -35,7 +35,12 @@ class PasswordResetCodeCreated implements EventSubscriberInterface
         $this->translator = $translator;
     }
 
-    public static function getSubscribedEvents()
+    /**
+     * @return string[]
+     *
+     * @psalm-return array{'App\\Event\\PasswordResetCodeCreatedEvent': string}
+     */
+    public static function getSubscribedEvents(): array
     {
         return [
             PasswordResetCodeCreatedEvent::class => 'onPasswordResetCodeCreated'

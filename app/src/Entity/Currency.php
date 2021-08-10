@@ -36,6 +36,9 @@ class Currency
         return $this->name;
     }
 
+    /**
+     * @return static
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -48,6 +51,9 @@ class Currency
         return $this->isoCode;
     }
 
+    /**
+     * @return static
+     */
     public function setIsoCode(string $isoCode): self
     {
         $this->isoCode = $isoCode;

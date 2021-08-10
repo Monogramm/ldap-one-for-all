@@ -14,6 +14,9 @@ use Ramsey\Uuid\Uuid;
  */
 final class Version20200907143503 extends AbstractMigration
 {
+    /**
+     * @return string
+     */
     public function getDescription() : string
     {
         return 'Release 0.1 initial migration.';

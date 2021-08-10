@@ -62,7 +62,7 @@ class UserController extends AbstractController
      *
      * @return JsonResponse
      */
-    public function verifyUser(Request $request, EntityManagerInterface $em): JsonResponse
+    public function verifyUser(Request $request, EntityManagerInterface $emi): JsonResponse
     {
         /**
          * @var User $user
@@ -82,9 +82,9 @@ class UserController extends AbstractController
         }
 
         $user->verify();
-        $em->persist($user);
-        $em->remove($code);
-        $em->flush();
+        $emi->persist($user);
+        $emi->remove($code);
+        $emi->flush();
 
         return new JsonResponse([]);
     }
@@ -178,7 +178,7 @@ class UserController extends AbstractController
      *
      * @return JsonResponse
      */
-    public function disableCurrentUser(EntityManagerInterface $em): JsonResponse
+    public function disableCurrentUser(EntityManagerInterface $emi): JsonResponse
     {
         /**
          * @var User $user
@@ -187,8 +187,8 @@ class UserController extends AbstractController
 
         $user->disable();
 
-        $em->persist($user);
-        $em->flush();
+        $emi->persist($user);
+        $emi->flush();
 
         return new JsonResponse([], 200);
     }

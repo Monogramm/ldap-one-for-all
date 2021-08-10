@@ -59,9 +59,9 @@ class LdapUpdateEntryCommand extends Command
     }
 
     /**
-     * @return int|null
+     * @return int
      *
-     * @psalm-return 0|1|null
+     * @psalm-return 0|1
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

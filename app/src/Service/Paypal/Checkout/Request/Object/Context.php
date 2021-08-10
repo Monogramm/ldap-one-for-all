@@ -104,6 +104,9 @@ class Context implements \JsonSerializable
         return $this->shippingPreference;
     }
 
+    /**
+     * @return static
+     */
     public function setShippingPreference(?string $shippingPreference): self
     {
         $this->shippingPreference = $shippingPreference;
@@ -115,12 +118,20 @@ class Context implements \JsonSerializable
         return $this->userAction;
     }
 
+    /**
+     * @return static
+     */
     public function setUserAction(?string $userAction): self
     {
         $this->userAction = $userAction;
         return $this;
     }
 
+    /**
+     * @return array
+     *
+     * @psalm-return array{return_url?: mixed, cancel_url?: mixed, locale?: mixed, landing_page?: mixed, shipping_preference?: mixed, brand_name?: mixed}
+     */
     public function jsonSerialize(): array
     {
         $data = [];

@@ -29,18 +29,29 @@ class Order implements \JsonSerializable
         return $this->context;
     }
 
-    public function setContext(?Context $context): Order
+    /**
+     * @return static
+     */
+    public function setContext(?Context $context): self
     {
         $this->context = $context;
         return $this;
     }
 
+    /**
+     * @return PurchaseUnit[]|null
+     *
+     * @psalm-return array<array-key, PurchaseUnit>|null
+     */
     public function getPurchaseUnits(): ?array
     {
         return $this->purchaseUnits;
     }
 
-    public function setPurchaseUnits(?array $purchaseUnits): Order
+    /**
+     * @return static
+     */
+    public function setPurchaseUnits(?array $purchaseUnits): self
     {
         $this->purchaseUnits = $purchaseUnits;
         return $this;
@@ -51,12 +62,20 @@ class Order implements \JsonSerializable
         return $this->intent;
     }
 
-    public function setIntent(?string $intent): Order
+    /**
+     * @return static
+     */
+    public function setIntent(?string $intent): self
     {
         $this->intent = $intent;
         return $this;
     }
 
+    /**
+     * @return ((((array|mixed|string)[]|mixed)[][]|mixed)[]|string)[]
+     *
+     * @psalm-return array{intent?: string, application_context?: array{return_url?: mixed, cancel_url?: mixed, locale?: mixed, landing_page?: mixed, shipping_preference?: mixed, brand_name?: mixed}, purchase_units?: non-empty-list<array{items?: non-empty-list<array{unit_amount?: mixed, quantity?: string, name?: mixed}>, amount?: array{currency_code?: mixed, value?: mixed, breakdown?: array{item_total: array{currency_code?: mixed, value?: mixed}}}}>}
+     */
     public function jsonSerialize(): array
     {
         $data = [];
@@ -74,13 +93,14 @@ class Order implements \JsonSerializable
      * @param string $intent
      * @param PurchaseUnit[] $purchaseUnits
      * @param Context $context
-     * @return Order
+     *
+     * @return static
      */
     public static function create(
         string $intent,
         array $purchaseUnits,
         Context $context
-    ) {
+    ): self {
         return (new self())
             ->setContext($context)
             ->setIntent($intent)

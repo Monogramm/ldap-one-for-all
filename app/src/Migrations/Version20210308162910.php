@@ -12,6 +12,9 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210308162910 extends AbstractMigration
 {
+    /**
+     * @return string
+     */
     public function getDescription() : string
     {
         return 'Add Media entity (sqlite)';

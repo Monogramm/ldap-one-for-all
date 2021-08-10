@@ -20,7 +20,7 @@ class UserListCommand extends Command
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private $emi;
 
     /**
      * @var UserRepository
@@ -28,11 +28,11 @@ class UserListCommand extends Command
     private $userRepository;
 
     public function __construct(
-        EntityManagerInterface $em,
+        EntityManagerInterface $emi,
         UserRepository $userRepository
     ) {
         $this->userRepository = $userRepository;
-        $this->em = $em;
+        $this->emi = $emi;
 
         parent::__construct(self::$defaultName);
     }
@@ -74,6 +74,9 @@ class UserListCommand extends Command
         ;
     }
 
+    /**
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

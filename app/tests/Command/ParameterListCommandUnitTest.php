@@ -17,11 +17,12 @@ class ParameterListCommandUnitTest extends KernelTestCase
 
     public function testExecute()
     {
+        /** @var ParameterRepository|MockObject $parameterRepositoryMock */
         $parameterRepositoryMock = $this->getMockBuilder(ParameterRepository::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['findBy'])
+            ->onlyMethods(['findBy'])
             ->getMock();
 
         $dateTimeString = Carbon::now('UTC')->toDateString();
@@ -40,15 +41,7 @@ class ParameterListCommandUnitTest extends KernelTestCase
             ->method('findBy')
             ->willReturn([$parameter]);
 
-        $emMock = $this->getMockBuilder(EntityManager::class)
-            ->disableOriginalClone()
-            ->disableProxyingToOriginalMethods()
-            ->disableOriginalConstructor()
-            ->setMethods(['persist', 'flush'])
-            ->getMock();
-
         $cmd = new ParameterListCommand(
-            $emMock,
             $parameterRepositoryMock
         );
 
@@ -71,11 +64,12 @@ class ParameterListCommandUnitTest extends KernelTestCase
 
     public function testExecuteAll()
     {
+        /** @var ParameterRepository|MockObject $parameterRepositoryMock */
         $parameterRepositoryMock = $this->getMockBuilder(ParameterRepository::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['findBy'])
+            ->onlyMethods(['findBy'])
             ->getMock();
 
         $dateTimeString = Carbon::now('UTC')->toDateString();
@@ -94,15 +88,7 @@ class ParameterListCommandUnitTest extends KernelTestCase
             ->method('findBy')
             ->willReturn([$parameter]);
 
-        $emMock = $this->getMockBuilder(EntityManager::class)
-            ->disableOriginalClone()
-            ->disableProxyingToOriginalMethods()
-            ->disableOriginalConstructor()
-            ->setMethods(['persist', 'flush'])
-            ->getMock();
-
         $cmd = new ParameterListCommand(
-            $emMock,
             $parameterRepositoryMock
         );
 

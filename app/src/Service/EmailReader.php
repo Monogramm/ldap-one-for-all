@@ -16,6 +16,11 @@ class EmailReader
         $this->mail = $mail;
     }
 
+    /**
+     * @return array
+     *
+     * @psalm-return list<mixed>
+     */
     public function getMessagesBySubjectExpAndDateTimeUTC(
         string $exp,
         \DateTimeInterface $fromDateUTC

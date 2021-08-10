@@ -127,7 +127,7 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator
      * @param Request                 $request       The request.
      * @param AuthenticationException $authException An authentication exception.
      *
-     * @return Response|void
+     * @return JsonResponse
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {

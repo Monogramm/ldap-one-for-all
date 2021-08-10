@@ -15,6 +15,11 @@ class Kernel extends BaseKernel
 
     private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
+    /**
+     * @return \Generator
+     *
+     * @psalm-return \Generator<int, object, mixed, void>
+     */
     public function registerBundles(): iterable
     {
         $contents = require $this->getProjectDir().'/config/bundles.php';

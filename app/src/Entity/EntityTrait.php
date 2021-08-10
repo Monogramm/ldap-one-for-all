@@ -40,6 +40,9 @@ trait EntityTrait
         return $this->id;
     }
 
+    /**
+     * @return static
+     */
     public function setId($id): self
     {
         $this->id = $id;
@@ -51,6 +54,9 @@ trait EntityTrait
         return $this->createdAt;
     }
 
+    /**
+     * @return static
+     */
     public function setCreatedAt(DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
@@ -62,6 +68,9 @@ trait EntityTrait
         return $this->updatedAt;
     }
 
+    /**
+     * @return static
+     */
     public function setUpdatedAt(DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;

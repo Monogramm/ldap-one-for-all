@@ -59,6 +59,11 @@ class LdapCreateEntryCommand extends Command
         $this->configureLdapOptions($this);
     }
 
+    /**
+     * @return int
+     *
+     * @psalm-return 0|1
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 

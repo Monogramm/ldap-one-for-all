@@ -18,11 +18,12 @@ class UserSetPasswordCommandUnitTest extends KernelTestCase
 {
     public function testExecute()
     {
+        /** @var UserRepository|MockObject $userRepositoryMock */
         $userRepositoryMock = $this->getMockBuilder(UserRepository::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['findOneBy'])
+            ->onlyMethods(['findOneBy'])
             ->getMock();
 
         $username = 'firstname.lastname';
@@ -39,11 +40,12 @@ class UserSetPasswordCommandUnitTest extends KernelTestCase
             ->method('findOneBy')
             ->willReturn($user);
 
+        /** @var EntityManager|MockObject $emMock */
         $emMock = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['persist', 'flush'])
+            ->onlyMethods(['persist', 'flush'])
             ->getMock();
 
         $passwordEncoderMock = $this->createMock(UserPasswordEncoderInterface::class);
@@ -86,11 +88,12 @@ class UserSetPasswordCommandUnitTest extends KernelTestCase
 
     public function testExecuteInvalid()
     {
+        /** @var UserRepository|MockObject $userRepositoryMock */
         $userRepositoryMock = $this->getMockBuilder(UserRepository::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['findOneBy'])
+            ->onlyMethods(['findOneBy'])
             ->getMock();
 
         $username = '';
@@ -101,11 +104,12 @@ class UserSetPasswordCommandUnitTest extends KernelTestCase
             ->method('findOneBy')
             ->willReturn(null);
 
+        /** @var EntityManager|MockObject $emMock */
         $emMock = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['persist', 'flush'])
+            ->onlyMethods(['persist', 'flush'])
             ->getMock();
 
         $passwordEncoderMock = $this->createMock(UserPasswordEncoderInterface::class);
@@ -149,11 +153,12 @@ class UserSetPasswordCommandUnitTest extends KernelTestCase
 
     public function testExecuteConflict()
     {
+        /** @var UserRepository|MockObject $userRepositoryMock */
         $userRepositoryMock = $this->getMockBuilder(UserRepository::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['findOneBy'])
+            ->onlyMethods(['findOneBy'])
             ->getMock();
 
         $username = 'firstname.lastname';
@@ -165,11 +170,12 @@ class UserSetPasswordCommandUnitTest extends KernelTestCase
             ->method('findOneBy')
             ->willReturn(null);
 
+        /** @var EntityManager|MockObject $emMock */
         $emMock = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['persist', 'flush'])
+            ->onlyMethods(['persist', 'flush'])
             ->getMock();
 
         $passwordEncoderMock = $this->createMock(UserPasswordEncoderInterface::class);

@@ -91,7 +91,7 @@ class ParameterController extends AbstractController
     public function createParameter(
         Request $request,
         SerializerInterface $serializer,
-        EntityManagerInterface $em,
+        EntityManagerInterface $emi,
         Encryptor $encryptor
     ): JsonResponse {
         $dto = $serializer->deserialize(
@@ -108,8 +108,8 @@ class ParameterController extends AbstractController
             );
         }
 
-        $em->persist($dto);
-        $em->flush();
+        $emi->persist($dto);
+        $emi->flush();
 
         return JsonResponse::fromJsonString(
             $serializer->serialize($dto, 'json')
@@ -123,7 +123,7 @@ class ParameterController extends AbstractController
      */
     public function editParameterById(
         Parameter $parameter,
-        EntityManagerInterface $em,
+        EntityManagerInterface $emi,
         Request $request,
         SerializerInterface $serializer,
         Encryptor $encryptor
@@ -146,8 +146,8 @@ class ParameterController extends AbstractController
             );
         }
 
-        $em->persist($dto);
-        $em->flush();
+        $emi->persist($dto);
+        $emi->flush();
 
         return JsonResponse::fromJsonString(
             $serializer->serialize($dto, 'json')
@@ -161,10 +161,10 @@ class ParameterController extends AbstractController
      */
     public function deleteParameter(
         Parameter $parameter,
-        EntityManagerInterface $em
+        EntityManagerInterface $emi
     ): JsonResponse {
-        $em->remove($parameter);
-        $em->flush();
+        $emi->remove($parameter);
+        $emi->flush();
 
         return new JsonResponse([]);
     }

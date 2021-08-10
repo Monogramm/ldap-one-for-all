@@ -39,7 +39,7 @@ class LdapAuthenticator extends AbstractGuardAuthenticator
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private $emi;
     /**
      * @var RouterInterface
      */
@@ -61,7 +61,7 @@ class LdapAuthenticator extends AbstractGuardAuthenticator
         Client $ldap,
         UserRepository $userRepository,
         AuthenticationSuccessHandler $successHandler,
-        EntityManagerInterface $em,
+        EntityManagerInterface $emi,
         RouterInterface $router,
         ParameterRepository $parameterRepository,
         array $ldapConfig,
@@ -70,7 +70,7 @@ class LdapAuthenticator extends AbstractGuardAuthenticator
         $this->ldap = $ldap;
         $this->successHandler = $successHandler;
         $this->userRepository = $userRepository;
-        $this->em = $em;
+        $this->emi = $emi;
         $this->router = $router;
         $this->parameterRepository = $parameterRepository;
         $this->ldapConfig = $ldapConfig;
@@ -88,6 +88,9 @@ class LdapAuthenticator extends AbstractGuardAuthenticator
         return json_decode($request->getContent(), true);
     }
 
+    /**
+     * @return User|null
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         if (!$this->ldapConfig['enabled']) {
@@ -134,22 +137,31 @@ class LdapAuthenticator extends AbstractGuardAuthenticator
             'fullDn' => $entry->getDn(),
         ]);
 
-        $this->em->persist($user);
-        $this->em->flush();
+        $this->emi->persist($user);
+        $this->emi->flush();
 
         return $user;
     }
 
+    /**
+     * @return true
+     */
     public function checkCredentials($credentials, UserInterface $user)
     {
         return true;
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         return new JsonResponse([], Response::HTTP_UNAUTHORIZED);
     }
 
+    /**
+     * @return \Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationSuccessResponse
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         $token->setAttribute('source', 'ldap');
@@ -195,7 +207,7 @@ class LdapAuthenticator extends AbstractGuardAuthenticator
      *      parameters under the "remember_me" firewall key
      *  D) The onAuthenticationSuccess method returns a Response object
      *
-     * @return bool
+     * @return false
      */
     public function supportsRememberMe()
     {

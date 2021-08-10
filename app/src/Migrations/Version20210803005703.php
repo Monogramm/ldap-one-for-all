@@ -13,6 +13,9 @@ use Ramsey\Uuid\Uuid;
  */
 final class Version20210803005703 extends AbstractMigration
 {
+    /**
+     * @return string
+     */
     public function getDescription() : string
     {
         return 'Registration setup (SQLite)';

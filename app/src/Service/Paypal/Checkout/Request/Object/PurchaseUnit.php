@@ -41,14 +41,20 @@ class PurchaseUnit implements \JsonSerializable
 
     /**
      * @param Item[] $items
-     * @return PurchaseUnit
+     *
+     * @return static
      */
-    public function setItems(array $items)
+    public function setItems(array $items): self
     {
         $this->items = $items;
         return $this;
     }
 
+    /**
+     * @return ((array|mixed|string)[]|mixed)[][]
+     *
+     * @psalm-return array{items?: non-empty-list<array{unit_amount?: mixed, quantity?: string, name?: mixed}>, amount?: array{currency_code?: mixed, value?: mixed, breakdown?: array{item_total: array{currency_code?: mixed, value?: mixed}}}}
+     */
     public function jsonSerialize(): array
     {
         $data = [];

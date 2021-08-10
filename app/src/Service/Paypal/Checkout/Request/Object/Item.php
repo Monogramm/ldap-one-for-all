@@ -55,7 +55,7 @@ class Item implements \JsonSerializable
     /**
      * Set item quantity.
      *
-     * @param string $quantity the item quantity.
+     * @param int|null $quantity
      *
      * @return static
      */
@@ -65,6 +65,11 @@ class Item implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return (mixed|string)[]
+     *
+     * @psalm-return array{unit_amount?: mixed, quantity?: string, name?: mixed}
+     */
     public function jsonSerialize(): array
     {
         $data = [];

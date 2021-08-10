@@ -59,6 +59,11 @@ class LdapLoginCommand extends Command
         $this->configureLdapOptions($this);
     }
 
+    /**
+     * @return int
+     *
+     * @psalm-return 0|1|2
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

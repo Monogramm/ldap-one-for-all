@@ -82,11 +82,17 @@ class LoginFormAuthenticator extends AbstractGuardAuthenticator
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         return new JsonResponse([], Response::HTTP_UNAUTHORIZED);
     }
 
+    /**
+     * @return \Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationSuccessResponse
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         $token->setAttribute('source', 'local');

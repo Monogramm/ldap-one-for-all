@@ -21,7 +21,7 @@ class UserSetPasswordCommand extends Command
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private $emi;
 
     /**
      * @var UserRepository
@@ -39,12 +39,12 @@ class UserSetPasswordCommand extends Command
     private $passwordGenerator;
 
     public function __construct(
-        EntityManagerInterface $em,
+        EntityManagerInterface $emi,
         UserRepository $userRepository,
         UserPasswordEncoderInterface $passwordEncoder,
         PasswordGenerator $passwordGenerator
     ) {
-        $this->em = $em;
+        $this->emi = $emi;
         $this->userRepository = $userRepository;
         $this->passwordEncoder = $passwordEncoder;
         $this->passwordGenerator = $passwordGenerator;
@@ -76,6 +76,11 @@ class UserSetPasswordCommand extends Command
         ;
     }
 
+    /**
+     * @return int
+     *
+     * @psalm-return 0|1
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -110,8 +115,8 @@ class UserSetPasswordCommand extends Command
                     ->encodePassword($user, $password)
         );
 
-        $this->em->persist($user);
-        $this->em->flush();
+        $this->emi->persist($user);
+        $this->emi->flush();
 
         $io->success("User '$username' password reset");
 

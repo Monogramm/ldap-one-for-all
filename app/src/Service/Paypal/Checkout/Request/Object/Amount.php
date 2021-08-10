@@ -45,6 +45,11 @@ class Amount implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return array
+     *
+     * @psalm-return array{currency_code?: mixed, value?: mixed}
+     */
     public function jsonSerialize(): array
     {
         $data = [];

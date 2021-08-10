@@ -51,13 +51,15 @@ trait BuildLdapConfig
     /**
      * Returns the option value for a given option name or returns the value of an environment variable.
      *
-     * @param string $input The command input
+     * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param string $name The option name
      * @param string $env The environment variable name
      *
-     * @return string|string[]|bool|null The option value
+     * @return bool|string|string[]
      *
      * @throws InvalidArgumentException When option given doesn't exist
+     *
+     * @psalm-return array<array-key, string>|bool|string
      */
     private function getOptionOrEnvVar(InputInterface $input, $name, $env)
     {
@@ -69,9 +71,11 @@ trait BuildLdapConfig
     }
 
     /**
-     * @return array
-     **/
-    public function returnConfig(InputInterface $input)
+     * @return (bool|string|string[])[]
+     *
+     * @psalm-return array{uid_key: array<array-key, string>|bool|string, mail_key: array<array-key, string>|bool|string, base_dn: array<array-key, string>|bool|string, is_ad: false, ad_domain: string, query: array<array-key, string>|bool|string, search_dn: array<array-key, string>|bool|string, search_password: array<array-key, string>|bool|string}
+     */
+    public function returnConfig(InputInterface $input): array
     {
         // Creating LDAP config
         $uidKey = $this->getOptionOrEnvVar($input, 'uid-key', 'LDAP_AUTH_USERNAME_ATTRIBUTE');

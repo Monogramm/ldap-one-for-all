@@ -23,7 +23,7 @@ class PasswordResetHandler
 
     private $passwordEncoder;
 
-    private $em;
+    private $emi;
 
     private $passwordGenerator;
 
@@ -37,7 +37,7 @@ class PasswordResetHandler
         JWTEncoder $jwtEncoder,
         UserRepository $userRepository,
         UserPasswordEncoderInterface $passwordEncoder,
-        EntityManagerInterface $em,
+        EntityManagerInterface $emi,
         PasswordGenerator $passwordGenerator,
         MessageBusInterface $bus,
         TranslatorInterface $translator,
@@ -46,7 +46,7 @@ class PasswordResetHandler
         $this->jwtEncoder = $jwtEncoder;
         $this->userRepository = $userRepository;
         $this->passwordEncoder = $passwordEncoder;
-        $this->em = $em;
+        $this->emi = $emi;
         $this->passwordGenerator = $passwordGenerator;
         $this->bus = $bus;
         $this->translator = $translator;
@@ -73,9 +73,9 @@ class PasswordResetHandler
                 ->encodePassword($user, $newPassword)
         );
 
-        $this->em->persist($user);
-        $this->em->remove($passwordReset);
-        $this->em->flush();
+        $this->emi->persist($user);
+        $this->emi->remove($passwordReset);
+        $this->emi->flush();
 
         $this->sendEmailWithNewPasswordToUser($user, $newPassword);
     }

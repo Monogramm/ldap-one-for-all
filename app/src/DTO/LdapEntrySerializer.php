@@ -55,7 +55,7 @@ class LdapEntrySerializer
      *
      * @return string Serialized LDAP entry into LDIF.
      */
-    private static function toLdif($ldapEntry)
+    private static function toLdif($ldapEntry): string
     {
         $outputEntry = '';
 

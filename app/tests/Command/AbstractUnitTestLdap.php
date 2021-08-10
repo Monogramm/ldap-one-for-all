@@ -26,28 +26,28 @@ abstract class AbstractUnitTestLdap extends KernelTestCase
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->getMock();
 
         $this->ldapAdapterMock = $this->getMockBuilder(AdapterInterface::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['getConnection', 'createQuery', 'getEntryManager', 'escape'])
+            ->onlyMethods(['getConnection', 'createQuery', 'getEntryManager', 'escape'])
             ->getMock();
 
         $this->ldapEntryManagerMock = $this->getMockBuilder(EntryManagerInterface::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['add','update','rename','remove'])
+            ->onlyMethods(['add','update','rename','remove'])
             ->getMock();
 
         $this->ldapConnectionMock = $this->getMockBuilder(ConnectionInterface::class)
             ->disableOriginalClone()
             ->disableProxyingToOriginalMethods()
             ->disableOriginalConstructor()
-            ->setMethods(['isBound', 'bind'])
+            ->onlyMethods(['isBound', 'bind'])
             ->getMock();
     }
 }
