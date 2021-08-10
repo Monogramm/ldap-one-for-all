@@ -113,7 +113,8 @@ class ParameterControllerTest extends AuthenticatedWebTestCase
         $createParameter = json_decode($createContent, true);
         $this->assertNotEmpty($createParameter['id']);
         $this->assertSame($parameter['name'], $createParameter['name']);
-        $this->assertEmpty($createParameter['value']);
+        $this->assertNotEmpty($createParameter['value']);
+        $this->assertNotSame($parameter['value'], $createParameter['value']);
         $this->assertSame($parameter['type'], $createParameter['type']);
 
         // Update

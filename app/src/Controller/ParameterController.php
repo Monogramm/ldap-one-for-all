@@ -102,7 +102,7 @@ class ParameterController extends AbstractController
 
         if ($dto->isSecret()) {
             $dto->setValue(
-                $encryptor->decryptText(
+                $encryptor->encryptText(
                     $dto->getValue()
                 )
             );
