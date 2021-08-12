@@ -338,7 +338,20 @@
       "st": "État",
       "stateOrProvinceName": "État ou province",
       "url": "Page Web",
-      "jpegPhoto": "Photo de profil"
+      "jpegPhoto": "Photo de profil",
+      "gidNumber": "ID Groupe POSIX ",
+      "uidNumber": "ID Utilisateur POSIX ",
+      "gecos": "GECOS POSIX",
+      "homeDirectory": "Répertoire personnel POSIX",
+      "loginShell": "Shell de connexion POSIX",
+      "mailHomeDirectory": "Répertoire personnel de messagerie",
+      "mailAlias": "Alias de messagerie",
+      "mailUidNumber": "UID de la boîte aux lettres",
+      "mailGidNumber": "GID de boîte aux lettres",
+      "mailEnabled": "Email activé",
+      "mailGroupMember": "Liste de distribution email",
+      "mailQuota": "Quota de courrier (ko)",
+      "mailStorageDirectory": "Chemin absolu de la boîte aux lettres"
     }
   },
   "background-jobs": {

@@ -338,7 +338,20 @@
       "st": "State",
       "stateOrProvinceName": "State or Province",
       "url": "Web Page",
-      "jpegPhoto": "Profile picture"
+      "jpegPhoto": "Profile picture",
+      "gidNumber": "POSIX Group ID",
+      "uidNumber": "POSIX User ID",
+      "gecos": "POSIX GECOS",
+      "homeDirectory": "POSIX Home directory",
+      "loginShell": "POSIX Login Shell",
+      "mailHomeDirectory": "Mail user home directory",
+      "mailAlias": "Mail alias",
+      "mailUidNumber": "Mailbox UID",
+      "mailGidNumber": "Mailbox GID",
+      "mailEnabled": "Mail enabled",
+      "mailGroupMember": "Mail distribution list",
+      "mailQuota": "Mail quota (kb)",
+      "mailStorageDirectory": "Mailbox absolute path"
     }
   },
   "background-jobs": {
