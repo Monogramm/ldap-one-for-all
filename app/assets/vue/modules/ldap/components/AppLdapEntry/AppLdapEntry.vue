@@ -43,7 +43,6 @@
                 <template v-for="(value, indexValue) in attribute">
                   <div
                     :key="`divInputValue${indexValue}`"
-                    :title="key"
                     class="is-flex is-justify-content-center mb-1"
                   >
                     <template>
