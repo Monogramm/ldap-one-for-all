@@ -176,11 +176,11 @@
   },
   "privacy": {
     "title": "Privacy Policy",
-    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis."
+    "content": "Consult https://monogramm.github.io/ldap-one-for-all/ for more information."
   },
   "tos": {
     "title": "Terms of Services",
-    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis."
+    "content": "Consult https://monogramm.github.io/ldap-one-for-all/ for more information."
   },
   "profile": {
     "title": "Profile",
@@ -337,7 +337,8 @@
       "serialNumber": "Serial Number",
       "st": "State",
       "stateOrProvinceName": "State or Province",
-      "url": "Web Page",
+      "url": "Web site",
+      "labeledURI": "Web site",
       "jpegPhoto": "Profile picture",
       "gidNumber": "POSIX Group ID",
       "uidNumber": "POSIX User ID",
