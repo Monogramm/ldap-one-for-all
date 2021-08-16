@@ -1,5 +1,25 @@
 # Changelog
 
+<a name="1.0.0"></a>
+
+## 1.0.0 (2021-08-16)
+
+### Added
+
+*   ✨ Command to set Parameter ([#50](https://github.com/Monogramm/ldap-all-for-one-manager/issues/50))
+
+### Changed
+
+*   💬 Update docs and ToS / Privacy texts
+*   🎨 Use computed i18n
+*   💄 Do not display key on attribute value title
+
+### Miscellaneous
+
+*   🔨 Split tests and linters
+*   🌐 Add more translated attributes
+*   👷 Remove default tag for CI
+
 <a name="0.9.1"></a>
 
 ## 0.9.1 (2021-08-10)

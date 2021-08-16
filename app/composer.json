@@ -1,6 +1,6 @@
 {
     "name": "monogramm/ldap-one-for-all",
-    "version": "0.9.1",
+    "version": "1.0.0",
     "description": "A web based LDAP Manager for everyone.",
     "type": "project",
     "license": "proprietary",

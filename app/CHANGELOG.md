@@ -1,5 +1,25 @@
 # Changelog
 
+<a name="1.0.0"></a>
+
+## 1.0.0 (2021-08-16)
+
+### Added
+
+*   ✨ Command to set Parameter ([#50](https://github.com/Monogramm/ldap-all-for-one-manager/issues/50)) \[[0ef390a](https://github.com/Monogramm/ldap-all-for-one-manager/commit/0ef390a40017812e23e4aa13aba1de4dfdd693eb)]
+
+### Changed
+
+*   💬 Update docs and ToS / Privacy texts \[[a7210e2](https://github.com/Monogramm/ldap-all-for-one-manager/commit/a7210e20752ad737feb870c7256da0986d41d064)]
+*   🎨 Use computed i18n \[[4769e25](https://github.com/Monogramm/ldap-all-for-one-manager/commit/4769e25d6a321816c3db9989d1f35c35177fd2dd)]
+*   💄 Do not display key on attribute value title \[[c83869a](https://github.com/Monogramm/ldap-all-for-one-manager/commit/c83869a5b09bdc366dcd1e9e6ae014626c4def5b)]
+
+### Miscellaneous
+
+*   🔨 Split tests and linters \[[9dd0076](https://github.com/Monogramm/ldap-all-for-one-manager/commit/9dd00761e5d95e6156ef5e33e59ca7cf79475a26)]
+*   🌐 Add more translated attributes \[[4ed0dea](https://github.com/Monogramm/ldap-all-for-one-manager/commit/4ed0dea35d58db2c5b589fae349f3aad55b62ff5)]
+*   👷 Remove default tag for CI \[[e0a86ee](https://github.com/Monogramm/ldap-all-for-one-manager/commit/e0a86ee3ff1285aa9f03e434def92550c54d0ee9)]
+
 <a name="0.9.1"></a>
 
 ## 0.9.1 (2021-08-10)
