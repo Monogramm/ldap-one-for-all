@@ -32,6 +32,7 @@
 
       <div class="card-footer box profile-buttons buttons">
         <b-button
+          v-if="source === 'local'"
           type="is-link"
           @click="showPasswordChangeModal = true"
         >
@@ -109,7 +110,8 @@ export default {
   data() {
     return {
       showPasswordChangeModal: false,
-      showAccountDeleteModal: false
+      showAccountDeleteModal: false,
+      source: null as String,
     };
   },
   computed: {
@@ -117,6 +119,9 @@ export default {
     titleLabel() {
       return this.$t("profile.welcome");
     }
+  },
+  async created() {
+    this.source = this.authUser?.metadata?.auth?.source ?? "unknown";
   },
   metaInfo() {
     return { title: this.titleLabel };
