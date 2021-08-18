@@ -227,4 +227,30 @@ class UserController extends AbstractController
             'items' => $results
         ]);
     }
+
+    /**
+     * @Route("/api/admin/user/{user}/set-enable", name="set_enable_user", methods={"PUT"})
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     *
+     * @return JsonResponse
+     */
+    public function setEnable(
+        User $user,
+        Request $request,
+        EntityManagerInterface $emi
+    ): JsonResponse {
+        $enabled = $request->getContent();
+
+        if (!empty($enabled)) {
+            $user->enable();
+        } else {
+            $user->disable();
+        }
+
+        $emi->persist($user);
+        $emi->flush();
+
+        return new JsonResponse([], 200);
+    }
 }

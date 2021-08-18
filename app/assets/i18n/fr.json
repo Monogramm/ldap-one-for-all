@@ -242,7 +242,9 @@
       "verified-user": "Utilisateur vérifié",
       "user": "Utilisateur",
       "unknown": "Rôle inconnu"
-    }
+    },
+    "enable": " Confirmez-vous l'activation de l'utilisateur sélectionné ?",
+    "disable": "Confirmez-vous la désactivation l'utilisateur sélectionné ?"
   },
   "parameters": {
     "admin": "Paramètres",

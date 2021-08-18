@@ -43,6 +43,7 @@ export class UserAPI extends ReadWriteApi<IUser> {
   passwordChange(newPassword: IUserPasswordChange) {
     return axios.put<void>(`${this.base}/${this.roPrefix}/password`, newPassword);
   }
+
   disableAccount() {
     return axios.put<any>(`${this.base}/${this.roPrefix}/disable`);
   }
@@ -52,5 +53,9 @@ export class UserAPI extends ReadWriteApi<IUser> {
   }
   requestCode() {
     return axios.post<void>(`${this.base}/${this.roPrefix}/verify/resend`);
+  }
+
+  setEnable(userId: string, enabled: boolean) {
+    return axios.put<any>(`${this.base}/${this.rwPrefix}/${userId}/set-enable`, enabled);
   }
 };

@@ -15,6 +15,7 @@
         @pageChanged="onPageChange"
         @filtersChanged="onFiltersChange"
         @sortingChanged="onSortingChange"
+        @enabled="onEnableChange"
       />
     </div>
   </section>
@@ -26,6 +27,8 @@ import { mapGetters } from "vuex";
 import { Pagination } from "../../../../interfaces/pagination";
 import { Criteria } from "../../../../interfaces/criteria";
 import { Sort } from "../../../../interfaces/sort";
+
+import { EnablePayload } from '../../actions';
 
 import AppUsers from "../../components/admin/AppUsers/AppUsers.vue";
 
@@ -64,6 +67,26 @@ export default {
       if (this.pagination.size > 0) {
         this.load();
       }
+    },
+    onEnableChange(userId: string, enabled: boolean) {
+      this.$buefy.dialog.confirm({
+        message: this.$t(
+          enabled ? "users.enable" : "users.disable"
+        ),
+        confirmText: this.$t("common.continue"),
+        cancelText: this.$t("common.cancel"),
+        type: "is-info",
+        hasIcon: true,
+        onConfirm: () => {
+          const payload: EnablePayload = {
+            userId: userId,
+            enabled: enabled,
+          };
+          this.$store.dispatch("user/setEnable", payload).then(
+            () => this.load()
+          );
+        },
+      });
     },
   }
 };

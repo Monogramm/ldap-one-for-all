@@ -9,6 +9,11 @@ import { ILogin } from "../../modules/auth/interfaces";
 import { IUserState } from "./state";
 import { IUser, IUserVerification, IUserPasswordChange } from "./interfaces";
 
+export interface EnablePayload {
+  userId: string;
+  enabled: boolean;
+}
+
 /**
  * User API actions interface.
  */
@@ -18,6 +23,7 @@ export interface IUserActions extends IReadWriteActions<IUser, IUserState> {
   disableAccount({ commit, state }: ActionContext<IUserState, IRootState>): Promise<void>;
   confirmVerificationCode({ commit, state }: ActionContext<IUserState, IRootState>, code: IUserVerification): Promise<AxiosResponse<void>>;
   requestVerificationCode({ commit, state }: ActionContext<IUserState, IRootState>): Promise<void>;
+  setEnable({ commit, state }: ActionContext<IUserState, IRootState>, {userId, enabled}: EnablePayload): Promise<string>;
 }
 
 export const UserActionsDefault: IUserActions = {
@@ -44,6 +50,7 @@ export const UserActionsDefault: IUserActions = {
       commit("PASSWORD_CHANGE_ERROR", error);
     }
   },
+
   async disableAccount({ commit, state }: ActionContext<IUserState, IRootState>) {
     await state.api.disableAccount();
     commit("DISABLE_ACCOUNT_SUCCESS");
@@ -64,5 +71,17 @@ export const UserActionsDefault: IUserActions = {
     commit("RESEND_CODE_PENDING");
     await state.api.requestCode();
     commit("RESEND_CODE_SUCCESS");
+  },
+
+  async setEnable({ commit, state }: ActionContext<IUserState, IRootState>, {userId, enabled}: EnablePayload): Promise<any> {
+    commit("SET_ENABLE_PENDING");
+    try {
+      const response = await state.api.setEnable(userId, enabled);
+      commit("SET_ENABLE_SUCCESS");
+      return response;
+    } catch (error) {
+      commit("SET_ENABLE_ERROR", error);
+      return null;
+    }
   },
 };

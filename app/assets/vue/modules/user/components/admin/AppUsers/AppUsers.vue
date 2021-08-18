@@ -116,10 +116,14 @@
         </b-select>
       </template>
       <template v-slot="props">
-        <b-icon
-          :icon="props.row.enabled ? 'check' : 'times'"
+        <b-button
           :type="props.row.enabled ? 'is-success': 'is-danger'"
-        />
+          :icon-left="props.row.enabled ? 'check' : 'times'"
+          :loading="isLoading"
+          @click="setEnabled(props.row.id, !props.row.enabled)"
+        >
+          {{ $t(props.row.enabled ? "common.yes" : "common.no") }}
+        </b-button>
       </template>
     </b-table-column>
   </b-table>
@@ -188,6 +192,9 @@ export default {
     },
     onSortingChange(field: string, order: string) {
       this.$emit("sortingChanged", field, order);
+    },
+    setEnabled(userId: string, enabled: boolean) {
+      this.$emit("enabled", userId, enabled);
     },
     roleIcon(roles: Array<string>): string {
       if (roles.includes('ROLE_SUPER_ADMIN')) {

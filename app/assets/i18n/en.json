@@ -242,7 +242,9 @@
       "verified-user": "Verified User",
       "user": "User",
       "unknown": "Unknown role"
-    }
+    },
+    "enable": "Do you confirm to enable the selected user?",
+    "disable": "Do you confirm to disable the selected user?"
   },
   "parameters": {
     "admin": "Parameters",
