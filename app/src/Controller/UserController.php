@@ -194,24 +194,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/api/admin/users", methods={"GET"})
-     *
-     * @return JsonResponse
-     */
-    public function findAllByUsername(UserRepository $userRepository, Request $request): JsonResponse
-    {
-        if (!$request->get('username')) {
-            return new JsonResponse();
-        }
-
-        $usersArray = $userRepository->findAllLikeUsername(
-            $request->get('username')
-        );
-
-        return new JsonResponse($usersArray);
-    }
-
-    /**
      * @Route("/api/admin/user", name="get_users", methods={"GET"})
      *
      * @return JsonResponse

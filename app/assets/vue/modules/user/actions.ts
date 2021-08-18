@@ -13,7 +13,6 @@ import { IUser, IUserVerification, IUserPasswordChange } from "./interfaces";
  * User API actions interface.
  */
 export interface IUserActions extends IReadWriteActions<IUser, IUserState> {
-  getAllByUsername({ commit, state }: ActionContext<IUserState, IRootState>, username: string): Promise<any>;
   register({ commit, state }: ActionContext<IUserState, IRootState>, user: IUser): Promise<string>;
   passwordChange({ commit, state }: ActionContext<IUserState, IRootState>, data: IUserPasswordChange): Promise<void>;
   disableAccount({ commit, state }: ActionContext<IUserState, IRootState>): Promise<void>;
@@ -23,21 +22,6 @@ export interface IUserActions extends IReadWriteActions<IUser, IUserState> {
 
 export const UserActionsDefault: IUserActions = {
   ...ReadWriteActions,
-
-  async getAllByUsername(
-    { commit, state }: ActionContext<IUserState, IRootState>,
-    username: string
-  ) {
-    commit("GET_ALL_PENDING");
-    try {
-      const response: AxiosResponse<Array<IUser>> = await state.api.getAllByUsername(username);
-      commit("GET_ALL_SUCCESS", response.data);
-      return response.data;
-    } catch (error) {
-      commit("GET_ALL_ERROR", error);
-      return error;
-    }
-  },
 
   async register({ commit, state }: ActionContext<IUserState, IRootState>, user: IUser) {
     commit("CREATE_PENDING");

@@ -1,96 +1,128 @@
 <template>
-  <div class="box">
-    <b-table
-      :data="users"
-      :loading="isLoading"
-      :total="total"
-      :paginated="perPage > 0"
-      :per-page="perPage"
-      backend-pagination
-      pagination-position="both"
-      :backend-filtering="perPage > 0"
-      :debounce-search="500"
-      :backend-sorting="perPage > 0"
-      :aria-next-label="nextPageLabel"
-      :aria-previous-label="previousPageLabel"
-      :aria-page-label="pageLabel"
-      :aria-current-label="currentPageLabel"
-      @page-change="onPageChange"
-      @filters-change="onFiltersChange"
-      @sort="onSortingChange"
+  <b-table
+    :data="users"
+    :loading="isLoading"
+    :total="total"
+    :paginated="perPage > 0"
+    :per-page="perPage"
+    backend-pagination
+    pagination-position="both"
+    :backend-filtering="perPage > 0"
+    :debounce-search="500"
+    :backend-sorting="perPage > 0"
+    :aria-next-label="nextPageLabel"
+    :aria-previous-label="previousPageLabel"
+    :aria-page-label="pageLabel"
+    :aria-current-label="currentPageLabel"
+    @page-change="onPageChange"
+    @filters-change="onFiltersChange"
+    @sort="onSortingChange"
+  >
+    <b-table-column
+      v-slot="props"
+      field="username"
+      searchable
+      sortable
+      :label="usernameLabel"
     >
-      <b-table-column
-        v-slot="props"
-        field="username"
-        searchable
-        sortable
-        :label="usernameLabel"
-      >
-        <span>
-          <b-icon
-            pack="fas"
-            :icon="roleIcon(props.row.roles)"
-            :title="$t(roleTitle(props.row.roles))"
+      <span>
+        <b-icon
+          pack="fas"
+          :icon="roleIcon(props.row.roles)"
+          :title="$t(roleTitle(props.row.roles))"
+        />
+        {{ props.row.username }}
+      </span>
+    </b-table-column>
+
+    <b-table-column
+      v-slot="props"
+      field="email"
+      searchable
+      sortable
+      :label="emailLabel"
+    >
+      {{ props.row.email }}
+    </b-table-column>
+
+    <b-table-column
+      v-slot="props"
+      field="language"
+      searchable
+      sortable
+      :label="languageLabel"
+    >
+      {{ props.row.language }}
+    </b-table-column>
+
+    <b-table-column
+      field="isVerified"
+      searchable
+      sortable
+      :label="verifiedLabel"
+    >
+      <template #searchable="props">
+        <b-select v-model="props.filters[props.column.field]">
+          <option
+            key=""
+            value=""
           />
-          {{ props.row.username }}
-        </span>
-      </b-table-column>
+          <option
+            key="1"
+            :value="true"
+          >
+            {{ $t("common.yes") }}
+          </option>
+          <option
+            key="0"
+            :value="false"
+          >
+            {{ $t("common.no") }}
+          </option>
+        </b-select>
+      </template>
+      <template v-slot="props">
+        <b-icon
+          :icon="props.row.isVerified ? 'check' : 'times'"
+          :type="props.row.isVerified ? 'is-success': 'is-danger'"
+        />
+      </template>
+    </b-table-column>
 
-      <b-table-column
-        v-slot="props"
-        field="email"
-        searchable
-        sortable
-        :label="emailLabel"
-      >
-        {{ props.row.email }}
-      </b-table-column>
-
-      <b-table-column
-        v-slot="props"
-        field="language"
-        searchable
-        sortable
-        :label="languageLabel"
-      >
-        {{ props.row.language }}
-      </b-table-column>
-
-      <b-table-column
-        field="isVerified"
-        searchable
-        sortable
-        :label="verifiedLabel"
-      >
-        <template #searchable="props">
-          <b-select v-model="props.filters[props.column.field]">
-            <option
-              key=""
-              value=""
-            />
-            <option
-              key="1"
-              :value="true"
-            >
-              {{ $t("common.yes") }}
-            </option>
-            <option
-              key="0"
-              :value="false"
-            >
-              {{ $t("common.no") }}
-            </option>
-          </b-select>
-        </template>
-        <template v-slot="props">
-          <b-icon
-            :icon="props.row.isVerified ? 'check' : 'times'"
-            :type="props.row.isVerified ? 'is-success': 'is-danger'"
+    <b-table-column
+      field="enabled"
+      searchable
+      sortable
+      :label="enabledLabel"
+    >
+      <template #searchable="props">
+        <b-select v-model="props.filters[props.column.field]">
+          <option
+            key=""
+            value=""
           />
-        </template>
-      </b-table-column>
-    </b-table>
-  </div>
+          <option
+            key="1"
+            :value="true"
+          >
+            {{ $t("common.yes") }}
+          </option>
+          <option
+            key="0"
+            :value="false"
+          >
+            {{ $t("common.no") }}
+          </option>
+        </b-select>
+      </template>
+      <template v-slot="props">
+        <b-icon
+          :icon="props.row.enabled ? 'check' : 'times'"
+          :type="props.row.enabled ? 'is-success': 'is-danger'"
+        />
+      </template>
+    </b-table-column>
+  </b-table>
 </template>
 
 <script lang="ts">
@@ -142,7 +174,10 @@ export default {
     },
     verifiedLabel() {
       return this.$t("users.verified");
-    }
+    },
+    enabledLabel() {
+      return this.$t("users.enabled");
+    },
   },
   methods: {
     onPageChange(page: number) {

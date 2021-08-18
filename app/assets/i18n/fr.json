@@ -233,7 +233,8 @@
     "username": "Nom d'utilisateur",
     "email": "Email",
     "language": "Langue",
-    "verified": "Vérification",
+    "verified": "Vérifié",
+    "enabled": "Actif",
     "role": {
       "super-admin": "Super Administrateur",
       "admin": "Administrateur",

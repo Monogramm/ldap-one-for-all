@@ -6,15 +6,17 @@
       </h1>
     </div>
 
-    <app-users
-      :users="items"
-      :is-loading="isLoading"
-      :per-page="pagination.size"
-      :total="total"
-      @pageChanged="onPageChange"
-      @filtersChanged="onFiltersChange"
-      @sortingChanged="onSortingChange"
-    />
+    <div class="box">
+      <app-users
+        :users="items"
+        :is-loading="isLoading"
+        :per-page="pagination.size"
+        :total="total"
+        @pageChanged="onPageChange"
+        @filtersChanged="onFiltersChange"
+        @sortingChanged="onSortingChange"
+      />
+    </div>
   </section>
 </template>
 

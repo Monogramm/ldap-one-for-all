@@ -52,6 +52,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups("admin")
      */
     private $enabled;
 

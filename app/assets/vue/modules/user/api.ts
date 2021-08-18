@@ -37,10 +37,6 @@ export class UserAPI extends ReadWriteApi<IUser> {
     return axios.post<string>(`${this.base}/${this.roPrefix}`, user);
   }
 
-  getAllByUsername(username: string) {
-    return axios.get<Array<IUser>>(`${this.base}/admin/users`, { params: { username: username } });
-  }
-
   getCurrentUser() {
     return axios.get<IUser>(`${this.base}/${this.roPrefix}`);
   }

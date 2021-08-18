@@ -9,6 +9,7 @@ export interface IUser extends IEntity {
   language: string;
   roles: Array<string>;
   isVerified: boolean;
+  enabled: boolean;
   metadata: Array<any>;
 }
 
@@ -24,6 +25,7 @@ export class User extends Entity implements IUser {
     public language: string = User.DEFAULT_LANGUAGE,
     public roles: Array<string> = [],
     public isVerified: boolean = false,
+    public enabled: boolean = true,
     public metadata: Array<any> = [],
     id: string = null,
     createdAt: Date = new Date(),
