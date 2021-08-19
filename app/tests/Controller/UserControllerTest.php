@@ -196,6 +196,34 @@ class UserControllerTest extends AuthenticatedWebTestCase
         $createUser = json_decode($createContent, true);
         $this->assertEmpty($createUser);
 
+        // Retrieve user and verification code from DB
+        /**
+         * @var User
+         */
+        $userEntity = $this->entityManager
+            ->getRepository(User::class)
+            ->findOneBy(['username' => $user['username']])
+        ;
+        $this->assertNotEmpty($userEntity->getId());
+
+        // Disable
+        $disablePayload = json_encode(false);
+        $this->client->request('PUT', '/api/admin/user/' . $userEntity->getId() . '/set-enable', [], [], [], $disablePayload);
+
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $disableContent = $this->client->getResponse()->getContent();
+        $disableResponse = json_decode($disableContent, true);
+        $this->assertEmpty($disableResponse);
+
+        // Enable
+        $enablePayload = json_encode(true);
+        $this->client->request('PUT', '/api/admin/user/' . $userEntity->getId() . '/set-enable', [], [], [], $enablePayload);
+
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $enableContent = $this->client->getResponse()->getContent();
+        $enableResponse = json_decode($enableContent, true);
+        $this->assertEmpty($enableResponse);
+
         // TODO Update
         /*
         $user['id'] = $createUser['id'];
