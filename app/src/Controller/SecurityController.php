@@ -79,4 +79,6 @@ class SecurityController extends AbstractController
 
         return new JsonResponse([], 200);
     }
+
+    // TODO Add a changePasswordLdap function
 }
