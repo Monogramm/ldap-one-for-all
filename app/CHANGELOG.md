@@ -1,5 +1,27 @@
 # Changelog
 
+<a name="1.1.0"></a>
+
+## 1.1.0 (2021-08-19)
+
+### Added
+
+*   ✅ Set default LDAP role to USER \[[abb0004](https://github.com/Monogramm/ldap-all-for-one-manager/commit/abb0004e0493a52a0076f1ce3c3fa192febf66de)]
+*   ✅ Test user admin enable/disable \[[94577ab](https://github.com/Monogramm/ldap-all-for-one-manager/commit/94577ab92713b9a4fc03cc487412edfb8102decb)]
+*   ✨ Allow admins to enable/disable users \[[2390f63](https://github.com/Monogramm/ldap-all-for-one-manager/commit/2390f631da8d7051a3badbba9e4afbd77f044e61)]
+*   ✨ Display User status in admin \[[06f9bb2](https://github.com/Monogramm/ldap-all-for-one-manager/commit/06f9bb293253559399ae31f2b49ba349db06a040)]
+
+### Fixed
+
+*   🐛 Edit the current user from home page \[[132afab](https://github.com/Monogramm/ldap-all-for-one-manager/commit/132afab2d6e4262e19139b7a52f2511b94fe5520)]
+*   🐛 Do not display password modal if not local user \[[296b78a](https://github.com/Monogramm/ldap-all-for-one-manager/commit/296b78ab3bb000edc580697a379713eb4d56788c)]
+
+### Miscellaneous
+
+*   🐳 Upgrade libicu for docker debian \[[07abeac](https://github.com/Monogramm/ldap-all-for-one-manager/commit/07abeac6ab6d5950a2aa7ea3ae26f678220ab310)]
+*   🚧 Disable sw cache on root \[[27f6982](https://github.com/Monogramm/ldap-all-for-one-manager/commit/27f6982db73c80324b439453b214e987d9b0a0e8)]
+*   🚧 Track small improvement \[[19f91af](https://github.com/Monogramm/ldap-all-for-one-manager/commit/19f91af2f6fcd018bf587630a531095401348522)]
+
 <a name="1.0.0"></a>
 
 ## 1.0.0 (2021-08-16)

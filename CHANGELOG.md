@@ -1,5 +1,27 @@
 # Changelog
 
+<a name="1.1.0"></a>
+
+## 1.1.0 (2021-08-19)
+
+### Added
+
+*   ✅ Set default LDAP role to USER
+*   ✅ Test user admin enable/disable
+*   ✨ Allow admins to enable/disable users
+*   ✨ Display User status in admin
+
+### Fixed
+
+*   🐛 Edit the current user from home page
+*   🐛 Do not display password modal if not local user
+
+### Miscellaneous
+
+*   🐳 Upgrade libicu for docker debian
+*   🚧 Disable sw cache on root
+*   🚧 Track small improvement
+
 <a name="1.0.0"></a>
 
 ## 1.0.0 (2021-08-16)

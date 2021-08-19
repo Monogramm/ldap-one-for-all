@@ -1,6 +1,6 @@
 // Service Worker
 
-var CACHE_NAME = 'app-cache-v1.0.0';
+var CACHE_NAME = 'app-cache-v1.1.0';
 var urlsToCache = [
   //'/',
   '/sw.js',
