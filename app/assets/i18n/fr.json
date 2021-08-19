@@ -45,17 +45,20 @@
     "role": "Rôles",
     "username": {
       "label": "Nom d'utilisateur",
-      "placeholder": "Entrer un nom d'utilisateur"
+      "placeholder": "Entrer un nom d'utilisateur",
+      "format": "des lettres, des chiffres et les caractères -."
     },
     "email": {
       "label": "Adresse email",
-      "placeholder": "Entrer une adresse email"
+      "placeholder": "Entrer une adresse email",
+      "format": "adresse e-mail valide, comme utilisateur@mail.com"
     },
     "password": {
       "label": "Mot de passe",
       "placeholder": "Entrer un mot de passe",
       "empty": "Le mot de passe ne peut pas être vide",
-      "confirm": "Confirmer mot de passe"
+      "confirm": "Confirmer mot de passe",
+      "format": "au moins 6 caractères"
     },
     "confirmation": {
       "create": "Confirmer création ?",
@@ -69,7 +72,7 @@
     },
     "error": {
       "required-field-emmpty": "Veuillez renseigner ce champ",
-      "field-not-valid": "Veuillez respecter le format demandé",
+      "field-not-valid": "Veuillez respecter le format demandé : {format}",
       "already-exists": "Existe déjà",
       "upload-failure": "Une erreur s'est produite lors du téléchargement du fichier ! {error}"
     },
