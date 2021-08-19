@@ -2,7 +2,7 @@
 
 var CACHE_NAME = 'app-cache-v1.0.0';
 var urlsToCache = [
-  '/',
+  //'/',
   '/sw.js',
   '/manifest.json',
   //'/build/app.css',
