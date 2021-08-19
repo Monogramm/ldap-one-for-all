@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\DTO\LdapEntryDTO;
+use App\Entity\User;
 use App\Service\Ldap\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,6 +13,7 @@ use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\ErrorHandler\ErrorRenderer\SerializerErrorRenderer;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -222,5 +224,54 @@ class LdapController extends AbstractController
         }
 
         return new JsonResponse([], $status);
+    }
+
+    /**
+     * @Route("/api/ldap", name="edit_current_ldap_user", methods={"PUT"})
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     *
+     * @return JsonResponse
+     */
+    public function editCurrentLdapUser(
+        Client $ldap,
+        Request $request,
+        SerializerInterface $serializer,
+        TranslatorInterface $translator
+    ): JsonResponse {
+        $query = $request->get('query', '(objectClass=*)');
+
+        try {
+            $dto = $serializer->deserialize(
+                $request->getContent(),
+                LdapEntryDTO::class,
+                'json'
+            );
+        } catch (NotEncodableValueException $exception) {
+            return new JsonResponse($translator->trans('error.ldap.deserialize'), 400);
+        }
+
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+        $ldapMeta = $user->getMeta('ldap', []);
+        if (!isset($ldapMeta['fullDn'])) {
+            return new JsonResponse([], Response::HTTP_NOT_FOUND);
+        }
+        $fullDN = $ldapMeta['fullDn'];
+
+        $entry = $dto->toEntry();
+        try {
+            // TODO Find a way to bind to LDAP as current user without requesting password everytime
+            $ldap->bind();
+            $ldap->update($fullDN, $query, $entry->getAttributes());
+        } catch (LdapException $exception) {
+            return new JsonResponse($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        $returnDto = LdapEntryDTO::fromEntry($entry);
+        $json = $serializer->serialize($returnDto, 'json');
+
+        return new JsonResponse($json, Response::HTTP_OK);
     }
 }

@@ -18,6 +18,8 @@ export interface ILdapEntryActions {
   create({ commit, state }: ActionContext<ILdapEntryState, IRootState>, entry: ILdapEntry): Promise<any>;
   update({ commit, state }: ActionContext<ILdapEntryState, IRootState>, entry: ILdapEntry): Promise<any>;
   delete({ commit, state }: ActionContext<ILdapEntryState, IRootState>, id: string): Promise<any>;
+
+  updateCurrentUser({ commit, state }: ActionContext<ILdapEntryState, IRootState>, entry: ILdapEntry): Promise<any>;
 }
 
 export const LdapEntryActionsDefault: ILdapEntryActions = {
@@ -92,6 +94,21 @@ export const LdapEntryActionsDefault: ILdapEntryActions = {
       return response.data;
     } catch (error) {
       commit("DELETE_ERROR", error);
+      return error;
+    }
+  },
+
+  async updateCurrentUser(
+    { commit, state }: ActionContext<ILdapEntryState, IRootState>,
+    entry: ILdapEntry
+  ) {
+    commit("EDIT_PENDING");
+    try {
+      const response: AxiosResponse<ILdapEntry> = await state.api.updateCurrentUser(entry);
+      commit("EDIT_SUCCESS", response.data);
+      return response.data;
+    } catch (error) {
+      commit("EDIT_ERROR", error);
       return error;
     }
   },

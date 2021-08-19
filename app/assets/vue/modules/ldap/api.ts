@@ -16,4 +16,7 @@ export class LdapEntryAPI extends ReadWriteApi<ILdapEntry> {
     super("ldap", "admin/ldap");
   }
 
+  updateCurrentUser(entry: ILdapEntry) {
+    return axios.put<ILdapEntry>(`${this.base}/${this.roPrefix}`, entry);
+  }
 };

@@ -142,9 +142,11 @@
 
 <script lang="ts">
 import { mapGetters } from "vuex";
-import AppLdapEntry from "../modules/ldap/components/AppLdapEntry/AppLdapEntry.vue";
-import { LdapEntryDefault, ILdapEntry, LdapEntry } from '../modules/ldap/interfaces';
 import { AxiosError } from 'axios';
+
+import { LdapEntryDefault, ILdapEntry, LdapEntry } from '../modules/ldap/interfaces';
+
+import AppLdapEntry from "../modules/ldap/components/AppLdapEntry/AppLdapEntry.vue";
 import AppLdapEntryAdmin from '../modules/ldap/components/admin/AppLdapEntry/AppLdapEntry.vue';
 
 export default {
@@ -195,7 +197,7 @@ export default {
     },
     async onSubmit() {
       await this.$store
-        .dispatch("ldapEntry/update", this.entry)
+        .dispatch("ldapEntry/updateCurrentUser", this.entry)
         .then(() => {
           if (!this.hasError) {
             this.handleSuccess();
