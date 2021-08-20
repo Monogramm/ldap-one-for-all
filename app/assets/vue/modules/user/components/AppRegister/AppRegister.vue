@@ -162,20 +162,24 @@ export default {
     isPasswordValid() {
       // TODO Check complexity
       return this.password.length >= 6;
-    },  
+    },
     passwordFieldType() {
       return {
         "is-danger":
             this.hasError
             || !!!this.password
+            || this.password === this.username
+            || this.password === this.email
             || !this.isPasswordValid
             || this.error.status === 422
       };
     },
     passwordErrorMessage() {
       return {
-        [this.$t("common.error.required-field-empty")]: !!!this.password,
+        [this.$t("common.password.empty")]: !!!this.password,
         [this.$t("common.error.field-not-valid", {format: this.$t("common.password.format")})]: !!this.password && !this.isPasswordValid,
+        [this.$t("common.password.not-username")]: !!this.password && (this.password === this.username),
+        [this.$t("common.password.not-email")]: !!this.password && (this.password === this.email),
       };
     },
     isConfirmPasswordValid() {

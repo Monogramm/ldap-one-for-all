@@ -58,7 +58,9 @@
       "placeholder": "Enter a password",
       "empty": "Password cannot be empty",
       "confirm": "Confirm password",
-      "format": "at least 6 characters"
+      "format": "at least 6 characters",
+      "not-username": "Password must not be the username!",
+      "not-email": "Password must not be the email!"
     },
     "confirmation": {
       "create": "Confirm creation?",
