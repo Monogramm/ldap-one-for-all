@@ -25,7 +25,7 @@
               :key="`divElemente:${key}`"
               class="columns ml-4 bb-1"
             >
-              <div class="column is-6">
+              <div class="column is-5">
                 <div class="columns mb-0 is-mobile is-centered">
                   <div class="column is-7 has-text-centered">
                     <span
@@ -39,16 +39,18 @@
                 </div>
               </div>
 
-              <div class="column mt-0 mb-2 pt-0">
+              <div class="column is-7">
                 <template v-for="(value, indexValue) in attribute">
                   <div
                     :key="`divInputValue${indexValue}`"
-                    class="is-flex is-justify-content-center mb-1"
+                    class="mb-1"
                   >
                     <template>
                       <span
                         :key="`spanEntryValue:${value}`"
-                        class="is-centered"
+                        class="column is-full is-centered p-0 has-text-centered break-word"
+                        :class="{'hidden-overflow': attributesHiddenState[key]}"
+                        @click="displayValueHidden(key)"
                       >
                         {{ value }}
                       </span>
@@ -78,7 +80,8 @@ export default {
   },
   data() {
     return {
-      attributes: null as ILdapAttributes
+      attributes: null as ILdapAttributes,
+      attributesHiddenState: {} as ILdapAttributes,
     };
   },
   async created() {
@@ -87,7 +90,10 @@ export default {
         .dispatch("ldapEntry/get", this.dn)
         .then((result: ILdapEntry) => {
           this.attributes = result.attributes;
-        });
+          Object.keys(this.attributes).forEach(key => {
+            this.$set(this.attributesHiddenState, key, true);
+          });
+        })
     } else {
       this.attributes = null;
     }
@@ -115,6 +121,9 @@ export default {
 
       return title;
     },
+    displayValueHidden(key: string): void {
+      this.attributesHiddenState[key] = !this.attributesHiddenState[key]; 
+    },
   }
 };
 </script>
@@ -124,5 +133,17 @@ export default {
 
 .bb-1 {
   border-bottom: 1px solid $grey-darker;
+}
+
+.break-word {
+  cursor: pointer;
+  word-wrap: break-word;
+}
+
+.hidden-overflow {
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
