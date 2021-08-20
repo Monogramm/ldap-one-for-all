@@ -63,7 +63,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/api/password", name="password_change", methods={"PUT"})
+     * @Route("/api/user/password", name="password_change", methods={"PUT"})
      *
      * @return JsonResponse
      */
