@@ -58,6 +58,18 @@
                 <source>error.user.password.invalid</source>
                 <target>Incorrect password</target>
             </trans-unit>
+            <trans-unit id="error_user_password_not_current">
+                <source>error.user.password.not-current</source>
+                <target>New password must be different from current password!</target>
+            </trans-unit>
+            <trans-unit id="error_user_password_not_username">
+                <source>error.user.password.not-username</source>
+                <target>Password must not be the username!</target>
+            </trans-unit>
+            <trans-unit id="error_user_password_not_email">
+                <source>error.user.password.not-email</source>
+                <target>Password must not be the email!</target>
+            </trans-unit>
             <trans-unit id="error_user_email_already_taken">
                 <source>error.user.email.already.taken</source>
                 <target>User with this email already exist</target>

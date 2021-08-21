@@ -11,6 +11,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\TokenExtractorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SecurityController extends AbstractController
@@ -53,13 +54,13 @@ class SecurityController extends AbstractController
         $token = $tokenRepository->findOneBy(['token' => $token]);
 
         if (!$token) {
-            return new JsonResponse([], 200);
+            return new JsonResponse([], Response::HTTP_OK);
         }
 
         $emi->remove($token);
         $emi->flush();
 
-        return new JsonResponse([], 200);
+        return new JsonResponse([], Response::HTTP_OK);
     }
 
     /**
@@ -77,8 +78,6 @@ class SecurityController extends AbstractController
 
         $handler->handle($data['newPassword'], $data['confirmPassword'], $data['oldPassword'], $user);
 
-        return new JsonResponse([], 200);
+        return new JsonResponse([], Response::HTTP_OK);
     }
-
-    // TODO Add a changePasswordLdap function
 }

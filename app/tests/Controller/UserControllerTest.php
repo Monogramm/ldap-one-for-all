@@ -62,6 +62,7 @@ class UserControllerTest extends AuthenticatedWebTestCase
             'username' => 'john.doe.' . $testUuid,
             'email'    => 'john.doe.' . $testUuid . '@yopmail.com',
             'password' => 'password',
+            'confirmPassword' => 'password',
             'language' => 'en',
         ];
 
@@ -175,15 +176,120 @@ class UserControllerTest extends AuthenticatedWebTestCase
         $this->assertSame('[]', $disableContent);
     }
 
+    public function testCrudUsernameTooShort()
+    {
+        $testUuid = Uuid::uuid4();
+        $user = [
+            'username' => 'jd',
+            'email'    => 'john.dorian.' . $testUuid . '@yopmail.com',
+            'password' => 'password',
+            'confirmPassword' => 'password',
+            'language' => 'en',
+        ];
+
+        // Create
+        $createPayload = json_encode($user);
+        $this->client->request('POST', '/api/user', [], [], [], $createPayload);
+
+        $this->assertSame(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        $createContent = $this->client->getResponse()->getContent();
+        $createError = json_decode($createContent, true);
+        $this->assertNotEmpty($createError);
+    }
+
+    public function testCrudNoConfirmPassword()
+    {
+        $testUuid = Uuid::uuid4();
+        $user = [
+            'username' => 'john.doe.' . $testUuid,
+            'email'    => 'john.doe.' . $testUuid . '@yopmail.com',
+            'password' => 'password',
+            'language' => 'en',
+        ];
+
+        // Create
+        $createPayload = json_encode($user);
+        $this->client->request('POST', '/api/user', [], [], [], $createPayload);
+
+        $this->assertSame(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        $createContent = $this->client->getResponse()->getContent();
+        $createError = json_decode($createContent, true);
+        $this->assertNotEmpty($createError);
+    }
+
+    public function testCrudSameUsername()
+    {
+        $testUuid = Uuid::uuid4();
+        $user = [
+            'username' => 'john.doe.' . $testUuid,
+            'email'    => 'john.doe.' . $testUuid . '@yopmail.com',
+            'password' => 'john.doe.' . $testUuid,
+            'confirmPassword' => 'john.doe.' . $testUuid,
+            'language' => 'en',
+        ];
+
+        // Create
+        $createPayload = json_encode($user);
+        $this->client->request('POST', '/api/user', [], [], [], $createPayload);
+
+        $this->assertSame(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        $createContent = $this->client->getResponse()->getContent();
+        $createError = json_decode($createContent, true);
+        $this->assertNotEmpty($createError);
+    }
+
+    public function testCrudSameEmail()
+    {
+        $testUuid = Uuid::uuid4();
+        $user = [
+            'username' => 'john.doe.' . $testUuid,
+            'email'    => 'john.doe.' . $testUuid . '@yopmail.com',
+            'password' => 'john.doe.' . $testUuid . '@yopmail.com',
+            'confirmPassword' => 'john.doe.' . $testUuid . '@yopmail.com',
+            'language' => 'en',
+        ];
+
+        // Create
+        $createPayload = json_encode($user);
+        $this->client->request('POST', '/api/user', [], [], [], $createPayload);
+
+        $this->assertSame(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        $createContent = $this->client->getResponse()->getContent();
+        $createError = json_decode($createContent, true);
+        $this->assertNotEmpty($createError);
+    }
+
+    public function testCrudConfirmNotMatch()
+    {
+        $testUuid = Uuid::uuid4();
+        $user = [
+            'username' => 'john.doe.' . $testUuid,
+            'email'    => 'john.doe.' . $testUuid . '@yopmail.com',
+            'password' => 'john.doe.' . $testUuid . '@yopmail.com',
+            'confirmPassword' => 'password',
+            'language' => 'en',
+        ];
+
+        // Create
+        $createPayload = json_encode($user);
+        $this->client->request('POST', '/api/user', [], [], [], $createPayload);
+
+        $this->assertSame(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        $createContent = $this->client->getResponse()->getContent();
+        $createError = json_decode($createContent, true);
+        $this->assertNotEmpty($createError);
+    }
+
     public function testAdminCrud()
     {
         $this->authenticateClient($this->client);
 
         $testUuid = Uuid::uuid4();
         $user = [
-            'username' => 'john.doe.' . $testUuid,
-            'email'    => 'john.doe.' . $testUuid . '@yopmail.com',
+            'username' => 'jane.doe.' . $testUuid,
+            'email'    => 'jane.doe.' . $testUuid . '@yopmail.com',
             'password' => 'password',
+            'confirmPassword' => 'password',
             'language' => 'en',
         ];
 

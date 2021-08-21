@@ -20,6 +20,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank
+     * @Assert\Length(min=3)
      * @Groups("admin")
      */
     private $username;

@@ -2,20 +2,20 @@
 
 namespace App\Tests\Exception\User;
 
-use App\Exception\User\InvalidVerificationCode;
+use App\Exception\User\NewPasswordInvalid;
 use PHPUnit\Framework\TestCase;
 
-class InvalidVerificationCodeUnitTest extends TestCase
+class NewPasswordInvalidUnitTest extends TestCase
 {
     public function testException()
     {
-        $exception = (new InvalidVerificationCode(null));
+        $exception = (new NewPasswordInvalid(NewPasswordInvalid::MSG_SAME_CURRENT));
 
         $this->assertNotNull($exception->getMessage());
 
         $this->assertNotNull($exception->getCode());
-        $this->assertEquals(2001, $exception->getCode());
+        $this->assertEquals(1004, $exception->getCode());
         $this->assertNotNull($exception->getStatusCode());
-        $this->assertEquals(400, $exception->getStatusCode());
+        $this->assertEquals(403, $exception->getStatusCode());
     }
 }

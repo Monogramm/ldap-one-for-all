@@ -2,14 +2,14 @@
 
 namespace App\Tests\Exception\User;
 
-use App\Exception\User\PasswordInvalid;
+use App\Exception\User\CurrentPasswordInvalid;
 use PHPUnit\Framework\TestCase;
 
-class PasswordInvalidUnitTest extends TestCase
+class CurrentPasswordInvalidUnitTest extends TestCase
 {
     public function testException()
     {
-        $exception = (new PasswordInvalid(null));
+        $exception = (new CurrentPasswordInvalid(null));
 
         $this->assertNotNull($exception->getMessage());
 

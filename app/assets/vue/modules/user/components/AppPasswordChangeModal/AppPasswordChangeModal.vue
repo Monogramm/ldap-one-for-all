@@ -13,7 +13,7 @@
         <b-field
           :label="$t('component.password-change.old.label')"
           :type="{ 'is-danger': !!!oldPassword || (hasError && error.code === 1003) }"
-          :message="error.message"
+          :message="(hasError && error.code === 1003) ? error.message : ''"
         >
           <b-input
             v-model="oldPassword"
@@ -23,7 +23,11 @@
             :placeholder="$t('component.password-change.old.placeholder')"
           />
         </b-field>
-        <b-field :label="$t('component.password-change.new.label')">
+        <b-field
+          :label="$t('component.password-change.new.label')"
+          :type="{ 'is-danger': !!!newPassword || (hasError && error.code === 1004) }"
+          :message="(hasError && error.code === 1004) ? error.message : ''"
+        >
           <b-input
             v-model="newPassword"
             type="password"
@@ -32,7 +36,11 @@
             :placeholder="$t('component.password-change.new.placeholder')"
           />
         </b-field>
-        <b-field :label="$t('component.password-change.confirm.label')">
+        <b-field
+          :label="$t('component.password-change.confirm.label')"
+          :type="{ 'is-danger': !!!confirmPassword || (hasError && error.code === 1005) }"
+          :message="(hasError && error.code === 1005) ? error.message : ''"
+        >
           <b-input
             v-model="confirmPassword"
             type="password"
@@ -75,19 +83,20 @@ export default {
   },
   computed: {
     ...mapGetters("user", ["isLoading", "hasError", "error"]),
-    confirmErrorMessage: {
-      get(): any {
-        return {
-          [this.$t("common.password.empty")]:
-            this.newPassword !== "" && this.confirmPassword !== "",
-          [this.$t("common.password.confirm")]:
-            this.newPassword !== this.confirmPassword
-        };
-      },
-      set(value: any) {
-        return value;
-      }
-    }
+    confirmErrorMessage() {
+      return {
+        [this.$t("common.password.empty")]:
+          this.newPassword !== "" && this.confirmPassword !== "",
+        [this.$t("common.error.field-not-valid", {format: this.$t("common.password.format")})]:
+          !!this.newPassword && !this.isPasswordValid,
+        [this.$t("common.password.confirm")]:
+          this.newPassword !== this.confirmPassword
+      };
+    },
+    isPasswordValid() {
+      // TODO Check complexity
+      return this.newPassword.length >= 6;
+    },
   },
   methods: {
     isValid() {
@@ -99,19 +108,20 @@ export default {
       );
     },
     async changePassword() {
-      if (this.isValid()) {
-        const data = {
-          oldPassword: this.oldPassword,
-          newPassword: this.newPassword,
-          confirmPassword: this.confirmPassword
-        };
-        this.$store.dispatch("user/passwordChange", data).then(() => {
-          if (!this.hasError) {
-            this.$store.dispatch("auth/logout");
-            this.$router.push({ name: "Login" });
-          }
-        });
+      if (!this.isValid()) {
+        return;
       }
+      const data = {
+        oldPassword: this.oldPassword,
+        newPassword: this.newPassword,
+        confirmPassword: this.confirmPassword
+      };
+      this.$store.dispatch("user/passwordChange", data).then(() => {
+        if (!this.hasError) {
+          this.$store.dispatch("auth/logout");
+          this.$router.push({ name: "Login" });
+        }
+      });
     }
   }
 };

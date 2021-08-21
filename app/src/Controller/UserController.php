@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Event\UserCreatedEvent;
+use App\Exception\User\ConfirmPasswordInvalid;
 use App\Exception\User\InvalidVerificationCode;
+use App\Handler\Security\PasswordCheckHandler;
 use App\Handler\UserRegistrationHandler;
 use App\Message\EmailNotification;
 use App\Repository\UserRepository;
@@ -23,13 +25,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserController extends AbstractController
 {
     /**
-     * @Route("/api/user", name="user-create", methods={"POST"})
+     * @Route("/api/user", name="user_create", methods={"POST"})
      *
      * @return Response
      */
@@ -38,23 +41,45 @@ class UserController extends AbstractController
         SerializerInterface $serializer,
         ValidatorInterface $validator,
         UserRegistrationHandler $registrationHandler,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
+        PasswordCheckHandler $passwordChecker
     ): Response {
+        /** @var User */
         $user = $serializer->deserialize($request->getContent(), User::class, 'json');
 
         $errors = $validator->validate($user);
 
         if (count($errors) > 0) {
-            $errorMessage = (string) $errors;
+            $errorsArray = [];
+            /** @var ConstraintViolationInterface $error */
+            foreach ($errors as $error) {
+                $errorArray = [];
+                $errorArray['property'] = $error->getPropertyPath();
+                $errorArray['message'] = $error->getMessage();
 
-            return new JsonResponse($errorMessage, 422);
+                $errorsArray[] = $errorArray;
+            }
+
+            // TODO Manage this array of errors on frontend
+            return new JsonResponse($errorsArray, Response::HTTP_FORBIDDEN);
+        }
+
+        // Should throw appropriate exception if not valid
+        $data = json_decode($request->getContent(), true);
+        if (!isset($data['confirmPassword'])) {
+            throw new ConfirmPasswordInvalid();
+        }
+        $isValid = $passwordChecker->handle($user->getPassword(), $data['confirmPassword'], null, $user);
+
+        if (!$isValid) {
+            return new Response('', Response::HTTP_FORBIDDEN);
         }
 
         $savedUser = $registrationHandler->handle($user);
 
         $dispatcher->dispatch(new UserCreatedEvent($savedUser));
 
-        return new Response('', 201);
+        return new Response('', Response::HTTP_CREATED);
     }
 
     /**

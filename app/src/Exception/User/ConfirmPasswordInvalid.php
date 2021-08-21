@@ -8,11 +8,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
-class PasswordInvalid extends HttpException implements ApiExceptionInterface
+class ConfirmPasswordInvalid extends HttpException implements ApiExceptionInterface
 {
-    protected const ERROR_CODE  = 1003;
+    protected const ERROR_CODE  = 1005;
     protected const STATUS_CODE = Response::HTTP_FORBIDDEN;
-    protected const MESSAGE     = 'error.user.password.invalid';
+    protected const MESSAGE     = 'error.user.password.confirm';
 
     public function __construct(Throwable $previous = null, array $headers = [])
     {

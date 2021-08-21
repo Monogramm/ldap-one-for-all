@@ -58,12 +58,13 @@ export default {
   computed: {
     codeMessage() {
       return {
-        [this.error.message]: this.error.status !== null
+        [this.error.message]: this.error.status !== null,
+        [this.$t("common.error.required-field-empty")]: !!!this.code,
       };
     },
     messageType() {
       return {
-        "is-danger": this.error.status !== null
+        "is-danger": this.error.status !== null || !!!this.code
       };
     }
   },
