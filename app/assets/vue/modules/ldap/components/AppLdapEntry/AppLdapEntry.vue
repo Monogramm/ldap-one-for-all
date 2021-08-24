@@ -45,23 +45,27 @@
                     :key="`divInputValue${indexValue}`"
                     class="mb-1"
                   >
-                    <template>
-                      <b-button
-                        v-if="!!value && value.length > shortenSize"
-                        size="is-small"
-                        :icon-left="!!attributesHiddenState[key] ? 'eye-slash' : 'eye'"
-                        class="is-cursor-pointer"
-                        @click="displayValueHidden(key)"
-                      >
-                        Show
-                      </b-button>
-                      <span
-                        :key="`spanEntryValue:${value}`"
-                        class="column is-full is-centered p-0 has-text-centered break-word"
-                      >
-                        {{ value | shorten(attributesHiddenState[key] ? shortenSize : -1) }}
-                      </span>
-                    </template>
+                    <div class="columns mb-0 is-mobile">
+                      <div class="column is-9">
+                        <span
+                          :key="`spanEntryValue:${value}`"
+                          class="column is-full is-centered p-0 has-text-centered break-word"
+                        >
+                          {{ value | shorten(attributesHiddenState[key] ? shortenSize : -1) }}
+                        </span>
+                      </div>
+                      <div class="column is-3 p-0 is-flex is-justify-content-center">
+                        <b-button
+                          v-if="!!value && value.length > shortenSize"
+                          size="is-small"
+                          :icon-left="!!attributesHiddenState[key] ? 'eye-slash' : 'eye'"
+                          class="is-cursor-pointer"
+                          @click="displayValueHidden(key)"
+                        >
+                          {{ $t("common.view") }}
+                        </b-button>
+                      </div>
+                    </div>
                   </div>
                 </template>
               </div>
@@ -78,6 +82,10 @@
 import { truncate } from "../../../../common/helpers";
 import { ILdapAttributes, ILdapEntry } from "../../interfaces/entry";
 
+interface ILdapAttributesHiddenState {
+  [attribute: string]: boolean;
+}
+
 export default {
   name: "AppLdapEntry",
   filters: {
@@ -93,9 +101,9 @@ export default {
   },
   data() {
     return {
-      shortenSize: 20,
+      shortenSize: 15,
       attributes: null as ILdapAttributes,
-      attributesHiddenState: {} as ILdapAttributes,
+      attributesHiddenState: {} as ILdapAttributesHiddenState,
     };
   },
   async created() {
