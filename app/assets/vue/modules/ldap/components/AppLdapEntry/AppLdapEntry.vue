@@ -46,13 +46,20 @@
                     class="mb-1"
                   >
                     <template>
+                      <b-button
+                        v-if="!!value && value.length > shortenSize"
+                        size="is-small"
+                        :icon-left="!!attributesHiddenState[key] ? 'eye-slash' : 'eye'"
+                        class="is-cursor-pointer"
+                        @click="displayValueHidden(key)"
+                      >
+                        Show
+                      </b-button>
                       <span
                         :key="`spanEntryValue:${value}`"
                         class="column is-full is-centered p-0 has-text-centered break-word"
-                        :class="{'hidden-overflow': attributesHiddenState[key]}"
-                        @click="displayValueHidden(key)"
                       >
-                        {{ value }}
+                        {{ value | shorten(attributesHiddenState[key] ? shortenSize : -1) }}
                       </span>
                     </template>
                   </div>
@@ -68,10 +75,16 @@
 
 
 <script lang="ts">
+import { truncate } from "../../../../common/helpers";
 import { ILdapAttributes, ILdapEntry } from "../../interfaces/entry";
 
 export default {
   name: "AppLdapEntry",
+  filters: {
+    shorten(value: string | null, length: number = 20) {
+      return length > 0 ? truncate(value, length) : value;
+    },
+  },
   props: {
     dn: {
       type: String,
@@ -80,6 +93,7 @@ export default {
   },
   data() {
     return {
+      shortenSize: 20,
       attributes: null as ILdapAttributes,
       attributesHiddenState: {} as ILdapAttributes,
     };
@@ -89,10 +103,10 @@ export default {
       await this.$store
         .dispatch("ldapEntry/get", this.dn)
         .then((result: ILdapEntry) => {
-          this.attributes = result.attributes;
-          Object.keys(this.attributes).forEach(key => {
+          Object.keys(result.attributes).forEach(key => {
             this.$set(this.attributesHiddenState, key, true);
           });
+          this.attributes = result.attributes;
         })
     } else {
       this.attributes = null;
@@ -135,15 +149,11 @@ export default {
   border-bottom: 1px solid $grey-darker;
 }
 
-.break-word {
+.icon.is-cursor-pointer {
   cursor: pointer;
-  word-wrap: break-word;
 }
 
-.hidden-overflow {
-  cursor: pointer;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.break-word {
+  word-wrap: break-word;
 }
 </style>
