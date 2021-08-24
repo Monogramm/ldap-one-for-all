@@ -274,4 +274,43 @@ class LdapController extends AbstractController
 
         return new JsonResponse($json, Response::HTTP_OK);
     }
+
+    /**
+     * @Route("/api/ldap/{fullDN}", name="patch_ldap_user", methods={"PATCH"})
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     *
+     * @return JsonResponse
+     */
+    public function patchLdapUser(
+        string $fullDN,
+        Client $ldap,
+        Request $request,
+        SerializerInterface $serializer,
+        TranslatorInterface $translator
+    ): JsonResponse {
+        $query = $request->get('query', '(objectClass=*)');
+
+        try {
+            $dto = $serializer->deserialize(
+                $request->getContent(),
+                LdapEntryDTO::class,
+                'json'
+            );
+        } catch (NotEncodableValueException $exception) {
+            return new JsonResponse($translator->trans('error.ldap.deserialize'), 400);
+        }
+
+        $entry = $dto->toEntry();
+        try {
+            $ldap->bind();
+            $ldap->update($fullDN, $query, $entry->getAttributes(), false);
+        } catch (LdapException $exception) {
+            return new JsonResponse($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        $returnDto = LdapEntryDTO::fromEntry($entry);
+        $json = $serializer->serialize($returnDto, 'json');
+
+        return new JsonResponse($json, Response::HTTP_OK);
+    }
 }
