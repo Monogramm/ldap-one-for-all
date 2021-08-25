@@ -367,7 +367,9 @@ if [ -n "${DATABASE_URL}" ]; then
         log "Generating default admin account..."
 
         php bin/console 'app:users:create' \
+            --role=USER \
             --role=ADMIN \
+            --role=SUPER_ADMIN \
             --verified \
             "${SF_ADMIN_LOGIN}" \
             "${SF_ADMIN_EMAIL}" \
