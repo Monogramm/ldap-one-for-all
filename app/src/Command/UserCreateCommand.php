@@ -37,8 +37,8 @@ class UserCreateCommand extends Command
         UserPasswordEncoderInterface $passwordEncoder,
         UserRepository $userRepository
     ) {
-        $this->emi = $emi;
         $this->userRepository = $userRepository;
+        $this->emi = $emi;
         $this->passwordEncoder = $passwordEncoder;
 
         parent::__construct(self::$defaultName);
@@ -71,9 +71,9 @@ class UserCreateCommand extends Command
             ->addOption(
                 'role',
                 null,
-                InputOption::VALUE_REQUIRED,
-                'User role. Can be USER or ADMIN',
-                'USER'
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                'User role. Can be USER, ADMIN or SUPER_ADMIN',
+                ['USER']
             )
             ->addOption(
                 'verified',
@@ -81,7 +81,6 @@ class UserCreateCommand extends Command
                 InputOption::VALUE_NONE,
                 'Verify user account'
             )
-
         ;
     }
 
@@ -108,7 +107,12 @@ class UserCreateCommand extends Command
         }
 
         // Creating user
-        $role = strtoupper($input->getOption('role'));
+        $roles = $input->getOption('role');
+        $userRoles = [];
+        foreach ($roles as $role) {
+            $userRoles[] = 'ROLE_' . strtoupper($role);
+        }
+
         $isVerified = $input->getOption('verified');
 
         $user = new User();
@@ -118,7 +122,7 @@ class UserCreateCommand extends Command
                     ->encodePassword($user, $password)
             )
             ->setEmail($email)
-            ->setRoles(['ROLE_' . $role]);
+            ->setRoles($userRoles);
 
         if ($isVerified) {
             $user->verify();

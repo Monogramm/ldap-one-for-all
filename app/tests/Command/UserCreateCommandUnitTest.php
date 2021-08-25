@@ -67,7 +67,7 @@ class UserCreateCommandUnitTest extends KernelTestCase
             'username' => $username,
             'email' => $email,
             'password' => $password,
-            '--role' => 'ADMIN',
+            '--role' => ['ADMIN'],
             '--verified' => true
         ]);
 
@@ -128,7 +128,7 @@ class UserCreateCommandUnitTest extends KernelTestCase
             'username' => $username,
             'email' => $email,
             'password' => $password,
-            '--role' => 'ADMIN',
+            '--role' => ['ADMIN'],
             '--verified' => true
         ]);
 
@@ -194,7 +194,7 @@ class UserCreateCommandUnitTest extends KernelTestCase
             'username' => $username,
             'email' => $email,
             'password' => $password,
-            '--role' => 'ADMIN',
+            '--role' => ['ADMIN'],
             '--verified' => true
         ]);
 
