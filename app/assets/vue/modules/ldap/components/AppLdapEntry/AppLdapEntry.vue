@@ -141,12 +141,8 @@ export default {
 
       return title;
     },
-    displayShowButton(key: string): boolean {
-      if (key.length > this.shortenSize) {
-        return true;
-      } else {
-        return false;
-      }
+    displayShowButton(value: string): boolean {
+      return value.length > this.shortenSize;
     },
     displayValueHidden(key: string): void {
       this.attributesHiddenState[key] = !this.attributesHiddenState[key]; 
