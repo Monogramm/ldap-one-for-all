@@ -245,4 +245,44 @@ class LdapControllerTest extends AuthenticatedWebTestCase
             $this->client->getResponse()->getStatusCode()
         );
     }
+
+    /**
+     * Function test editCurrentLdapUser retrieve the connected user info
+     */
+    // public function testEditCurrentLdapUser()
+    // {
+    //     $contentUrl = '{
+    //         "dn":"cn=Hermes Conrad,ou=people,dc=planetexpress,dc=com",
+    //         "attributes":{
+    //             "objectClass": ["inetOrgPerson"],
+    //             "description": ["Decapodian"]
+    //         }
+    //     }';
+
+    //     //TODO Mock getUser & getMeta
+
+    //     $this->client->request('PUT', "/api/ldap", [], [], [], $contentUrl);
+    //     $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+    //     $responseContent = json_decode($this->client->getResponse()->getContent());
+    //     $this->assertNotEmpty($responseContent);
+    // }
+
+    /**
+     * Function test patchLdapEntry modify one or more attribute
+     */
+    public function testPatchLdapEntry()
+    {
+        $contentUrl = '{
+            "dn":"cn=Hermes Conrad,ou=people,dc=planetexpress,dc=com",
+            "attributes":{
+                "objectClass": ["inetOrgPerson"],
+                "description": ["Decapodian"]
+            }
+        }';
+
+        $this->client->request('PATCH', "/api/ldap/$this->fullDn", [], [], [], $contentUrl);
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $responseContent = json_decode($this->client->getResponse()->getContent());
+        $this->assertNotEmpty($responseContent);
+    }
 }
