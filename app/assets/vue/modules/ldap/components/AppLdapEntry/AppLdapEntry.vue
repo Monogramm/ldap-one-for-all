@@ -40,32 +40,30 @@
               </div>
 
               <div class="column is-7">
+                <div
+                  class="column p-0 mb-1 is-flex is-justify-content-center"
+                >
+                  <b-button
+                    v-if="attribute.some(displayShowButton)"
+                    size="is-small"
+                    :icon-left="!!attributesHiddenState[key] ? 'eye-slash' : 'eye'"
+                    class="is-cursor-pointer"
+                    @click="displayValueHidden(key)"
+                  >
+                    {{ $t("common.view") }}
+                  </b-button>
+                </div>
                 <template v-for="(value, indexValue) in attribute">
                   <div
-                    :key="`divInputValue${indexValue}`"
+                    :key="`divValue${indexValue}`"
                     class="mb-1"
                   >
-                    <div class="columns mb-0 is-mobile">
-                      <div class="column is-9">
-                        <span
-                          :key="`spanEntryValue:${value}`"
-                          class="column is-full is-centered p-0 has-text-centered break-word"
-                        >
-                          {{ value | shorten(attributesHiddenState[key] ? shortenSize : -1) }}
-                        </span>
-                      </div>
-                      <div class="column is-3 p-0 is-flex is-justify-content-center">
-                        <b-button
-                          v-if="!!value && value.length > shortenSize"
-                          size="is-small"
-                          :icon-left="!!attributesHiddenState[key] ? 'eye-slash' : 'eye'"
-                          class="is-cursor-pointer"
-                          @click="displayValueHidden(key)"
-                        >
-                          {{ $t("common.view") }}
-                        </b-button>
-                      </div>
-                    </div>
+                    <span
+                      :key="`spanEntryValue:${value}`"
+                      class="column is-full is-centered p-0 has-text-centered break-word"
+                    >
+                      {{ value | shorten(attributesHiddenState[key] ? shortenSize : -1) }}
+                    </span>
                   </div>
                 </template>
               </div>
@@ -101,7 +99,7 @@ export default {
   },
   data() {
     return {
-      shortenSize: 15,
+      shortenSize: 26,
       attributes: null as ILdapAttributes,
       attributesHiddenState: {} as ILdapAttributesHiddenState,
     };
@@ -142,6 +140,13 @@ export default {
       }
 
       return title;
+    },
+    displayShowButton(key: string): boolean {
+      if (key.length > this.shortenSize) {
+        return true;
+      } else {
+        return false;
+      }
     },
     displayValueHidden(key: string): void {
       this.attributesHiddenState[key] = !this.attributesHiddenState[key]; 
