@@ -276,13 +276,13 @@ class LdapController extends AbstractController
     }
 
     /**
-     * @Route("/api/ldap/{fullDN}", name="patch_ldap_user", methods={"PATCH"})
+     * @Route("/api/ldap/{fullDN}", name="patch_ldap_entry", methods={"PATCH"})
      *
      * @SuppressWarnings(PHPMD.StaticAccess)
      *
      * @return JsonResponse
      */
-    public function patchLdapUser(
+    public function patchLdapEntry(
         string $fullDN,
         Client $ldap,
         Request $request,
@@ -298,13 +298,13 @@ class LdapController extends AbstractController
                 'json'
             );
         } catch (NotEncodableValueException $exception) {
-            return new JsonResponse($translator->trans('error.ldap.deserialize'), 400);
+            return new JsonResponse($translator->trans('error.ldap.deserialize'), Response::HTTP_NOT_FOUND);
         }
 
         $entry = $dto->toEntry();
         try {
             $ldap->bind();
-            $ldap->update($fullDN, $query, $entry->getAttributes(), false);
+            $ldap->patch($fullDN, $query, $entry->getAttributes());
         } catch (LdapException $exception) {
             return new JsonResponse($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
