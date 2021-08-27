@@ -113,7 +113,7 @@ export default {
             this.$set(this.attributesHiddenState, key, true);
           });
           this.attributes = result.attributes;
-        })
+        });
     } else {
       this.attributes = null;
     }
