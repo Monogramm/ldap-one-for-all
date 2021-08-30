@@ -21,11 +21,11 @@ export class LdapEntryAPI extends ReadWriteApi<ILdapEntry> {
   }
 
   /**
-   * Patch an existing entity.
+   * Patch an existing LDAP entry.
    * 
-   * @param entityId Entitiy identification.
+   * @param entityId LDAP Entry identification.
    */
-  patch(entityId: string, entity: ILdapEntry) {
-    return axios.patch<ILdapEntry>(`${this.base}/${this.rwPrefix}/${entityId}`, entity);
+  patch(entityId: string, entry: ILdapEntry) {
+    return axios.patch<ILdapEntry>(`${this.base}/${this.rwPrefix}/${entityId}`, entry);
   }
 };
