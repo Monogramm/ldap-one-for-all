@@ -258,7 +258,7 @@ class LdapControllerTest extends AuthenticatedWebTestCase
             }
         }';
 
-        $this->client->request('PATCH', "/api/ldap/$this->fullDn", [], [], [], $contentUrl);
+        $this->client->request('PATCH', "/api/admin/ldap/$this->fullDn", [], [], [], $contentUrl);
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $responseContent = json_decode($this->client->getResponse()->getContent());
         $this->assertNotEmpty($responseContent);
