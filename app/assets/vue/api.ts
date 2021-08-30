@@ -112,7 +112,7 @@ export abstract class ReadWriteApi<T> extends ReadApi<T> {
   /**
    * Update an existing entity.
    *
-   * @param entityId Entitiy identification.
+   * @param entityId Entity identification.
    * @param entity Entity data.
    */
   update(entityId: string, entity: T) {
@@ -122,7 +122,7 @@ export abstract class ReadWriteApi<T> extends ReadApi<T> {
   /**
    * Delete an existing entity.
    * 
-   * @param entityId Entitiy identification.
+   * @param entityId Entity identification.
    */
   delete(entityId: string) {
     return axios.delete<void>(`${this.base}/${this.rwPrefix}/${entityId}`);
