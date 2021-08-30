@@ -44,11 +44,11 @@
                   class="column p-0 mb-1 is-flex is-justify-content-center"
                 >
                   <b-button
-                    v-if="attribute.some(displayShowButton)"
+                    v-if="attribute.some(isShowButtonDisplayed)"
                     size="is-small"
-                    :icon-left="!!attributesHiddenState[key] ? 'eye-slash' : 'eye'"
+                    :icon-left="isValueFullDisplayed(key) ? 'eye-slash' : 'eye'"
                     class="is-cursor-pointer"
-                    @click="displayValueHidden(key)"
+                    @click="toggleValueFullDisplay(key)"
                   >
                     {{ $t("common.view") }}
                   </b-button>
@@ -62,7 +62,7 @@
                       :key="`spanEntryValue:${value}`"
                       class="column is-full is-centered p-0 has-text-centered break-word"
                     >
-                      {{ value | shorten(attributesHiddenState[key] ? shortenSize : -1) }}
+                      {{ value | shorten(isValueFullDisplayed(key) ? shortenSize : -1) }}
                     </span>
                   </div>
                 </template>
@@ -141,10 +141,13 @@ export default {
 
       return title;
     },
-    displayShowButton(value: string): boolean {
+    isShowButtonDisplayed(value: string): boolean {
       return value.length > this.shortenSize;
     },
-    displayValueHidden(key: string): void {
+    isValueFullDisplayed(key: string): boolean {
+      return this.attributesHiddenState[key] ?? false;
+    },
+    toggleValueFullDisplay(key: string): void {
       this.attributesHiddenState[key] = !this.attributesHiddenState[key]; 
     },
   }
