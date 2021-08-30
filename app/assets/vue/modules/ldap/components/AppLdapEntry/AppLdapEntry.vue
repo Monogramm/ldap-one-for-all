@@ -25,7 +25,7 @@
               :key="`divElemente:${key}`"
               class="columns ml-4 bb-1"
             >
-              <div class="column is-6">
+              <div class="column is-5">
                 <div class="columns mb-0 is-mobile is-centered">
                   <div class="column is-7 has-text-centered">
                     <span
@@ -39,20 +39,31 @@
                 </div>
               </div>
 
-              <div class="column mt-0 mb-2 pt-0">
+              <div class="column is-7">
+                <div
+                  class="column p-0 mb-1 is-flex is-justify-content-center"
+                >
+                  <b-button
+                    v-if="attribute.some(isShowButtonDisplayed)"
+                    size="is-small"
+                    :icon-left="isValueFullDisplayed(key) ? 'eye-slash' : 'eye'"
+                    class="is-cursor-pointer"
+                    @click="toggleValueFullDisplay(key)"
+                  >
+                    {{ $t("common.view") }}
+                  </b-button>
+                </div>
                 <template v-for="(value, indexValue) in attribute">
                   <div
-                    :key="`divInputValue${indexValue}`"
-                    class="is-flex is-justify-content-center mb-1"
+                    :key="`divValue${indexValue}`"
+                    class="mb-1"
                   >
-                    <template>
-                      <span
-                        :key="`spanEntryValue:${value}`"
-                        class="is-centered"
-                      >
-                        {{ value }}
-                      </span>
-                    </template>
+                    <span
+                      :key="`spanEntryValue:${value}`"
+                      class="column is-full is-centered p-0 has-text-centered break-word"
+                    >
+                      {{ value | shorten(isValueFullDisplayed(key) ? shortenSize : -1) }}
+                    </span>
                   </div>
                 </template>
               </div>
@@ -66,10 +77,20 @@
 
 
 <script lang="ts">
+import { truncate } from "../../../../common/helpers";
 import { ILdapAttributes, ILdapEntry } from "../../interfaces/entry";
+
+interface ILdapAttributesHiddenState {
+  [attribute: string]: boolean;
+}
 
 export default {
   name: "AppLdapEntry",
+  filters: {
+    shorten(value: string | null, length: number = 20) {
+      return length > 0 ? truncate(value, length) : value;
+    },
+  },
   props: {
     dn: {
       type: String,
@@ -78,7 +99,9 @@ export default {
   },
   data() {
     return {
-      attributes: null as ILdapAttributes
+      shortenSize: 26,
+      attributes: null as ILdapAttributes,
+      attributesHiddenState: {} as ILdapAttributesHiddenState,
     };
   },
   async created() {
@@ -86,6 +109,9 @@ export default {
       await this.$store
         .dispatch("ldapEntry/get", this.dn)
         .then((result: ILdapEntry) => {
+          Object.keys(result.attributes).forEach(key => {
+            this.$set(this.attributesHiddenState, key, true);
+          });
           this.attributes = result.attributes;
         });
     } else {
@@ -115,6 +141,15 @@ export default {
 
       return title;
     },
+    isShowButtonDisplayed(value: string): boolean {
+      return value.length > this.shortenSize;
+    },
+    isValueFullDisplayed(key: string): boolean {
+      return this.attributesHiddenState[key] ?? false;
+    },
+    toggleValueFullDisplay(key: string): void {
+      this.attributesHiddenState[key] = !this.attributesHiddenState[key]; 
+    },
   }
 };
 </script>
@@ -124,5 +159,13 @@ export default {
 
 .bb-1 {
   border-bottom: 1px solid $grey-darker;
+}
+
+.icon.is-cursor-pointer {
+  cursor: pointer;
+}
+
+.break-word {
+  word-wrap: break-word;
 }
 </style>
