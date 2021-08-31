@@ -157,10 +157,10 @@ export default {
   },
   data() {
     return {
-      fullDn: null as string,
       edit: false as boolean,
       entry: null as LdapEntry | null,
       source: null as String,
+      fullDn: null as String,
       isFullPage: true,
     };
   },
