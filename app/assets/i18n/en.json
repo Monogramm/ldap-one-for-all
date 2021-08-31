@@ -76,8 +76,14 @@
     "error": {
       "required-field-emmpty": "Please fill out this field",
       "field-not-valid": "Please match the requested format: {format}",
+      "upload-failure": "Error occurred on file upload! {error}",
       "already-exists": "Already exists",
-      "upload-failure": "Error occurred on file upload! {error}"
+      "invalid-request": "Invalid request",
+      "forbidden-request": "Forbiden request",
+      "bad-request": "Bad request"
+    },
+    "fatal": {
+      "unexpected": "An unexpected error occurred. Try again in a few moments or contact support."
     },
     "send": "Send",
     "user": "User",
@@ -194,7 +200,7 @@
     "password-change": "Change password",
     "account-delete": {
       "label": "Delete account",
-      "confirm": "Are you sure you want to definitely delete your account?"
+      "confirm": "Are you sure you want to close your account?"
     },
     "verification": {
       "title": "Account verification",

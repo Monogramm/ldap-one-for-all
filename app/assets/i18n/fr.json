@@ -76,8 +76,14 @@
     "error": {
       "required-field-emmpty": "Veuillez renseigner ce champ",
       "field-not-valid": "Veuillez respecter le format demandé : {format}",
+      "upload-failure": "Une erreur s'est produite lors du téléchargement du fichier ! {error}",
       "already-exists": "Existe déjà",
-      "upload-failure": "Une erreur s'est produite lors du téléchargement du fichier ! {error}"
+      "invalid-request": "Requête non valide",
+      "forbidden-request": "Requête interdite",
+      "ad-request": "Mauvaise requête"
+    },
+    "fatal": {
+      "unexpected": "Une erreur innatendue c'est produite. Reéssayez dans quelques instants ou contactez le support."
     },
     "send": "Envoyer",
     "user": "Utilisateur",
@@ -194,7 +200,7 @@
     "password-change": "Changer votre mot de passe",
     "account-delete": {
       "label": "Supprimer le compte",
-      "confirm": "Voulez-vous vraiment supprimer définitivement votre compte?"
+      "confirm": "Voulez-vous vraiment fermer votre compte ?"
     },
     "verification": {
       "title": "Сode de vérification",
