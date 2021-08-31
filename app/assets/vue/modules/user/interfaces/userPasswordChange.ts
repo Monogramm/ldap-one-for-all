@@ -23,7 +23,7 @@ export class UserPasswordChange implements IUserPasswordChange {
 
   isValid(): boolean {
     return (
-      !!this.oldPassword &&
+      this.oldPassword !== "" &&
       !!this.newPassword &&
       !!this.confirmPassword &&
       this.newPassword === this.confirmPassword
