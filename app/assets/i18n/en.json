@@ -75,6 +75,7 @@
     },
     "error": {
       "required-field-emmpty": "Please fill out this field",
+      "empty-field": "One of the fields was not filled in",
       "field-not-valid": "Please match the requested format: {format}",
       "upload-failure": "Error occurred on file upload! {error}",
       "already-exists": "Already exists",

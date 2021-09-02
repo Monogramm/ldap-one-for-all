@@ -88,12 +88,32 @@ export default {
           }
         })
     },
+    verifyLdapEntry(ldapEntry: ILdapEntry) {
+      let emptyValue = false;
+      Object.values(ldapEntry.attributes).forEach(values => {
+        if(values.includes(''))
+        {
+          this.$buefy.snackbar.open(
+            {
+              message: this.$t('common.error.empty-field'),
+              type: "is-danger",
+              indefinite: true,
+            }
+          );
+          emptyValue = true;
+        }
+      });
+      return emptyValue;
+    },
     onSubmit() {
-      if (this.isEdit) {
-        return this.editLdapEntry(this.dn, this.entry);
-      }
+      if(!this.verifyLdapEntry(this.entry))
+      {
+        if (this.isEdit) {
+          return this.editLdapEntry(this.dn, this.entry);
+        }
 
-      return this.createLdapEntry(this.entry);
+        return this.createLdapEntry(this.entry);
+      }
     },
     handleError(error: AxiosError<string | number>) {
       this.$buefy.snackbar.open(

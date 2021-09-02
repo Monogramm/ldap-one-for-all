@@ -75,6 +75,7 @@
     },
     "error": {
       "required-field-emmpty": "Veuillez renseigner ce champ",
+      "empty-field": "L'un des champs n'a pas été rempli",
       "field-not-valid": "Veuillez respecter le format demandé : {format}",
       "upload-failure": "Une erreur s'est produite lors du téléchargement du fichier ! {error}",
       "already-exists": "Existe déjà",
