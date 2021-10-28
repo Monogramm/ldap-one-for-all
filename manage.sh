@@ -48,6 +48,16 @@ lc-jwt-keys() {
     fi
 }
 
+lc-clear() {
+    # Clear any local deps
+    rm -rf \
+        app/node_modules/ \
+        app/var/ \
+        app/vendor/ \
+        app/config/jwt/private.pem \
+        app/config/jwt/public.pem
+}
+
 lc-build() {
     # Backend install
     log "Backend install..."
@@ -431,6 +441,7 @@ usage() {
     Commands:
       local
         local:check, check-local                Check Local env requirements and security
+        local:clear, clear-local                Clear Local env
         local:build, build-local                Build Local env
         local:start, start-local                Start Local env (backend in background)
         local:start-front, start-local-front    Start Local env frontend
@@ -493,6 +504,7 @@ usage() {
 case "${1}" in
     # Local env
     local:check|check-local) lc-check;;
+    local:clear|clear-local) lc-clear;;
     local:build|build-local) lc-build;;
     local:start|start-local) lc-start;;
     local:start-front|start-local-front) lc-start-front "${@:2}";;
