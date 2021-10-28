@@ -36,9 +36,15 @@ class Health implements JsonSerializable
         self::UNKNOWN,
     ];
 
-    private string $status;
+    /**
+     * @var string
+     */
+    private $status;
 
-    private array $details;
+    /**
+     * @var array
+     */
+    private $details;
 
     public function __construct(string $status, ?array $details = [])
     {
@@ -73,7 +79,7 @@ class Health implements JsonSerializable
      *
      * @return static Health instance
      */
-    public function withException(\Throwable $th): self
+    public function withException(?\Throwable $th): self
     {
         if ($th === null) {
             return $this;
@@ -122,9 +128,9 @@ class Health implements JsonSerializable
      *
      * @return static Health instance
      */
-    public function down(\Throwable $th = null): self
+    public function down(?\Throwable $th = null): self
     {
-        return $this->down()->withException($th);
+        return $this->setStatus(self::DOWN)->withException($th);
     }
 
     /**
