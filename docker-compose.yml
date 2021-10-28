@@ -22,7 +22,7 @@ services:
     container_name: app_dev_symfony
     #restart: always
     healthcheck:
-      test: CMD curl -v --silent http://localhost:8000/health 2>&1 | grep UP
+      test: CMD curl -v --silent "http://localhost:8000/health" 2>&1 | grep UP
       interval: 1m30s
       timeout: 10s
       retries: 3
@@ -30,9 +30,14 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - app_dev_db
-      - app_dev_rabbitmq
-      - app_dev_mailer
+      app_dev_db:
+        condition: service_healthy
+      app_dev_rabbitmq:
+        condition: service_started
+      app_dev_mailer:
+        condition: service_started
+      app_dev_ldap:
+        condition: service_started
     networks:
       default:
       app_dev_external_network:
@@ -45,8 +50,9 @@ services:
       # Mount local PHP conf files
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
       - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      # If you want, you can sync time & timezone with host
+      #- /etc/localtime:/etc/localtime:ro
+      #- /etc/timezone:/etc/timezone:ro
     environment:
       - SF_PROD=false
       - APP_ENV=dev
@@ -138,6 +144,9 @@ services:
     command: php bin/console messenger:consume async -vv --limit=3 --memory-limit=128M --time-limit=7200
     restart: unless-stopped
     scale: 2
+    # Compose v3
+    # deploy:
+    #   replicas: 2
     depends_on:
       app_dev_symfony:
         condition: service_started
@@ -156,8 +165,9 @@ services:
       # Mount local PHP conf files
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
       - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      # If you want, you can sync time & timezone with host
+      #- /etc/localtime:/etc/localtime:ro
+      #- /etc/timezone:/etc/timezone:ro
     environment:
       - SF_PROD=false
       - APP_ENV=dev
@@ -241,9 +251,9 @@ services:
     volumes:
       # For DEV, mount local sources
       - ./app:/var/www/html
-      # Mount local PHP conf files
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      # If you want, you can sync time & timezone with host
+      #- /etc/localtime:/etc/localtime:ro
+      #- /etc/timezone:/etc/timezone:ro
     environment:
       - SF_PROD=false
       - APP_ENV=dev
@@ -279,9 +289,9 @@ services:
     volumes:
       # For DEV, mount local sources
       - ./app:/var/www/html
-      # Mount local PHP conf files
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      # If you want, you can sync time & timezone with host
+      #- /etc/localtime:/etc/localtime:ro
+      #- /etc/timezone:/etc/timezone:ro
 
   app_dev_db:
     image: postgres:${APP_DB_VERSION}-alpine
@@ -306,8 +316,9 @@ services:
       - POSTGRES_PASSWORD=${APP_DB_PASSWD}
     volumes:
       - ${APP_HOME}_dev/db/data/:/var/lib/postgresql/data
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      # If you want, you can sync time & timezone with host
+      #- /etc/localtime:/etc/localtime:ro
+      #- /etc/timezone:/etc/timezone:ro
 
   app_dev_pghero:
     image: ankane/pghero:v2.8.1
@@ -332,9 +343,10 @@ services:
       - DATABASE_URL=postgres://${APP_DB_USER}:${APP_DB_PASSWD}@database:5432/${APP_DB_NAME}
       - PGHERO_USERNAME=${APP_DB_USER}
       - PGHERO_PASSWORD=${APP_DB_PASSWD}
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+    # If you want, you can sync time & timezone with host
+    #volumes:
+    #  - /etc/localtime:/etc/localtime:ro
+    #  - /etc/timezone:/etc/timezone:ro
 
   app_dev_rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -361,8 +373,9 @@ services:
           - rabbitmq
     volumes:
       - ./docker/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      # If you want, you can sync time & timezone with host
+      #- /etc/localtime:/etc/localtime:ro
+      #- /etc/timezone:/etc/timezone:ro
 
 #  # Uncomment ELK stack for searching through logs
 #  app_dev_elasticsearch:
@@ -542,9 +555,10 @@ services:
       app_dev_internal_network:
         aliases:
           - mailer
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+    # If you want, you can sync time & timezone with host
+    #volumes:
+    #  - /etc/localtime:/etc/localtime:ro
+    #  - /etc/timezone:/etc/timezone:ro
 
   app_dev_ldap:
     image: rroemhild/test-openldap:2.1
@@ -552,12 +566,14 @@ services:
     expose:
       - '10389'
       - '10636'
-    #ports:
-    #  - "10389:10389"
-    #  - "10636:10636"
+    ports:
+      - "10389:10389"
+      - "10636:10636"
     networks:
       app_dev_internal_network:
         aliases:
           - ldap
     #volumes:
     #  - ${APP_HOME}_dev/ldap/:/var/lib/ldap/
+    #  - /etc/localtime:/etc/localtime:ro
+    #  - /etc/timezone:/etc/timezone:ro
