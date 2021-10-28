@@ -13,7 +13,10 @@ use Doctrine\ORM\EntityManagerInterface;
 class DoctrineHealthIndicator extends HealthIndicator
 {
 
-    private EntityManagerInterface $emi;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $emi;
 
     public function __construct(EntityManagerInterface $emi)
     {

@@ -12,9 +12,15 @@ use App\Health\HealthIndicator;
 class DiskSpaceHealthIndicator extends HealthIndicator
 {
 
-    private float $threshold;
+    /**
+     * @var float
+     */
+    private $threshold;
 
-    private string $path;
+    /**
+     * @var string
+     */
+    private $path;
 
     public function __construct(float $threshold = 0, string $path = '/')
     {

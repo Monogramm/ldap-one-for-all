@@ -13,7 +13,11 @@ use Symfony\Component\Ldap\LdapInterface;
 class LdapHealthIndicator extends HealthIndicator
 {
 
-    private LdapInterface $ldap;
+    /**
+     * @var LdapInterface
+     */
+    private $ldap;
+
     /**
      * @var array
      */
@@ -38,10 +42,12 @@ class LdapHealthIndicator extends HealthIndicator
         $entryManager = $this->ldap->getEntryManager();
         if (empty($entryManager) || empty($this->ldapConfig)) {
             $health->down();
+        } elseif (!$this->ldapConfig['enabled']) {
+            $health->outOfService();
         } else {
             $health->up();
         }
- 
+
         if ($includeDetails === true) {
             // TODO If successful (and possible), provide "location" hostname
         }
