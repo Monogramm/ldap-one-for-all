@@ -60,7 +60,8 @@ class HealthcheckController extends AbstractController
      *
      * @return JsonResponse
      */
-    public function health(): JsonResponse {
+    public function health(): JsonResponse
+    {
         $health = new Health(Health::UNKNOWN);
 
         $includeDetails = $this->isGrantedHealthDetails();
@@ -99,7 +100,8 @@ class HealthcheckController extends AbstractController
         return new JsonResponse($health);
     }
 
-    private function isGrantedHealthDetails(): bool {
+    private function isGrantedHealthDetails(): bool
+    {
         // Return detailed info if user has ADMIN role
         return $this->isGranted('ROLE_ADMIN');
     }
