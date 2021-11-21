@@ -67,6 +67,11 @@ class User implements UserInterface
     private $tokens;
 
     /**
+     * @ORM\OneToMany(targetEntity="SecurityAnswer", mappedBy="user", cascade={"REMOVE"})
+     */
+    private $securityAnswers;
+
+    /**
      * @ORM\Column(type="boolean")
      * @Groups("admin")
      */
@@ -91,6 +96,7 @@ class User implements UserInterface
         $this->email = $email;
         $this->enabled = $enabled;
         $this->tokens = new ArrayCollection();
+        $this->securityAnswers = new ArrayCollection();
         $this->isVerified = $verified;
     }
 
@@ -262,6 +268,17 @@ class User implements UserInterface
     {
         $this->tokens->add($token);
         $token->setUser($this);
+    }
+
+    public function getSecurityAnswers()
+    {
+        return $this->securityAnswers;
+    }
+
+    public function addSecurityAnswer(SecurityAnswer $answer): void
+    {
+        $this->securityAnswers->add($answer);
+        $answer->setUser($this);
     }
 
     public function isVerified()
