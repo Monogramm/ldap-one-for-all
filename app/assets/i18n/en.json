@@ -33,9 +33,13 @@
     "buy": "Buy",
     "declare": "Declare",
     "create": "Create",
+    "created": "Creation successful",
+    "created-at": "Created at",
     "edit": "Edit",
     "clone": "Clone",
     "update": "Update",
+    "updated": "Update successful",
+    "updated-at": "Updated at",
     "delete": "Delete",
     "manage": "Manage",
     "view": "View",
@@ -74,7 +78,7 @@
       "info": "Info"
     },
     "error": {
-      "required-field-emmpty": "Please fill out this field",
+      "required-field-empty": "Please fill out this field",
       "field-not-valid": "Please match the requested format: {format}",
       "upload-failure": "Error occurred on file upload! {error}",
       "already-exists": "Already exists",
@@ -173,6 +177,10 @@
     "success": "Password was successfully reset"
   },
   "logout.title": "Logout",
+  "impersonation": {
+    "start": "Impersonate",
+    "stop": "Stop impersonating"
+  },
   "home": {
     "title": "Home",
     "welcome": "Welcome to LDAP One-For-All",
@@ -242,9 +250,13 @@
   "users": {
     "admin": "Users",
     "list": "Users List",
+    "edit": "Edit User",
+    "create": "Create User",
     "username": "Username",
     "email": "Email",
     "language": "Language",
+    "roles": "Roles",
+    "roles-placeholder": "Add a role to user",
     "verified": "Verified",
     "enabled": "Enabled",
     "role": {
@@ -255,8 +267,10 @@
       "user": "User",
       "unknown": "Unknown role"
     },
-    "enable": "Do you confirm to enable the selected user?",
-    "disable": "Do you confirm to disable the selected user?"
+    "enable": "Enable",
+    "enable-message": "Do you confirm to enable the selected user?",
+    "disable": "Disable",
+    "disable-message": "Do you confirm to disable the selected user?"
   },
   "parameters": {
     "admin": "Parameters",

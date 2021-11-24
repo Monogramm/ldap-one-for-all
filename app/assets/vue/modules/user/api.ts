@@ -21,7 +21,7 @@ export class UserAPI extends ReadWriteApi<IUser> {
   }
 
   /**
-   * Get all items paginated.
+   * Get all users paginated.
    *
    * @param page page number.
    * @param size page size.
@@ -30,6 +30,15 @@ export class UserAPI extends ReadWriteApi<IUser> {
     return axios.get<IListResponse<IUser>>(`${this.base}/${this.rwPrefix}`, {
       params: { page: page, size: size, filters: filters, orders: orders },
     });
+  }
+
+  /**
+   * Get a single user.
+   *
+   * @param entityId User ID.
+   */
+  get(userId: string) {
+    return axios.get<IUser>(`${this.base}/${this.rwPrefix}/${userId}`);
   }
 
   // XXX Move to AuthAPI?
@@ -55,6 +64,9 @@ export class UserAPI extends ReadWriteApi<IUser> {
     return axios.post<void>(`${this.base}/${this.roPrefix}/verify/resend`);
   }
 
+  setPassword(userId: string, newPassword: IUserPasswordChange) {
+    return axios.put<void>(`${this.base}/${this.rwPrefix}/${userId}/password`, newPassword);
+  }
   setEnable(userId: string, enabled: boolean) {
     return axios.put<any>(`${this.base}/${this.rwPrefix}/${userId}/set-enable`, enabled);
   }

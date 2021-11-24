@@ -2,8 +2,10 @@
   <div class="app-main">
     <app-top-bar
       :authenticated="isLoggedIn"
+      :impersonator="isImpersonator"
       :signing-out="isLoading"
       @loggedOut="logout"
+      @stopImpersonation="stopImpersonation"
     />
     <app-nav-bar
       :authenticated="isLoggedIn"
@@ -45,7 +47,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("auth", ["isLoggedIn", "isLoading", "isAdmin", "authUser"]),
+    ...mapGetters("auth", ["isLoggedIn", "isLoading", "isAdmin", "isImpersonator", "authUser"]),
   },
   metaInfo: {
     title: "App",
@@ -60,6 +62,11 @@ export default {
     },
     logout() {
       this.$store.dispatch("auth/logout").then(() => {
+        this.$router.push("/");
+      });
+    },
+    stopImpersonation() {
+      this.$store.dispatch("auth/stopImpersonation").then(() => {
         this.$router.push("/");
       });
     },

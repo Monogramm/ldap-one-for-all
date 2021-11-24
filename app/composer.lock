@@ -4,8 +4,73 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3eb3272470e4869c31acc780d07cf4f",
+    "content-hash": "9f605bdee56e957913c42bdc09607d1e",
     "packages": [
+        {
+            "name": "artprima/prometheus-metrics-bundle",
+            "version": "1.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/artprima/prometheus-metrics-bundle.git",
+                "reference": "1ef34e0dca78205932f9688b4d371f65f7b4a9dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/artprima/prometheus-metrics-bundle/zipball/1ef34e0dca78205932f9688b4d371f65f7b4a9dc",
+                "reference": "1ef34e0dca78205932f9688b4d371f65f7b4a9dc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.3|^8.0",
+                "promphp/prometheus_client_php": "^2.2",
+                "symfony/config": "^4.4|^5.1.5",
+                "symfony/dependency-injection": "^4.4|^5.1.5",
+                "symfony/http-kernel": "^4.4|^5.1.5"
+            },
+            "require-dev": {
+                "escapestudios/symfony2-coding-standard": "^3.11",
+                "friendsofphp/php-cs-fixer": "^2.17",
+                "phpunit/phpunit": "^8.0|^9.0",
+                "squizlabs/php_codesniffer": "^3.5",
+                "symfony/browser-kit": "^4.4|^5.0",
+                "symfony/framework-bundle": "^4.4|^5.0",
+                "symfony/yaml": "^4.4|^5.0"
+            },
+            "suggest": {
+                "ext-apcu": "Required if using APCu as prometheus metrics backend",
+                "ext-redis": "Required if using Redis as prometheus metrics backend",
+                "symfony/stopwatch": "Required if you want to measure request duration"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Artprima\\PrometheusMetricsBundle\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Denis Voytyuk",
+                    "email": "ask@artprima.cz"
+                }
+            ],
+            "description": "Symfony 4/5 Prometheus Metrics Bundle",
+            "keywords": [
+                "Metrics",
+                "prometheus",
+                "symfony",
+                "symfony-bundle"
+            ],
+            "support": {
+                "issues": "https://github.com/artprima/prometheus-metrics-bundle/issues",
+                "source": "https://github.com/artprima/prometheus-metrics-bundle/tree/1.12.0"
+            },
+            "time": "2021-06-01T18:06:21+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.9.2",
@@ -3354,6 +3419,73 @@
                 }
             ],
             "time": "2020-12-17T05:42:04+00:00"
+        },
+        {
+            "name": "promphp/prometheus_client_php",
+            "version": "v2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PromPHP/prometheus_client_php.git",
+                "reference": "7c998b3eca48d01930ccaa29d7ca4c0c3c52f045"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PromPHP/prometheus_client_php/zipball/7c998b3eca48d01930ccaa29d7ca4c0c3c52f045",
+                "reference": "7c998b3eca48d01930ccaa29d7ca4c0c3c52f045",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.2|^8.0"
+            },
+            "replace": {
+                "endclothing/prometheus_client_php": "*",
+                "jimdo/prometheus_client_php": "*",
+                "lkaemmerling/prometheus_client_php": "*"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.3|^7.0",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^0.12.50",
+                "phpstan/phpstan-phpunit": "^0.12.16",
+                "phpstan/phpstan-strict-rules": "^0.12.5",
+                "phpunit/phpunit": "^8.4|^9.4",
+                "squizlabs/php_codesniffer": "^3.5",
+                "symfony/polyfill-apcu": "^1.6"
+            },
+            "suggest": {
+                "ext-apc": "Required if using APCu.",
+                "ext-redis": "Required if using Redis.",
+                "promphp/prometheus_push_gateway_php": "An easy client for using Prometheus PushGateway.",
+                "symfony/polyfill-apcu": "Required if you use APCu on PHP8.0+"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Prometheus\\": "src/Prometheus/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Lukas Kämmerling",
+                    "email": "kontakt@lukas-kaemmerling.de"
+                }
+            ],
+            "description": "Prometheus instrumentation library for PHP applications.",
+            "support": {
+                "issues": "https://github.com/PromPHP/prometheus_client_php/issues",
+                "source": "https://github.com/PromPHP/prometheus_client_php/tree/v2.4.0"
+            },
+            "time": "2021-11-05T05:53:43+00:00"
         },
         {
             "name": "psr/cache",

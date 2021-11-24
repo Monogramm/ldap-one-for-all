@@ -18,7 +18,20 @@
     <template slot="end">
       <b-navbar-item tag="div">
         <div
-          v-if="authenticated"
+          v-if="impersonator"
+          class="buttons is-centered"
+        >
+          <b-button
+            type="is-primary"
+            icon-left="stop-circle"
+            :loading="signingOut"
+            @click="stopImpersonation"
+          >
+            <strong>{{ $t("impersonation.stop") }}</strong>
+          </b-button>
+        </div>
+        <div
+          v-else-if="authenticated"
           class="buttons is-centered"
         >
           <b-button
@@ -85,11 +98,20 @@ export default {
       default() {
         return false;
       }
-    }
+    },
+    impersonator: {
+      type: Boolean,
+      default() {
+        return false;
+      }
+    },
   },
   methods: {
     logout() {
       this.$emit("loggedOut");
+    },
+    stopImpersonation() {
+      this.$emit("stopImpersonation");
     },
     selectLanguage(value: string) {
       this.$emit("languageChanged", value);

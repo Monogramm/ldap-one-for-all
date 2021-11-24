@@ -1,0 +1,29 @@
+artprima_prometheus_metrics:
+    # namespace is used to prefix the prometheus metrics
+    namespace: symfony
+
+    # possible values: in_memory, apcu, redis
+    type: apcu
+
+    # ignoring some routes in metrics
+    ignored_routes:
+    - prometheus_bundle_prometheus
+    - _wdt
+    - pwa
+    - ping
+    - health
+
+    # used in case of type = "redis"
+    #redis:
+    #    host: redis
+    #    port: 6379
+    #    timeout: 0.1
+    #    read_timeout: 10
+    #    persistent_connections: false
+    #    password: ~
+
+    # used to disable default application metrics
+    disable_default_metrics: false
+
+    # used to enable console metrics
+    enable_console_metrics: true
