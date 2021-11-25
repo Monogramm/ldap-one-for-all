@@ -5,15 +5,26 @@
     </h1>
 
     <div class="box">
-      <b-button
-        type="is-primary"
-        class="field"
-        icon-left="plus"
-        :title="$t('ldap.entries.create')"
-        @click="onCreate"
-      >
-        {{ $t("common.create") }}
-      </b-button>
+      <div class="buttons">
+        <b-button
+          type="is-primary"
+          class="field"
+          icon-left="plus"
+          :title="$t('ldap.entries.create')"
+          @click="onCreate"
+        >
+          {{ $t("common.create") }}
+        </b-button>
+        <b-button
+          type="is-info"
+          icon-left="redo"
+          class="field"
+          :loading="isLoading"
+          @click="load"
+        >
+          {{ $t("common.refresh") }}
+        </b-button>
+      </div>
 
       <app-ldap-entries
         :is-loading="isLoading"

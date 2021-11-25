@@ -2,7 +2,7 @@
   "name": "ldap-one-for-all",
   "version": "1.1.0",
   "description": "A web based LDAP Manager for everyone.",
-  "license": "proprietary",
+  "license": "AGPL v3",
   "private": true,
   "repository": {
     "type": "git",

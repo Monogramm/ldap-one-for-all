@@ -6,15 +6,29 @@
       </h1>
     </div>
 
-    <app-background-jobs
-      :jobs="items"
-      :is-loading="isLoading"
-      :total="total"
-      :per-page="pagination.size"
-      @pageChanged="onPageChange"
-      @filtersChanged="onFiltersChange"
-      @sortingChanged="onSortingChange"
-    />
+    <div class="box">
+      <div class="buttons">
+        <b-button
+          type="is-info"
+          icon-left="redo"
+          class="field"
+          :loading="isLoading"
+          @click="load"
+        >
+          {{ $t("common.refresh") }}
+        </b-button>
+      </div>
+
+      <app-background-jobs
+        :jobs="items"
+        :is-loading="isLoading"
+        :total="total"
+        :per-page="pagination.size"
+        @pageChanged="onPageChange"
+        @filtersChanged="onFiltersChange"
+        @sortingChanged="onSortingChange"
+      />
+    </div>
   </section>
 </template>
 

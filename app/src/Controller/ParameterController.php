@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Parameter;
+use App\Exception\EntityValidationException;
 use App\Repository\ParameterRepository;
 use App\Service\Encryptor;
 use Doctrine\ORM\EntityManager;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ParameterController extends AbstractController
 {
@@ -91,6 +93,7 @@ class ParameterController extends AbstractController
     public function createParameter(
         Request $request,
         SerializerInterface $serializer,
+        ValidatorInterface $validator,
         EntityManagerInterface $emi,
         Encryptor $encryptor
     ): JsonResponse {
@@ -108,6 +111,12 @@ class ParameterController extends AbstractController
             );
         }
 
+        $errors = $validator->validate($dto);
+
+        if (count($errors) > 0) {
+            throw new EntityValidationException($errors);
+        }
+
         $emi->persist($dto);
         $emi->flush();
 
@@ -123,9 +132,10 @@ class ParameterController extends AbstractController
      */
     public function editParameterById(
         Parameter $parameter,
-        EntityManagerInterface $emi,
         Request $request,
         SerializerInterface $serializer,
+        ValidatorInterface $validator,
+        EntityManagerInterface $emi,
         Encryptor $encryptor
     ): JsonResponse {
         /**
@@ -144,6 +154,12 @@ class ParameterController extends AbstractController
                     $dto->getValue()
                 )
             );
+        }
+
+        $errors = $validator->validate($dto);
+
+        if (count($errors) > 0) {
+            throw new EntityValidationException($errors);
         }
 
         $emi->persist($dto);

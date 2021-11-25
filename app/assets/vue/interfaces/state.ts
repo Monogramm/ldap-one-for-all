@@ -87,9 +87,7 @@ export abstract class AbstractEntityState<T extends Entity> extends AbstractStat
   }
 
   clearError(): void {
-    this.error.code = null;
-    this.error.status = null;
-    this.error.message = null;
+    this.error.clear();
   }
   saveError(error: AxiosError<IError>): void {
     if (error && error.response) {
@@ -103,6 +101,9 @@ export abstract class AbstractEntityState<T extends Entity> extends AbstractStat
         this.error.message = response.data.message;
       } else {
         this.error.message = response.statusText;
+      }
+      if (response.data && response.data.errors) {
+        this.error.errors = response.data.errors;
       }
     } else {
       this.error.status = 417;

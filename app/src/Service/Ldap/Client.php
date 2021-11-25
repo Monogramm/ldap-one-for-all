@@ -144,24 +144,54 @@ class Client
     }
 
     /**
-     * Finding and updating an existing entry.
+     * Finding, resetting and updating an existing entry.
      *
      * @return bool
      *
      * @throws LdapException
      */
-    public function update(string $fullDn, string $query, array $attributes = []) : bool
+    public function update(string $fullDn, string $query, array $attributes = []): bool
     {
-        $entryManager = $this->ldap->getEntryManager();
         $entry = $this->get($query, $fullDn);
 
         if (empty($entry)) {
             return false;
         }
 
+        $this->resetEntry($entry);
+
+        return $this->updateEntry($entry, $attributes);
+    }
+
+    /**
+     * Finding and updating an existing entry.
+     *
+     * @return bool
+     *
+     * @throws LdapException
+     */
+    public function patch(string $fullDn, string $query, array $attributes = []): bool
+    {
+        $entry = $this->get($query, $fullDn);
+
+        if (empty($entry)) {
+            return false;
+        }
+
+        return $this->updateEntry($entry, $attributes);
+    }
+
+    private function resetEntry(Entry $entry): void
+    {
         foreach ($entry->getAttributes() as $key => $value) {
             $entry->setAttribute($key, []);
         }
+    }
+
+    private function updateEntry(Entry $entry, array $attributes = []): bool
+    {
+        $entryManager = $this->ldap->getEntryManager();
+
         foreach ($attributes as $key => $value) {
             $entry->setAttribute($key, $value);
         }

@@ -9,7 +9,9 @@ import VerifyAccount from "./views/VerifyAccount.vue";
 import ResetPassword from "./views/ResetPassword.vue";
 
 import AdminUsers from "./views/admin/Users.vue";
+import AdminUser from "./views/admin/User.vue";
 //const AdminUsers = () => import(/* webpackChunkName: "AdminUsers" */ "./views/admin/Users.vue").then((m: any) => m.default);
+//const AdminUser = () => import(/* webpackChunkName: "AdminUser" */ "./views/admin/User.vue").then((m: any) => m.default);
 
 export const UserRoutes: RouteConfig[] = [
   {
@@ -67,5 +69,15 @@ export const UserRoutes: RouteConfig[] = [
         icon: "users",
       },
     },
+  },
+  {
+    name: "UserEdit",
+    path: "/admin/user/:id",
+    component: AdminUser,
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true,
+    },
+    props: (route) => ({ id: route.params.id }),
   },
 ];

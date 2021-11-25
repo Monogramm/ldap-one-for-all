@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ParameterRepository")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity("name")
  */
 class Parameter
 {
@@ -19,7 +22,8 @@ class Parameter
     public const NUMBER_TYPE = 'number';
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -35,6 +39,7 @@ class Parameter
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank
      */
     private $type;
 

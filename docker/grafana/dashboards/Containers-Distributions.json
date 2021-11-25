@@ -1,0 +1,1031 @@
+{
+    "annotations": {
+        "list": [
+            {
+                "builtIn": 1,
+                "datasource": "-- Grafana --",
+                "enable": true,
+                "hide": true,
+                "iconColor": "rgba(0, 211, 255, 1)",
+                "name": "Annotations & Alerts",
+                "type": "dashboard"
+            }
+        ]
+    },
+    "description": "Monitor containers node exporter ressources distributions over time.",
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 1,
+    "iteration": 1622334771906,
+    "links": [],
+    "panels": [
+        {
+            "collapsed": false,
+            "datasource": null,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "id": 65,
+            "panels": [],
+            "title": "node-exporter_cadvisor",
+            "type": "row"
+        },
+        {
+            "datasource": null,
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "custom": {
+                        "align": null,
+                        "filterable": false
+                    },
+                    "decimals": 1,
+                    "displayName": "",
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "Bps"
+                },
+                "overrides": [
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Metric"
+                        },
+                        "properties": [
+                            {
+                                "id": "displayName",
+                                "value": "Host"
+                            },
+                            {
+                                "id": "unit",
+                                "value": "short"
+                            },
+                            {
+                                "id": "custom.align",
+                                "value": null
+                            }
+                        ]
+                    }
+                ]
+            },
+            "gridPos": {
+                "h": 7,
+                "w": 9,
+                "x": 0,
+                "y": 1
+            },
+            "id": 61,
+            "options": {
+                "showHeader": true
+            },
+            "pluginVersion": "7.5.6",
+            "targets": [
+                {
+                    "expr": "sum by(instance) (rate(node_network_receive_bytes_total{instance=~\"$host\"}[5m]))",
+                    "legendFormat": "{{instance}}",
+                    "refId": "A"
+                },
+                {
+                    "expr": "sum by(name) (rate(container_network_receive_bytes_total{name=~\"$container\"}[1m]))",
+                    "legendFormat": "{{name}}",
+                    "refId": "B"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Network incoming traffic / s",
+            "transformations": [
+                {
+                    "id": "reduce",
+                    "options": {
+                        "includeTimeField": false,
+                        "reducers": [
+                            "min",
+                            "max",
+                            "mean",
+                            "last"
+                        ]
+                    }
+                }
+            ],
+            "type": "table"
+        },
+        {
+            "aliasColors": {},
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": null,
+            "decimals": null,
+            "editable": true,
+            "error": false,
+            "fieldConfig": {
+                "defaults": {
+                    "links": []
+                },
+                "overrides": []
+            },
+            "fill": 0,
+            "fillGradient": 0,
+            "grid": {},
+            "gridPos": {
+                "h": 7,
+                "w": 15,
+                "x": 9,
+                "y": 1
+            },
+            "height": "",
+            "hiddenSeries": false,
+            "id": 58,
+            "legend": {
+                "alignAsTable": true,
+                "avg": true,
+                "current": false,
+                "hideEmpty": true,
+                "hideZero": true,
+                "max": true,
+                "min": true,
+                "rightSide": true,
+                "show": false,
+                "sort": "max",
+                "sortDesc": true,
+                "total": false,
+                "values": true
+            },
+            "lines": true,
+            "linewidth": 1,
+            "links": [],
+            "maxPerRow": 3,
+            "nullPointMode": "null",
+            "options": {
+                "alertThreshold": true
+            },
+            "percentage": false,
+            "pluginVersion": "7.5.6",
+            "pointradius": 5,
+            "points": false,
+            "renderer": "flot",
+            "repeatDirection": "h",
+            "seriesOverrides": [],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+                {
+                    "calculatedInterval": "2s",
+                    "datasourceErrors": {},
+                    "errors": {},
+                    "expr": "sum by(instance) (rate(node_network_receive_bytes_total{instance=~\"$host\"}[5m]))",
+                    "format": "time_series",
+                    "interval": "",
+                    "intervalFactor": 1,
+                    "legendFormat": "{{instance}}",
+                    "metric": "",
+                    "refId": "A",
+                    "step": 20
+                },
+                {
+                    "expr": "sum by(name) (rate(container_network_receive_bytes_total{name=~\"$container\"}[1m]))",
+                    "format": "time_series",
+                    "intervalFactor": 1,
+                    "legendFormat": "{{name}}",
+                    "refId": "B"
+                }
+            ],
+            "thresholds": [],
+            "timeFrom": null,
+            "timeRegions": [],
+            "timeShift": null,
+            "title": "Network incoming traffic / s",
+            "tooltip": {
+                "msResolution": false,
+                "shared": true,
+                "sort": 2,
+                "value_type": "individual"
+            },
+            "transparent": true,
+            "type": "graph",
+            "xaxis": {
+                "buckets": null,
+                "mode": "time",
+                "name": null,
+                "show": true,
+                "values": []
+            },
+            "yaxes": [
+                {
+                    "decimals": 1,
+                    "format": "Bps",
+                    "label": "",
+                    "logBase": 1,
+                    "max": null,
+                    "min": null,
+                    "show": true
+                },
+                {
+                    "format": "short",
+                    "logBase": 1,
+                    "max": null,
+                    "min": 0,
+                    "show": false
+                }
+            ],
+            "yaxis": {
+                "align": false,
+                "alignLevel": null
+            }
+        },
+        {
+            "datasource": null,
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "custom": {
+                        "align": null,
+                        "filterable": false
+                    },
+                    "decimals": 1,
+                    "displayName": "",
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "Bps"
+                },
+                "overrides": [
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Metric"
+                        },
+                        "properties": [
+                            {
+                                "id": "displayName",
+                                "value": "Host"
+                            },
+                            {
+                                "id": "unit",
+                                "value": "short"
+                            },
+                            {
+                                "id": "custom.align",
+                                "value": null
+                            }
+                        ]
+                    }
+                ]
+            },
+            "gridPos": {
+                "h": 7,
+                "w": 9,
+                "x": 0,
+                "y": 8
+            },
+            "id": 60,
+            "options": {
+                "showHeader": true
+            },
+            "pluginVersion": "7.5.6",
+            "targets": [
+                {
+                    "expr": "sum by(instance) (rate(node_network_transmit_bytes_total{instance=~\"$host\"}[5m]))",
+                    "legendFormat": "{{instance}}",
+                    "refId": "A"
+                },
+                {
+                    "expr": "sum by(name) (rate(container_network_transmit_bytes_total{name=~\"$container\"}[1m]))",
+                    "legendFormat": "{{name}}",
+                    "refId": "B"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Network outgoing traffic / s",
+            "transformations": [
+                {
+                    "id": "reduce",
+                    "options": {
+                        "includeTimeField": false,
+                        "reducers": [
+                            "min",
+                            "max",
+                            "mean",
+                            "last"
+                        ]
+                    }
+                }
+            ],
+            "type": "table"
+        },
+        {
+            "aliasColors": {},
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": null,
+            "decimals": null,
+            "editable": true,
+            "error": false,
+            "fieldConfig": {
+                "defaults": {
+                    "links": []
+                },
+                "overrides": []
+            },
+            "fill": 0,
+            "fillGradient": 0,
+            "grid": {},
+            "gridPos": {
+                "h": 7,
+                "w": 15,
+                "x": 9,
+                "y": 8
+            },
+            "height": "",
+            "hiddenSeries": false,
+            "id": 57,
+            "legend": {
+                "alignAsTable": true,
+                "avg": true,
+                "current": false,
+                "hideEmpty": true,
+                "hideZero": true,
+                "max": true,
+                "min": true,
+                "rightSide": true,
+                "show": false,
+                "sort": "max",
+                "sortDesc": true,
+                "total": false,
+                "values": true
+            },
+            "lines": true,
+            "linewidth": 1,
+            "links": [],
+            "maxPerRow": 3,
+            "nullPointMode": "null",
+            "options": {
+                "alertThreshold": true
+            },
+            "percentage": false,
+            "pluginVersion": "7.5.6",
+            "pointradius": 5,
+            "points": false,
+            "renderer": "flot",
+            "repeatDirection": "h",
+            "seriesOverrides": [],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+                {
+                    "calculatedInterval": "2s",
+                    "datasourceErrors": {},
+                    "errors": {},
+                    "expr": "sum by(instance) (rate(node_network_transmit_bytes_total{instance=~\"$host\"}[5m]))",
+                    "format": "time_series",
+                    "interval": "",
+                    "intervalFactor": 1,
+                    "legendFormat": "{{instance}}",
+                    "metric": "",
+                    "refId": "A",
+                    "step": 20
+                },
+                {
+                    "expr": "sum by(name) (rate(container_network_transmit_bytes_total{name=~\"$container\"}[1m]))",
+                    "format": "time_series",
+                    "intervalFactor": 1,
+                    "legendFormat": "{{name}}",
+                    "refId": "B"
+                }
+            ],
+            "thresholds": [],
+            "timeFrom": null,
+            "timeRegions": [],
+            "timeShift": null,
+            "title": "Network outgoing traffic / s",
+            "tooltip": {
+                "msResolution": false,
+                "shared": true,
+                "sort": 2,
+                "value_type": "individual"
+            },
+            "transparent": true,
+            "type": "graph",
+            "xaxis": {
+                "buckets": null,
+                "mode": "time",
+                "name": null,
+                "show": true,
+                "values": []
+            },
+            "yaxes": [
+                {
+                    "decimals": 1,
+                    "format": "Bps",
+                    "label": "",
+                    "logBase": 1,
+                    "max": null,
+                    "min": null,
+                    "show": true
+                },
+                {
+                    "format": "short",
+                    "logBase": 1,
+                    "max": null,
+                    "min": 0,
+                    "show": false
+                }
+            ],
+            "yaxis": {
+                "align": false,
+                "alignLevel": null
+            }
+        },
+        {
+            "datasource": null,
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "custom": {
+                        "align": null,
+                        "filterable": false
+                    },
+                    "decimals": 0,
+                    "displayName": "",
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "percent"
+                },
+                "overrides": [
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Metric"
+                        },
+                        "properties": [
+                            {
+                                "id": "displayName",
+                                "value": "Host"
+                            },
+                            {
+                                "id": "unit",
+                                "value": "short"
+                            },
+                            {
+                                "id": "custom.align",
+                                "value": null
+                            }
+                        ]
+                    }
+                ]
+            },
+            "gridPos": {
+                "h": 7,
+                "w": 9,
+                "x": 0,
+                "y": 15
+            },
+            "id": 59,
+            "options": {
+                "showHeader": true
+            },
+            "pluginVersion": "7.5.6",
+            "targets": [
+                {
+                    "expr": "(max by (instance) (irate(node_cpu_seconds_total{job=\"node\", mode=~\"user|system|iowait|softirq\", instance=~\"$host\"}[5m])) * 100)",
+                    "legendFormat": "{{instance}}",
+                    "refId": "A"
+                },
+                {
+                    "expr": "sum by(name) (irate(container_cpu_usage_seconds_total{name=~\"$container\"}[1m])) * 100",
+                    "legendFormat": "{{name}}",
+                    "refId": "B"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "CPU",
+            "transformations": [
+                {
+                    "id": "reduce",
+                    "options": {
+                        "includeTimeField": false,
+                        "reducers": [
+                            "min",
+                            "max",
+                            "mean",
+                            "last"
+                        ]
+                    }
+                }
+            ],
+            "type": "table"
+        },
+        {
+            "aliasColors": {},
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": null,
+            "decimals": null,
+            "editable": true,
+            "error": false,
+            "fieldConfig": {
+                "defaults": {
+                    "links": []
+                },
+                "overrides": []
+            },
+            "fill": 0,
+            "fillGradient": 0,
+            "grid": {},
+            "gridPos": {
+                "h": 7,
+                "w": 15,
+                "x": 9,
+                "y": 15
+            },
+            "height": "",
+            "hiddenSeries": false,
+            "id": 28,
+            "legend": {
+                "alignAsTable": true,
+                "avg": true,
+                "current": false,
+                "hideEmpty": true,
+                "hideZero": true,
+                "max": true,
+                "min": true,
+                "rightSide": true,
+                "show": false,
+                "sort": "max",
+                "sortDesc": true,
+                "total": false,
+                "values": true
+            },
+            "lines": true,
+            "linewidth": 1,
+            "links": [],
+            "maxPerRow": 3,
+            "nullPointMode": "null",
+            "options": {
+                "alertThreshold": true
+            },
+            "percentage": false,
+            "pluginVersion": "7.5.6",
+            "pointradius": 5,
+            "points": false,
+            "renderer": "flot",
+            "repeat": null,
+            "repeatDirection": "h",
+            "seriesOverrides": [],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+                {
+                    "calculatedInterval": "2s",
+                    "datasourceErrors": {},
+                    "errors": {},
+                    "expr": "(max by (instance) (irate(node_cpu_seconds_total{job=\"node\", mode=~\"user|system|iowait|softirq\", instance=~\"$host\"}[5m])) * 100)",
+                    "format": "time_series",
+                    "interval": "",
+                    "intervalFactor": 1,
+                    "legendFormat": "{{instance}}",
+                    "metric": "",
+                    "refId": "A",
+                    "step": 20
+                },
+                {
+                    "expr": "sum by(name) (irate(container_cpu_usage_seconds_total{name=~\"$container\"}[1m])) * 100",
+                    "format": "time_series",
+                    "hide": false,
+                    "intervalFactor": 1,
+                    "legendFormat": "{{name}}",
+                    "refId": "B"
+                }
+            ],
+            "thresholds": [],
+            "timeFrom": null,
+            "timeRegions": [],
+            "timeShift": null,
+            "title": "CPU",
+            "tooltip": {
+                "msResolution": false,
+                "shared": true,
+                "sort": 2,
+                "value_type": "individual"
+            },
+            "transparent": true,
+            "type": "graph",
+            "xaxis": {
+                "buckets": null,
+                "mode": "time",
+                "name": null,
+                "show": true,
+                "values": []
+            },
+            "yaxes": [
+                {
+                    "format": "percent",
+                    "label": "",
+                    "logBase": 1,
+                    "max": null,
+                    "min": 0,
+                    "show": true
+                },
+                {
+                    "format": "short",
+                    "logBase": 1,
+                    "max": null,
+                    "min": 0,
+                    "show": true
+                }
+            ],
+            "yaxis": {
+                "align": false,
+                "alignLevel": null
+            }
+        },
+        {
+            "datasource": null,
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "custom": {
+                        "align": null,
+                        "filterable": false
+                    },
+                    "decimals": 0,
+                    "displayName": "",
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "decbytes"
+                },
+                "overrides": [
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Metric"
+                        },
+                        "properties": [
+                            {
+                                "id": "displayName",
+                                "value": "Host"
+                            },
+                            {
+                                "id": "unit",
+                                "value": "short"
+                            },
+                            {
+                                "id": "custom.align",
+                                "value": null
+                            }
+                        ]
+                    }
+                ]
+            },
+            "gridPos": {
+                "h": 7,
+                "w": 9,
+                "x": 0,
+                "y": 22
+            },
+            "id": 66,
+            "options": {
+                "showHeader": true
+            },
+            "pluginVersion": "7.5.6",
+            "targets": [
+                {
+                    "exemplar": true,
+                    "expr": "sum by(instance) (rate(node_memory_MemTotal_bytes{instance=~\"$host\"}[5m]))",
+                    "interval": "",
+                    "legendFormat": "{{instance}}",
+                    "refId": "A"
+                },
+                {
+                    "exemplar": true,
+                    "expr": "sum by(name) (rate(container_memory_usage_bytes{name=~\"$container\"}[5m]))",
+                    "interval": "",
+                    "legendFormat": "{{name}}",
+                    "refId": "B"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Memory",
+            "transformations": [
+                {
+                    "id": "reduce",
+                    "options": {
+                        "includeTimeField": false,
+                        "reducers": [
+                            "min",
+                            "max",
+                            "mean",
+                            "last"
+                        ]
+                    }
+                }
+            ],
+            "type": "table"
+        },
+        {
+            "aliasColors": {},
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": null,
+            "decimals": null,
+            "editable": true,
+            "error": false,
+            "fieldConfig": {
+                "defaults": {
+                    "links": [],
+                    "unit": "bytes"
+                },
+                "overrides": []
+            },
+            "fill": 0,
+            "fillGradient": 0,
+            "grid": {},
+            "gridPos": {
+                "h": 7,
+                "w": 15,
+                "x": 9,
+                "y": 22
+            },
+            "height": "",
+            "hiddenSeries": false,
+            "id": 67,
+            "legend": {
+                "alignAsTable": true,
+                "avg": true,
+                "current": false,
+                "hideEmpty": true,
+                "hideZero": true,
+                "max": true,
+                "min": true,
+                "rightSide": true,
+                "show": false,
+                "sort": "max",
+                "sortDesc": true,
+                "total": false,
+                "values": true
+            },
+            "lines": true,
+            "linewidth": 1,
+            "links": [],
+            "maxPerRow": 3,
+            "nullPointMode": "null",
+            "options": {
+                "alertThreshold": true
+            },
+            "percentage": false,
+            "pluginVersion": "7.5.6",
+            "pointradius": 5,
+            "points": false,
+            "renderer": "flot",
+            "repeatDirection": "h",
+            "seriesOverrides": [],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+                {
+                    "calculatedInterval": "2s",
+                    "datasourceErrors": {},
+                    "errors": {},
+                    "exemplar": true,
+                    "expr": "sum by(instance) (irate(node_memory_MemTotal_bytes{instance=~\"$host\"}[5m]))",
+                    "format": "time_series",
+                    "interval": "",
+                    "intervalFactor": 1,
+                    "legendFormat": "{{instance}}",
+                    "metric": "",
+                    "refId": "A",
+                    "step": 20
+                },
+                {
+                    "exemplar": true,
+                    "expr": "sum by(name) (irate(container_memory_usage_bytes{name=~\"$container\"}[5m]))",
+                    "format": "time_series",
+                    "hide": false,
+                    "interval": "",
+                    "intervalFactor": 1,
+                    "legendFormat": "{{name}}",
+                    "refId": "B"
+                }
+            ],
+            "thresholds": [],
+            "timeFrom": null,
+            "timeRegions": [],
+            "timeShift": null,
+            "title": "Memory",
+            "tooltip": {
+                "msResolution": false,
+                "shared": true,
+                "sort": 2,
+                "value_type": "individual"
+            },
+            "transparent": true,
+            "type": "graph",
+            "xaxis": {
+                "buckets": null,
+                "mode": "time",
+                "name": null,
+                "show": true,
+                "values": []
+            },
+            "yaxes": [
+                {
+                    "format": "bytes",
+                    "label": "",
+                    "logBase": 1,
+                    "max": null,
+                    "min": 0,
+                    "show": true
+                },
+                {
+                    "format": "short",
+                    "logBase": 1,
+                    "max": null,
+                    "min": 0,
+                    "show": true
+                }
+            ],
+            "yaxis": {
+                "align": false,
+                "alignLevel": null
+            }
+        }
+    ],
+    "refresh": "15s",
+    "schemaVersion": 27,
+    "style": "dark",
+    "tags": [
+        "cadvisor",
+        "node-exporter"
+    ],
+    "templating": {
+        "list": [
+            {
+                "allValue": null,
+                "current": {
+                    "selected": true,
+                    "text": [
+                        "All"
+                    ],
+                    "value": [
+                        "$__all"
+                    ]
+                },
+                "datasource": null,
+                "definition": "label_values(node_network_info, instance)",
+                "description": null,
+                "error": null,
+                "hide": 0,
+                "includeAll": true,
+                "label": "Host",
+                "multi": true,
+                "name": "host",
+                "options": [],
+                "query": {
+                    "query": "label_values(node_network_info, instance)",
+                    "refId": "prometheus-host-Variable-Query"
+                },
+                "refresh": 2,
+                "regex": "",
+                "skipUrlSync": false,
+                "sort": 1,
+                "tagValuesQuery": "",
+                "tags": [],
+                "tagsQuery": "",
+                "type": "query",
+                "useTags": false
+            },
+            {
+                "allValue": null,
+                "current": {
+                    "selected": true,
+                    "text": [
+                        "All"
+                    ],
+                    "value": [
+                        "$__all"
+                    ]
+                },
+                "datasource": null,
+                "definition": "label_values(container_network_receive_bytes_total, name)",
+                "description": null,
+                "error": null,
+                "hide": 0,
+                "includeAll": true,
+                "label": "or Container",
+                "multi": true,
+                "name": "container",
+                "options": [],
+                "query": {
+                    "query": "label_values(container_network_receive_bytes_total, name)",
+                    "refId": "prometheus-container-Variable-Query"
+                },
+                "refresh": 2,
+                "regex": "",
+                "skipUrlSync": false,
+                "sort": 1,
+                "tagValuesQuery": "",
+                "tags": [],
+                "tagsQuery": "",
+                "type": "query",
+                "useTags": false
+            }
+        ]
+    },
+    "time": {
+        "from": "now-15m",
+        "to": "now"
+    },
+    "timepicker": {
+        "refresh_intervals": [
+            "15s",
+            "30s",
+            "1m",
+            "5m",
+            "10m"
+        ],
+        "time_options": [
+            "5m",
+            "15m",
+            "1h",
+            "6h",
+            "12h",
+            "24h",
+            "2d",
+            "7d",
+            "30d"
+        ]
+    },
+    "timezone": "",
+    "title": "Containers Distributions",
+    "uid": "C0jeDstZk",
+    "version": 5
+}

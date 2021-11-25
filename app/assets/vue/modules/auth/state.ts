@@ -14,10 +14,13 @@ export interface IAuthState extends IApiState<AuthAPI> {
   isLoading: boolean;
 
   token: ILoginToken;
+  impersonate: string;
 
   authUser: IUser;
   isLoggedIn(): boolean;
+  isImpersonator(): boolean;
   hasRole(role: string): boolean;
+  isGranted(permission: string): boolean;
 }
 
 /**
@@ -30,6 +33,7 @@ export class AuthState extends AbstractState implements IAuthState {
   isLoading: boolean = false;
 
   token: ILoginToken = new LoginToken();
+  impersonate: string = null;
 
   authUser: IUser = null;
 
@@ -37,8 +41,16 @@ export class AuthState extends AbstractState implements IAuthState {
     return !!this.authUser;
   }
 
+  isImpersonator(): boolean {
+    return this.hasRole("PREVIOUS_ADMIN") || this.isGranted("IS_IMPERSONATOR");
+  }
+
   hasRole(role: string): boolean {
-    return this.isLoggedIn() && this.authUser.roles.includes("ROLE_" + role);
+    return this.isGranted("ROLE_" + role);
+  }
+
+  isGranted(permission: string): boolean {
+    return this.isLoggedIn() && this.authUser.roles.includes(permission);
   }
 }
 
