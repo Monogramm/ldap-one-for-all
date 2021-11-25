@@ -88,11 +88,12 @@ function fetchFromNetworkAndCache(event) {
       return res;
     }
     // regardless, we don't want to cache other origin's assets
-    if (new URL(res.url).origin !== location.origin) {
+    var resUrl = new URL(res.url);
+    if (resUrl.origin !== location.origin) {
       return res;
     }
-    // XXX never cache ignored path (usually API, to ensure always fresh results)
-    if (!!location.pathname && location.pathname.startsWith(ignorePath)) {
+    // Never cache ignored path (usually API, to ensure always fresh results)
+    if (!!resUrl.pathname && resUrl.pathname.startsWith(ignorePath)) {
       return res;
     }
 
