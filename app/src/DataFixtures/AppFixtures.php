@@ -52,7 +52,7 @@ class AppFixtures extends Fixture
         ;
         $manager->persist($currencyEuro);
 
-        $parametersFxtures = array(
+        $parameters = array(
             array( 'name' => 'APP_PUBLIC_URL', 'value' => 'http://localhost:8000', 'type' => 'string', 'description' => 'Public URL for backend generated links'),
             array( 'name' => 'APP_SUPPORT_EMAIL', 'value' => 'support@yopmail.com', 'type' => 'string', 'description' => 'Support email address which will receive technical notifications'),
             array( 'name' => 'APP_REGISTRATION_ENABLED', 'value' => '1', 'type' => 'string', 'description' => 'Enable/disable user registration. Allowed values are 1 (enabled) and 0 (disabled).'),
@@ -61,9 +61,9 @@ class AppFixtures extends Fixture
             array( 'name' => 'LDAP_GROUP_USER', 'value' => 'cn=ship_crew,ou=people,dc=planetexpress,dc=com', 'type' => 'string', 'description' => 'LDAP Group DN associated to User role (ROLE_USER)'),
         );
 
-        foreach ($parametersFxtures as $param) {
+        foreach ($parameters as $param) {
             $parameter = new Parameter();
-            $parametersFxtures
+            $parameter
                 ->setName($param['name'])
                 ->setValue($param['value'])
                 ->setCreatedAt(Carbon::now('UTC'))
