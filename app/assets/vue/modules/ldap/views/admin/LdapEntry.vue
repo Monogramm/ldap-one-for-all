@@ -68,32 +68,56 @@ export default {
       await this.$store
         .dispatch("ldapEntry/update", ldapEntry)
         .then(() => {
-          if (!this.hasError) {
-            this.handleSuccess();
-            this.$router.replace({ name: "AdminLdapEntries" });
-          } else {
-            this.handleError(this.error)
-          }
+          this.handleResponse();
         })
     },
     async createLdapEntry(ldapEntry: ILdapEntry) {
       await this.$store
         .dispatch("ldapEntry/create", ldapEntry)
         .then(() => {
-          if (!this.hasError) {
-            this.handleSuccess();
-            this.$router.replace({ name: "AdminLdapEntries" });
-          } else {
-            this.handleError(this.error)
-          }
+          this.handleResponse();
         })
     },
+    invalidLdapAttributes(ldapEntry: ILdapEntry): Array<string> {
+      let invalidAttKeys: Array<string> = [];
+      const attKeys = Object.keys(ldapEntry.attributes);
+      attKeys.forEach((attKey) => {
+        if (ldapEntry.attributes[attKey].includes('')) {
+          invalidAttKeys.push(attKey);
+        }
+      });
+      return invalidAttKeys;
+    },
     onSubmit() {
+      const invalidAttKeys: Array<string> = this.invalidLdapAttributes(this.entry);
+      if (invalidAttKeys.length > 0) {
+        const msg = this.$t(
+          'common.error.required-fields-empty',
+          {fields: JSON.stringify(invalidAttKeys)}
+        );
+        this.$buefy.snackbar.open(
+          {
+            message: msg,
+            type: "is-danger",
+            indefinite: true,
+          }
+        );
+        return;
+      }
+
       if (this.isEdit) {
         return this.editLdapEntry(this.dn, this.entry);
       }
 
       return this.createLdapEntry(this.entry);
+    },
+    handleResponse() {
+      if (!this.hasError) {
+        this.handleSuccess();
+        this.$router.replace({ name: "AdminLdapEntries" });
+      } else {
+        this.handleError(this.error)
+      }
     },
     handleError(error: AxiosError<string | number>) {
       this.$buefy.snackbar.open(

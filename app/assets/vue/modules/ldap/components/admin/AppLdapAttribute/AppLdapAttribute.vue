@@ -16,6 +16,7 @@
           <b-input
             :key="`inputValue:${index}`"
             v-model="values[index]"
+            required
             :value="row"
             :type="type"
             :title="$t('ldap.entries.new.value.value-title')"

@@ -79,6 +79,7 @@
     },
     "error": {
       "required-field-empty": "Veuillez renseigner ce champ",
+      "required-fields-empty": "Veuillez renseigner ces champs: {fields}",
       "field-not-valid": "Veuillez respecter le format demandé : {format}",
       "upload-failure": "Une erreur s'est produite lors du téléchargement du fichier ! {error}",
       "already-exists": "Existe déjà",

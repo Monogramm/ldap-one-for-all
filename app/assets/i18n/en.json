@@ -79,6 +79,7 @@
     },
     "error": {
       "required-field-empty": "Please fill out this field",
+      "required-fields-empty": "Please fill out those fields: {fields}",
       "field-not-valid": "Please match the requested format: {format}",
       "upload-failure": "Error occurred on file upload! {error}",
       "already-exists": "Already exists",
