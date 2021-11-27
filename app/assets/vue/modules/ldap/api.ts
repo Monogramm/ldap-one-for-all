@@ -19,4 +19,13 @@ export class LdapEntryAPI extends ReadWriteApi<ILdapEntry> {
   updateCurrentUser(entry: ILdapEntry) {
     return axios.put<ILdapEntry>(`${this.base}/${this.roPrefix}`, entry);
   }
+
+  /**
+   * Patch an existing LDAP entry.
+   * 
+   * @param entityId LDAP Entry identification.
+   */
+  patch(entityId: string, entry: ILdapEntry) {
+    return axios.patch<ILdapEntry>(`${this.base}/${this.rwPrefix}/${entityId}`, entry);
+  }
 };

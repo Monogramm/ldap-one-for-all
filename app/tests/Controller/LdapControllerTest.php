@@ -245,4 +245,22 @@ class LdapControllerTest extends AuthenticatedWebTestCase
             $this->client->getResponse()->getStatusCode()
         );
     }
+
+    /**
+     * Function test patchLdapEntry modify one or more attribute
+     */
+    public function testPatchLdapEntry()
+    {
+        $contentUrl = '{
+            "dn":"cn=Hermes Conrad,ou=people,dc=planetexpress,dc=com",
+            "attributes":{
+                "description": ["Human", "Jamaican"]
+            }
+        }';
+
+        $this->client->request('PATCH', "/api/admin/ldap/$this->fullDn", [], [], [], $contentUrl);
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $responseContent = json_decode($this->client->getResponse()->getContent());
+        $this->assertNotEmpty($responseContent);
+    }
 }

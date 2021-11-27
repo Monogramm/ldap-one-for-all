@@ -14,12 +14,20 @@ export interface IUserPasswordChange {
  * User Password Change class.
  */
 export class UserPasswordChange implements IUserPasswordChange {
-  oldPassword: string = "";
-  newPassword: string = null;
-  confirmPassword: string = null;
+
+  constructor(
+    public oldPassword: string = "",
+    public newPassword: string = null,
+    public confirmPassword: string = null,
+  ) {}
 
   isValid(): boolean {
-    return this.newPassword === this.confirmPassword;
+    return (
+      this.oldPassword !== "" &&
+      !!this.newPassword &&
+      !!this.confirmPassword &&
+      this.newPassword === this.confirmPassword
+    );
   }
 }
 
