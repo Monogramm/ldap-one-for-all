@@ -68,51 +68,51 @@ export default {
       await this.$store
         .dispatch("ldapEntry/update", ldapEntry)
         .then(() => {
-          if (!this.hasError) {
-            this.handleSuccess();
-            this.$router.replace({ name: "AdminLdapEntries" });
-          } else {
-            this.handleError(this.error)
-          }
+          this.handleResponse();
         })
     },
     async createLdapEntry(ldapEntry: ILdapEntry) {
       await this.$store
         .dispatch("ldapEntry/create", ldapEntry)
         .then(() => {
-          if (!this.hasError) {
-            this.handleSuccess();
-            this.$router.replace({ name: "AdminLdapEntries" });
-          } else {
-            this.handleError(this.error)
-          }
+          this.handleResponse();
         })
     },
-    verifyLdapEntry(ldapEntry: ILdapEntry) {
-      let emptyValue = false;
-      Object.values(ldapEntry.attributes).forEach(values => {
-        if(values.includes(''))
-        {
-          this.$buefy.snackbar.open(
-            {
-              message: this.$t('common.error.empty-field'),
-              type: "is-danger",
-              indefinite: true,
-            }
-          );
-          emptyValue = true;
+    invalidLdapAttributes(ldapEntry: ILdapEntry): Array<string> {
+      let invalidAtt: Array<string> = [];
+      const attKeys = Object.keys(ldapEntry.attributes);
+      attKeys.forEach((att) => {
+        if (ldapEntry.attributes[att].includes('')) {
+          invalidAtt.push(att);
         }
       });
-      return emptyValue;
+      return invalidAtt;
     },
     onSubmit() {
-      if(!this.verifyLdapEntry(this.entry))
-      {
-        if (this.isEdit) {
-          return this.editLdapEntry(this.dn, this.entry);
-        }
+      const invalidAtt: Array<string> = this.invalidLdapAttributes(this.entry);
+      if (invalidAtt.length > 0) {
+        this.$buefy.snackbar.open(
+          {
+            message: this.$t('common.error.required-fields-empty', {fields: JSON.stringify(invalidAtt)}),
+            type: "is-danger",
+            indefinite: true,
+          }
+        );
+        return;
+      }
 
-        return this.createLdapEntry(this.entry);
+      if (this.isEdit) {
+        return this.editLdapEntry(this.dn, this.entry);
+      }
+
+      return this.createLdapEntry(this.entry);
+    },
+    handleResponse() {
+      if (!this.hasError) {
+        this.handleSuccess();
+        this.$router.replace({ name: "AdminLdapEntries" });
+      } else {
+        this.handleError(this.error)
       }
     },
     handleError(error: AxiosError<string | number>) {
