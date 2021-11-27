@@ -96,3 +96,5 @@ services:
     App\Service\Ldap\Client:
         arguments:
             $ldap: '@Symfony\Component\Ldap\Ldap'
+
+    Prometheus\CollectorRegistry: '@prometheus_metrics_bundle.collector_registry'

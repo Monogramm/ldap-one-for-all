@@ -10,7 +10,25 @@ import store from "./store/index";
 axios.interceptors.request.use(function(config) {
   const token = localStorage.getItem("token");
   if (token) {
+    if (!!!config.headers) {
+      config.headers = {};
+    }
     config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  const impersonate = localStorage.getItem("impersonate");
+  if (!!impersonate) {
+    if (!!!config.headers) {
+      config.headers = {};
+    }
+    // WARN When building production, axios sends header in lowercase
+    // https://github.com/axios/axios/issues/413
+    config.headers.HTTP_X_SWITCH_USER = impersonate;
+
+    if (!!!config.params) {
+      config.params = {};
+    }
+    config.params._switch_user = impersonate;
   }
 
   return config;

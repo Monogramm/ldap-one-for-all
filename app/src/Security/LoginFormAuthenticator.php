@@ -52,6 +52,9 @@ class LoginFormAuthenticator extends AbstractGuardAuthenticator
         return json_decode($request->getContent(), true);
     }
 
+    /**
+     * @return \App\Entity\User|null
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         if (!isset($credentials['username'])) {
@@ -60,9 +63,7 @@ class LoginFormAuthenticator extends AbstractGuardAuthenticator
         $usernameOrEmail = $credentials['username'];
 
         // Load user by username or email
-        $user = $this->userRepository->loadUserByUsername($usernameOrEmail);
-
-        return $user;
+        return $this->userRepository->loadUserByUsername($usernameOrEmail);
     }
 
     public function checkCredentials($credentials, UserInterface $user)
@@ -138,9 +139,10 @@ class LoginFormAuthenticator extends AbstractGuardAuthenticator
      *      parameters under the "remember_me" firewall key
      *  D) The onAuthenticationSuccess method returns a Response object
      *
-     * @return void
+     * @return false
      */
     public function supportsRememberMe()
     {
+        return false;
     }
 }

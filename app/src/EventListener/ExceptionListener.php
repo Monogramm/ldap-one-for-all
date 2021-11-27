@@ -4,6 +4,7 @@
 namespace App\EventListener;
 
 use App\Exception\ApiExceptionInterface;
+use App\Exception\EntityValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -42,7 +43,6 @@ class ExceptionListener
         $appEnv = $_ENV['APP_ENV'];
 
         if ($appEnv !== 'dev'
-            && !($exception instanceof ApiExceptionInterface)
             && !($exception instanceof HttpExceptionInterface)
         ) {
             $response = new Response();
@@ -61,23 +61,28 @@ class ExceptionListener
                         $exception->getMessage()
                     ),
             ];
+
+            if ($exception instanceof EntityValidationException) {
+                $message['errors'] = $exception->getErrors();
+            }
+
             $response = new JsonResponse(
                 $message,
                 $exception->getStatusCode()
             );
+            $response->headers->replace($exception->getHeaders());
+
             $event->setResponse($response);
             return;
         }
 
-        $message = sprintf(
-            'Error: %s with code: %s',
-            $exception->getMessage(),
-            $exception->getCode()
-        );
+        $message = [
+            'code' => $exception->getCode(),
+            'message' => $exception->getMessage(),
+        ];
 
         // Customize your response object to display the exception details
-        $response = new Response();
-        $response->setContent($message);
+        $response = new JsonResponse($message);
 
         // HttpExceptionInterface is a special type of exception that
         // holds status code and header details

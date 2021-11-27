@@ -4,17 +4,26 @@
 # ...Unless the name matches the following
 # overriding patterns
 
-# Definitively text files 
+# Definitively text files
 *.txt text
-*.html text
-*.php text eol=lf
-*.js text
-*.css text
 *.svg text
 *.md text
+*.bat text eol=crlf
+*.cmd text eol=crlf
 *.sh text eol=lf
 *.yml text eol=lf
+*.xml text eol=lf
 Dockerfile text eol=lf
+Dockerfile.* text eol=lf
+/hooks/* text eol=lf
+
+*.html text
+*.js text
+*.json text
+*.ts text
+*.css text
+*.scss text
+*.php text eol=lf
 
 # Ensure those won't be messed up with
 *.jpg binary

@@ -109,9 +109,8 @@ class LdapUpdateEntryCommandUnitTest extends AbstractUnitTestLdap
             ->method('getConnection')
             ->willReturn($this->ldapConnectionMock);
 
-        $this->ldapAdapterMock->expects($this->once())
-            ->method('getEntryManager')
-            ->willReturn($this->ldapEntryManagerMock);
+        $this->ldapAdapterMock->expects($this->never())
+            ->method('getEntryManager');
 
         $this->ldapAdapterMock->expects($this->once())
             ->method('createQuery')

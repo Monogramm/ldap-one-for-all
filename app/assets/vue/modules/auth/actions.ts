@@ -16,6 +16,10 @@ import { ILogin } from "./interfaces";
 export interface IAuthActions extends IActions {
   login({ commit, state }: ActionContext<IAuthState, IRootState>, credentials: ILogin): Promise<any>;
   logout({ commit, state }: ActionContext<IAuthState, IRootState>): Promise<void>;
+
+  startImpersonation({ commit, state }: ActionContext<IAuthState, IRootState>, user: string): Promise<void>;
+  stopImpersonation({ commit, state }: ActionContext<IAuthState, IRootState>): Promise<void>;
+
   getAuthUser({ commit, state }: ActionContext<IAuthState, IRootState>): Promise<AxiosResponse<IUser>>;
   // TODO Move to a i18n module?
   changeLanguage({ commit, state }: ActionContext<IAuthState, IRootState>, lang: string): Promise<void>;
@@ -41,24 +45,50 @@ export const AuthActionsDefault: IAuthActions = {
     }
   },
   async logout({ commit, state }: ActionContext<IAuthState, IRootState>) {
+    commit(`LOGOUT_PENDING`);
     try {
-      commit(`LOGOUT_PENDING`);
       await state.api.logout(state.token);
       commit(`LOGOUT_SUCCESS`);
-      return null;
-    } catch (e) {
-      commit(`LOGOUT_FAILED`);
-      return null;
+    } catch (error) {
+      commit(`LOGOUT_FAILED`, error);
     }
+    return null;
+  },
+
+  async startImpersonation({ commit, state }: ActionContext<IAuthState, IRootState>, user: string) {
+    commit(`START_IMPERSONATION_PENDING`);
+    try {
+      // TODO Need to call API to trigger switch user and generate new token
+      commit(`START_IMPERSONATION_SUCCESS`, user);
+    } catch (error) {
+      commit(`START_IMPERSONATION_FAILED`, error);
+    }
+    return null;
+  },
+  async stopImpersonation({ commit, state }: ActionContext<IAuthState, IRootState>) {
+    commit(`STOP_IMPERSONATION_PENDING`);
+    try {
+      commit(`STOP_IMPERSONATION_SUCCESS`);
+    } catch (error) {
+      commit(`STOP_IMPERSONATION_FAILED`, error);
+    }
+    return null;
   },
 
   async getAuthUser({ commit, state }: ActionContext<IAuthState, IRootState>) {
+    commit(`GET_USER_PENDING`);
     try {
       const response = await UserAPI.Instance.getCurrentUser();
       commit(`GET_USER_SUCCESS`, response);
       return response;
-    } catch (e) {
-      commit(`LOGOUT_SUCCESS`);
+    } catch (error) {
+      commit(`GET_USER_FAILED`, error);
+
+      if (state.isImpersonator()) {
+        commit(`STOP_IMPERSONATION_SUCCESS`);
+      } else {
+        commit(`LOGOUT_SUCCESS`);
+      }
       return null;
     }
   },

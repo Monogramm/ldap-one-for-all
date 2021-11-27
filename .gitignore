@@ -21,6 +21,8 @@
 *.sublime-workspace
 .kdev4/
 *.kdev4
+.lsp/
+*.lsp
 
 # System Files
 *.DS_Store

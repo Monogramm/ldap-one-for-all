@@ -1,71 +1,65 @@
 <template>
-  <div class="section">
-    <h1 class="title is-1">
-      {{ $t(isEdit ? "medias.edit" : "medias.create") }}
-    </h1>
+  <form
+    class="box"
+    @submit.prevent
+  >
+    <b-field :label="$t('medias.name')">
+      <b-input
+        v-model="media.name"
+        maxlength="254"
+        required
+        :disabled="isLoading"
+        @change="updateParent('name', $event.target.value)"
+      />
+    </b-field>
 
-    <form
-      class="box"
-      @submit.prevent
-    >
-      <b-field :label="$t('medias.name')">
-        <b-input
-          v-model="media.name"
-          maxlength="254"
-          required
-          :disabled="isLoading"
-          @change="updateParent('name', $event.target.value)"
-        />
-      </b-field>
-
-      <div class="column is-3">
-        <figure
-          v-if="media.filename"
-          class="image is-medium"
-        >
-          <img :src="media.filename">
-        </figure>
-      </div>
-
-      <b-field class="file">
-        <b-upload
-          v-model="file"
-          class="file-label"
-          :disabled="isLoading"
-        >
-          <a class="button is-light">
-            <b-icon icon="upload" />
-            <span>{{ $t("common.upload-file") }}</span>
-          </a>
-        </b-upload>
-        <span
-          v-if="file"
-          class="file-name"
-        >{{ file.name }}</span>
-      </b-field>
-
-
-      <b-field :label="$t('medias.description')">
-        <b-input
-          v-model="media.description"
-          type="textarea"
-          required
-          :disabled="isLoading"
-          @change="updateParent('description', $event.target.value)"
-        />
-      </b-field>
-
-      <b-button
-        type="is-primary"
-        icon-left="save"
-        native-type="submit"
-        :loading="isLoading"
-        @click="submit"
+    <div class="column is-3">
+      <figure
+        v-if="media.filename"
+        class="image is-medium"
       >
-        {{ $t(isEdit ? 'common.update' : 'common.create') }}
-      </b-button>
-    </form>
-  </div>
+        <img :src="media.filename">
+      </figure>
+    </div>
+
+    <b-field class="file">
+      <b-upload
+        v-model="file"
+        class="file-label"
+        :disabled="isLoading"
+      >
+        <a class="button is-light">
+          <b-icon icon="upload" />
+          <span>{{ $t("common.upload-file") }}</span>
+        </a>
+      </b-upload>
+      <span
+        v-if="file"
+        class="file-name"
+      >{{ file.name }}</span>
+    </b-field>
+
+
+    <b-field :label="$t('medias.description')">
+      <b-input
+        v-model="media.description"
+        type="textarea"
+        required
+        :disabled="isLoading"
+        @change="updateParent('description', $event.target.value)"
+      />
+    </b-field>
+
+    <b-button
+      type="is-primary"
+      icon-left="save"
+      native-type="submit"
+      :loading="isLoading"
+      @click="submit"
+    >
+      {{ $t(isEdit ? 'common.update' : 'common.create') }}
+    </b-button>
+  </form>
 </template>
 
 <script lang="ts">
@@ -78,6 +72,10 @@ export default {
       type: Object,
       default: () => new Media()
     },
+    error: {
+      type: Object,
+      default: () => {}
+    },
     isLoading: {
       type: Boolean,
       default: false
@@ -85,7 +83,7 @@ export default {
   },
   data() {
     return {
-      file: {},
+      file: {} as File,
     };
   },
   computed: {

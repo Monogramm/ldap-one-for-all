@@ -21,7 +21,7 @@ class PasswordCheckHandler
 
     public function handle(string $newPassword, string $confirmPassword, ?string $oldPassword, User $user): bool
     {
-        if ($oldPassword !== null) {
+        if (null !== $oldPassword) {
             $isValid = $this->passwordEncoder->isPasswordValid($user, $oldPassword);
 
             if (!$isValid) {

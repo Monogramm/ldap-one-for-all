@@ -12,7 +12,10 @@ use Symfony\Component\Mailer\MailerInterface;
 class MailHealthIndicator extends HealthIndicator
 {
 
-    private MailerInterface $mailer;
+    /**
+     * @var MailerInterface
+     */
+    private $mailer;
 
     public function __construct(MailerInterface $mailer)
     {

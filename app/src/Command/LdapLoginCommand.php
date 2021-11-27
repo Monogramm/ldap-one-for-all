@@ -4,7 +4,7 @@ namespace App\Command;
 
 use App\Service\Ldap\Client;
 use Psr\Log\LoggerInterface;
-use App\Command\BuildLdapConfig;
+use App\Command\LdapCommandTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +16,7 @@ class LdapLoginCommand extends Command
 {
     protected static $defaultName = 'app:ldap:login';
 
-    use BuildLdapConfig;
+    use LdapCommandTrait;
 
     /**
      * @var Ldap
