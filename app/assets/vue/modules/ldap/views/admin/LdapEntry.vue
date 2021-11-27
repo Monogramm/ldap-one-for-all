@@ -79,21 +79,25 @@ export default {
         })
     },
     invalidLdapAttributes(ldapEntry: ILdapEntry): Array<string> {
-      let invalidAtt: Array<string> = [];
+      let invalidAttKeys: Array<string> = [];
       const attKeys = Object.keys(ldapEntry.attributes);
-      attKeys.forEach((att) => {
-        if (ldapEntry.attributes[att].includes('')) {
-          invalidAtt.push(att);
+      attKeys.forEach((attKey) => {
+        if (ldapEntry.attributes[attKey].includes('')) {
+          invalidAttKeys.push(attKey);
         }
       });
-      return invalidAtt;
+      return invalidAttKeys;
     },
     onSubmit() {
-      const invalidAtt: Array<string> = this.invalidLdapAttributes(this.entry);
-      if (invalidAtt.length > 0) {
+      const invalidAttKeys: Array<string> = this.invalidLdapAttributes(this.entry);
+      if (invalidAttKeys.length > 0) {
+        const msg = this.$t(
+          'common.error.required-fields-empty',
+          {fields: JSON.stringify(invalidAttKeys)}
+        );
         this.$buefy.snackbar.open(
           {
-            message: this.$t('common.error.required-fields-empty', {fields: JSON.stringify(invalidAtt)}),
+            message: msg,
             type: "is-danger",
             indefinite: true,
           }
