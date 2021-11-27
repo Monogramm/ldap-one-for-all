@@ -4,18 +4,39 @@
       {{ $t("medias.list") }}
     </h1>
 
-    <app-medias
-      :medias="items"
-      :is-loading="isLoading"
-      :per-page="pagination.size"
-      :total="total"
-      @create="onCreate"
-      @edit="onEdit"
-      @delete="onDelete"
-      @pageChanged="onPageChange"
-      @filtersChanged="onFiltersChange"
-      @sortingChanged="onSortingChange"
-    />
+    <div class="box">
+      <div class="buttons">
+        <b-button
+          type="is-primary"
+          icon-left="plus"
+          class="field"
+          @click="onCreate"
+        >
+          {{ $t("common.create") }}
+        </b-button>
+        <b-button
+          type="is-info"
+          icon-left="redo"
+          class="field"
+          :loading="isLoading"
+          @click="load"
+        >
+          {{ $t("common.refresh") }}
+        </b-button>
+      </div>
+
+      <app-medias
+        :medias="items"
+        :is-loading="isLoading"
+        :per-page="pagination.size"
+        :total="total"
+        @edit="onEdit"
+        @delete="onDelete"
+        @pageChanged="onPageChange"
+        @filtersChanged="onFiltersChange"
+        @sortingChanged="onSortingChange"
+      />
+    </div>
   </section>
 </template>
 

@@ -2,7 +2,7 @@
   "name": "ldap-one-for-all",
   "version": "1.1.0",
   "description": "A web based LDAP Manager for everyone.",
-  "license": "proprietary",
+  "license": "AGPL v3",
   "private": true,
   "repository": {
     "type": "git",
@@ -30,14 +30,14 @@
     "gitmoji-changelog": "gitmoji-changelog --preset generic && remark CHANGELOG.md -o"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.35",
-    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/vue-fontawesome": "^0.1.9",
-    "axios": "^0.21.1",
+    "axios": "^0.21.3",
     "buefy": "^0.9.8",
     "dotenv-webpack": "^2.0.0",
     "vue": "^2.6.11",
-    "vue-i18n": "^8.24.5",
+    "vue-i18n": "^8.25.0",
     "vue-meta": "^2.3.3",
     "vue-router": "^3.5.2",
     "vuex": "^3.1.2"

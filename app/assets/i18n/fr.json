@@ -33,9 +33,13 @@
     "buy": "Commander",
     "declare": "Déclarer",
     "create": "Créer",
+    "created": "Création réussie",
+    "created-at": "Créé à",
     "edit": "Editer",
     "clone": "Cloner",
     "update": "Mettre à jour",
+    "updated": "Mise à jour réussie",
+    "updated-at": "Mis à jour à",
     "delete": "Supprimer",
     "manage": "Gérer",
     "view": "Voir",
@@ -47,19 +51,19 @@
     "username": {
       "label": "Nom d'utilisateur",
       "placeholder": "Entrer un nom d'utilisateur",
-      "format": "des lettres, des chiffres et les caractères -."
+      "format": "letters, numbers and the characters -."
     },
     "email": {
       "label": "Adresse email",
       "placeholder": "Entrer une adresse email",
-      "format": "adresse e-mail valide, comme utilisateur@mail.com"
+      "format": "valid email address, like user@mail.com"
     },
     "password": {
       "label": "Mot de passe",
       "placeholder": "Entrer un mot de passe",
       "empty": "Le mot de passe ne peut pas être vide",
       "confirm": "Confirmer mot de passe",
-      "format": "au moins 6 caractères",
+      "format": "at least 6 characters",
       "not-username": "Le mot de passe ne doit pas être le nom d'utilisateur !",
       "not-email": "Le mot de passe ne doit pas être l'e-mail !"
     },
@@ -74,7 +78,7 @@
       "info": "Info"
     },
     "error": {
-      "required-field-emmpty": "Veuillez renseigner ce champ",
+      "required-field-empty": "Veuillez renseigner ce champ",
       "empty-field": "L'un des champs n'a pas été rempli",
       "field-not-valid": "Veuillez respecter le format demandé : {format}",
       "upload-failure": "Une erreur s'est produite lors du téléchargement du fichier ! {error}",
@@ -174,6 +178,10 @@
     "success": "Le mot de passe a été réinitialisé avec succès"
   },
   "logout.title": "Déconnexion",
+  "impersonation": {
+    "start": "Se faire passer pour",
+    "stop": "Arrêter de se faire passer pour"
+  },
   "home": {
     "title": "Accueil",
     "welcome": "Bienvenue chez LDAP One-For-All",
@@ -243,9 +251,13 @@
   "users": {
     "admin": "Utilisateurs",
     "list": "Liste des utilisateurs",
+    "edit": "Modification d'un utilisateur",
+    "create": "Création d'un utilisateur",
     "username": "Nom d'utilisateur",
     "email": "Email",
     "language": "Langue",
+    "roles": "Roles",
+    "roles-placeholder": "Ajouter un rôle à l'utilisateur",
     "verified": "Vérifié",
     "enabled": "Actif",
     "role": {
@@ -256,8 +268,10 @@
       "user": "Utilisateur",
       "unknown": "Rôle inconnu"
     },
-    "enable": " Confirmez-vous l'activation de l'utilisateur sélectionné ?",
-    "disable": "Confirmez-vous la désactivation l'utilisateur sélectionné ?"
+    "enable": " Activer",
+    "enable-message": " Confirmez-vous l'activation de l'utilisateur sélectionné ?",
+    "disable": "Désactiver",
+    "disable-message": "Confirmez-vous la désactivation l'utilisateur sélectionné ?"
   },
   "parameters": {
     "admin": "Paramètres",

@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
-trait BuildLdapConfig
+trait LdapCommandTrait
 {
     public function configureLdapOptions($command): void
     {
@@ -86,7 +86,7 @@ trait BuildLdapConfig
         $searchDn = $this->getOptionOrEnvVar($input, 'search-dn', 'LDAP_BIND_DN');
         $searchPassword = $this->getOptionOrEnvVar($input, 'search-password', 'LDAP_BIND_SECRET');
 
-        $config = [
+        return [
             'uid_key' => $uidKey,
             'mail_key' => $mailKey,
             'base_dn' => $baseDn,
@@ -96,7 +96,5 @@ trait BuildLdapConfig
             'search_dn' => $searchDn,
             'search_password' => $searchPassword
         ];
-
-        return $config;
     }
 }

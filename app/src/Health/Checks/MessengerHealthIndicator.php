@@ -12,7 +12,10 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class MessengerHealthIndicator extends HealthIndicator
 {
 
-    private MessageBusInterface $bus;
+    /**
+     * @var MessageBusInterface
+     */
+    private $bus;
 
     public function __construct(MessageBusInterface $bus)
     {

@@ -120,11 +120,26 @@
           :type="props.row.enabled ? 'is-success': 'is-danger'"
           :icon-left="props.row.enabled ? 'check' : 'times'"
           :loading="isLoading"
-          @click="setEnabled(props.row.id, !props.row.enabled)"
+          @click="onSetEnabled(props.row.id, !props.row.enabled)"
         >
           {{ $t(props.row.enabled ? "common.yes" : "common.no") }}
         </b-button>
       </template>
+    </b-table-column>
+
+    <b-table-column
+      v-slot="props"
+      field="buttons"
+    >
+      <div class="buttons">
+        <b-button
+          type="is-warning"
+          icon-left="edit"
+          @click="onEdit(props.row.id)"
+        >
+          {{ $t("common.edit") }}
+        </b-button>
+      </div>
     </b-table-column>
   </b-table>
 </template>
@@ -144,6 +159,10 @@ export default {
       default: function(): Array<IUser> {
         return [];
       }
+    },
+    authUser: {
+      type: Object,
+      default: null
     },
     perPage: {
       type: Number,
@@ -184,6 +203,9 @@ export default {
     },
   },
   methods: {
+    onEdit(id: string) {
+      this.$emit("edit", id);
+    },
     onPageChange(page: number) {
       this.$emit("pageChanged", page);
     },
@@ -193,7 +215,10 @@ export default {
     onSortingChange(field: string, order: string) {
       this.$emit("sortingChanged", field, order);
     },
-    setEnabled(userId: string, enabled: boolean) {
+    onImpersonate(username: string) {
+      this.$emit("impersonate", username);
+    },
+    onSetEnabled(userId: string, enabled: boolean) {
       this.$emit("enabled", userId, enabled);
     },
     roleIcon(roles: Array<string>): string {

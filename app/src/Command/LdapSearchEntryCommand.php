@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Service\Ldap\Client;
-use App\Command\BuildLdapConfig;
+use App\Command\LdapCommandTrait;
 use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,7 +16,7 @@ class LdapSearchEntryCommand extends Command
 {
     protected static $defaultName = 'app:ldap:search-entries';
 
-    use BuildLdapConfig;
+    use LdapCommandTrait;
 
     /**
      * @var Ldap

@@ -51,11 +51,14 @@ RUN set -ex; \
     composer --version; \
     pecl install gnupg; \
     docker-php-ext-enable gnupg; \
+    docker-php-ext-configure zip; \
     echo "\n" | pecl install apcu; \
     docker-php-ext-enable apcu; \
-    docker-php-ext-configure zip; \
+    echo "apc.enable_cli=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini; \
     pecl install amqp; \
     docker-php-ext-enable amqp; \
+    pecl install -o -f redis; \
+    docker-php-ext-enable redis; \
     pecl install libsodium; \
     docker-php-ext-enable sodium; \
     yes | pecl install xdebug; \
@@ -212,6 +215,8 @@ RUN set -ex; \
     echo "apc.enable_cli=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini; \
     pecl install amqp; \
     docker-php-ext-enable amqp; \
+    pecl install -o -f redis; \
+    docker-php-ext-enable redis; \
     pecl install libsodium; \
     docker-php-ext-enable sodium; \
     docker-php-ext-install -j "$(nproc)" \

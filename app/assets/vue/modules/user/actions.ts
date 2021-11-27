@@ -14,6 +14,11 @@ export interface EnablePayload {
   enabled: boolean;
 }
 
+export interface SetPasswordPayload {
+  userId: string;
+  data: IUserPasswordChange;
+}
+
 /**
  * User API actions interface.
  */
@@ -23,6 +28,8 @@ export interface IUserActions extends IReadWriteActions<IUser, IUserState> {
   disableAccount({ commit, state }: ActionContext<IUserState, IRootState>): Promise<void>;
   confirmVerificationCode({ commit, state }: ActionContext<IUserState, IRootState>, code: IUserVerification): Promise<AxiosResponse<void>>;
   requestVerificationCode({ commit, state }: ActionContext<IUserState, IRootState>): Promise<void>;
+
+  setPassword({ commit, state }: ActionContext<IUserState, IRootState>, {userId, data}: SetPasswordPayload): Promise<void>;
   setEnable({ commit, state }: ActionContext<IUserState, IRootState>, {userId, enabled}: EnablePayload): Promise<string>;
 }
 
@@ -71,6 +78,16 @@ export const UserActionsDefault: IUserActions = {
     commit("RESEND_CODE_PENDING");
     await state.api.requestCode();
     commit("RESEND_CODE_SUCCESS");
+  },
+
+  async setPassword({ commit, state }: ActionContext<IUserState, IRootState>, {userId, data}: SetPasswordPayload): Promise<any> {
+    commit("PASSWORD_CHANGE_PENDING", userId);
+    try {
+      await state.api.setPassword(userId, data);
+      commit("PASSWORD_CHANGE_SUCCESS");
+    } catch (error) {
+      commit("PASSWORD_CHANGE_ERROR", error);
+    }
   },
 
   async setEnable({ commit, state }: ActionContext<IUserState, IRootState>, {userId, enabled}: EnablePayload): Promise<any> {

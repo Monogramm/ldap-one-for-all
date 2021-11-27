@@ -6,12 +6,26 @@
       </h1>
     </div>
 
-    <div class="box">
+    <div class="box cloudy dark">
+      <div class="buttons">
+        <b-button
+          type="is-info"
+          icon-left="redo"
+          class="field"
+          :loading="isLoading"
+          @click="load"
+        >
+          {{ $t("common.refresh") }}
+        </b-button>
+      </div>
+
       <app-users
+        :auth-user="authUser"
         :users="items"
         :is-loading="isLoading"
         :per-page="pagination.size"
         :total="total"
+        @edit="onEdit"
         @pageChanged="onPageChange"
         @filtersChanged="onFiltersChange"
         @sortingChanged="onSortingChange"
@@ -41,7 +55,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("user", ["items", "total", "isLoading"])
+    ...mapGetters("user", ["items", "total", "isLoading"]),
+    ...mapGetters("auth", ["authUser"]),
   },
   created() {
     this.load();
@@ -49,6 +64,9 @@ export default {
   methods: {
     load() {
       this.$store.dispatch("user/getAll", this.pagination);
+    },
+    onEdit(userId: string) {
+      this.$router.push({ name: "UserEdit", params: { id: userId } });
     },
     onPageChange(page: string) {
       this.pagination.page = page;
@@ -71,7 +89,7 @@ export default {
     onEnableChange(userId: string, enabled: boolean) {
       this.$buefy.dialog.confirm({
         message: this.$t(
-          enabled ? "users.enable" : "users.disable"
+          enabled ? "users.enable-message" : "users.disable-message"
         ),
         confirmText: this.$t("common.continue"),
         cancelText: this.$t("common.cancel"),

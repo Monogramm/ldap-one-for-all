@@ -45,29 +45,29 @@ class AppFixtures extends Fixture
 
         $currencyEuro = new Currency();
         $currencyEuro
-            ->setCreatedAt(Carbon::now('UTC'))
-            ->setUpdatedAt(Carbon::now('UTC'))
             ->setName('Euro')
             ->setIsoCode('EUR')
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'))
         ;
         $manager->persist($currencyEuro);
 
-        $parametersFxtures = array(
+        $parameters = array(
             array( 'name' => 'APP_PUBLIC_URL', 'value' => 'http://localhost:8000', 'type' => 'string', 'description' => 'Public URL for backend generated links'),
             array( 'name' => 'APP_SUPPORT_EMAIL', 'value' => 'support@yopmail.com', 'type' => 'string', 'description' => 'Support email address which will receive technical notifications'),
             array( 'name' => 'APP_REGISTRATION_ENABLED', 'value' => '1', 'type' => 'string', 'description' => 'Enable/disable user registration. Allowed values are 1 (enabled) and 0 (disabled).'),
             array( 'name' => 'LDAP_USER_DEFAULT_ROLE', 'value' => 'ROLE_USER', 'type' => 'string', 'description' => 'LDAP default role on first login'),
-            array( 'name' => 'LDAP_GROUP_ADMIN', 'value' => 'cn=admin_staff,ou=people,dc=planetexpress,dc=com', 'type' => 'string', 'description' => 'LDAP default role on first login'),
-            array( 'name' => 'LDAP_GROUP_USER', 'value' => 'cn=ship_crew,ou=people,dc=planetexpress,dc=com', 'type' => 'string', 'description' => 'LDAP default role on first login'),
+            array( 'name' => 'LDAP_GROUP_ADMIN', 'value' => 'cn=admin_staff,ou=people,dc=planetexpress,dc=com', 'type' => 'string', 'description' => 'LDAP Group DN associated to Administrator role (ROLE_ADMIN)'),
+            array( 'name' => 'LDAP_GROUP_USER', 'value' => 'cn=ship_crew,ou=people,dc=planetexpress,dc=com', 'type' => 'string', 'description' => 'LDAP Group DN associated to User role (ROLE_USER)'),
         );
 
-        foreach ($parametersFxtures as $param) {
+        foreach ($parameters as $param) {
             $parameter = new Parameter();
             $parameter
-                ->setCreatedAt(Carbon::now('UTC'))
-                ->setUpdatedAt(Carbon::now('UTC'))
                 ->setName($param['name'])
                 ->setValue($param['value'])
+                ->setCreatedAt(Carbon::now('UTC'))
+                ->setUpdatedAt(Carbon::now('UTC'))
             ;
             if (isset($param['type'])) {
                 $parameter->setType($param['type']);
@@ -80,12 +80,12 @@ class AppFixtures extends Fixture
 
         $user = new User();
         $user
-            ->setCreatedAt(Carbon::now('UTC'))
-            ->setUpdatedAt(Carbon::now('UTC'))
             ->setUsername('username')
             ->setEmail('firstname.lastname@yopmail.com')
             ->setRoles(['ROLE_ADMIN'])
             ->verify()
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'))
         ;
         $password = $this->encoder->encodePassword($user, 'pa$$word');
         $user->setPassword($password);
@@ -93,21 +93,21 @@ class AppFixtures extends Fixture
 
         $verificationCode = new VerificationCode();
         $verificationCode
-            ->setCreatedAt(Carbon::now('UTC'))
-            ->setUpdatedAt(Carbon::now('UTC'))
             ->setCode('9P8O7I6U')
             ->setUser($user)
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'))
         ;
         $manager->persist($verificationCode);
 
         $media = new Media();
         $media
-            ->setCreatedAt(Carbon::now('UTC'))
-            ->setUpdatedAt(Carbon::now('UTC'))
             ->setName('DummyMedia.png')
             ->setFilename('DummyMedia123456789.png')
             ->setDescription('Test Media')
             ->setType('image/png')
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'))
         ;
         $manager->persist($media);
 

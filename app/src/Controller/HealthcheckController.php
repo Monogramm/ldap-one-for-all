@@ -21,6 +21,31 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class HealthcheckController extends AbstractController
 {
     /**
+     * @var HealthIndicator[]
+     */
+    private $indicators;
+
+    public function __construct(
+        DiskSpaceHealthIndicator $diskSpace,
+        DoctrineHealthIndicator $doctrine,
+        LdapHealthIndicator $ldap,
+        MailHealthIndicator $mail,
+        MessengerHealthIndicator $messenger
+    ) {
+        // TODO Dynamically load all existing indicators
+        /**
+         * @var HealthIndicator[] $checks
+         */
+        $this->indicators = [
+            'diskSpace' => $diskSpace,
+            'doctrine' => $doctrine,
+            'ldap' => $ldap,
+            'mail' => $mail,
+            'messenger' => $messenger,
+        ];
+    }
+
+    /**
      * @Route("/ping", name="ping", methods={"GET"},)
      *
      * @return JsonResponse
@@ -35,46 +60,62 @@ class HealthcheckController extends AbstractController
      *
      * @return JsonResponse
      */
-    public function health(
-        DiskSpaceHealthIndicator $diskSpace,
-        DoctrineHealthIndicator $doctrine,
-        LdapHealthIndicator $ldap,
-        MailHealthIndicator $mail,
-        MessengerHealthIndicator $messenger
-    ): JsonResponse {
+    public function health(): JsonResponse
+    {
         $health = new Health(Health::UNKNOWN);
 
-        // Return detailed info if user has ADMIN role
-        $includeDetails = $this->isGranted('ROLE_ADMIN');
+        $includeDetails = $this->isGrantedHealthDetails();
 
-        // TODO Dynamically load & execute all existing healthchecks
-        /**
-         * @var HealthIndicator[] $checks
-         */
-        $checks = [
-            'diskSpace' => $diskSpace,
-            'doctrine' => $doctrine,
-            'ldap' => $ldap,
-            'mail' => $mail,
-            'messenger' => $messenger,
-        ];
-
-        foreach ($checks as $key => $healthcheck) {
-            try {
-                $checkResults = $healthcheck->getHealth($includeDetails);
-            } catch (\Exception $exception) {
-                $checkResults = new Health(Health::UNKNOWN);
-                $checkResults->withException($exception);
-            }
+        foreach ($this->indicators as $key => $indicator) {
+            $indicatorHealth = $this->getHealthCheck($indicator, $includeDetails);
 
             // Set global health to "minimal" health status
-            $health->aggregate($checkResults);
+            $health->aggregate($indicatorHealth);
 
             if ($includeDetails === true) {
-                $health->withDetail($key, $checkResults);
+                $health->withDetail($key, $includeDetails);
             }
         }
 
         return new JsonResponse($health);
+    }
+
+    /**
+     * @Route("/health/{indicator}", name="health_indicator", methods={"GET"})
+     *
+     * @return JsonResponse
+     */
+    public function healthIndicator(
+        string $indicator
+    ): JsonResponse {
+        $health = new Health(Health::UNKNOWN);
+
+        if (!isset($this->indicators[$indicator])) {
+            return new JsonResponse($health);
+        }
+
+        $includeDetails = $this->isGrantedHealthDetails();
+
+        $health = $this->getHealthCheck($this->indicators[$indicator], $includeDetails);
+        return new JsonResponse($health);
+    }
+
+    private function isGrantedHealthDetails(): bool
+    {
+        // Return detailed info if user has ADMIN role
+        return $this->isGranted('ROLE_ADMIN');
+    }
+
+    private function getHealthCheck(
+        HealthIndicator $indicator,
+        bool $includeDetails = false
+    ): Health {
+        try {
+            $health = $indicator->getHealth($includeDetails);
+        } catch (\Exception $exception) {
+            $health = new Health(Health::DOWN);
+            $health->withException($exception);
+        }
+        return $health;
     }
 }

@@ -1,85 +1,75 @@
 <template>
-  <div class="box">
-    <b-button
-      type="is-primary"
-      icon-left="plus"
-      class="field"
-      @click="onCreate"
+  <b-table
+    :data="parameters"
+    :loading="isLoading"
+    :total="total"
+    :paginated="perPage > 0"
+    :per-page="perPage"
+    backend-pagination
+    pagination-position="both"
+    :backend-filtering="perPage > 0"
+    :debounce-search="500"
+    :backend-sorting="perPage > 0"
+    :aria-next-label="nextPageLabel"
+    :aria-previous-label="previousPageLabel"
+    :aria-page-label="pageLabel"
+    :aria-current-label="currentPageLabel"
+    @page-change="onPageChange"
+    @filters-change="onFiltersChange"
+    @sort="onSortingChange"
+  >
+    <b-table-column
+      v-slot="props"
+      field="name"
+      searchable
+      sortable
+      :label="nameColumnLabel"
     >
-      {{ $t("common.create") }}
-    </b-button>
-    <b-table
-      :data="parameters"
-      :loading="isLoading"
-      :total="total"
-      :paginated="perPage > 0"
-      :per-page="perPage"
-      backend-pagination
-      pagination-position="both"
-      :backend-filtering="perPage > 0"
-      :debounce-search="500"
-      :backend-sorting="perPage > 0"
-      :aria-next-label="nextPageLabel"
-      :aria-previous-label="previousPageLabel"
-      :aria-page-label="pageLabel"
-      :aria-current-label="currentPageLabel"
-      @page-change="onPageChange"
-      @filters-change="onFiltersChange"
-      @sort="onSortingChange"
+      {{ props.row.name }}
+    </b-table-column>
+
+    <b-table-column
+      v-slot="props"
+      field="value"
+      searchable
+      sortable
+      :label="valueColumnLabel"
     >
-      <b-table-column
-        v-slot="props"
-        field="name"
-        searchable
-        sortable
-        :label="nameColumnLabel"
-      >
-        {{ props.row.name }}
-      </b-table-column>
+      {{ formatValue(props.row.value, props.row.type) }}
+    </b-table-column>
 
-      <b-table-column
-        v-slot="props"
-        field="value"
-        searchable
-        sortable
-        :label="valueColumnLabel"
-      >
-        {{ formatValue(props.row.value, props.row.type) }}
-      </b-table-column>
+    <b-table-column
+      v-slot="props"
+      field="description"
+      searchable
+      sortable
+      :label="descriptionColumnLabel"
+    >
+      {{ props.row.description | shorten(60) }}
+    </b-table-column>
 
-      <b-table-column
-        v-slot="props"
-        field="description"
-        searchable
-        sortable
-        :label="descriptionColumnLabel"
-      >
-        {{ props.row.description | shorten(60) }}
-      </b-table-column>
-
-      <b-table-column
-        v-slot="props"
-        field="buttons"
-      >
-        <div class="buttons">
-          <b-button
-            type="is-warning"
-            icon-left="edit"
-            @click="onEdit(props.row.id)"
-          >
-            {{ $t("common.edit") }}
-          </b-button>
-          <b-button
-            type="is-danger"
-            icon-left="trash"
-            @click="onDelete(props.row.id)"
-          >
-            {{ $t("common.delete") }}
-          </b-button>
-        </div>
-      </b-table-column>
-    </b-table>
-  </div>
+    <b-table-column
+      v-slot="props"
+      field="buttons"
+    >
+      <div class="buttons">
+        <b-button
+          type="is-warning"
+          icon-left="edit"
+          @click="onEdit(props.row.id)"
+        >
+          {{ $t("common.edit") }}
+        </b-button>
+        <b-button
+          type="is-danger"
+          icon-left="trash"
+          @click="onDelete(props.row.id)"
+        >
+          {{ $t("common.delete") }}
+        </b-button>
+      </div>
+    </b-table-column>
+  </b-table>
 </template>
 
 <script lang="ts">
@@ -137,9 +127,6 @@ export default {
     onEdit(id: string) {
       this.$emit("edit", id);
     },
-    onCreate() {
-      this.$emit("create");
-    },
     onDelete(id: string) {
       this.$emit("delete", id);
     },
@@ -154,11 +141,11 @@ export default {
     },
     formatValue(value: string, type: string) {
       if (type === 'secret') {
-        return '••••••••'
+        return '••••••••';
       }
 
       if (type === 'number') {
-        return Number(value)
+        return Number(value);
       }
 
       return value;
