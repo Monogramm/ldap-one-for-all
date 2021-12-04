@@ -89,18 +89,19 @@ RUN set -ex; \
     mv /root/.symfony/bin/symfony /usr/local/bin/symfony; \
     symfony -V
 
-ENV SF_DB_TYPE=sqlite \
-    SF_DB_VERSION= \
-    SF_DB_OPTIONS= \
-    SF_DB_HOST= \
-    SF_DB_PORT= \
-    SF_DB_NAME=app_db_dev \
-    SF_DB_USER= \
-    SF_DB_PASSWORD= \
-    SF_MAIL_TRANSPORT=smtp \
-    SF_MAIL_HOST=127.0.0.1 \
-    SF_MAIL_USER= \
-    SF_MAIL_PASSWORD= \
+ENV DATABASE_DRIVER=sqlite \
+    DATABASE_VERSION= \
+    DATABASE_OPTIONS= \
+    DATABASE_HOST= \
+    DATABASE_PORT= \
+    DATABASE_NAME=app_db_dev \
+    DATABASE_USERNAME= \
+    DATABASE_PASSWORD= \
+    MAILER_TRANSPORT=smtp \
+    MAILER_HOST=127.0.0.1 \
+    MAILER_USER= \
+    MAILER_PASSWORD= \
+    SF_PROD='false' \
     SF_ADMIN_LOGIN= \
     SF_ADMIN_EMAIL= \
     SF_ADMIN_PASSWD= \
@@ -109,8 +110,7 @@ ENV SF_DB_TYPE=sqlite \
     SF_FACEBOOK_URL=# \
     SF_TWITTER_URL=# \
     SF_LINKEDIN_URL=# \
-    SF_YOUTUBE_URL=# \
-    SF_PROD='false'
+    SF_YOUTUBE_URL=#
 
 COPY ./cron/15min /etc/periodic/15min
 COPY ./cron/hourly /etc/periodic/hourly

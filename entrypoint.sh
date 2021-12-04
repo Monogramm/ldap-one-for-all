@@ -242,41 +242,23 @@ fi
 
 
 # Update default parameters
-if [ -f /var/www/html/app/parameters.yml ]; then
-    log "Updating Symfony application parameters..."
-
-    sed -i \
-        -e "s|database_host:.*|database_host: '${SF_DB_HOST}'|g" \
-        -e "s|database_port:.*|database_port: '${SF_DB_PORT}'|g" \
-        -e "s|database_name:.*|database_name: '${SF_DB_NAME}'|g" \
-        -e "s|database_user:.*|database_user: '${SF_DB_USER}'|g" \
-        -e "s|database_password:.*|database_password: '${SF_DB_PASSWORD}'|g" \
-        -e "s|mailer_transport:.*|mailer_transport: '${MAILER_TRANSPORT}'|g" \
-        -e "s|mailer_host:.*|mailer_host: '${MAILER_HOST}'|g" \
-        -e "s|mailer_user:.*|mailer_user: '${MAILER_USER}'|g" \
-        -e "s|mailer_password:.*|mailer_password: '${MAILER_PASSWORD}'|g" \
-        /var/www/html/app/parameters.yml
-
-    log "Symfony application parameters updated"
-fi
-
 if [ -z "${DATABASE_URL}" ]; then
     log "Initializing Symfony database URL..."
 
-    if [ "${SF_DB_TYPE}" = "sqlite" ]; then
-        export DATABASE_URL="sqlite://%kernel.project_dir%/var/${SF_DB_NAME:-app_db}"
-    elif [ -z "${SF_DB_HOST}" ] || [ -z "${SF_DB_PORT}" ] || [ -z "${SF_DB_VERSION}" ]; then
-        log "Cannot generate Symfony database URL without SF_DB_HOST, SF_DB_PORT and SF_DB_VERSION"
-    elif [ -n "${SF_DB_USER}" ] && [ -n "${SF_DB_PASSWORD}" ]; then
-        export DATABASE_URL="${SF_DB_TYPE}://${SF_DB_USER}:${SF_DB_PASSWORD}@${SF_DB_HOST}:${SF_DB_PORT}/${SF_DB_NAME:-app_db}?serverVersion=${SF_DB_VERSION}${SF_DB_OPTIONS}"
+    if [ "${DATABASE_DRIVER}" = "sqlite" ]; then
+        export DATABASE_URL="sqlite://%kernel.project_dir%/var/${DATABASE_NAME:-${DATABASE_DATABASE:-app_db}}"
+    elif [ -z "${DATABASE_HOST}" ] || [ -z "${DATABASE_PORT}" ] || [ -z "${DATABASE_VERSION}" ]; then
+        log "Cannot generate Symfony database URL without DATABASE_HOST, DATABASE_PORT and DATABASE_VERSION"
+    elif [ -n "${DATABASE_USERNAME}" ] && [ -n "${DATABASE_PASSWORD}" ]; then
+        export DATABASE_URL="${DATABASE_DRIVER}://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME:-${DATABASE_DATABASE:-app_db}}?serverVersion=${DATABASE_VERSION}${DATABASE_OPTIONS}"
     else
-        export DATABASE_URL="${SF_DB_TYPE}://${SF_DB_HOST}:${SF_DB_PORT}/${SF_DB_NAME:-app_db}?serverVersion=${SF_DB_VERSION}${SF_DB_OPTIONS}"
+        export DATABASE_URL="${DATABASE_DRIVER}://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME:-${DATABASE_DATABASE:-app_db}}?serverVersion=${DATABASE_VERSION}${DATABASE_OPTIONS}"
     fi
 
     log "Symfony database URL initialized"
 fi
 
-if [ -z "${MAILER_DSN}" ]; then
+if [ -z "${MAILER_DSN}" ] && [ -z "${MAILER_URL}" ]; then
     # https://symfony.com/doc/current/mailer.html
     log "Initializing Symfony mailer DSN..."
 
@@ -285,23 +267,24 @@ if [ -z "${MAILER_DSN}" ]; then
     else
         export MAILER_DSN="${MAILER_TRANSPORT:-smtp}://${MAILER_HOST:-mailer}:${MAILER_PORT:-465}"
     fi
+    export MAILER_URL="${MAILER_DSN}"
 
     log "Symfony mailer DSN initialized"
 fi
 
-if [ -z "${MESSENGER_TRANSPORT_DSN}" ]; then
+if [ -z "${MESSENGER_TRANSPORT_DSN}" ] && [ -z "${MAILER_URL}" ]; then
     if [ "${MESSENGER_TRANSPORT}" = "amqp" ]; then
         # https://symfony.com/doc/current/messenger.html#amqp-transport
         log "Initializing Symfony Messenger AMQP transport..."
-        export MESSENGER_TRANSPORT_DSN="amqp://${SF_RABBITMQ_USER:-guest}:${SF_RABBITMQ_PASSWORD:-guest}@${SF_RABBITMQ_HOST:-rabbitmq}:${SF_RABBITMQ_PORT:-5672}/%2f/messages"
+        export MESSENGER_TRANSPORT_DSN="amqp://${MESSENGER_USER:-${MESSENGER_USERNAME:-guest}}:${MESSENGER_PASSWORD:-guest}@${MESSENGER_HOST:-rabbitmq}:${MESSENGER_PORT:-5672}/%2f/messages"
     elif [ "${MESSENGER_TRANSPORT}" = "redis" ]; then
         # https://symfony.com/doc/current/messenger.html#redis-transport
         log "Initializing Symfony Messenger Redis transport..."
-        export MESSENGER_TRANSPORT_DSN="redis://${SF_REDIS_HOST:-redis}:${SF_REDIS_PORT:-6379}/messages"
+        export MESSENGER_TRANSPORT_DSN="redis://${MESSENGER_HOST:-${MESSENGER_USERNAME:-redis}}:${MESSENGER_PORT:-6379}/messages"
     else
         # https://symfony.com/doc/current/messenger.html#doctrine-transport
-        log "Initializing Symfony Messenger Doctrine transport..."
-        export MESSENGER_TRANSPORT_DSN=doctrine://default
+        log "Initializing Symfony Messenger transport..."
+        export MESSENGER_TRANSPORT_DSN="${MESSENGER_TRANSPORT:-doctrine}://${MESSENGER_HOST:-default}"
     fi
     # XXX Call console messenger:setup-transports?
 
@@ -315,7 +298,6 @@ if [ ! -e "config/jwt/public.pem" ] && [ -n "${JWT_PASSPHRASE}" ]; then
     mkdir -p config/jwt
     rm -f config/jwt/*.pem
 
-    export JWT_PASSPHRASE=${JWT_PASSPHRASE}
     openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096 -pass "pass:${JWT_PASSPHRASE}"
     openssl pkey -in config/jwt/private.pem -passin "pass:${JWT_PASSPHRASE}" -out config/jwt/public.pem -pubout
 
