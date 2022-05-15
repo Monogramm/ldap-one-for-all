@@ -6,6 +6,8 @@ use App\Entity\BackgroundJob;
 use App\Entity\Currency;
 use App\Entity\Media;
 use App\Entity\Parameter;
+use App\Entity\SecurityAnswer;
+use App\Entity\SecurityQuestion;
 use App\Entity\User;
 use App\Entity\VerificationCode;
 use Carbon\Carbon;
@@ -110,6 +112,30 @@ class AppFixtures extends Fixture
             ->setUpdatedAt(Carbon::now('UTC'))
         ;
         $manager->persist($media);
+
+        $securityQuestion = new SecurityQuestion();
+        $securityQuestion
+            ->setName('FIRST_CAR_BRAND')
+            ->setI18n([
+                'en' => 'What is the brand of your first car?',
+                'fr' => 'Quelle est la marque de votre premier véhicule ?'
+            ])
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'))
+        ;
+        $manager->persist($securityQuestion);
+
+        $securityAnswer = new SecurityAnswer();
+        $securityAnswer
+            ->setUser($user)
+            ->setAnswer('encoded_answer_xxxxxx')
+            ->setCreatedAt(Carbon::now('UTC'))
+            ->setUpdatedAt(Carbon::now('UTC'))
+        ;
+        $securityQuestion
+            ->addSecurityAnswer($securityAnswer)
+        ;
+        $manager->persist($securityAnswer);
 
         $manager->flush();
     }

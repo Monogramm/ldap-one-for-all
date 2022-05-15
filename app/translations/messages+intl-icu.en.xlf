@@ -86,6 +86,14 @@
                 <source>error.user.registration.disabled</source>
                 <target>User registration disabled!</target>
             </trans-unit>
+            <trans-unit id="error_security_username_not_found">
+                <source>error.security.username.not.found</source>
+                <target>No user found with this username</target>
+            </trans-unit>
+            <trans-unit id="error_security_question_not_found">
+                <source>error.security.question.not.found</source>
+                <target>No security question found with this name</target>
+            </trans-unit>
             <trans-unit id="error_common_invalid_json">
                 <source>error.common.invalid.json</source>
                 <target>Invalid JSON</target>

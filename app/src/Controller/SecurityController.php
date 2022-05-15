@@ -18,8 +18,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SecurityController extends AbstractController
 {
-    private PasswordChangeHandler $localHandler;
-    private PasswordLdapChangeHandler $ldapHandler;
+    /**
+     * @var PasswordChangeHandler
+     */
+    private $localHandler;
+    /**
+     * @var PasswordLdapChangeHandler
+     */
+    private $ldapHandler;
 
     public function __construct(
         PasswordChangeHandler $localHandler,
@@ -89,7 +95,12 @@ class SecurityController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $oldPassword = $data['oldPassword'] ?? '';
-        $handled = $this->changeUserPassword($data['newPassword'], $data['confirmPassword'], $oldPassword, $user);
+        $handled = $this->changeUserPassword(
+            $data['newPassword'],
+            $data['confirmPassword'],
+            $oldPassword,
+            $user
+        );
 
         return new JsonResponse([], $handled ? Response::HTTP_OK : Response::HTTP_FORBIDDEN);
     }
@@ -106,13 +117,22 @@ class SecurityController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         // Ignore old password
-        $handled = $this->changeUserPassword($data['newPassword'], $data['confirmPassword'], null, $user);
+        $handled = $this->changeUserPassword(
+            $data['newPassword'],
+            $data['confirmPassword'],
+            null,
+            $user
+        );
 
         return new JsonResponse([], $handled ? Response::HTTP_OK : Response::HTTP_FORBIDDEN);
     }
 
-    private function changeUserPassword(string $newPassword, string $confirmPassword, ?string $oldPassword, User $user): bool
-    {
+    private function changeUserPassword(
+        string $newPassword,
+        string $confirmPassword,
+        ?string $oldPassword,
+        User $user
+    ): bool {
         if (null !== $user->getMeta('ldap', null)) {
             $handled = $this->ldapHandler->handle($newPassword, $confirmPassword, $oldPassword, $user);
         } else {

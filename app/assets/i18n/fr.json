@@ -51,19 +51,19 @@
     "username": {
       "label": "Nom d'utilisateur",
       "placeholder": "Entrer un nom d'utilisateur",
-      "format": "letters, numbers and the characters -."
+      "format": "des lettres, des chiffres et les caractères -."
     },
     "email": {
       "label": "Adresse email",
       "placeholder": "Entrer une adresse email",
-      "format": "valid email address, like user@mail.com"
+      "format": "adresse e-mail valide, comme utilisateur@mail.com"
     },
     "password": {
       "label": "Mot de passe",
       "placeholder": "Entrer un mot de passe",
       "empty": "Le mot de passe ne peut pas être vide",
       "confirm": "Confirmer mot de passe",
-      "format": "at least 6 characters",
+      "format": "au moins 6 caractères",
       "not-username": "Le mot de passe ne doit pas être le nom d'utilisateur !",
       "not-email": "Le mot de passe ne doit pas être l'e-mail !"
     },

@@ -86,6 +86,14 @@
                 <source>error.user.registration.disabled</source>
                 <target>Création de compte désactivée!</target>
             </trans-unit>
+            <trans-unit id="error_security_username_not_found">
+                <source>error.security.username.not.found</source>
+                <target>Aucun utilisateur trouvé avec ce nom d'utilisateur</target>
+            </trans-unit>
+            <trans-unit id="error_security_question_not_found">
+                <source>error.security.question.not.found</source>
+                <target>Aucune question de sécurité trouvée avec ce nom</target>
+            </trans-unit>
             <trans-unit id="error_common_invalid_json">
                 <source>error.common.invalid.json</source>
                 <target>JSON invalide</target>

@@ -24,7 +24,7 @@ class SecurityAnswer
     use EntityTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="tokens")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="securityAnswers")
      * @Assert\NotBlank()
      */
     private $user;
@@ -46,9 +46,11 @@ class SecurityAnswer
         return $this->user;
     }
 
-    public function setUser(User $user): void
+    public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
     }
 
     public function getQuestion(): SecurityQuestion
@@ -56,9 +58,11 @@ class SecurityAnswer
         return $this->question;
     }
 
-    public function setQuestion(SecurityQuestion $question): void
+    public function setQuestion(SecurityQuestion $question): self
     {
         $this->question = $question;
+
+        return $this;
     }
 
     public function getAnswer(): ?string

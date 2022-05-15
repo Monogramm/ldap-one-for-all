@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Service\SecurityAnswerManager;
+use App\Handler\Security\SecurityAnswerChangeHandler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,14 +16,14 @@ class SecurityAnswerSetCommand extends Command
     protected static $defaultName = 'app:security-answers:set';
 
     /**
-     * @var SecurityAnswerManager
+     * @var SecurityAnswerChangeHandler
      */
-    private $securityAnswerManager;
+    private $handler;
 
     public function __construct(
-        SecurityAnswerManager $securityAnswerManager
+        SecurityAnswerChangeHandler $handler
     ) {
-        $this->securityAnswerManager = $securityAnswerManager;
+        $this->handler = $handler;
 
         parent::__construct(self::$defaultName);
     }
@@ -74,7 +74,7 @@ class SecurityAnswerSetCommand extends Command
         }
 
         // Setting Security Answer
-        $this->securityAnswerManager->getAndSetUserSecurityAnswer($username, $question, $answer);
+        $this->handler->getAndSetUserSecurityAnswer($username, $question, $answer);
 
         $ioStyle->success("Security Answer '$question' set for user '$username'");
 
