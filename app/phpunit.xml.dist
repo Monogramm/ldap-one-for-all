@@ -16,6 +16,8 @@
     <server name="SHELL_VERBOSITY" value="-1"/>
     <server name="SYMFONY_PHPUNIT_REMOVE" value=""/>
     <server name="SYMFONY_PHPUNIT_VERSION" value="9"/>
+    <!-- FIXME https://github.com/symfony/symfony/issues/45542 -->
+    <server name="SYMFONY_PHPUNIT_REQUIRE" value="phpunit/php-code-coverage:9.2.10" />
   </php>
   <testsuites>
     <testsuite name="Project Test Suite">
