@@ -185,8 +185,13 @@ if [ ! -d '/usr/src/symfony' ] && [ -d '/var/www/html' ]; then
         --optimize-autoloader --apcu-autoloader \
         install
 
-    npm install \
-        --non-interactive
+    if [ "${SF_PROD}" = "true" ]; then
+        yarn -s --no-progress \
+            --non-interactive --prod
+    else
+        yarn -s --no-progress \
+            --non-interactive
+    fi
 
     init_file 'app'
     log "Application initialization complete (running from sources)"

@@ -9,19 +9,19 @@ import { ILdapEntry } from "./interfaces";
 export interface ILdapEntryMutations {
   GET_ALL_PENDING(state: ILdapEntryState): void;
   GET_ALL_SUCCESS(state: ILdapEntryState, data: IListResponse<ILdapEntry>): void;
-  GET_ALL_ERROR(state: ILdapEntryState, error?: AxiosError): void;
+  GET_ALL_ERROR(state: ILdapEntryState, error?: AxiosError<IError>): void;
 
   GET_PENDING(state: ILdapEntryState): void;
   GET_SUCCESS(state: ILdapEntryState, data: ILdapEntry): void;
-  GET_ERROR(state: ILdapEntryState, error?: AxiosError): void;
+  GET_ERROR(state: ILdapEntryState, error?: AxiosError<IError>): void;
 
   CREATE_PENDING(state: ILdapEntryState): void;
   CREATE_SUCCESS(state: ILdapEntryState, data: ILdapEntry): void;
-  CREATE_ERROR(state: ILdapEntryState, error?: AxiosError): void;
+  CREATE_ERROR(state: ILdapEntryState, error?: AxiosError<IError>): void;
 
   EDIT_PENDING(state: ILdapEntryState): void;
   EDIT_SUCCESS(state: ILdapEntryState, data: ILdapEntry): void;
-  EDIT_ERROR(state: ILdapEntryState, error?: AxiosError): void;
+  EDIT_ERROR(state: ILdapEntryState, error?: AxiosError<IError>): void;
 
   DELETE_PENDING(state: ILdapEntryState): void;
   DELETE_SUCCESS(state: ILdapEntryState, entryDn: string): void;
@@ -40,7 +40,7 @@ export const LdapEntryMutationsDefault: ILdapEntryMutations = {
     state.items.push(...data.items);
     state.total = data.total;
   },
-  GET_ALL_ERROR(state: ILdapEntryState, error?: AxiosError): void {
+  GET_ALL_ERROR(state: ILdapEntryState, error?: AxiosError<IError>): void {
     state.isLoading = false;
     state.saveError(error);
   },
@@ -54,7 +54,7 @@ export const LdapEntryMutationsDefault: ILdapEntryMutations = {
     state.clearError();
     state.item = data;
   },
-  GET_ERROR(state: ILdapEntryState, error?: AxiosError): void {
+  GET_ERROR(state: ILdapEntryState, error?: AxiosError<IError>): void {
     state.isLoading = false;
     state.saveError(error);
   },
@@ -68,7 +68,7 @@ export const LdapEntryMutationsDefault: ILdapEntryMutations = {
     state.clearError();
     state.item = data;
   },
-  CREATE_ERROR(state: ILdapEntryState, error?: AxiosError): void {
+  CREATE_ERROR(state: ILdapEntryState, error?: AxiosError<IError>): void {
     state.isLoading = false;
     state.saveError(error);
   },
@@ -82,7 +82,7 @@ export const LdapEntryMutationsDefault: ILdapEntryMutations = {
     state.clearError();
     state.item = data;
   },
-  EDIT_ERROR(state: ILdapEntryState, error?: AxiosError): void {
+  EDIT_ERROR(state: ILdapEntryState, error?: AxiosError<IError>): void {
     state.isLoading = false;
     state.saveError(error);
   },

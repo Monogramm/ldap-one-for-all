@@ -227,7 +227,7 @@ Vue.use(Buefy, {
 import App from "./App.vue";
 import { i18n } from "./plugins/i18n/i18n";
 
-new Vue({
+const vue = new Vue({
   el: "#app",
   components: { App },
   template: "<App/>",

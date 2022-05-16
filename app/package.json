@@ -30,11 +30,11 @@
     "gitmoji-changelog": "gitmoji-changelog --preset generic && remark CHANGELOG.md -o"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.36",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4",
-    "@fortawesome/vue-fontawesome": "^0.1.9",
-    "axios": "^0.21.3",
-    "buefy": "^0.9.8",
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/vue-fontawesome": "^2.0.6",
+    "axios": "^0.27.2",
+    "buefy": "^0.9.20",
     "dotenv-webpack": "^2.0.0",
     "vue": "^2.6.11",
     "vue-i18n": "^8.25.0",
@@ -82,7 +82,7 @@
     "typescript": "^3.8.3",
     "vue-loader": "^15.8.3",
     "vue-template-compiler": "^2.6.11",
-    "webpack-notifier": "^1.8.0"
+    "webpack-notifier": "^1.15.0"
   },
   "browserslist": [
     "> 0.5%",

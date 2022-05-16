@@ -135,9 +135,6 @@ RUN set -ex; \
         --no-progress \
         --non-interactive \
     ; \
-    npm install \
-        --non-interactive \
-    ; \
     \
     php bin/console cache:clear --env=${APP_ENV}; \
     php bin/console cache:warmup --env=${APP_ENV}; \

@@ -1,6 +1,7 @@
 import { AxiosError, AxiosResponse } from "axios";
 
 import { IListResponse } from "../../api";
+import { IError } from "../../interfaces/error";
 import { IMutations } from "../../store/mutations";
 
 import { IUser } from "../user/interfaces";
@@ -11,23 +12,23 @@ import { ILogin, ILoginToken } from "./interfaces";
 export interface IAuthMutations extends IMutations {
   GET_USER_PENDING(state: IAuthState): void;
   GET_USER_SUCCESS(state: IAuthState, response: AxiosResponse<IUser>): void;
-  GET_USER_FAILED(state: IAuthState, error: AxiosError): void;
+  GET_USER_FAILED(state: IAuthState, error: AxiosError<IError>): void;
 
   LOGIN_PENDING(state: IAuthState): void;
   LOGIN_SUCCESS(state: IAuthState, loginPayload: ILoginToken): void;
-  LOGIN_FAILED(state: IAuthState, error: AxiosError): void;
+  LOGIN_FAILED(state: IAuthState, error: AxiosError<IError>): void;
 
   LOGOUT_PENDING(state: IAuthState): void;
   LOGOUT_SUCCESS(state: IAuthState): void;
-  LOGOUT_FAILED(state: IAuthState, error: AxiosError): void;
+  LOGOUT_FAILED(state: IAuthState, error: AxiosError<IError>): void;
 
   START_IMPERSONATION_PENDING(state: IAuthState): void;
   START_IMPERSONATION_SUCCESS(state: IAuthState, user: string): void;
-  START_IMPERSONATION_FAILED(state: IAuthState, error: AxiosError): void;
+  START_IMPERSONATION_FAILED(state: IAuthState, error: AxiosError<IError>): void;
 
   STOP_IMPERSONATION_PENDING(state: IAuthState): void;
   STOP_IMPERSONATION_SUCCESS(state: IAuthState): void;
-  STOP_IMPERSONATION_FAILED(state: IAuthState, error: AxiosError): void;
+  STOP_IMPERSONATION_FAILED(state: IAuthState, error: AxiosError<IError>): void;
 
   CHANGE_LANGUAGE(state: IAuthState, lang: string): void;
 }
@@ -45,7 +46,7 @@ export const AuthMutationsDefault: IAuthMutations =  {
       state.authUser = response.data;
     }
   },
-  GET_USER_FAILED(state: IAuthState, error: AxiosError): void {
+  GET_USER_FAILED(state: IAuthState, error: AxiosError<IError>): void {
     state.isLoading = false;
     if (error) {
       state.error.status = error.response.status;
@@ -62,7 +63,7 @@ export const AuthMutationsDefault: IAuthMutations =  {
     state.token.update(loginPayload);
     localStorage.setItem("token", loginPayload.token);
   },
-  LOGIN_FAILED(state: IAuthState, error: AxiosError): void {
+  LOGIN_FAILED(state: IAuthState, error: AxiosError<IError>): void {
     state.isLoading = false;
     if (error) {
       state.error.status = error.response.status;
@@ -83,7 +84,7 @@ export const AuthMutationsDefault: IAuthMutations =  {
       state.token.reset();
     }
   },
-  LOGOUT_FAILED(state: IAuthState, error: AxiosError): void {
+  LOGOUT_FAILED(state: IAuthState, error: AxiosError<IError>): void {
     state.isLoading = false;
     if (error) {
       state.error.status = error.response.status;
@@ -106,7 +107,7 @@ export const AuthMutationsDefault: IAuthMutations =  {
     state.impersonate = username;
     localStorage.setItem("impersonate", username);
   },
-  START_IMPERSONATION_FAILED(state: IAuthState, error: AxiosError): void {
+  START_IMPERSONATION_FAILED(state: IAuthState, error: AxiosError<IError>): void {
     state.isLoading = false;
     if (error) {
       state.error.status = error.response.status;
@@ -127,7 +128,7 @@ export const AuthMutationsDefault: IAuthMutations =  {
       state.impersonate = null;
     }
   },
-  STOP_IMPERSONATION_FAILED(state: IAuthState, error: AxiosError): void {
+  STOP_IMPERSONATION_FAILED(state: IAuthState, error: AxiosError<IError>): void {
     state.isLoading = false;
     if (error) {
       state.error.status = error.response.status;

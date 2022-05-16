@@ -129,7 +129,6 @@ EOF
     # Frontend install
     log "Frontend install..."
     yarn install --cwd=app
-    cd app && npm install && cd ..
 
 }
 
