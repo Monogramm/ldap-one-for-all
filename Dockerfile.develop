@@ -86,7 +86,7 @@ RUN set -ex; \
     php composer-setup.php --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}; \
     composer --version; \
     wget 'https://get.symfony.com/cli/installer' -O - | bash; \
-    mv /root/.symfony/bin/symfony /usr/local/bin/symfony; \
+    mv /root/.symfony5/bin/symfony /usr/local/bin/symfony; \
     symfony -V
 
 ENV DATABASE_DRIVER=sqlite \

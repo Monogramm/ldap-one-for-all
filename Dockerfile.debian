@@ -81,7 +81,7 @@ RUN set -ex; \
     curl -sS "https://dl.yarnpkg.com/debian/pubkey.gpg" | apt-key add - ; \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list; \
     wget https://get.symfony.com/cli/installer -O - | bash; \
-    mv /root/.symfony/bin/symfony /usr/local/bin/symfony; \
+    mv /root/.symfony5/bin/symfony /usr/local/bin/symfony; \
     symfony -V; \
     apt-get update -q; \
     apt-get install -y \
